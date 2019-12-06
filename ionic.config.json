@@ -1,5 +1,7 @@
 {
   "name": "appprisen-poc",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "react"
 }
