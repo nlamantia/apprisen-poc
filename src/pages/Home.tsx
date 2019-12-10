@@ -1,13 +1,14 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem } from '@ionic/react';
 import React, { Component } from 'react';
 import { tsConstructorType } from '@babel/types';
-import { User } from '../models/User';
+import users from '../items/availableUsers';
 
 class Home extends Component {
   state = {
-    users: [] as User[]
+    users: users
   };
-
+  
+  /*
   componentDidMount() {
     fetch("http://localhost:8080/api/users")
     .then(response => response.json())
@@ -19,6 +20,7 @@ class Home extends Component {
     })
     .catch(err => console.log(err));
   }
+  */
 
   render() {
     return (
@@ -33,7 +35,7 @@ class Home extends Component {
             {
               this.state.users.map(user => {
                 return (
-                  <IonItem>{user.firstName + ' ' + user.lastName}</IonItem>
+                  <IonItem routerLink={`/user/${user.id}`}>{user.name}</IonItem>
                 )
               })
             }
