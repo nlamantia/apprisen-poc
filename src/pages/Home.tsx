@@ -8,7 +8,7 @@ class Home extends Component {
     users: [] as User[]
   };
 
-  componentDidMount() {
+  componentWillReceiveProps() {
     fetch("http://localhost:8080/api/users")
     .then(response => response.json())
     .then(responseJson => {
@@ -25,7 +25,7 @@ class Home extends Component {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Ionic Blank</IonTitle>
+            <IonTitle>User List</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
@@ -33,7 +33,7 @@ class Home extends Component {
             {
               this.state.users.map(user => {
                 return (
-                  <IonItem>{user.firstName + ' ' + user.lastName}</IonItem>
+                  <IonItem routerLink={`/user/${user.id}`}>{user.firstName + ' ' + user.lastName}</IonItem>
                 )
               })
             }
