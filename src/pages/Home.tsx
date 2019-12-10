@@ -9,7 +9,7 @@ class Home extends Component {
   };
 
   componentWillReceiveProps() {
-    fetch("http://localhost:8080/api/users")
+    fetch("https://apprisen-poc-api.herokuapp.com/api/users")
     .then(response => response.json())
     .then(responseJson => {
       console.log(responseJson)
@@ -38,14 +38,6 @@ class Home extends Component {
               })
             }
           </IonList>
-          {/* The world is your oyster.
-          <p>
-            If you get lost, the{' '}
-            <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/">
-              docs
-            </a>{' '}
-            will be your guide.
-          </p> */}
         </IonContent>
       </IonPage>
     )

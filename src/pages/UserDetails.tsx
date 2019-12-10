@@ -28,7 +28,7 @@ class UserDetails extends Component {
     }
 
     getUser(userId: number) {
-        fetch(`http://localhost:8080/api/user/${userId}`)
+        fetch(`https://apprisen-poc-api.herokuapp.com/api/user/${userId}`)
             .then(response => response.json())
             .then(json => {
                 console.log(json);
@@ -37,6 +37,18 @@ class UserDetails extends Component {
                     user: json as User
                 });
             })
+            .catch(err => console.log("APPRISEN ERROR: " + err));
+    }
+
+    putUser() {
+        const requestParams = {
+            method: 'PUT',
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify(this.state.user)
+        };
+        fetch(`https://apprisen-poc-api.herokuapp.com/api/user/${this.state.user.id}`, requestParams)
+            .then(res => res.text())
+            .then(res => console.log(res))
             .catch(err => console.log("APPRISEN ERROR: " + err));
     }
 
@@ -60,17 +72,12 @@ class UserDetails extends Component {
     }
 
     savePage() {
-        // putUser();
+        this.putUser();
         this.setState({
             ...this.state,
             readOnly: true
         });
     }
-
-    // savePage() {
-    //     this
-    // }
-
 
     render() {
         return (
