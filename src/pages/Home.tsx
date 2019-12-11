@@ -1,16 +1,14 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem } from '@ionic/react';
 import React, { Component } from 'react';
-import { tsConstructorType } from '@babel/types';
-import users from '../items/availableUsers';
+import { User } from '../models/User';
 
 class Home extends Component {
   state = {
-    users: users
+    users: [] as User[]
   };
-  
-  /*
+
   componentDidMount() {
-    fetch("http://localhost:8080/api/users")
+    fetch("http://apprisen-poc-api.herokuapp.com/api/users")
     .then(response => response.json())
     .then(responseJson => {
       console.log(responseJson)
@@ -20,7 +18,6 @@ class Home extends Component {
     })
     .catch(err => console.log(err));
   }
-  */
 
   render() {
     return (
@@ -35,7 +32,7 @@ class Home extends Component {
             {
               this.state.users.map(user => {
                 return (
-                  <IonItem routerLink={`/user/${user.id}`}>{user.name}</IonItem>
+                  <IonItem routerLink={`/user/${user.id}`}>{user.firstName + ' ' + user.id}</IonItem>
                 )
               })
             }

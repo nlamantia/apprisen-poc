@@ -1,63 +1,108 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonButton } from '@ionic/react';
-import React, {useState} from 'react';
-import users from '../items/availableUsers';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonLabel, IonButton, IonInput, IonItem } from '@ionic/react';
+import React, {useState, useEffect} from 'react';
 import {Row, Col} from 'react-bootstrap';
 
 function UserDetails(props) {
-    const user = {
-        users: users
-    }
 
-    const [readOnly, updateReadOnly] = useState(false)
+    const [readOnly, updateReadOnly] = useState(true)
+    const [users, updateUsers] = useState([])
+    const [userId, updateUserId] = useState(0)
+
 
     function editPage() {
-        updateReadOnly = !updateReadOnly
+        updateReadOnly(!readOnly)
         console.log(readOnly)
     }
+
+    useEffect(() => {
+        console.log(props)
+        const { match } = props
+        console.log(match.params.id)
+        fetch(`http://apprisen-poc-api.herokuapp.com/api/user/${match.params.id}`)
+        .then(response => response.json())
+        .then(json => {
+            updateUsers(json)
+            updateUserId(match.params.id)
+        })
+    }, []) // Must pass empty array or will call in an endless loop
+
+    function handleChange(e) {
+        const name = e.target.name
+        const value = e.target.value
+        console.log(e.target.value)
+        console.log(users.firstName)
+
+        updateUsers(prevState => {
+            return {...prevState, name: value}
+        }
+        )
+    };
+
+    function putUser() {
+        const requestParams = {
+            method: 'PUT',
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify(users)
+        };
+        fetch(`http://apprisen-poc-api.herokuapp.com/api/user/${users.id}`, requestParams)
+        .then(res => res.text())
+        .then(res => console.log(res))
+        .catch(err => console.log("APPRISEN ERROR: " + err))
+    };
 
     return( 
     <IonPage>
         <IonHeader>
-            <IonToolbar>
-                <Row>
-                    <Col xl={6}>
-                        <IonTitle>
-                            {user.users.map(person => {
-                                if (person.id === props.match.params.id) {
-                                    return (
-                                        <>
-                                        <IonLabel><strong>{"Welcome to " + person.name + "'s Profile!"}</strong></IonLabel> <br /><br />
-                                        <IonLabel>Name: {person.name} </IonLabel> <br /><br />
-                                        <IonLabel>Address: {person.address} </IonLabel> <br /><br />
-                                        <IonLabel>Phone: {person.phone} </IonLabel> <br /><br />
-                                        </>
-                                    )
-                                }
-                            })}
-                        </IonTitle>
-                    </Col>
-                    <Col xl={6}>
+                <IonToolbar>
                     <IonTitle>
-                            {user.users.map(person => {
-                                if (person.id === props.match.params.id) {
-                                    return (
-                                        <>
-                                        <IonLabel><strong>{"Welcome to " + person.name + "'s Profile!"}</strong></IonLabel> <br /><br />
-                                        <IonLabel>Name: {person.name} </IonLabel> <br /><br />
-                                        <IonLabel>Address: {person.address} </IonLabel> <br /><br />
-                                        <IonLabel>Phone: {person.phone} </IonLabel> <br /><br />
-                                        </>
-                                    )
-                                }
-                            })}
-                        </IonTitle>
-                    </Col>
-                </Row>
-            </IonToolbar>
-            <IonButton onClick={editPage}>
-                Click to edit your content
-            </IonButton>
-        </IonHeader>
+                        <strong>Welcome to {users.firstName + ' ' + users.lastName + "'s"} profile.</strong>
+                    </IonTitle>
+                </IonToolbar>
+            </IonHeader>
+            <IonContent className="ion-padding">
+                <IonItem>
+                    {readOnly === true 
+                    ? 
+                    <IonLabel> First name: {users.firstName} </IonLabel> 
+                    : <IonInput name="firstName" value={users.firstName} onIonChange={(e) => handleChange(e)} />}
+                </IonItem>
+                <IonItem>
+                {readOnly === true 
+                    ? 
+                    <IonLabel> Last name: {users.lastName} </IonLabel> 
+                    : <IonInput name="lastName" onIonChange={(e) => handleChange(e)} value={users.lastName} />}
+                </IonItem>
+                <IonItem>
+                    <IonLabel>
+                        Address: {users.address}
+                    </IonLabel>
+                </IonItem>
+                <IonItem>
+                    <IonLabel>
+                        City: {users.city}
+                    </IonLabel>
+                </IonItem>
+                <IonItem>
+                    <IonLabel>
+                        State: {users.state}
+                    </IonLabel>
+                </IonItem>
+                <IonItem>
+                    <IonLabel>
+                        Zip: {users.zip}
+                    </IonLabel>
+                </IonItem>
+                <IonItem>
+                    <IonLabel>
+                        Email: {users.email}
+                    </IonLabel>
+                </IonItem>
+                <IonItem>
+                    <IonButton onClick={editPage}>
+                        {readOnly === true ? 'Edit' : 'Save'}
+                    </IonButton>
+                </IonItem>
+            </IonContent>
     </IonPage>
     )
   }
