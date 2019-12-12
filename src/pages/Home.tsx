@@ -1,25 +1,21 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem } from '@ionic/react';
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { User } from '../models/User';
 
-class Home extends Component {
-  state = {
-    users: [] as User[]
-  };
+function Home() {
+  const base = [] as User[]
+  const [users, updateUsers] = useState(base)
 
-  componentDidMount() {
-    fetch("http://apprisen-poc-api.herokuapp.com/api/users")
-    .then(response => response.json())
-    .then(responseJson => {
-      console.log(responseJson)
-      this.setState({
-        users: responseJson as User[]
-      });
-    })
-    .catch(err => console.log(err));
-  }
+  useEffect(() => {
+      fetch("http://apprisen-poc-api.herokuapp.com/api/users")
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson)
+        updateUsers(responseJson)
+      })
+      .catch(err => console.log(err));
+  }, [])
 
-  render() {
     return (
       <IonPage>
         <IonHeader>
@@ -30,7 +26,7 @@ class Home extends Component {
         <IonContent className="ion-padding">
           <IonList>
             {
-              this.state.users.map(user => {
+              users.map(user => {
                 return (
                   <IonItem routerLink={`/user/${user.id}`}>{user.firstName + ' ' + user.lastName}</IonItem>
                 )
@@ -49,6 +45,5 @@ class Home extends Component {
       </IonPage>
     )
   };
-};
 
 export default Home;

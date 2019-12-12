@@ -16,7 +16,6 @@ function UserDetails(props) {
     useEffect(() => {
         console.log(props)
         const { match } = props
-        console.log(match.params.id)
         fetch(`http://apprisen-poc-api.herokuapp.com/api/user/${match.params.id}`)
         .then(response => response.json())
         .then(json => {
@@ -44,6 +43,11 @@ function UserDetails(props) {
         .then(res => res.text())
         .then(res => console.log(res))
         .catch(err => console.log("APPRISEN ERROR: " + err))
+    };
+
+    function savePage() {
+        putUser()
+        updateReadOnly(!readOnly)
     };
 
     return( 
@@ -99,9 +103,10 @@ function UserDetails(props) {
                     : <IonInput name="email" value={users.email} onIonChange={(e) => handleChange(e) }> Email: </IonInput> }
                 </IonItem>
                 <IonItem>
-                    <IonButton onClick={editPage}>
-                        {readOnly === true ? 'Edit' : 'Save'}
-                    </IonButton>
+                    {
+                        readOnly ? <IonButton onClick={() => editPage()}>Edit</IonButton> :
+                        <IonButton onClick={() => savePage()}>Save</IonButton>
+                    }
                 </IonItem>
             </IonContent>
     </IonPage>
