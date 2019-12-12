@@ -1,6 +1,5 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonLabel, IonButton, IonInput, IonItem } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonLabel, IonButton, IonInput, IonItem } from '@ionic/react';
 import React, {useState, useEffect} from 'react';
-import {Row, Col} from 'react-bootstrap';
 
 function UserDetails(props) {
 
@@ -27,15 +26,12 @@ function UserDetails(props) {
     }, []) // Must pass empty array or will call in an endless loop
 
     function handleChange(e) {
-        const name = e.target.name
-        const value = e.target.value
-        console.log(e.target.value)
-        console.log(users.firstName)
-
+        const val = e.target.value;
+        const name = e.target.name;
+        console.log(val)
         updateUsers(prevState => {
-            return {...prevState, name: value}
-        }
-        )
+            return {...prevState, [name]: val}
+        })
     };
 
     function putUser() {
@@ -64,38 +60,43 @@ function UserDetails(props) {
                     {readOnly === true 
                     ? 
                     <IonLabel> First name: {users.firstName} </IonLabel> 
-                    : <IonInput name="firstName" value={users.firstName} onIonChange={(e) => handleChange(e)} />}
+                    : <IonInput name="firstName" value={users.firstName} onIonChange={(e) => handleChange(e)}> First name: </IonInput> }
                 </IonItem>
                 <IonItem>
                 {readOnly === true 
                     ? 
                     <IonLabel> Last name: {users.lastName} </IonLabel> 
-                    : <IonInput name="lastName" onIonChange={(e) => handleChange(e)} value={users.lastName} />}
+                    : <IonInput name="lastName" value={users.lastName} onIonChange={(e) => handleChange(e) }> Last name: </IonInput> }
                 </IonItem>
                 <IonItem>
-                    <IonLabel>
-                        Address: {users.address}
-                    </IonLabel>
+                {readOnly === true 
+                    ? 
+                    <IonLabel> Address: {users.address} </IonLabel> 
+                    : <IonInput name="address" value={users.address} onIonChange={(e) => handleChange(e) }> Address: </IonInput> }
                 </IonItem>
                 <IonItem>
-                    <IonLabel>
-                        City: {users.city}
-                    </IonLabel>
+                {readOnly === true 
+                    ? 
+                    <IonLabel> City: {users.city} </IonLabel> 
+                    : <IonInput name="city" value={users.city} onIonChange={(e) => handleChange(e) }> City: </IonInput>  }
                 </IonItem>
                 <IonItem>
-                    <IonLabel>
-                        State: {users.state}
-                    </IonLabel>
+                {readOnly === true 
+                    ? 
+                    <IonLabel> State: {users.state} </IonLabel> 
+                    : <IonInput name="state" value={users.state} onIonChange={(e) => handleChange(e) }> State: </IonInput> }
                 </IonItem>
                 <IonItem>
-                    <IonLabel>
-                        Zip: {users.zip}
-                    </IonLabel>
+                {readOnly === true 
+                    ? 
+                    <IonLabel> Zip: {users.zip} </IonLabel> 
+                    : <IonInput name="zip" value={users.zip} onIonChange={(e) => handleChange(e) } > Zip: </IonInput> }
                 </IonItem>
                 <IonItem>
-                    <IonLabel>
-                        Email: {users.email}
-                    </IonLabel>
+                {readOnly === true 
+                    ? 
+                    <IonLabel> Email: {users.email} </IonLabel> 
+                    : <IonInput name="email" value={users.email} onIonChange={(e) => handleChange(e) }> Email: </IonInput> }
                 </IonItem>
                 <IonItem>
                     <IonButton onClick={editPage}>

@@ -32,7 +32,7 @@ class Home extends Component {
             {
               this.state.users.map(user => {
                 return (
-                  <IonItem routerLink={`/user/${user.id}`}>{user.firstName + ' ' + user.id}</IonItem>
+                  <IonItem routerLink={`/user/${user.id}`}>{user.firstName + ' ' + user.lastName}</IonItem>
                 )
               })
             }
