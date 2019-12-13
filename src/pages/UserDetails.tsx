@@ -1,6 +1,18 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonButton, IonInput, IonItem } from "@ionic/react";
-import React, { Component } from "react"; 
-import { User } from "../models/User";
+import {
+    IonBackButton,
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonPage,
+    IonTitle,
+    IonToolbar
+} from "@ionic/react";
+import React, {Component} from "react";
+import {User} from "../models/User";
 
 type UserDetailsProps = {
     id: number;
@@ -12,17 +24,17 @@ class UserDetails extends Component {
         user: new User(),
         readOnly: true
     };
+    //
+    // componentDidMount() {
+    //     const {match} = this.props as any;
+    //     this.getUser(match.params.id);
+    // }
 
-    componentDidMount() {
-        const { match } = this.props as any;
-        this.getUser(match.params.id);
-    }
-
-    componentDidUpdate() {
-        const { match } = this.props as any;
+    ionViewWillEnter() {
+        const {match} = this.props as any;
         console.log("Match.params.id", match.params.id);
         console.log("this.state.userId", this.state.userId);
-        if (match.params.id != this.state.userId) {
+        if (match.params.id !== this.state.userId) {
             this.getUser(match.params.id);
         }
     }
@@ -84,65 +96,68 @@ class UserDetails extends Component {
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
+                        <IonButtons slot="start">
+                            <IonBackButton defaultHref="/home" />
+                        </IonButtons>
                         <IonTitle>{this.state.user.firstName + ' ' + this.state.user.lastName + '\'s Profile'}</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent className="ion-padding">
                     <IonItem>
-                    <IonLabel>First name: </IonLabel>
-                    <IonInput 
-                        name="firstName" 
-                        readonly={this.state.readOnly}
-                        onIonChange={(e) => this.handleChange(e)} 
-                        value={this.state.user.firstName} />
+                        <IonLabel>First name: </IonLabel>
+                        <IonInput
+                            name="firstName"
+                            readonly={this.state.readOnly}
+                            onIonChange={(e) => this.handleChange(e)}
+                            value={this.state.user.firstName}/>
                     </IonItem>
                     <IonItem>
-                    <IonLabel>Last name: </IonLabel>
-                    <IonInput name="lastName" 
-                        readonly={this.state.readOnly}
-                        onIonChange={(e) => this.handleChange(e)} 
-                        value={this.state.user.lastName} />
+                        <IonLabel>Last name: </IonLabel>
+                        <IonInput name="lastName"
+                                  readonly={this.state.readOnly}
+                                  onIonChange={(e) => this.handleChange(e)}
+                                  value={this.state.user.lastName}/>
                     </IonItem>
                     <IonItem>
-                    <IonLabel>Address: </IonLabel>
-                    <IonInput name="address" 
-                        readonly={this.state.readOnly}
-                        onIonChange={(e) => this.handleChange(e)} 
-                        value={this.state.user.address} />
+                        <IonLabel>Address: </IonLabel>
+                        <IonInput name="address"
+                                  readonly={this.state.readOnly}
+                                  onIonChange={(e) => this.handleChange(e)}
+                                  value={this.state.user.address}/>
                     </IonItem>
                     <IonItem>
-                    <IonLabel>City: </IonLabel>
-                    <IonInput name="city" 
-                        readonly={this.state.readOnly}
-                        onIonChange={(e) => this.handleChange(e)} 
-                        value={this.state.user.city} />
+                        <IonLabel>City: </IonLabel>
+                        <IonInput name="city"
+                                  readonly={this.state.readOnly}
+                                  onIonChange={(e) => this.handleChange(e)}
+                                  value={this.state.user.city}/>
                     </IonItem>
                     <IonItem>
-                    <IonLabel>State: </IonLabel>
-                    <IonInput name="state" 
-                        readonly={this.state.readOnly}
-                        onIonChange={(e) => this.handleChange(e)} 
-                        value={this.state.user.state} />
+                        <IonLabel>State: </IonLabel>
+                        <IonInput name="state"
+                                  readonly={this.state.readOnly}
+                                  onIonChange={(e) => this.handleChange(e)}
+                                  value={this.state.user.state}/>
                     </IonItem>
                     <IonItem>
-                    <IonLabel>Zip Code: </IonLabel>
-                    <IonInput name="zip" 
-                        readonly={this.state.readOnly}
-                        onIonChange={(e) => this.handleChange(e)} 
-                        value={this.state.user.zip} />
+                        <IonLabel>Zip Code: </IonLabel>
+                        <IonInput name="zip"
+                                  readonly={this.state.readOnly}
+                                  onIonChange={(e) => this.handleChange(e)}
+                                  value={this.state.user.zip}/>
                     </IonItem>
                     <IonItem>
-                    <IonLabel>Email Address: </IonLabel>
-                    <IonInput name="email" 
-                        readonly={this.state.readOnly}
-                        onIonChange={(e) => this.handleChange(e)} 
-                        value={this.state.user.email} />
-                        </IonItem>
-                        {
-                            this.state.readOnly ? <IonButton onClick={() => this.editPage()}>Edit</IonButton> :
+                        <IonLabel>Email Address: </IonLabel>
+                        <IonInput name="email"
+                                  readonly={this.state.readOnly}
+                                  onIonChange={(e) => this.handleChange(e)}
+                                  value={this.state.user.email}/>
+                    </IonItem>
+                    {
+                        this.state.readOnly ? <IonButton onClick={() => this.editPage()}>Edit</IonButton> :
                             <IonButton onClick={() => this.savePage()}>Save</IonButton>
-                        }
-                    
+                    }
+
                 </IonContent>
             </IonPage>
         );

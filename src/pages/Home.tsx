@@ -1,47 +1,73 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem } from '@ionic/react';
-import React, { Component } from 'react';
-import { tsConstructorType } from '@babel/types';
-import { User } from '../models/User';
+import {
+    IonContent,
+    IonHeader,
+    IonItem,
+    IonList,
+    IonPage,
+    IonRefresher,
+    IonRefresherContent,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react';
+import {RefresherEventDetail} from '@ionic/core';
+import React, {Component} from 'react';
+import {User} from '../models/User';
 
 class Home extends Component {
-  state = {
-    users: [] as User[]
-  };
+    state = {
+        users: [] as User[]
+    };
 
-  componentWillReceiveProps() {
-    fetch("https://apprisen-poc-api.herokuapp.com/api/users")
-    .then(response => response.json())
-    .then(responseJson => {
-      console.log(responseJson)
-      this.setState({
-        users: responseJson as User[]
-      });
-    })
-    .catch(err => console.log(err));
-  }
+    ionViewWillEnter() {
+        this.getUsers();
+    }
 
-  render() {
-    return (
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>User List</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-          <IonList>
-            {
-              this.state.users.map(user => {
-                return (
-                  <IonItem routerLink={`/user/${user.id}`}>{user.firstName + ' ' + user.lastName}</IonItem>
-                )
-              })
-            }
-          </IonList>
-        </IonContent>
-      </IonPage>
-    )
-  };
+    getUsers(): void {
+        fetch("https://apprisen-poc-api.herokuapp.com/api/users")
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson)
+                this.setState({
+                    users: responseJson as User[]
+                });
+            })
+            .catch(err => console.log(err));
+    }
+
+    doRefresh(event: CustomEvent<RefresherEventDetail>): void {
+        setTimeout(() => {
+            this.getUsers();
+            event.detail.complete();
+        }, 1000);
+    }
+
+    render() {
+        return (
+            <IonPage>
+                <IonHeader>
+                    <IonToolbar>
+                        <IonTitle>User List</IonTitle>
+                    </IonToolbar>
+                </IonHeader>
+                <IonContent className="ion-padding">
+                    <IonRefresher slot="fixed" onIonRefresh={(e) => this.doRefresh(e)}>
+                        <IonRefresherContent/>
+                    </IonRefresher>
+                    <IonList>
+                        {
+                            this.state.users.map(user => {
+                                return (
+                                    <IonItem routerLink={`/user/${user.id}`}>
+                                        {user.firstName + ' ' + user.lastName}
+                                    </IonItem>
+                                )
+                            })
+                        }
+                    </IonList>
+                </IonContent>
+            </IonPage>
+        )
+    };
 };
 
 export default Home;
