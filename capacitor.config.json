@@ -3,6 +3,6 @@
   "appName": "appprisen-poc",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "build",
+  "webDir": "www",
   "cordova": {}
 }

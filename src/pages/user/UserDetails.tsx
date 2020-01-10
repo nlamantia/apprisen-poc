@@ -9,14 +9,11 @@ import {
     IonLabel,
     IonPage,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    withIonLifeCycle
 } from "@ionic/react";
 import React, {Component} from "react";
-import {User} from "../models/User";
-
-type UserDetailsProps = {
-    id: number;
-}
+import {User} from "../../models/User";
 
 class UserDetails extends Component {
     state = {
@@ -164,4 +161,4 @@ class UserDetails extends Component {
     }
 };
 
-export default UserDetails;
+export default withIonLifeCycle(UserDetails);

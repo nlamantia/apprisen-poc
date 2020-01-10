@@ -7,11 +7,12 @@ import {
     IonRefresher,
     IonRefresherContent,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    withIonLifeCycle
 } from '@ionic/react';
 import {RefresherEventDetail} from '@ionic/core';
 import React, {Component} from 'react';
-import {User} from '../models/User';
+import {User} from '../../models/User';
 
 class Home extends Component {
     state = {
@@ -68,6 +69,6 @@ class Home extends Component {
             </IonPage>
         )
     };
-};
+}
 
-export default Home;
+export default withIonLifeCycle(Home);
