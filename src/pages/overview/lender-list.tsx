@@ -1,6 +1,7 @@
-import React, {Component} from "react";
-import {IonButton, IonItem, IonLabel, IonList, IonThumbnail, withIonLifeCycle} from "@ionic/react";
+import React, { Component } from "react";
+import { IonButton, IonItem, IonLabel, IonList, IonThumbnail, withIonLifeCycle } from "@ionic/react";
 import bank from "../../images/bank.svg";
+import { Link } from "react-router-dom";
 
 class LenderList extends Component {
 
@@ -15,7 +16,7 @@ class LenderList extends Component {
                         <h2>Balance</h2>
                     </IonLabel>
                     <IonThumbnail class={'icon'}>
-                        <img alt="apprisen-logo" src={bank}/>
+                        <img alt="apprisen-logo" src={bank} />
                     </IonThumbnail>
                 </IonItem>
                 {(this.props as any).lenders.map((lender: any, i: any) => {
@@ -23,7 +24,14 @@ class LenderList extends Component {
                         <IonItem key={i}>
                             <IonLabel><h3>{lender.lenderName}</h3></IonLabel>
                             <IonLabel><h3>${lender.remainingDebtBalance}</h3></IonLabel>
-                            <IonButton fill={'clear'} className={'lender-button'}>Info</IonButton>
+                            <Link
+                                to={{
+                                    pathname: `/lender-overview`,
+                                    state: { lender: lender }
+                                }}
+                            >
+                                <IonButton fill={'clear'} className={'lender-button'}>Info</IonButton>
+                            </Link>
                         </IonItem>
                     )
                 })}

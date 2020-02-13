@@ -26,6 +26,7 @@ import UserDetails from "./pages/user/UserDetails";
 import Overview from "./pages/overview/overview";
 import PaymentOverview from "./pages/payment-overview/payment-overview";
 import AccountOverview from "./pages/account-overview/account-overview";
+import LenderOverview from "./pages/lender/lender-overview";
 
 const App: React.FC = () => (
   <IonApp>
@@ -42,6 +43,10 @@ const App: React.FC = () => (
         <Route
           path="/account-overview"
           render={props => <AccountOverview caseData={props as any} />}
+        />
+        <Route
+          path="/lender-overview"
+          render={props => <LenderOverview lender={props as any} />}
         />
       </IonRouterOutlet>
     </IonReactRouter>
