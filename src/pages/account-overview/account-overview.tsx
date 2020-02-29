@@ -1,17 +1,43 @@
 import { IonBackButton, IonButtons, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonPage, IonRow, IonTitle, IonToolbar, withIonLifeCycle } from "@ionic/react";
 import React, { Component } from "react";
 import { Line } from 'react-chartjs-2';
-import { CaseData } from "../../models/case-data";
+import { CaseSummary } from "../../models/case/case-summary";
+import { dataService } from "../../services/data.service";
+import { takeUntil } from "rxjs/operators"
+import { Subject } from "rxjs";
+import { CaseDebt } from "../../models/case/case-debt";
+
 
 class AccountOverview extends Component {
+
+  unsubscribeSubject = new Subject<void>();
+
   state = {
-    caseData: {} as CaseData
+    caseSummary: {} as CaseSummary,
+    caseDebt: [] as (CaseDebt[]),
   };
 
   ionViewWillEnter() {
-    this.setState({
-      caseData: (this.props as any).caseData.history.location.state.caseData
-    });
+    console.log('ionWillEnter');
+    this.subscribeToCaseSummary();
+    this.subscribeToCaseDebt();
+  }
+
+  subscribeToCaseSummary() {
+    dataService.getCaseSummaryAsObservable()
+      .pipe(takeUntil(this.unsubscribeSubject))
+      .subscribe(caseSummary => this.setState({ ...this.state, caseSummary: caseSummary }));
+  }
+
+  subscribeToCaseDebt() {
+    dataService.getDebtDetailAsObservable()
+      .pipe(takeUntil(this.unsubscribeSubject))
+      .subscribe(debtDetail => this.setState({ ...this.state, caseDebt: debtDetail.caseDebts }));
+
+  }
+
+  ionViewWillLeave() {
+    this.unsubscribeSubject.next();
   }
 
   render() {
@@ -33,40 +59,16 @@ class AccountOverview extends Component {
                   <IonList class="ion-no-padding">
                     <IonListHeader class={"white ion-text-center ion-padding-end"}>
                       <IonLabel>
-                        <h2>Account Overview</h2>
+                        <h2>Account Details</h2>
                       </IonLabel>
                     </IonListHeader>
                     <IonItem>
                       <IonLabel>
-                        <h3>Case Start Date</h3>
+                        <h3>Current Balance</h3>
                       </IonLabel>
                       <IonLabel>
                         <h3 className={"ion-text-right"}>
-                          {this.state.caseData.caseInceptionDate}
-                        </h3>
-                      </IonLabel>
-                    </IonItem>
-                    <IonItem>
-                      <IonLabel>
-                        <h3>
-                          Starting Balance
-					  	          </h3>
-                      </IonLabel>
-                      <IonLabel>
-                        <h3 className={"ion-text-right"}>
-                          ${this.state.caseData.startingDebtAmount}
-                        </h3>
-                      </IonLabel>
-                    </IonItem>
-                    <IonItem>
-                      <IonLabel>
-                        <h3>
-                          Current Balance
-						            </h3>
-                      </IonLabel>
-                      <IonLabel>
-                        <h3 className={"ion-text-right"}>
-                          ${this.state.caseData.currentDebtAmount}
+                          {this.state.caseSummary.estimatedBalance}
                         </h3>
                       </IonLabel>
                     </IonItem>
@@ -78,13 +80,46 @@ class AccountOverview extends Component {
                       </IonLabel>
                       <IonLabel>
                         <h3 className={"ion-text-right"}>
-                          ${this.state.caseData.nextPaymentAmount}
+                          ${this.state.caseSummary.currentMonthlyPayment}
+                        </h3>
+                      </IonLabel>
+                    </IonItem>
+                    <IonItem>
+                      <IonLabel>
+                        <h3>
+                          Total Monthly Deposit
+						            </h3>
+                      </IonLabel>
+                      <IonLabel>
+                        <h3 className={"ion-text-right"}>
+                          ${this.state.caseSummary.totalMonthlyDeposit}
                         </h3>
                       </IonLabel>
                     </IonItem>
                   </IonList>
                 </IonCard>
                 <IonCard>
+                  <IonList class="ion-no-padding">
+                    <IonListHeader class={"white ion-text-center ion-padding-end"}>
+                      <IonLabel>
+                        <h2>Balance Breakdown</h2>
+                      </IonLabel>
+                    </IonListHeader>
+                    {this.state.caseDebt.map(caseDebt => {
+                      return (
+                        <IonItem>
+                          <IonLabel>
+                            <h3>{caseDebt.creditorName}</h3>
+                          </IonLabel>
+                            <div className={"ion-text-right row-text"}>
+                              ${caseDebt.currentBalance.toFixed(2)}
+                            </div>
+                        </IonItem>
+                      );
+                    })}
+                  </IonList>
+                </IonCard>
+                {/* <IonCard>
                   <IonListHeader class={"white ion-text-center ion-padding-end"}>
                     <IonLabel>
                       <h2>Account Balance</h2>
@@ -129,7 +164,7 @@ class AccountOverview extends Component {
                                 } else {
                                   return '$' + value;
                                 }
-                              } 
+                              }
                             }
                           },
                           layout: {
@@ -161,7 +196,7 @@ class AccountOverview extends Component {
                       />
                     </div>
                   </IonItem>
-                </IonCard>
+                </IonCard> */}
               </IonCol>
             </IonRow>
           </IonGrid>

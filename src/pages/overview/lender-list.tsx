@@ -1,41 +1,68 @@
 import React, { Component } from "react";
-import { IonButton, IonItem, IonLabel, IonList, IonThumbnail, withIonLifeCycle } from "@ionic/react";
+// eslint-disable-next-line
+import { IonItem, IonLabel, IonList, IonThumbnail, withIonLifeCycle, IonListHeader, IonCard, IonButton } from "@ionic/react";
+// eslint-disable-next-line
 import bank from "../../images/bank.svg";
+import { DebtDetail } from "../../models/case/debt-detail";
+import { dataService } from "../../services/data.service"
+import { CaseDebt } from "../../models/case/case-debt";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators"
 import { Link } from "react-router-dom";
 
 class LenderList extends Component {
 
+    unsubscribeSubject = new Subject<void>();
+
+    state = {
+        debtDetail: {} as DebtDetail
+    }
+
+    componentDidMount() {
+        dataService.getDebtDetailAsObservable()
+            .pipe(takeUntil(this.unsubscribeSubject))
+            .subscribe(data => {
+                console.log('updated state: ' + data)
+                this.setState({
+                    debtDetail: data
+                });
+            })
+    }
+
+    ionViewWillLeave() {
+        this.unsubscribeSubject.next();
+    }
+
     render() {
         return (
-            <IonList lines={'full'} class={'ion-no-padding margin-top'}>
-                <IonItem>
-                    <IonLabel>
-                        <h2>Lenders</h2>
-                    </IonLabel>
-                    <IonLabel>
-                        <h2>Balance</h2>
-                    </IonLabel>
-                    <IonThumbnail class={'icon'}>
-                        <img alt="apprisen-logo" src={bank} />
-                    </IonThumbnail>
-                </IonItem>
-                {(this.props as any).lenders.map((lender: any, i: any) => {
-                    return (
-                        <IonItem key={i}>
-                            <IonLabel><h3>{lender.lenderName}</h3></IonLabel>
-                            <IonLabel><h3>${lender.remainingDebtBalance}</h3></IonLabel>
-                            <Link
-                                to={{
-                                    pathname: `/lender-overview`,
-                                    state: { lender: lender }
-                                }}
-                            >
-                                <IonButton fill={'clear'} className={'lender-button'}>Info</IonButton>
-                            </Link>
-                        </IonItem>
-                    )
-                })}
-            </IonList>
+            <IonCard class="color">
+                <IonList class="ion-no-padding">
+                    <IonListHeader class={"white"}>
+                        <IonLabel>
+                            <h2>Lenders</h2>
+                        </IonLabel>
+                    </IonListHeader>
+
+                    {this.state.debtDetail.caseDebts != null && this.state.debtDetail.caseDebts.map((caseDebt: CaseDebt, i: any) => {
+                        return (
+                            <IonItem key={i}>
+                                <IonLabel>
+                                    <h3>{caseDebt.creditorName}</h3>
+                                    <p>${caseDebt.currentBalance} balance</p>
+                                </IonLabel>
+                                <Link
+                                    to={{
+                                        pathname: `/lender-overview`,
+                                        state: { lender: caseDebt }
+                                    }}
+                                >
+                                    <IonButton onClick={() => dataService.selectCaseDebt(caseDebt)} fill={'clear'} className={'lender-button'}>Info</IonButton>
+                                </Link>
+                            </IonItem>
+                        )
+                    })}
+                </IonList>
+            </IonCard>
         )
     }
 

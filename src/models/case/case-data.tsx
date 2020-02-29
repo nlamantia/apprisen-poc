@@ -1,4 +1,4 @@
-import {Lender} from "./lender";
+import {Lender} from "../lender";
 
 export interface CaseData {
     caseNumber: string,

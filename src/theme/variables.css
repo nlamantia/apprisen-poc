@@ -99,8 +99,20 @@ ion-list-header {
     padding: 5px;
 }
 
+.full-button {
+    width: 100%;
+}
+
 .amount {
     float: right;
+}
+
+.row-text {
+    font-size: 12px;
+}
+
+.spinner {
+    height: 15px !important;
 }
 
 .icon {

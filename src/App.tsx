@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { IonApp, IonRouterOutlet } from "@ionic/react";
+import { IonApp, IonRouterOutlet, IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/user/Home";
 
@@ -27,14 +27,33 @@ import Overview from "./pages/overview/overview";
 import PaymentOverview from "./pages/payment-overview/payment-overview";
 import AccountOverview from "./pages/account-overview/account-overview";
 import LenderOverview from "./pages/lender/lender-overview";
+import Login from "./pages/login/login"
 
 const App: React.FC = () => (
   <IonApp>
+    <IonMenu side="end" menuId="first" contentId="my-content">
+      <IonHeader>
+        <IonToolbar color="primary">
+          <IonTitle>Start Menu</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent id="my-content">
+        <IonList>
+          <IonItem>Menu Item</IonItem>
+          <IonItem>Menu Item</IonItem>
+          <IonItem>Menu Item</IonItem>
+          <IonItem>Menu Item</IonItem>
+          <IonItem>Menu Item</IonItem>
+        </IonList>
+      </IonContent>
+    </IonMenu>
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/overview" component={Overview} exact={true} />
         <Route path="/home" component={Home} exact={true} />
-        <Route exact path="/" render={() => <Redirect to="/overview" />} />
+        <Route path="/login" component={Login} exact={true} />
+
+        <Route exact path="/" render={() => <Redirect to="/login" />} />
         <Route path="/user/:id" component={UserDetails} />
         <Route
           path="/payment-overview"

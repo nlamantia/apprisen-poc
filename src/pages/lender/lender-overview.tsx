@@ -1,16 +1,19 @@
-import { IonBackButton, IonButtons, IonCard, IonContent, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle } from "@ionic/react";
+import { IonBackButton, IonButtons, IonCard, IonContent, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle, IonSkeletonText } from "@ionic/react";
 import React, { Component } from "react";
-import { Lender } from "../../models/lender";
+import { dataService } from "../../services/data.service"
+import { CaseDebt } from "../../models/case/case-debt";
 
 class LenderOverview extends Component {
     state = {
-        lender: {} as Lender
+        lender: {} as CaseDebt
     };
 
     ionViewWillEnter() {
-        this.setState({
-            lender: (this.props as any).lender.history.location.state.lender
-        });
+        dataService.getSelectedLenderAsObservable().subscribe(lender => {
+            this.setState({
+                lender: lender
+            });
+        })
     }
 
     render() {
@@ -21,7 +24,7 @@ class LenderOverview extends Component {
                         <IonButtons slot="start">
                             <IonBackButton defaultHref="/overview" />
                         </IonButtons>
-                        <IonTitle>{this.state.lender.lenderName}</IonTitle>
+                        <IonTitle>{this.state.lender.creditorName}</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>
@@ -34,11 +37,11 @@ class LenderOverview extends Component {
                             </IonListHeader>
                             <IonItem>
                                 <IonLabel>
-                                    <h3>Next Payment Amount</h3>
+                                    <h3>Account Number</h3>
                                 </IonLabel>
                                 <IonLabel>
                                     <h3 className={"ion-text-right"}>
-                                        ${this.state.lender.nextPaymentAmount}
+                                        {this.state.lender.accountNumber}
                                     </h3>
                                 </IonLabel>
                             </IonItem>
@@ -48,7 +51,7 @@ class LenderOverview extends Component {
                                 </IonLabel>
                                 <IonLabel>
                                     <h3 className={"ion-text-right"}>
-                                        ${this.state.lender.remainingDebtBalance}
+                                        ${this.state.lender.currentBalance}
                                     </h3>
                                 </IonLabel>
                             </IonItem>
@@ -57,8 +60,33 @@ class LenderOverview extends Component {
                                     <h3>Starting Balance</h3>
                                 </IonLabel>
                                 <IonLabel>
+                                    {this.state.lender.originalBalance ?
+                                        <h3 className={"ion-text-right"}>
+                                            ${this.state.lender.originalBalance.toFixed(2)}
+                                        </h3> :
+                                        <h3 className={"ion-text-right"}>
+                                            <IonSkeletonText animated style={{ width: '100%' }} />
+                                        </h3>
+                                    }
+                                </IonLabel>
+                            </IonItem>
+                            <IonItem>
+                                <IonLabel>
+                                    <h3>APR</h3>
+                                </IonLabel>
+                                <IonLabel>
                                     <h3 className={"ion-text-right"}>
-                                        ${this.state.lender.startingDebtBalance}
+                                        {this.state.lender.apr}%
+                                    </h3>
+                                </IonLabel>
+                            </IonItem>
+                            <IonItem>
+                                <IonLabel>
+                                    <h3>Debt Type</h3>
+                                </IonLabel>
+                                <IonLabel>
+                                    <h3 className={"ion-text-right"}>
+                                        {this.state.lender.debtType}
                                     </h3>
                                 </IonLabel>
                             </IonItem>
