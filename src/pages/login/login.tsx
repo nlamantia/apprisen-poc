@@ -2,10 +2,11 @@ import { IonButton, IonButtons, IonCard, IonCol, IonContent, IonGrid, IonHeader,
 import React, { useState } from "react";
 import logo from "../../images/apprisen-logo.png";
 import { LoginRequest } from "../../models/auth/login-request";
-import { authService } from "../../services/auth.service";
+import authService from "../../services/auth.service";
 
 const Login = (props: any) => {
 
+    const passwordInput: any = React.useRef();
     const [credentials, setCredentials] = useState<LoginRequest>({ username: '', password: '' });
     const [loginProcessing, setLoginProcessing] = useState<boolean>(false);
     const [failedLoginAlert, setFailedLoginAlert] = useState<boolean>(false);
@@ -15,6 +16,7 @@ const Login = (props: any) => {
         const loginResponse = await authService.login(credentials);
         setLoginProcessing(false);
         if (loginResponse.isSuccess) {
+            passwordInput.current.value = '';
             props.history.push('/overview');
             setLoginProcessing(false);
         } else {
@@ -35,9 +37,6 @@ const Login = (props: any) => {
                         <img alt="apprisen-logo" src={logo} />
                     </IonThumbnail>
                     <IonTitle>Apprisen</IonTitle>
-                    <IonButtons slot="end">
-                        <IonMenuButton></IonMenuButton>
-                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -58,7 +57,7 @@ const Login = (props: any) => {
 
                                     <IonItem>
                                         <IonLabel position="floating">Password</IonLabel>
-                                        <IonInput name="password" placeholder="Enter your password" onIonChange={handleChange} type="password"></IonInput>
+                                        <IonInput name="password" placeholder="Enter your password" ref={passwordInput} onIonChange={handleChange} type="password"></IonInput>
                                     </IonItem>
                                     <IonItem className={'full-button'}>
                                         <IonButton className={'full-button'} onClick={() => login()} expand="full">

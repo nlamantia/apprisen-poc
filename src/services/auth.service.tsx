@@ -4,7 +4,7 @@ import { Plugins } from '@capacitor/core';
 import { restService } from './rest.service';
 const { Storage } = Plugins;
 
-export const authService = {
+const authService = {
 
     isAuthenticated: async () => {
         const cred = (await Storage.get({ key: 'credentials' })).value
@@ -24,6 +24,7 @@ export const authService = {
     },
 
     logout: () => {
+        console.log('called logout')
         Storage.remove({ key: 'credentials' }).then(() => console.log('removed credential'));
     },
 
@@ -41,3 +42,4 @@ export const authService = {
     }
 }
 
+export default authService;

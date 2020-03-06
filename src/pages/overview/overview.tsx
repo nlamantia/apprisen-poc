@@ -1,74 +1,54 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonThumbnail, IonTitle, IonToolbar, withIonLifeCycle, IonToast } from "@ionic/react";
-import React, { Component } from "react";
+import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonThumbnail, IonTitle, IonToast, IonToolbar, IonButtons, IonMenuButton } from "@ionic/react";
+import React, { useEffect, useState } from "react";
+import { Redirect, useLocation } from "react-router-dom";
 import logo from "../../images/apprisen-logo.png";
-import { CaseData } from "../../models/case/case-data";
+import authService from "../../services/auth.service";
+import { dataService } from "../../services/data.service";
+import { restErrorHandler } from "../../services/rest-error-handler";
+import Menu from "../menu/menu";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
-import { dataService } from "../../services/data.service";
-import { authService } from "../../services/auth.service";
-import { restService } from "../../services/rest.service";
-import { Redirect } from "react-router-dom";
-import { restErrorHandler } from "../../services/rest-error-handler";
+import { menuController } from "@ionic/core";
 
-class Overview extends Component {
+const Overview = () => {
 
-  state = {
-    authorized: true,
-    restError: false,
-    caseData: {} as CaseData
-  };
+  const location = useLocation();
+  const [authorized, setAuthorized] = useState<boolean>(true);
+  const [restError, setRestError] = useState<boolean>(false);
 
-  async setCaseSummaryData() {
+  useEffect(
+    () => {
+      console.log('useEffect called')
+      setCaseSummaryData();
+      setDebtDetailData();
+    }, []);
+
+  useEffect(() => { errorSubscriptions() }, [])
+
+  async function setCaseSummaryData() {
     dataService.refreshCaseSummaryData();
   }
 
-  async setDebtDetailData() {
+  async function setDebtDetailData() {
     dataService.refreshDebtDetailData();
   }
 
-  async errorSubscriptions() {
-    restErrorHandler.getAuthenticationErrorAsObservable().subscribe(err => this.setState({ ...this.state, authorized: false }));
-    restErrorHandler.getRestErrorAsObservable().subscribe(err => this.setState({ ...this.state, restError: true }));
+  async function errorSubscriptions() {
+    restErrorHandler.getAuthenticationErrorAsObservable().subscribe(err => setAuthorized(false));
+    restErrorHandler.getRestErrorAsObservable().subscribe(err => setRestError(true));
   }
 
-
-  setUnauthorizedState() {
-    this.setState({
-      ...this.state,
-      authorized: false
-    });
-  }
-
-  ionViewWillEnter() {
-    this.errorSubscriptions();
-    this.setCaseSummaryData();
-    this.setDebtDetailData();
-    console.log('called refresh case summary data');
-    fetch("https://nestjs-server-poc.herokuapp.com/user")
-      .then(response => response.json())
-      .then(data =>
-        this.setState({
-          authorized: true,
-          caseData: data
-        })
-
-      )
-      .catch(err => console.log(err));
-  }
-
-  redirectLogin() {
+  function redirectLogin() {
     authService.logout();
     return (
       <Redirect to="/login" />
     );
   }
-  render() {
-    if (!this.state.authorized) {
-      return (
-        this.redirectLogin()
-      )
-    } else {
-      return (
+
+  return (
+    !authorized ? redirectLogin() :
+      <>
+        <Menu pageName={'pageName'} />
         <IonPage>
           <IonHeader>
             <IonToolbar>
@@ -76,24 +56,25 @@ class Overview extends Component {
                 <img alt="apprisen-logo" src={logo} />
               </IonThumbnail>
               <IonTitle>Apprisen</IonTitle>
+              <IonButtons slot="end">
+                <IonMenuButton></IonMenuButton>
+              </IonButtons>
             </IonToolbar>
           </IonHeader>
-          <IonContent>
+          <IonContent id="pageName">
             <IonGrid>
               <IonRow>
                 <IonCol size={"12"} sizeMd={"6"} sizeLg={"3"} offsetLg={"2"}>
-                  <OverviewCard caseData={this.state.caseData} />
+                  <OverviewCard />
                 </IonCol>
                 <IonCol size={"12"} sizeMd={"6"} sizeLg={"5"}>
-                  {this.state.caseData.lenders && (
-                    <LenderList lenders={this.state.caseData.lenders} />
-                  )}
+                  <LenderList />
                 </IonCol>
               </IonRow>
             </IonGrid>
             <IonToast
-              isOpen={this.state.restError}
-              onDidDismiss={() => this.setState({ ...this.state, 'restError': false })}
+              isOpen={restError}
+              onDidDismiss={() => setRestError(false)}
               message="Please try again."
               color="danger"
               duration={4000}
@@ -101,9 +82,8 @@ class Overview extends Component {
             />
           </IonContent>
         </IonPage>
-      );
-    }
-  }
+      </>
+  )
 }
 
-export default withIonLifeCycle(Overview);
+export default Overview;

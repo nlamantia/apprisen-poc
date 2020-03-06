@@ -2,7 +2,7 @@ import { BehaviorSubject } from 'rxjs'
 import { ClientInformation } from '../models/case/client-information';
 import { CaseSummary } from '../models/case/case-summary';
 import { DebtDetail } from '../models/case/debt-detail';
-import { authService } from './auth.service';
+import authService from './auth.service';
 import { CaseDebt } from '../models/case/case-debt';
 import { restService } from './rest.service';
 
