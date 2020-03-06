@@ -83,6 +83,10 @@ ion-list-header {
     --background: linear-gradient(90deg, rgba(7, 166, 104, 1) 0%, rgba(11, 91, 59, 1) 81%);
 }
 
+.toolbar-header {
+    --background: rgba(11, 91, 59, 1);
+}
+
 /*ion-card, ion-card-content, ion-card-header {*/
 
 /*    --background: #5c5bff !important;*/
@@ -99,8 +103,24 @@ ion-list-header {
     padding: 5px;
 }
 
+.full-button {
+    width: 100%;
+}
+
 .amount {
     float: right;
+}
+
+.row-text {
+    font-size: 14px;
+}
+
+.clickable {
+    pointer-events: auto !important;
+}
+
+.spinner {
+    height: 15px !important;
 }
 
 .icon {
@@ -146,8 +166,6 @@ ion-col {
     width: 35px;
     color: white;
 }
-
-.button-color {}
 
 .chart-div {
     width: 100%;

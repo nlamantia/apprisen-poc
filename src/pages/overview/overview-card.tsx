@@ -1,13 +1,35 @@
-import { IonCard, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonThumbnail, withIonLifeCycle } from "@ionic/react";
+// eslint-disable-next-line
+import { IonCard, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonThumbnail, withIonLifeCycle, IonSkeletonText } from "@ionic/react";
+// eslint-disable-next-line
 import { arrowForward } from "ionicons/icons";
 import React, { Component } from "react";
+// eslint-disable-next-line
 import { Link } from "react-router-dom";
+// eslint-disable-next-line
 import balance from "../../images/balance.svg";
 import calendar from "../../images/calendar.svg";
 import goal from "../../images/goal.svg";
 import money from "../../images/notes.svg";
+import { CaseSummary } from "../../models/case/case-summary";
+import { dataService } from "../../services/data.service";
 
 class OverviewCard extends Component {
+
+  state = {
+    caseSummary: {} as CaseSummary
+  };
+
+
+  ionViewWillEnter() {
+    console.log('OverviewCard view entered')
+    dataService.getCaseSummaryAsObservable().subscribe(data => {
+      console.log('updated state: ' + data)
+      this.setState({
+        caseSummary: data
+      });
+    })
+  }
+
   render() {
     return (
       <>
@@ -19,8 +41,7 @@ class OverviewCard extends Component {
               </IonLabel>
               <Link
                 to={{
-                  pathname: `/account-overview`,
-                  state: { caseData: (this.props as any).caseData }
+                  pathname: `/account-overview`
                 }}
               >
                 <IonFabButton class={"fab-button"} color={"light"}>
@@ -34,44 +55,18 @@ class OverviewCard extends Component {
               </IonThumbnail>
               <IonLabel>
                 <h3>Remaining Balance</h3>
-                <p>${(this.props as any).caseData.currentDebtAmount}</p>
+                {this.state.caseSummary.estimatedBalance ?
+                  <p>${this.state.caseSummary.estimatedBalance}</p> : <IonSkeletonText animated style={{ width: '60%' }} />
+                }
               </IonLabel>
             </IonItem>
-            <IonItem>
-              <IonThumbnail class={"icon"} slot={"end"}>
-                <img alt="apprisen-logo" src={balance} />
-              </IonThumbnail>
-              <IonLabel>
-                <h3>Starting Balance</h3>
-                <p>${(this.props as any).caseData.startingDebtAmount}</p>
-              </IonLabel>
-            </IonItem>
-          </IonList>
-        </IonCard>
-        <IonCard>
-          <IonList class={"ion-no-padding"}>
-            <IonListHeader>
-              <IonLabel class={"white"}>
-                <h2>Upcoming Payment</h2>
-              </IonLabel>
-              <Link
-                to={{
-                  pathname: `/payment-overview`,
-                  state: { caseData: (this.props as any).caseData }
-                }}
-              >
-                <IonFabButton class={"fab-button"} color={"light"}>
-                  <IonIcon icon={arrowForward} />
-                </IonFabButton>
-              </Link>
-            </IonListHeader>
             <IonItem lines={"inset"}>
               <IonThumbnail class={"icon"} slot={"end"}>
                 <img alt="apprisen-logo" src={calendar} />
               </IonThumbnail>
               <IonLabel>
-                <h3>Due Date</h3>
-                <p>{(this.props as any).caseData.nextPaymentDate}</p>
+                <h3>Upcoming Due Date</h3>
+                <p>{this.state.caseSummary.nextPaymentDueOn ? this.state.caseSummary.nextPaymentDueOn.toString().substring(0, 10) : null}</p>
               </IonLabel>
             </IonItem>
             <IonItem>
@@ -80,7 +75,7 @@ class OverviewCard extends Component {
               </IonThumbnail>
               <IonLabel>
                 <h3>Amount Due</h3>
-                <p>${(this.props as any).caseData.nextPaymentAmount}</p>
+                <p>${this.state.caseSummary.currentMonthlyPayment}</p>
               </IonLabel>
             </IonItem>
           </IonList>

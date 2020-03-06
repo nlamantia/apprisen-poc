@@ -21,7 +21,7 @@ import {
 import React, { Component } from "react";
 import { Doughnut } from "react-chartjs-2";
 import Payment from "../../images/payment.svg";
-import { CaseData } from "../../models/case-data";
+import { CaseData } from "../../models/case/case-data";
 import { Lender } from "../../models/lender";
 
 class PaymentOverview extends Component {
