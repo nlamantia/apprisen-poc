@@ -1,8 +1,22 @@
-import { IonContent, IonHeader, IonItem, IonList, IonMenu, IonTitle, IonToolbar, IonLabel, IonButtons, IonMenuButton, IonMenuToggle } from '@ionic/react';
+import {
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonMenu,
+    IonMenuButton,
+    IonMenuToggle,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react';
+import {connect} from 'react-redux'
 import React from 'react';
 import authService from '../../services/auth.service'
-import { withRouter, RouteComponentProps } from 'react-router';
-import { menuController } from "@ionic/core";
+import { logout } from '../../feature/auth/action'
+import {withRouter} from 'react-router';
+import {bindActionCreators} from "redux";
 
 interface Page {
     title: string;

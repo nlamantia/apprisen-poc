@@ -16,20 +16,14 @@ import {
 import React, {Component} from "react";
 import {connect} from 'react-redux'
 
-class LenderOverview extends Component {
-    state = {
-        lender: {} as CaseDebt
-    };
-
-    ionViewWillEnter() {
-        dataService.getSelectedLenderAsObservable().subscribe(lender => {
-            this.setState({
-                lender: lender
-            });
-        })
+class _LenderOverview extends Component {
+    constructor(props) {
+        super(props)
     }
 
     render() {
+        const { lender } = this.props as any
+
         return (
             <IonPage>
                 <IonHeader>

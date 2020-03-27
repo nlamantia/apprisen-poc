@@ -40,6 +40,7 @@ class UserDetails extends Component {
     // todo handle with action
     // todo handle with saga
     getUser(userId: number) {
+        // todo handle with rest service
         fetch(`https://apprisen-poc-api.herokuapp.com/api/user/${userId}`)
             .then(response => response.json())
             .then(json => {

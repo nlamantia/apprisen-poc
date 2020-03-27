@@ -65,7 +65,7 @@ export const restService = {
 } 
 
 
-const CLIENT_INFORMATION_URL = "http://localhost:8080/api/case/client-details/";
-const CASE_SUMMARY_URL = "http://localhost:8080/api/case/case-summary/";
-const DEBT_DETAIL_URL = "http://localhost:8080/api/case/debt-details/";
-const LOGIN_URL = "http://localhost:8080/api/auth/login";
+const CLIENT_INFORMATION_URL = "https://apprisen-facade.herokuapp.com/api/case/client-details/";
+const CASE_SUMMARY_URL = "http://apprisen-facade.herokuapp.com/api/case/case-summary/";
+const DEBT_DETAIL_URL = "http://apprisen-facade.herokuapp.com/api/case/debt-details/";
+const LOGIN_URL = "http://apprisen-facade.herokuapp.com/api/auth/login";

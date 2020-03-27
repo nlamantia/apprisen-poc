@@ -7,12 +7,16 @@ import { CaseDebt } from '../models/case/case-debt';
 import { restService } from './rest.service';
 
 
+// todo remove
 class DataService {
 
+    // todo
     private clientInformationSubject: BehaviorSubject<ClientInformation>;
     private caseSummarySubject: BehaviorSubject<CaseSummary>;
     private debtDetailSubject: BehaviorSubject<DebtDetail>;
     private selectedLenderSubject: BehaviorSubject<CaseDebt>;
+
+
 
     constructor() {
         console.log('calling data service constructor')
@@ -22,44 +26,11 @@ class DataService {
         this.selectedLenderSubject = new BehaviorSubject({} as CaseDebt);
     }
 
-    public selectCaseDebt(caseDebt: CaseDebt) {
-        this.selectedLenderSubject.next(caseDebt);
-    }
-
-    public getSelectedLenderAsObservable() {
-        return this.selectedLenderSubject.asObservable();
-    }
-
-    public async refreshCaseSummaryData() {
-        const caseId = await authService.getCaseId();
-        console.log('retrieved caseId: ' + caseId);
-        this.caseSummarySubject.next(await restService.callCaseSummaryEndpoint(caseId));
-    }
-
-    public async refreshClientInformationData() {
-        const caseId = await authService.getCaseId();
-        const clientInfo = await restService.callClientInformationEndpoint(caseId);
-        this.clientInformationSubject.next(clientInfo);
-    }
-
-    public async refreshDebtDetailData() {
-        const caseId = await authService.getCaseId();
-        this.debtDetailSubject.next(await restService.callDebtDetailEndpoint(caseId));
-    }
-
+    // todo deprecate
     public getCaseSummaryAsObservable() {
         return this.caseSummarySubject.asObservable();
     }
 
-    public getClientInformationAsObservable() {
-        return this.clientInformationSubject.asObservable();
-    }
-
-    public getDebtDetailAsObservable() {
-        return this.debtDetailSubject.asObservable();
-    }
-
-
-} 
+}
 
 export const dataService = new DataService();

@@ -26,7 +26,6 @@ const _AccountOverview = ( props ) => {
     const { caseSummary, debts } = props
     const { estimatedBalance, currentMonthlyPayment, totalMonthlyDeposit } = caseSummary
 
-  render() {
     return (
       <>
         {/*<Menu pageName={'accountOverview'} /> todo fix this*/}
@@ -151,84 +150,6 @@ const _AccountOverview = ( props ) => {
                       </div>
                     </IonItem>
                   </IonCard>
-                  {/* <IonCard>
-                  <IonListHeader class={"white ion-text-center ion-padding-end"}>
-                    <IonLabel>
-                      <h2>Account Balance</h2>
-                    </IonLabel>
-                  </IonListHeader>
-                  <IonItem className={"ion-no-padding"}>
-                    <div className={"chart-div ion-padding-vertical"}>
-                      <Line
-                        data={{
-                          labels: data.map(val => val.date),
-                          datasets: [
-                            {
-                              fill: false,
-                              lineTension: 0.1,
-                              backgroundColor: '#008752',
-                              borderColor: '#008752',
-                              borderCapStyle: 'butt',
-                              pointBorderColor: '#008752',
-                              pointBackgroundColor: '#008752',
-                              pointBorderWidth: 1,
-                              pointHoverRadius: 6,
-                              pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-                              pointHoverBorderColor: 'rgba(220,220,220,1)',
-                              pointHoverBorderWidth: 2,
-                              pointRadius: 4,
-                              pointHitRadius: 10,
-                              data: data.map(val => val.balance)
-                            }
-                          ],
-
-                        }}
-                        options={{
-                          legend: {
-                            display: false,
-                          },
-                          tooltips: {
-                            callbacks: {
-                              label: function (tooltipItem: any, data: any) {
-                                var value = data.datasets[0].data[tooltipItem.index];
-                                if (parseInt(value) >= 1000) {
-                                  return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                } else {
-                                  return '$' + value;
-                                }
-                              }
-                            }
-                          },
-                          layout: {
-                            padding: {
-                              left: 0,
-                              right: 5,
-                              top: 0,
-                              bottom: 0
-                            }
-                          },
-                          scales: {
-                            yAxes: [{
-                              ticks: {
-                                min: 10000, stepSize: 5000,
-                                callback: function (value: any, index: any, values: any) {
-                                  return '$' + value;
-                                }
-                              }
-                            }],
-                            xAxes: [{
-                              type: 'time',
-                              time: {
-                                unit: 'month',
-                                stepSize: 3
-                              }
-                            }]
-                          }
-                        }}
-                      />
-                    </div>
-                  </IonItem>
-                </IonCard> */}
                 </IonCol>
               </IonRow>
             </IonGrid>
@@ -254,6 +175,7 @@ const AccountOverview = connect(
 );
 
 // eslint-disable-next-line
+// todo move to json
 const data = [
   {
     balance: 18510.15,

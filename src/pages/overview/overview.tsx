@@ -1,45 +1,51 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonThumbnail, IonTitle, IonToast, IonToolbar, IonButtons, IonMenuButton } from "@ionic/react";
-import React, { useEffect, useState } from "react";
-import { Redirect, useLocation } from "react-router-dom";
+import {
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonMenuButton,
+  IonPage,
+  IonRow,
+  IonThumbnail,
+  IonTitle,
+  IonToast,
+  IonToolbar
+} from "@ionic/react";
+import React, {useEffect, useState} from "react";
+import {Redirect, useLocation} from "react-router-dom";
 import logo from "../../images/apprisen-logo.png";
 import authService from "../../services/auth.service";
-import { dataService } from "../../services/data.service";
-import { restErrorHandler } from "../../services/rest-error-handler";
 import Menu from "../menu/menu";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
-import { menuController } from "@ionic/core";
+import {connect} from 'react-redux'
+import {getCaseSummary} from "../../feature/case/action";
+import {getDebts} from "../../feature/debt/action";
+import {bindActionCreators} from "redux";
+import { logout } from '../../feature/auth/action'
 
-const Overview = () => {
+
+const _Overview = (props) => {
+
+  const { getDebts, getCaseSummary, logout } = props
+
+  const { caseSummary, debts } = props
 
   const location = useLocation();
   const [authorized, setAuthorized] = useState<boolean>(true);
   const [restError, setRestError] = useState<boolean>(false);
 
+
   useEffect(
     () => {
-      console.log('useEffect called')
-      setCaseSummaryData();
-      setDebtDetailData();
+      getCaseSummary();
+      getDebts();
     }, []);
 
-  useEffect(() => { errorSubscriptions() }, [])
-
-  async function setCaseSummaryData() {
-    dataService.refreshCaseSummaryData();
-  }
-
-  async function setDebtDetailData() {
-    dataService.refreshDebtDetailData();
-  }
-
-  async function errorSubscriptions() {
-    restErrorHandler.getAuthenticationErrorAsObservable().subscribe(err => setAuthorized(false));
-    restErrorHandler.getRestErrorAsObservable().subscribe(err => setRestError(true));
-  }
 
   function redirectLogin() {
-    authService.logout();
+    logout()
     return (
       <Redirect to="/login" />
     );
@@ -87,4 +93,20 @@ const Overview = () => {
   )
 }
 
-export default Overview;
+// The connect function implements the HOC pattern, passing state to its children
+// https://reactjs.org/docs/higher-order-components.html
+const Overview = connect(
+   state => ({
+      caseSummary: state.caseSummary,
+      debts: state.debts
+   }),
+   dispatch => bindActionCreators({
+      getCaseSummary,
+      getDebts,
+      logout
+   }, dispatch)
+)(
+   _Overview
+);
+
+export default Overview

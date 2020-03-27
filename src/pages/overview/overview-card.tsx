@@ -18,18 +18,11 @@ import {getCaseSummary} from "../../feature/case/action";
 
 class _OverviewCard extends Component {
 
-  state = {
-    caseSummary: {} as CaseSummary
-  };
 
   ionViewWillEnter() {
     console.log('OverviewCard view entered')
-    dataService.getCaseSummaryAsObservable().subscribe(data => {
-      console.log('updated state: ' + data)
-      this.setState({
-        caseSummary: data
-      });
-    })
+    const { getCaseSummary } = this.props as any
+    getCaseSummary()
   }
 
   render() {

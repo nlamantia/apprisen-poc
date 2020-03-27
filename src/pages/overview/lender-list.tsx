@@ -12,21 +12,12 @@ import {getDebts, selectDebt} from "../../feature/debt/action";
 class _LenderList extends Component {
 
     componentDidMount() {
-        dataService.getDebtDetailAsObservable()
-            .pipe(takeUntil(this.unsubscribeSubject))
-            .subscribe(data => {
-                console.log('updated state: ' + data)
-                this.setState({
-                    debtDetail: data
-                });
-            })
-    }
-
-    ionViewWillLeave() {
-        this.unsubscribeSubject.next();
+        const { getDebts } = this.props as any
+        getDebts()
     }
 
     render() {
+        const { debtDetail, selectDebts } = this.props as any
         return (
             <IonCard class="color">
                 <IonList class="ion-no-padding">
@@ -49,7 +40,7 @@ class _LenderList extends Component {
                                         state: { lender: caseDebt }
                                     }}
                                 >
-                                    <IonButton onClick={() => dataService.selectCaseDebt(caseDebt)} fill={'clear'} className={'lender-button'}>Info</IonButton>
+                                    <IonButton onClick={() => selectDebt(caseDebt.$id)} fill={'clear'} className={'lender-button'}>Info</IonButton>
                                 </Link>
                             </IonItem>
                         )
