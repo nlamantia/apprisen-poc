@@ -48,7 +48,8 @@ const Overview = () => {
   return (
     !authorized ? redirectLogin() :
       <>
-        <Menu pageName={'pageName'} />
+        {/*<Menu pageName={'pageName'} /> todo fix this*/}
+        <Menu />
         <IonPage>
           <IonHeader>
             <IonToolbar>

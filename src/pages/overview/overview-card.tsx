@@ -12,13 +12,15 @@ import goal from "../../images/goal.svg";
 import money from "../../images/notes.svg";
 import { CaseSummary } from "../../models/case/case-summary";
 import { dataService } from "../../services/data.service";
+import { connect } from 'react-redux'
+import {bindActionCreators} from "redux";
+import {getCaseSummary} from "../../feature/case/action";
 
-class OverviewCard extends Component {
+class _OverviewCard extends Component {
 
   state = {
     caseSummary: {} as CaseSummary
   };
-
 
   ionViewWillEnter() {
     console.log('OverviewCard view entered')
@@ -31,6 +33,7 @@ class OverviewCard extends Component {
   }
 
   render() {
+    const { caseSummary } = this.props as any
     return (
       <>
         <IonCard class="color">
@@ -55,8 +58,8 @@ class OverviewCard extends Component {
               </IonThumbnail>
               <IonLabel>
                 <h3>Remaining Balance</h3>
-                {this.state.caseSummary.estimatedBalance ?
-                  <p>${this.state.caseSummary.estimatedBalance}</p> : <IonSkeletonText animated style={{ width: '60%' }} />
+                {caseSummary.estimatedBalance ?
+                  <p>${caseSummary.estimatedBalance}</p> : <IonSkeletonText animated style={{ width: '60%' }} />
                 }
               </IonLabel>
             </IonItem>
@@ -66,7 +69,7 @@ class OverviewCard extends Component {
               </IonThumbnail>
               <IonLabel>
                 <h3>Upcoming Due Date</h3>
-                <p>{this.state.caseSummary.nextPaymentDueOn ? this.state.caseSummary.nextPaymentDueOn.toString().substring(0, 10) : null}</p>
+                <p>{caseSummary.nextPaymentDueOn ? caseSummary.nextPaymentDueOn.toString().substring(0, 10) : null}</p>
               </IonLabel>
             </IonItem>
             <IonItem>
@@ -75,7 +78,7 @@ class OverviewCard extends Component {
               </IonThumbnail>
               <IonLabel>
                 <h3>Amount Due</h3>
-                <p>${this.state.caseSummary.currentMonthlyPayment}</p>
+                <p>${caseSummary.currentMonthlyPayment}</p>
               </IonLabel>
             </IonItem>
           </IonList>
@@ -84,5 +87,16 @@ class OverviewCard extends Component {
     );
   }
 }
+
+const OverviewCard = connect(
+  state => ({
+    caseSummary: state.caseSummary
+  }),
+  dispatch => bindActionCreators({
+    getCaseSummary
+  }, dispatch)
+)(_OverviewCard)
+
+
 
 export default withIonLifeCycle(OverviewCard);

@@ -11,27 +11,14 @@ const authService = {
         return cred != null;
     },
 
-    login: async (credential: LoginRequest): Promise<LoginResponse> => {
-        const loginResponse = await restService.callLoginEndpoint(credential);
-        if (loginResponse && loginResponse.signedToken && loginResponse.username && loginResponse.expiresOn) {
-            console.log('storing credential:' + JSON.stringify(loginResponse));
-            await Storage.set({
-                key: 'credentials',
-                value: JSON.stringify(loginResponse)
-            });
-        }
-        return loginResponse;
-    },
-
     logout: () => {
         console.log('called logout')
         Storage.remove({ key: 'credentials' }).then(() => console.log('removed credential'));
     },
 
-    getCaseId: async () => {
+    getCredentials: async () => {
         const credString = (await Storage.get({ key: 'credentials' })).value;
-        const cred: LoginResponse = credString ? JSON.parse(credString) : null;
-        return cred ? cred.linkedApplication[0].externalId : "";
+        return credString ? JSON.parse(credString) : null;
     },
 
     getAuthHeaders: async () => {

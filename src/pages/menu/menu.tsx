@@ -10,13 +10,15 @@ interface Page {
     action: Function;
 }
 
-const pages: Page[] = [
-    { title: 'Profile', route: '/profile', action: () => null },
-    { title: 'Overview', route: '/overview', action: () => null },
-    { title: 'Logout', route: '/login', action: () => authService.logout() }
-]
+const _Menu = ( props : any ) => {
 
-const Menu = ( props : any ) => {
+    const { logout } = props
+
+    const pages: Page[] = [
+        { title: 'Profile', route: '/profile', action: () => null },
+        { title: 'Overview', route: '/overview', action: () => null },
+        { title: 'Logout', route: '/login', action: () => logout() }
+    ]
 
     function navigate(page: Page) {
         // menuController.toggle();
@@ -26,8 +28,10 @@ const Menu = ( props : any ) => {
         }
     }
 
+    const { pageName } = props
+
     return (
-        <IonMenu side="end" menuId="menu" contentId={props.pageName}>
+        <IonMenu side="end" menuId="menu" contentId={pageName}>
             <IonHeader class="toolbar-header">
                 <IonToolbar class="toolbar-header">
                     <IonTitle>Menu</IonTitle>
@@ -57,5 +61,14 @@ const Menu = ( props : any ) => {
         </IonMenu>
     )
 }
+
+const Menu = connect(
+    state => ({}),
+    dispatch => bindActionCreators({
+        logout
+    }, dispatch)
+)(
+    _Menu
+);
 
 export default withRouter(Menu);

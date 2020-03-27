@@ -1,22 +1,15 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 // eslint-disable-next-line
-import { IonItem, IonLabel, IonList, IonThumbnail, withIonLifeCycle, IonListHeader, IonCard, IonButton } from "@ionic/react";
+import {IonButton, IonCard, IonItem, IonLabel, IonList, IonListHeader} from "@ionic/react";
 // eslint-disable-next-line
-import bank from "../../images/bank.svg";
-import { DebtDetail } from "../../models/case/debt-detail";
-import { dataService } from "../../services/data.service"
-import { CaseDebt } from "../../models/case/case-debt";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators"
-import { Link } from "react-router-dom";
+import {dataService} from "../../services/data.service"
+import {CaseDebt} from "../../models/case/case-debt";
+import {Link} from "react-router-dom";
+import {connect} from 'react-redux'
+import {bindActionCreators} from "redux";
+import {getDebts, selectDebt} from "../../feature/debt/action";
 
-class LenderList extends Component {
-
-    unsubscribeSubject = new Subject<void>();
-
-    state = {
-        debtDetail: {} as DebtDetail
-    }
+class _LenderList extends Component {
 
     componentDidMount() {
         dataService.getDebtDetailAsObservable()
@@ -43,7 +36,7 @@ class LenderList extends Component {
                         </IonLabel>
                     </IonListHeader>
 
-                    {this.state.debtDetail.caseDebts != null && this.state.debtDetail.caseDebts.map((caseDebt: CaseDebt, i: any) => {
+                    {debtDetail.caseDebts != null && debtDetail.caseDebts.map((caseDebt: CaseDebt, i: any) => {
                         return (
                             <IonItem key={i}>
                                 <IonLabel>
@@ -65,8 +58,16 @@ class LenderList extends Component {
             </IonCard>
         )
     }
-
-
 }
 
-export default withIonLifeCycle(LenderList)
+const LenderList = connect(
+    state => ({
+        debtDetail: state.debtDetail
+    }),
+    dispatch => bindActionCreators({
+        getDebts,
+        selectDebt
+    }, dispatch)
+)(_LenderList)
+
+export default LenderList
