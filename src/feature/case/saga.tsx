@@ -14,8 +14,8 @@ export function * getCaseWorker(action) {
     const { auth: { credentials } } = state
 
     if (credentials && credentials !== {}) {
-        debugger
         const caseSummary = yield call(restService.callCaseSummaryEndpoint, credentials)
+        console.log("TEST")
         if (true) { // todo validation
             yield put(setCaseSummary(caseSummary))
         } else {

@@ -27,17 +27,18 @@ import {bindActionCreators} from "redux";
 
 
 const _AccountOverview = ( props ) => {
-
-  useEffect(
-    () => {
-      const { getCaseSummary, getDebts } = props
-      getCaseSummary();
-      getDebts();
-    }, []);
-
     const { caseSummary, debts } = props
     const { estimatedBalance, currentMonthlyPayment, totalMonthlyDeposit } = caseSummary
 
+    // useEffect(
+    //     () => {
+    //         const { getCaseSummary, getDebts } = props
+    //         if (!caseSummary || caseSummary === {})
+    //           getCaseSummary();
+    //         if (!debts || debts === {})
+    //           getDebts();
+    //     }, []);
+    //
     return (
       <>
         {/*<Menu pageName={'accountOverview'} /> todo fix this*/}

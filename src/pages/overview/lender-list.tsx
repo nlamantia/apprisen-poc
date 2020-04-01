@@ -12,7 +12,7 @@ class _LenderList extends Component {
 
     componentDidMount() {
         const { getDebts } = this.props as any
-        getDebts()
+        // getDebts() todo
     }
 
     render() {

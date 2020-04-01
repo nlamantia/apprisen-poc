@@ -29,8 +29,6 @@ class _OverviewCard extends Component {
   componentDidMount() {
     console.log('OverviewCard view entered')
     const { getCaseSummary, credentials } = this.props as any
-
-    getCaseSummary(credentials)
   }
 
 

@@ -40,7 +40,8 @@ const _Overview = (props) => {
   useEffect(
     () => {
       getCaseSummary();
-      getDebts();
+      // todo having getDebts() and getCaseSummary() fire at the same time makes them not work. SetTimeoute mitigates this. find better solution
+      setTimeout(getDebts, 2000)
     }, []);
 
 
