@@ -109,8 +109,10 @@ const LenderOverview = connect(
     state => ({
         // todo implement as selector?
         // todo error checking
-        lender: state.debtDetail.caseDebts.filter(debt => debt.$id === state.selectedDebtId),
+        lender: state.debt.debtDetail.caseDebts.filter(debt => debt.$id === state.selectedDebtId),
     })
 )(
     _LenderOverview
 );
+
+export default LenderOverview

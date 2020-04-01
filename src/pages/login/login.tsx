@@ -23,7 +23,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import logo from "../../images/apprisen-logo.png";
 import {LoginRequest} from "../../models/auth/login-request";
-import {login, resetLoginStatus} from "../../feature/auth/action";
+import {login, resetLoginStatus, setLoginStatus} from "../../feature/auth/action";
 
 const _Login = (props: any) => {
 
@@ -34,15 +34,17 @@ const _Login = (props: any) => {
     function handleChange(evt: any) {
         setCredentials({ ...credentials, [evt.target.name]: evt.target.value })
     }
-    const { login, loginStatus, setLoginStatus } = props
-    const { loginState, message } = loginStatus
+    const { login, loginStatus, resetLoginStatus } = props
+    const { loginState, message } = (loginStatus || {loginState: null, message: null})
+    const { state } = props
+
+    const handleLoginClick = () => {
+        login(credentials)
+    }
+
 
     useEffect(() => {
-        setLoginStatus("INACTIVE", "")
-    })
-
-    useEffect(() => {
-        const {loginState, message} = loginStatus
+        const { loginState, message } = (loginStatus || {loginState: null, message: null})
         if (loginState === "INACTIVE") {
             if (message === "SUCCESS") {
                 passwordInput.current.value = '';
@@ -51,7 +53,7 @@ const _Login = (props: any) => {
                 setFailedLoginAlert(true)
             }
         }
-    }, [loginStatus])
+    }, [loginState])
 
     return (
         <IonPage>
@@ -84,7 +86,7 @@ const _Login = (props: any) => {
                                         <IonInput name="password" placeholder="Enter your password" ref={passwordInput} onIonChange={handleChange} type="password"></IonInput>
                                     </IonItem>
                                     <IonItem className={'full-button'}>
-                                        <IonButton className={'full-button'} onClick={() => login()} expand="full">
+                                        <IonButton className={'full-button'} onClick={handleLoginClick} expand="full">
                                             Login
                                             {loginState === 'ACTIVE' ? <span><IonSpinner class={'spinner'} name="crescent" /></span> : null}
                                         </IonButton>
@@ -110,7 +112,7 @@ const _Login = (props: any) => {
 
 const Login = connect(
     state => ({
-        loginStatus: state.loginStatus,
+        loginStatus: state.auth.loginStatus,
     }),
     dispatch => bindActionCreators({
         resetLoginStatus,

@@ -97,7 +97,7 @@ const _Overview = (props) => {
 // https://reactjs.org/docs/higher-order-components.html
 const Overview = connect(
    state => ({
-      caseSummary: state.caseSummary,
+      caseSummary: state.case.caseSummary,
       debts: state.debts
    }),
    dispatch => bindActionCreators({

@@ -1,13 +1,25 @@
-import { IonBackButton, IonButtons, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar, withIonLifeCycle } from "@ionic/react";
+import {
+  IonBackButton,
+  IonButtons,
+  IonCard,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonListHeader,
+  IonMenuButton,
+  IonPage,
+  IonRow,
+  IonTitle,
+  IonToolbar
+} from "@ionic/react";
 import {connect} from 'react-redux'
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 // eslint-disable-next-line
-import { Doughnut } from 'react-chartjs-2';
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { CaseDebt } from "../../models/case/case-debt";
-import { CaseSummary } from "../../models/case/case-summary";
-import { dataService } from "../../services/data.service";
+import {Doughnut} from 'react-chartjs-2';
 import Menu from "../menu/menu";
 import {getCaseSummary} from "../../feature/case/action";
 import {getDebts} from "../../feature/debt/action";
@@ -173,6 +185,8 @@ const AccountOverview = connect(
 )(
     _AccountOverview
 );
+
+export default AccountOverview
 
 // eslint-disable-next-line
 // todo move to json

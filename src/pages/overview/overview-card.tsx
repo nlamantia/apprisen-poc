@@ -1,32 +1,45 @@
 // eslint-disable-next-line
-import { IonCard, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonThumbnail, withIonLifeCycle, IonSkeletonText } from "@ionic/react";
+import {
+  IonCard,
+  IonFabButton,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonListHeader,
+  IonSkeletonText,
+  IonThumbnail
+} from "@ionic/react";
 // eslint-disable-next-line
-import { arrowForward } from "ionicons/icons";
-import React, { Component } from "react";
+import {arrowForward} from "ionicons/icons";
+import React, {Component} from "react";
 // eslint-disable-next-line
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 // eslint-disable-next-line
-import balance from "../../images/balance.svg";
 import calendar from "../../images/calendar.svg";
 import goal from "../../images/goal.svg";
 import money from "../../images/notes.svg";
-import { CaseSummary } from "../../models/case/case-summary";
-import { dataService } from "../../services/data.service";
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {bindActionCreators} from "redux";
 import {getCaseSummary} from "../../feature/case/action";
 
 class _OverviewCard extends Component {
 
 
-  ionViewWillEnter() {
+  componentDidMount() {
     console.log('OverviewCard view entered')
-    const { getCaseSummary } = this.props as any
-    getCaseSummary()
+    const { getCaseSummary, credentials } = this.props as any
+
+    getCaseSummary(credentials)
   }
 
+
   render() {
-    const { caseSummary } = this.props as any
+    const props = this.props as any
+    const { caseSummary: { estimatedBalance, nextPaymentDueOn, currentMonthlyPayment } } =
+        (props.caseSummary && props.caseSummary != {}) ? props :
+            { caseSummary: { estimatedBalance: null, nextPaymentDueOn: null, currentMonthlyPayment: null } }
+
     return (
       <>
         <IonCard class="color">
@@ -51,8 +64,8 @@ class _OverviewCard extends Component {
               </IonThumbnail>
               <IonLabel>
                 <h3>Remaining Balance</h3>
-                {caseSummary.estimatedBalance ?
-                  <p>${caseSummary.estimatedBalance}</p> : <IonSkeletonText animated style={{ width: '60%' }} />
+                {estimatedBalance ?
+                  <p>${estimatedBalance}</p> : <IonSkeletonText animated style={{ width: '60%' }} />
                 }
               </IonLabel>
             </IonItem>
@@ -62,7 +75,7 @@ class _OverviewCard extends Component {
               </IonThumbnail>
               <IonLabel>
                 <h3>Upcoming Due Date</h3>
-                <p>{caseSummary.nextPaymentDueOn ? caseSummary.nextPaymentDueOn.toString().substring(0, 10) : null}</p>
+                <p>{nextPaymentDueOn ? nextPaymentDueOn.toString().substring(0, 10) : null}</p>
               </IonLabel>
             </IonItem>
             <IonItem>
@@ -71,7 +84,7 @@ class _OverviewCard extends Component {
               </IonThumbnail>
               <IonLabel>
                 <h3>Amount Due</h3>
-                <p>${caseSummary.currentMonthlyPayment}</p>
+                <p>${currentMonthlyPayment}</p>
               </IonLabel>
             </IonItem>
           </IonList>
@@ -83,13 +96,13 @@ class _OverviewCard extends Component {
 
 const OverviewCard = connect(
   state => ({
-    caseSummary: state.caseSummary
+    caseSummary: state.case.caseSummary,
+    caseState: state.case,
+    credentials: state.auth.credentials
   }),
   dispatch => bindActionCreators({
     getCaseSummary
   }, dispatch)
 )(_OverviewCard)
 
-
-
-export default withIonLifeCycle(OverviewCard);
+export default OverviewCard

@@ -2,7 +2,6 @@ import React, {Component} from "react";
 // eslint-disable-next-line
 import {IonButton, IonCard, IonItem, IonLabel, IonList, IonListHeader} from "@ionic/react";
 // eslint-disable-next-line
-import {dataService} from "../../services/data.service"
 import {CaseDebt} from "../../models/case/case-debt";
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux'
@@ -53,7 +52,7 @@ class _LenderList extends Component {
 
 const LenderList = connect(
     state => ({
-        debtDetail: state.debtDetail
+        debtDetail: state.debt.debtDetail
     }),
     dispatch => bindActionCreators({
         getDebts,

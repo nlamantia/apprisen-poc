@@ -11,7 +11,7 @@ export function setLoginStatus(loginStatus : LoginStatus): AuthTypes {
     }
 }
 
-export const RESET_LOGIN_STATUS = "resetLoggingStatus"
+export const RESET_LOGIN_STATUS = "resetLogInStatus"
 export const resetLoginStatus = () => ({
     type: RESET_LOGIN_STATUS,
 })
@@ -23,10 +23,12 @@ export const setCredentials = (credentials: LoginResponse) => ({
 })
 
 export const LOGIN = "login"
-export const login = (credentials: LoginRequest) =>  ({
+export const login = (credentials: LoginRequest) =>  {
+    console.log(credentials)
+    return {
     type: LOGIN,
     payload: { credentials }
-})
+} }
 
 
 export const LOGOUT = "logout"

@@ -10,7 +10,7 @@ export interface CaseState {
 // Meaning,
 // A. on application start up, this is our initial state
 // B. when you call caseReducer() without passing any parameters, this exact object is returned
-const initialState = {
+const initialState : CaseState = {
     caseSummary: {} as CaseSummary,
 }
 
@@ -29,7 +29,7 @@ const initialState = {
 // mitigate many common difficult to fix bugs, such as race conditions
 // https://searchstorage.techtarget.com/definition/race-condition
 // https://old.reddit.com/r/functionalprogramming/comments/7z6lz2/why_does_functional_mean_no_race_conditions/
-export const caseReducer = (state = initialState, action) => {
+export const caseReducer = (state: CaseState = initialState, action) => {
     if (!action) return state
     switch(action.type) {
         case SET_CASE_SUMMARY:
@@ -49,7 +49,7 @@ export const caseReducer = (state = initialState, action) => {
             }
             break;
         default:
-            return state;
+            return {...state};
             break;
     }
 }

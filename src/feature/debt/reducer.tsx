@@ -14,6 +14,7 @@ const initialState : DebtState = {
 
 // todo handle cases
 export const debtReducer = (state = initialState, action) => {
+    if (!action) return state
     switch(action.type) {
         case SET_DEBTS: {
             const {payload: debts} = action

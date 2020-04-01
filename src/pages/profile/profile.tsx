@@ -96,7 +96,7 @@ const _Profile = (props) => {
 
 const Profile = connect(
     state => ({
-        clientInformation: state.clientInformation
+        clientInformation: state.client.clientInformation
     }),
     dispatch => bindActionCreators({
         getClientInformation

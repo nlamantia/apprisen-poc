@@ -1,13 +1,13 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
-const { Storage } = Plugins;
 import {restService} from "../../services/rest.service";
 import {LOGIN, LOGOUT, setCredentials, setLoginStatus} from "./action";
-import {Plugins} from "@capacitor/core";
+import { Plugins } from "@capacitor/core";
 
+const { Storage } = Plugins;
 
 export function * loginWorker(action) {
-    const { payload: { credential } } = action
-    const loginResponse = yield call(restService.callLoginEndpoint, credential);
+    const { payload: { credentials } } = action
+    const loginResponse = yield call(restService.callLoginEndpoint, credentials);
 
     const { signedToken, username, expiresOn } = loginResponse
 
@@ -18,10 +18,10 @@ export function * loginWorker(action) {
         // todo use logger
         console.log('storing credential:' + JSON.stringify(loginResponse))
         // todo store in redux vs storage, or both?
-        yield call(Storage.set, ({
-            key: 'credentials',
-            value: JSON.stringify(loginResponse)
-        }))
+        // yield call(Storage.set, ({
+        //     key: 'credentials',
+        //     value: JSON.stringify(loginResponse)
+        // }))
 
         yield put(setCredentials(loginResponse))
         yield put(setLoginStatus({loginState: "INACTIVE", message: "SUCCESS"}))

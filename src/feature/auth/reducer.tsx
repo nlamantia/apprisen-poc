@@ -14,7 +14,6 @@ const initialState: AuthState = {
 
 export const authReducer = (state = initialState, action) => {
     if (!action) return state
-
     switch(action.type) {
         case SET_CREDENTIALS:
             const { payload: { credentials } } = action
