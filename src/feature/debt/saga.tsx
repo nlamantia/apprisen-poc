@@ -1,16 +1,19 @@
-import { put, takeEvery, all, call } from 'redux-saga/effects'
+import { put, takeEvery, all, call, select } from 'redux-saga/effects'
 import { restService } from "../../services/rest.service";
 import {GET_DEBTS, setDebts} from "./action";
 
 
 export function * getDebtDetailWorker(action) {
-    const { payload: { credentials } } = action
+    // const { payload: { credentials } } = action
+    const state = yield select();
 
-    const caseId = credentials ? credentials.linkedApplication[0].externalId : "";
+    const { auth: { credentials } } = state
+
+    const caseId = credentials ? credentials.linkedApplication[1].externalId : "";
 
     const debtDetail = yield call(restService.callDebtDetailEndpoint, caseId)
 
-    if (debtDetail.errors.length == 0) { // is valid
+    if (debtDetail) { // is valid
         const { caseDebts } = debtDetail
         yield put(setDebts(caseDebts))
     } else {

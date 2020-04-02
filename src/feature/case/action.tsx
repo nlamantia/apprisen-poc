@@ -30,7 +30,7 @@ export function getCaseSummary(credentials: LoginResponse): CaseTypes {
     }
 }
 
-export const SET_CASE_SUMMARY = "getCaseSummary"
+export const SET_CASE_SUMMARY = "setCaseSummary"
 export function setCaseSummary(caseSummary: CaseSummary): CaseTypes {
     return {
         type: SET_CASE_SUMMARY,

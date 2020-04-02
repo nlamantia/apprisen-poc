@@ -33,7 +33,7 @@ describe('debt saga', () => {
          $id: "$id",
       }
       const generator = getDebtDetailWorker(getDebts(credentials))
-      const caseId = credentials ? credentials.linkedApplication[0].externalId : "";
+      const caseId = credentials ? credentials.linkedApplication[1].externalId : "";
       expect(generator.next().value).toEqual(call(restService.callDebtDetailEndpoint, caseId))
    })
 

@@ -11,7 +11,7 @@ export function getDebts(credentials: LoginResponse): DebtTypes {
     }
 }
 
-export const SET_DEBTS = "getDebts"
+export const SET_DEBTS = "setDebts"
 export function setDebts(debts : DebtDetail[] ): DebtTypes {
     return {
         type: SET_DEBTS,
