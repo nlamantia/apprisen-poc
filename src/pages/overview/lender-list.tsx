@@ -16,7 +16,7 @@ class _LenderList extends Component {
     }
 
     render() {
-        const { debts, selectDebts } = this.props as any
+        const { debts, selectDebt } = this.props as any
         console.log(debts)
         return (
             <IonCard class="color">
@@ -39,6 +39,7 @@ class _LenderList extends Component {
                                         pathname: `/lender-overview`,
                                         state: { lender: caseDebt }
                                     }}
+                                    onClick={() => selectDebt(caseDebt.$id)}
                                 >
                                     <IonButton onClick={() => selectDebt(caseDebt.$id)} fill={'clear'} className={'lender-button'}>Info</IonButton>
                                 </Link>

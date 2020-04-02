@@ -22,7 +22,11 @@ class _LenderOverview extends Component {
     }
 
     render() {
-        const { lender } = this.props as any
+        const { debts, selectedDebtId } = this.props as any
+        console.log(debts)
+        console.log(selectedDebtId)
+
+        const lender = debts.filter(debt => debt.$id === selectedDebtId)[0]
 
         return (
             <IonPage>
@@ -109,7 +113,8 @@ const LenderOverview = connect(
     state => ({
         // todo implement as selector?
         // todo error checking
-        lender: state.debt.debtDetail.caseDebts.filter(debt => debt.$id === state.selectedDebtId),
+        debts: state.debt.debts,
+        selectedDebtId: state.debt.selectedDebtId,
     })
 )(
     _LenderOverview
