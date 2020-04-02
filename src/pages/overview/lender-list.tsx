@@ -16,7 +16,8 @@ class _LenderList extends Component {
     }
 
     render() {
-        const { debtDetail, selectDebts } = this.props as any
+        const { debts, selectDebts } = this.props as any
+        console.log(debts)
         return (
             <IonCard class="color">
                 <IonList class="ion-no-padding">
@@ -26,7 +27,7 @@ class _LenderList extends Component {
                         </IonLabel>
                     </IonListHeader>
 
-                    {debtDetail.caseDebts != null && debtDetail.caseDebts.map((caseDebt: CaseDebt, i: any) => {
+                    {debts && debts.map((caseDebt: CaseDebt, i: any) => {
                         return (
                             <IonItem key={i}>
                                 <IonLabel>
@@ -52,7 +53,7 @@ class _LenderList extends Component {
 
 const LenderList = connect(
     state => ({
-        debtDetail: state.debt.debtDetail
+        debts: state.debt.debts
     }),
     dispatch => bindActionCreators({
         getDebts,

@@ -9,9 +9,9 @@ export function * getDebtDetailWorker(action) {
     const { auth: { credentials } } = state
 
     // todo get case id from auth service
-    const caseId = credentials ? credentials.linkedApplication[2].externalId : "";
+    const caseId = credentials ? credentials.linkedApplication[1].externalId : "";
 
-    const debtDetail = yield call(restService.callDebtDetailEndpoint, caseId)
+    const debtDetail = yield call(restService.callDebtDetailEndpoint, credentials)
 
     if (debtDetail) { // is valid
         const { caseDebts } = debtDetail

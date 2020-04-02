@@ -51,8 +51,17 @@ export const restService = {
         }
     },
 
-    callDebtDetailEndpoint: async (externalId: string): Promise<DebtDetail> => {
-        const headers = await restService.createHeaders();
+    callDebtDetailEndpoint: async (credentials: LoginResponse): Promise<DebtDetail> => {
+
+        const headers = new Headers();
+        const {signedToken, username, expiresOn} = credentials
+
+        headers.append("Authorization-Token", signedToken)
+        headers.append('Username', username)
+        headers.append('ExpiresOn', expiresOn)
+
+        const { linkedApplication: [ {}, { externalId} ] } = credentials
+
         const debtDetail = await restService.callApi(DEBT_DETAIL_URL + externalId, { headers: headers });
         return debtDetail;
     },

@@ -3,13 +3,14 @@ import { DebtDetail } from "models/case/debt-detail";
 import {CaseDebt} from "../../models/case/case-debt";
 
 export interface DebtState {
-    debtDetail: DebtDetail
+    debts: CaseDebt[] // todo
     selectedDebtId: number
     fetchingDebtDetail: boolean
 }
 
 const initialState : DebtState = {
-    debtDetail: {} as DebtDetail,
+    // debtDetail: {} as DebtDetail,
+    debts: null,
     selectedDebtId: null as number,
     fetchingDebtDetail: false
 }
@@ -30,14 +31,14 @@ export const debtReducer = (state = initialState, action) => {
             return {
                 ...state,
                 fetchingDebtDetail: false,
-                debts
+                debts: debts.debts // todo this isn't how this should be
             }
             break;
         }
         case SELECT_DEBT: {
             const { payload: debtId } = action
-            const { debtDetail: { caseDebts } } = state
-            if ( caseDebts.some(debt => debt.$id === debtId)) {
+            const { debts } = state
+            if ( debts.some(debt => debt.$id === debtId)) {
                 return {
                     ...state,
                     selectedDebtId: debtId
