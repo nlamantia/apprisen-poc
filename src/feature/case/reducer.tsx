@@ -1,9 +1,10 @@
-import {SET_CASE_SUMMARY} from "./action";
+import {GET_CASE_SUMMARY, SET_CASE_SUMMARY} from "./action";
 import { CaseSummary } from "models/case/case-summary";
 
 // This is an interface which creates a contract saying 'the state of the reducer must always look like this'
 export interface CaseState {
-    caseSummary: CaseSummary
+    caseSummary: CaseSummary,
+    fetchingCaseSummary: boolean
 }
 
 // This is an object which defines the initial state of our store
@@ -11,7 +12,8 @@ export interface CaseState {
 // A. on application start up, this is our initial state
 // B. when you call caseReducer() without passing any parameters, this exact object is returned
 const initialState : CaseState = {
-    caseSummary: {} as CaseSummary,
+    caseSummary: null as CaseSummary,
+    fetchingCaseSummary: false
 }
 
 // This is a reducer, the core concept behind redux
@@ -32,6 +34,11 @@ const initialState : CaseState = {
 export const caseReducer = (state: CaseState = initialState, action) => {
     if (!action) return state
     switch(action.type) {
+        case GET_CASE_SUMMARY:
+            return {
+                ...state,
+                fetchingCaseSummary: true
+            }
         case SET_CASE_SUMMARY:
             // if an action is dispatched with type 'SET_CASE_SUMMARY' this code is run
 
@@ -45,7 +52,8 @@ export const caseReducer = (state: CaseState = initialState, action) => {
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
             return {
                 ...state,
-                caseSummary
+                caseSummary,
+                fetchingCaseSummary: false
             }
             break;
         default:

@@ -28,7 +28,7 @@ import { logout } from '../../feature/auth/action'
 
 const _Overview = (props) => {
 
-  const { getDebts, getCaseSummary, logout } = props
+  const { getDebts, getCaseSummary, logout, fetchingCaseSummary, fetchingDebtDetails } = props
 
   const { caseSummary, debts } = props
 
@@ -39,9 +39,16 @@ const _Overview = (props) => {
 
   useEffect(
     () => {
-      getCaseSummary();
+        if (!caseSummary && !fetchingCaseSummary) {
+            console.log('get case summary')
+            getCaseSummary();
+        }
+        if (!debts && !fetchingDebtDetails) {
+            console.log('get case summary')
+            getDebts();
+        }
       // todo having getDebts() and getCaseSummary() fire at the same time makes them not work. SetTimeoute mitigates this. find better solution
-      setTimeout(getDebts, 2000)
+      // setTimeout(getCaseSummaryDebts, 2000)
     }, []);
 
 
@@ -99,6 +106,8 @@ const _Overview = (props) => {
 const Overview = connect(
    state => ({
       caseSummary: state.case.caseSummary,
+      fetchingCaseSummary: state.case.fetchingCaseSummary,
+      fetchingDebtDetails: state.debt.fetchingDebtSummary,
       debts: state.debts
    }),
    dispatch => bindActionCreators({
