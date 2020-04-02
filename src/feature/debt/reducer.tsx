@@ -26,12 +26,12 @@ export const debtReducer = (state = initialState, action) => {
             }
         }
         case SET_DEBTS: {
-            const {payload: debts} = action
+            const {payload: { debts }} = action
 
             return {
                 ...state,
                 fetchingDebtDetail: false,
-                debts: debts.debts // todo this isn't how this should be
+                debts: debts
             }
             break;
         }
