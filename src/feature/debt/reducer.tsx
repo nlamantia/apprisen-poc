@@ -36,15 +36,11 @@ export const debtReducer = (state = initialState, action) => {
             break;
         }
         case SELECT_DEBT: {
-            const { payload: debtId } = action
+            const { payload: { id }  } = action
             const { debts } = state
-            if ( debts.some(debt => debt.$id === debtId)) {
-                return {
-                    ...state,
-                    selectedDebtId: debtId
-                }
-            } else {
-                // todo handle this?
+            return {
+                ...state,
+                selectedDebtId: id
             }
         }
         default:
