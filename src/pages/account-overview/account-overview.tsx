@@ -176,8 +176,8 @@ const _AccountOverview = ( props ) => {
 
 const AccountOverview = connect(
     state => ({
-      caseSummary: state.caseSummary,
-      debts: state.debts
+      caseSummary: state.case.caseSummary,
+      debts: state.debt.debts
     }),
     dispatch => bindActionCreators({
       getCaseSummary,
