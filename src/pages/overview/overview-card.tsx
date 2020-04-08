@@ -1,36 +1,43 @@
 // eslint-disable-next-line
-import { IonCard, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonThumbnail, withIonLifeCycle, IonSkeletonText } from "@ionic/react";
+import {
+  IonCard,
+  IonFabButton,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonListHeader,
+  IonSkeletonText,
+  IonThumbnail
+} from "@ionic/react";
 // eslint-disable-next-line
-import { arrowForward } from "ionicons/icons";
-import React, { Component } from "react";
+import {arrowForward} from "ionicons/icons";
+import React, {Component} from "react";
 // eslint-disable-next-line
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 // eslint-disable-next-line
-import balance from "../../images/balance.svg";
 import calendar from "../../images/calendar.svg";
 import goal from "../../images/goal.svg";
 import money from "../../images/notes.svg";
-import { CaseSummary } from "../../models/case/case-summary";
-import { dataService } from "../../services/data.service";
+import {connect} from 'react-redux'
+import {bindActionCreators} from "redux";
+import {getCaseSummary} from "../../feature/case/action";
 
-class OverviewCard extends Component {
-
-  state = {
-    caseSummary: {} as CaseSummary
-  };
+class _OverviewCard extends Component {
 
 
-  ionViewWillEnter() {
+  componentDidMount() {
     console.log('OverviewCard view entered')
-    dataService.getCaseSummaryAsObservable().subscribe(data => {
-      console.log('updated state: ' + data)
-      this.setState({
-        caseSummary: data
-      });
-    })
+    const { getCaseSummary, credentials } = this.props as any
   }
 
+
   render() {
+    const props = this.props as any
+    const { caseSummary: { estimatedBalance, nextPaymentDueOn, currentMonthlyPayment } } =
+        (props.caseSummary && props.caseSummary != {}) ? props :
+            { caseSummary: { estimatedBalance: null, nextPaymentDueOn: null, currentMonthlyPayment: null } }
+
     return (
       <>
         <IonCard class="color">
@@ -55,8 +62,8 @@ class OverviewCard extends Component {
               </IonThumbnail>
               <IonLabel>
                 <h3>Remaining Balance</h3>
-                {this.state.caseSummary.estimatedBalance ?
-                  <p>${this.state.caseSummary.estimatedBalance}</p> : <IonSkeletonText animated style={{ width: '60%' }} />
+                {estimatedBalance ?
+                  <p>${estimatedBalance}</p> : <IonSkeletonText animated style={{ width: '60%' }} />
                 }
               </IonLabel>
             </IonItem>
@@ -66,7 +73,7 @@ class OverviewCard extends Component {
               </IonThumbnail>
               <IonLabel>
                 <h3>Upcoming Due Date</h3>
-                <p>{this.state.caseSummary.nextPaymentDueOn ? this.state.caseSummary.nextPaymentDueOn.toString().substring(0, 10) : null}</p>
+                <p>{nextPaymentDueOn ? nextPaymentDueOn.toString().substring(0, 10) : null}</p>
               </IonLabel>
             </IonItem>
             <IonItem>
@@ -75,7 +82,7 @@ class OverviewCard extends Component {
               </IonThumbnail>
               <IonLabel>
                 <h3>Amount Due</h3>
-                <p>${this.state.caseSummary.currentMonthlyPayment}</p>
+                <p>${currentMonthlyPayment}</p>
               </IonLabel>
             </IonItem>
           </IonList>
@@ -85,4 +92,15 @@ class OverviewCard extends Component {
   }
 }
 
-export default withIonLifeCycle(OverviewCard);
+const OverviewCard = connect(
+  state => ({
+    caseSummary: state.case.caseSummary,
+    caseState: state.case,
+    credentials: state.auth.credentials
+  }),
+  dispatch => bindActionCreators({
+    getCaseSummary
+  }, dispatch)
+)(_OverviewCard)
+
+export default OverviewCard

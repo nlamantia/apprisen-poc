@@ -13,6 +13,7 @@ export const restService = {
     callLoginEndpoint: async (credentials: LoginRequest): Promise<LoginResponse> => {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        console.log(credentials)
         const response = await fetch(LOGIN_URL, {
             method: 'POST',
             headers: headers,
@@ -21,11 +22,19 @@ export const restService = {
         return response.json();
     },
 
-    callCaseSummaryEndpoint: async (externalId: string): Promise<CaseSummary> => {
-        const headers = await restService.createHeaders();
-        console.log('created headers: ' + JSON.stringify(headers));
-        const caseSummary = await restService.callApi(CASE_SUMMARY_URL + externalId, { headers: headers });
-        return caseSummary;
+    callCaseSummaryEndpoint: (credentials: LoginResponse): Promise<CaseSummary> => {
+        console.log({credentials, e: 'callCase' })
+        const headers = new Headers();
+
+        const {signedToken, username, expiresOn} = credentials
+
+        headers.append("Authorization-Token", signedToken)
+        headers.append('Username', username)
+        headers.append('ExpiresOn', expiresOn)
+
+        const { linkedApplication: [ {}, { externalId} ] } = credentials
+
+        return restService.callApi(CASE_SUMMARY_URL + externalId, { headers: headers });
     },
 
     callApi: async (url: string, options: RequestInit): Promise<any> => {
@@ -42,8 +51,17 @@ export const restService = {
         }
     },
 
-    callDebtDetailEndpoint: async (externalId: string): Promise<DebtDetail> => {
-        const headers = await restService.createHeaders();
+    callDebtDetailEndpoint: async (credentials: LoginResponse): Promise<DebtDetail> => {
+
+        const headers = new Headers();
+        const {signedToken, username, expiresOn} = credentials
+
+        headers.append("Authorization-Token", signedToken)
+        headers.append('Username', username)
+        headers.append('ExpiresOn', expiresOn)
+
+        const { linkedApplication: [ {}, { externalId} ] } = credentials
+
         const debtDetail = await restService.callApi(DEBT_DETAIL_URL + externalId, { headers: headers });
         return debtDetail;
     },
@@ -64,8 +82,7 @@ export const restService = {
 
 } 
 
-
-const CLIENT_INFORMATION_URL = "https://apprisen-facade.herokuapp.com/api/case/client-details/";
-const CASE_SUMMARY_URL = "https://apprisen-facade.herokuapp.com/api/case/case-summary/";
-const DEBT_DETAIL_URL = "https://apprisen-facade.herokuapp.com/api/case/debt-details/";
-const LOGIN_URL = "https://apprisen-facade.herokuapp.com/api/auth/login";
+const CLIENT_INFORMATION_URL = "https://apprisen-facade-test.herokuapp.com/api/case/client-details/";
+const CASE_SUMMARY_URL = "https://apprisen-facade-test.herokuapp.com/api/case/case-summary/";
+const DEBT_DETAIL_URL = "https://apprisen-facade-test.herokuapp.com/api/case/debt-details/";
+const LOGIN_URL = "https://apprisen-facade-test.herokuapp.com/api/auth/login";

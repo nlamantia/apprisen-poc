@@ -24,21 +24,8 @@ import Payment from "../../images/payment.svg";
 import { CaseData } from "../../models/case/case-data";
 import { Lender } from "../../models/lender";
 
-class PaymentOverview extends Component {
-  state = {
-    caseData: {} as CaseData,
-    lenders: [] as Lender[]
-  };
-
-  ionViewWillEnter() {
-    this.setState({
-      caseData: (this.props as any).caseData.history.location.state.caseData,
-      lenders: (this.props as any).caseData.history.location.state.caseData
-        .lenders
-    });
-  }
-
-  render() {
+export const PaymentOverview = (props) => {
+    const { caseData: { history: { location: { state: { caseData : lenders }, caseData } } } } = (this.props as any)
     return (
       <IonPage>
         <IonHeader>
@@ -66,7 +53,7 @@ class PaymentOverview extends Component {
                       </IonThumbnail>
                     </IonListHeader>
 
-                    {this.state.lenders.map(lender => {
+                    {lenders.map(lender => {
                       return (
                         <IonItem>
                           <IonLabel>
@@ -88,7 +75,7 @@ class PaymentOverview extends Component {
                       </IonLabel>
                       <IonLabel>
                         <h3 className={"ion-text-right"}>
-                          <b>${this.state.caseData.nextPaymentAmount}</b>
+                          <b>${caseData.nextPaymentAmount}</b>
                         </h3>
                       </IonLabel>
                     </IonItem>
@@ -107,15 +94,15 @@ class PaymentOverview extends Component {
                 <IonCard>
                   <IonItem className={"ion-no-padding"}>
                     <div className={"chart-div ion-padding-vertical"}>
-                      {this.state.lenders.length > 0 && (
+                      {lenders.length > 0 && (
                         <Doughnut
                           data={{
-                            labels: this.state.lenders.map(
+                            labels: lenders.map(
                               lender => lender.lenderName
                             ),
                             datasets: [
                               {
-                                data: this.state.lenders.map(
+                                data: lenders.map(
                                   lender => lender.nextPaymentAmount
                                 ),
                                 backgroundColor: [
@@ -150,5 +137,6 @@ class PaymentOverview extends Component {
         </IonContent>
       </IonPage>
     );
-  }
-} export default withIonLifeCycle(PaymentOverview);
+}
+
+export default PaymentOverview

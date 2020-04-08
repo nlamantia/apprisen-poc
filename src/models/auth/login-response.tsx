@@ -1,5 +1,6 @@
 import { LinkedApplication } from "./linked-application";
 
+// todo ensure this is being everywhere it should be
 export interface LoginResponse {
     email: string;
     errors: any[];

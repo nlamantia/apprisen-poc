@@ -1,39 +1,23 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 // eslint-disable-next-line
-import { IonItem, IonLabel, IonList, IonThumbnail, withIonLifeCycle, IonListHeader, IonCard, IonButton } from "@ionic/react";
+import {IonButton, IonCard, IonItem, IonLabel, IonList, IonListHeader} from "@ionic/react";
 // eslint-disable-next-line
-import bank from "../../images/bank.svg";
-import { DebtDetail } from "../../models/case/debt-detail";
-import { dataService } from "../../services/data.service"
-import { CaseDebt } from "../../models/case/case-debt";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators"
-import { Link } from "react-router-dom";
+import {CaseDebt} from "../../models/case/case-debt";
+import {Link} from "react-router-dom";
+import {connect} from 'react-redux'
+import {bindActionCreators} from "redux";
+import {getDebts, selectDebt} from "../../feature/debt/action";
 
-class LenderList extends Component {
-
-    unsubscribeSubject = new Subject<void>();
-
-    state = {
-        debtDetail: {} as DebtDetail
-    }
+class _LenderList extends Component {
 
     componentDidMount() {
-        dataService.getDebtDetailAsObservable()
-            .pipe(takeUntil(this.unsubscribeSubject))
-            .subscribe(data => {
-                console.log('updated state: ' + data)
-                this.setState({
-                    debtDetail: data
-                });
-            })
-    }
-
-    ionViewWillLeave() {
-        this.unsubscribeSubject.next();
+        const { getDebts } = this.props as any
+        // getDebts() todo
     }
 
     render() {
+        const { debts, selectDebt } = this.props as any
+        console.log(debts)
         return (
             <IonCard class="color">
                 <IonList class="ion-no-padding">
@@ -43,7 +27,7 @@ class LenderList extends Component {
                         </IonLabel>
                     </IonListHeader>
 
-                    {this.state.debtDetail.caseDebts != null && this.state.debtDetail.caseDebts.map((caseDebt: CaseDebt, i: any) => {
+                    {debts && debts.map((caseDebt: CaseDebt, i: any) => {
                         return (
                             <IonItem key={i}>
                                 <IonLabel>
@@ -55,8 +39,9 @@ class LenderList extends Component {
                                         pathname: `/lender-overview`,
                                         state: { lender: caseDebt }
                                     }}
+                                    onClick={() => selectDebt(caseDebt.$id)}
                                 >
-                                    <IonButton onClick={() => dataService.selectCaseDebt(caseDebt)} fill={'clear'} className={'lender-button'}>Info</IonButton>
+                                    <IonButton onClick={() => selectDebt(caseDebt.$id)} fill={'clear'} className={'lender-button'}>Info</IonButton>
                                 </Link>
                             </IonItem>
                         )
@@ -65,8 +50,16 @@ class LenderList extends Component {
             </IonCard>
         )
     }
-
-
 }
 
-export default withIonLifeCycle(LenderList)
+const LenderList = connect(
+    state => ({
+        debts: state.debt.debts
+    }),
+    dispatch => bindActionCreators({
+        getDebts,
+        selectDebt
+    }, dispatch)
+)(_LenderList)
+
+export default LenderList

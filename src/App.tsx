@@ -26,6 +26,9 @@ import Profile from "./pages/profile/profile";
 /* Theme variables */
 import "./theme/variables.css";
 
+import { Provider } from 'react-redux'
+import {store} from "./config/store";
+
 const Main = () => {
   return (
     <IonApp>
@@ -56,7 +59,9 @@ const Main = () => {
 };
 
 const App = () => (
-    <Main />
+    <Provider store={store()}>
+      <Main />
+    </Provider>
 )
 
 export default App;

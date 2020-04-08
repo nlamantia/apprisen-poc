@@ -1,33 +1,59 @@
-import { IonButton, IonButtons, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonList, IonListHeader, IonMenuButton, IonPage, IonRow, IonSpinner, IonThumbnail, IonTitle, IonToast, IonToolbar } from "@ionic/react";
-import React, { useState } from "react";
+import {
+    IonButton,
+    IonCard,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonListHeader,
+    IonPage,
+    IonRow,
+    IonSpinner,
+    IonThumbnail,
+    IonTitle,
+    IonToast,
+    IonToolbar
+} from "@ionic/react";
+import React, {useEffect, useState} from "react";
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import logo from "../../images/apprisen-logo.png";
-import { LoginRequest } from "../../models/auth/login-request";
-import authService from "../../services/auth.service";
+import {LoginRequest} from "../../models/auth/login-request";
+import {login, resetLoginStatus, setLoginStatus} from "../../feature/auth/action";
 
-const Login = (props: any) => {
+const _Login = (props: any) => {
 
     const passwordInput: any = React.useRef();
     const [credentials, setCredentials] = useState<LoginRequest>({ username: '', password: '' });
-    const [loginProcessing, setLoginProcessing] = useState<boolean>(false);
     const [failedLoginAlert, setFailedLoginAlert] = useState<boolean>(false);
-
-    async function login() {
-        setLoginProcessing(true)
-        const loginResponse = await authService.login(credentials);
-        setLoginProcessing(false);
-        if (loginResponse.isSuccess) {
-            passwordInput.current.value = '';
-            props.history.push('/overview');
-            setLoginProcessing(false);
-        } else {
-            setFailedLoginAlert(true);
-            setLoginProcessing(false);
-        }
-    }
 
     function handleChange(evt: any) {
         setCredentials({ ...credentials, [evt.target.name]: evt.target.value })
     }
+    const { login, loginStatus, resetLoginStatus } = props
+    const { loginState, message } = (loginStatus || {loginState: null, message: null})
+    const { state } = props
+
+    const handleLoginClick = () => {
+        login(credentials)
+    }
+
+
+    useEffect(() => {
+        const { loginState, message } = (loginStatus || {loginState: null, message: null})
+        if (loginState === "INACTIVE") {
+            if (message === "SUCCESS") {
+                passwordInput.current.value = '';
+                props.history.push('/overview');
+            } else {
+                setFailedLoginAlert(true)
+            }
+        }
+    }, [loginState])
 
     return (
         <IonPage>
@@ -60,9 +86,9 @@ const Login = (props: any) => {
                                         <IonInput name="password" placeholder="Enter your password" ref={passwordInput} onIonChange={handleChange} type="password"></IonInput>
                                     </IonItem>
                                     <IonItem className={'full-button'}>
-                                        <IonButton className={'full-button'} onClick={() => login()} expand="full">
+                                        <IonButton className={'full-button'} onClick={handleLoginClick} expand="full">
                                             Login
-                                                {loginProcessing ? <span><IonSpinner class={'spinner'} name="crescent" /></span> : null}
+                                            {loginState === 'ACTIVE' ? <span><IonSpinner class={'spinner'} name="crescent" /></span> : null}
                                         </IonButton>
                                     </IonItem>
                                 </IonList>
@@ -82,5 +108,18 @@ const Login = (props: any) => {
         </IonPage>
     )
 }
+
+
+const Login = connect(
+    state => ({
+        loginStatus: state.auth.loginStatus,
+    }),
+    dispatch => bindActionCreators({
+        resetLoginStatus,
+        login
+    }, dispatch)
+)(
+    _Login
+);
 
 export default Login

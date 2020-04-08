@@ -1,22 +1,33 @@
-import { IonBackButton, IonButtons, IonCard, IonContent, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle, IonSkeletonText } from "@ionic/react";
-import React, { Component } from "react";
-import { dataService } from "../../services/data.service"
-import { CaseDebt } from "../../models/case/case-debt";
+import {
+    IonBackButton,
+    IonButtons,
+    IonCard,
+    IonContent,
+    IonHeader,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonListHeader,
+    IonPage,
+    IonSkeletonText,
+    IonTitle,
+    IonToolbar
+} from "@ionic/react";
+import React, {Component} from "react";
+import {connect} from 'react-redux'
 
-class LenderOverview extends Component {
-    state = {
-        lender: {} as CaseDebt
-    };
-
-    ionViewWillEnter() {
-        dataService.getSelectedLenderAsObservable().subscribe(lender => {
-            this.setState({
-                lender: lender
-            });
-        })
+class _LenderOverview extends Component {
+    constructor(props) {
+        super(props)
     }
 
     render() {
+        const { debts, selectedDebtId } = this.props as any
+        console.log(debts)
+        console.log(selectedDebtId)
+
+        const lender = debts.filter(debt => debt.$id === selectedDebtId)[0]
+
         return (
             <IonPage>
                 <IonHeader>
@@ -24,7 +35,7 @@ class LenderOverview extends Component {
                         <IonButtons slot="start">
                             <IonBackButton defaultHref="/overview" />
                         </IonButtons>
-                        <IonTitle>{this.state.lender.creditorName}</IonTitle>
+                        <IonTitle>{lender.creditorName}</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>
@@ -41,7 +52,7 @@ class LenderOverview extends Component {
                                 </IonLabel>
                                 <IonLabel>
                                     <h3 className={"ion-text-right"}>
-                                        {this.state.lender.accountNumber}
+                                        {lender.accountNumber}
                                     </h3>
                                 </IonLabel>
                             </IonItem>
@@ -51,7 +62,7 @@ class LenderOverview extends Component {
                                 </IonLabel>
                                 <IonLabel>
                                     <h3 className={"ion-text-right"}>
-                                        ${this.state.lender.currentBalance}
+                                        ${lender.currentBalance}
                                     </h3>
                                 </IonLabel>
                             </IonItem>
@@ -60,9 +71,9 @@ class LenderOverview extends Component {
                                     <h3>Starting Balance</h3>
                                 </IonLabel>
                                 <IonLabel>
-                                    {this.state.lender.originalBalance ?
+                                    {lender.originalBalance ?
                                         <h3 className={"ion-text-right"}>
-                                            ${this.state.lender.originalBalance.toFixed(2)}
+                                            ${lender.originalBalance.toFixed(2)}
                                         </h3> :
                                         <h3 className={"ion-text-right"}>
                                             <IonSkeletonText animated style={{ width: '100%' }} />
@@ -76,7 +87,7 @@ class LenderOverview extends Component {
                                 </IonLabel>
                                 <IonLabel>
                                     <h3 className={"ion-text-right"}>
-                                        {this.state.lender.apr}%
+                                        {lender.apr}%
                                     </h3>
                                 </IonLabel>
                             </IonItem>
@@ -86,7 +97,7 @@ class LenderOverview extends Component {
                                 </IonLabel>
                                 <IonLabel>
                                     <h3 className={"ion-text-right"}>
-                                        {this.state.lender.debtType}
+                                        {lender.debtType}
                                     </h3>
                                 </IonLabel>
                             </IonItem>
@@ -96,4 +107,17 @@ class LenderOverview extends Component {
             </IonPage>
         )
     }
-} export default withIonLifeCycle(LenderOverview);
+}
+
+const LenderOverview = connect(
+    state => ({
+        // todo implement as selector?
+        // todo error checking
+        debts: state.debt.debts,
+        selectedDebtId: state.debt.selectedDebtId,
+    })
+)(
+    _LenderOverview
+);
+
+export default LenderOverview
