@@ -115,8 +115,20 @@ ion-progress-bar {
     float: right;
 }
 
+.right-aligned {
+    text-align: right;
+}
+
+.center-aligned {
+    text-align: center;
+}
+
 .row-text {
     font-size: 14px;
+}
+
+.progress-tracker-label h3 {
+    font-weight: bold;
 }
 
 .clickable {

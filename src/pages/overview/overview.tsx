@@ -60,6 +60,13 @@ const _Overview = (props) => {
         );
     }
 
+    const printDate = (date) => {
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const year = date.getFullYear();
+        return month + "/" + day + "/" + year;
+    };
+
     return (
         !authorized ? redirectLogin() :
             <>
@@ -81,7 +88,7 @@ const _Overview = (props) => {
                         <IonGrid>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
-                                    <ProgressTracker currentProgress={0.5}/>
+                                    <ProgressTracker currentLabel={printDate(new Date())} startLabel={"11/11/2010"} endLabel={"12/11/2020"} currentProgress={0.5}/>
                                 </IonCol>
                             </IonRow>
                             <IonRow>
