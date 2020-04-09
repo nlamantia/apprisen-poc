@@ -22,9 +22,6 @@ const ProgressTracker = (props) => {
                         <IonLabel>
                             <h2>Progress</h2>
                         </IonLabel>
-                        <IonFabButton class={"fab-button"} color={"light"}>
-                            <IonIcon className={"arrow-color"} icon={arrowForward}/>
-                        </IonFabButton>
                     </IonListHeader>
                     <IonItem style={{padding: 10 + "px"}}>
                         <IonProgressBar value={currentProgress}/>
