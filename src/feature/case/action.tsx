@@ -37,3 +37,21 @@ export function setCaseSummary(caseSummary: CaseSummary): CaseTypes {
         payload: { caseSummary }
     }
 }
+
+
+export const SET_CASE_PAYOFF_DATE = "setCasePayoffDate"
+export function setCasePayoffDate({ casePayoffDate }) : CaseTypes {
+    return {
+        type: SET_CASE_PAYOFF_DATE,
+        payload: { casePayoffDate }
+    }
+}
+
+
+export const GET_CASE_PAYOFF_DATE = "getCasePayoffDate"
+export function getCasePayoffDate({ caseNumber, increaseAmount, isOneTimePayment }) : CaseTypes {
+    return {
+        type: GET_CASE_PAYOFF_DATE,
+        payload: { caseNumber, increaseAmount, isOneTimePayment }
+    }
+}

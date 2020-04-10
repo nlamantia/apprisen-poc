@@ -34,7 +34,23 @@ export const restService = {
 
         const { linkedApplication: [ {}, { externalId} ] } = credentials
 
-        return restService.callApi(CASE_SUMMARY_URL + externalId, { headers: headers });
+        return restService.callApi(CASE_SUMMARY_URL + externalId, { headers } );
+    },
+
+    callPayoffForecast: ({ credentials, caseNumber, IncreaseAmount, IsOneTimePayment }) : Promise<string> => {
+        // todo swithc to call credentials service
+        const headers = new Headers();
+
+        const { signedToken, username, expiresOn } = credentials
+
+        headers.append("Authorization-Token", signedToken)
+        headers.append('Username', username)
+        headers.append('ExpiresOn', expiresOn)
+
+        const { linkedApplication: [ {}, { externalId} ] } = credentials
+
+        return restService.callApi(PAY_OFF_FORECAST + externalId, { headers })
+
     },
 
     callApi: async (url: string, options: RequestInit): Promise<any> => {
@@ -83,6 +99,7 @@ export const restService = {
 } 
 
 const CLIENT_INFORMATION_URL = "https://apprisen-facade-test.herokuapp.com/api/case/client-details/";
+const PAY_OFF_FORECAST = "https://apprisen-facade-test.herokuapp.com/api/case/payoffforecast";
 const CASE_SUMMARY_URL = "https://apprisen-facade-test.herokuapp.com/api/case/case-summary/";
 const DEBT_DETAIL_URL = "https://apprisen-facade-test.herokuapp.com/api/case/debt-details/";
 const LOGIN_URL = "https://apprisen-facade-test.herokuapp.com/api/auth/login";
