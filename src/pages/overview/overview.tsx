@@ -21,17 +21,19 @@ import ProgressTracker from "../common/progress-tracker";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
 import {connect} from 'react-redux'
-import {getCaseSummary} from "../../feature/case/action";
+import {getCasePayoffDate, getCaseSummary} from "../../feature/case/action";
 import {getDebts} from "../../feature/debt/action";
 import {bindActionCreators} from "redux";
 import {logout} from '../../feature/auth/action'
+import {caseFirstPaymentDateSelector, casePayoffDateSelector, caseProgressTracker} from "../../feature/case/reducer";
 
 
 const _Overview = (props) => {
 
-    const {getDebts, getCaseSummary, logout, fetchingCaseSummary, fetchingDebtDetails} = props
-
-    const {caseSummary, debts} = props
+    const { caseProgress, logout } = props
+    const {getDebts, fetchingDebtDetails, debts} = props
+    const { getCaseSummary, fetchingCaseSummary, caseSummary, caseFirstDisbursementDate } = props
+    const { getCasePayoffDate, fetchingCasePayoffDate, casePayoffDate } = props
 
     const location = useLocation();
     const [authorized, setAuthorized] = useState<boolean>(true);
@@ -48,6 +50,15 @@ const _Overview = (props) => {
                 console.log('get case summary')
                 getDebts();
             }
+            if (!casePayoffDate && !fetchingCasePayoffDate) {
+                console.log('get case payoff debt!')
+                // todo mock this
+                // todo decide between caseNumber and externalId
+                // todo caseNumber selector
+                getCasePayoffDate({ caseNumber: 5, increaseAmount: 0, isOneTimePayment: true })
+            }
+
+
             // todo having getDebts() and getCaseSummary() fire at the same time makes them not work. SetTimeoute mitigates this. find better solution
             // setTimeout(getCaseSummaryDebts, 2000)
         }, []);
@@ -88,7 +99,7 @@ const _Overview = (props) => {
                         <IonGrid>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
-                                    <ProgressTracker currentLabel={printDate(new Date())} startLabel={"11/11/2010"} endLabel={"12/11/2020"} currentProgress={0.5}/>
+                                    <ProgressTracker currentLabel={printDate(new Date())} startLabel={caseFirstDisbursementDate} endLabel={casePayoffDate} currentProgress={caseProgress}/>
                                 </IonCol>
                             </IonRow>
                             <IonRow>
@@ -121,12 +132,17 @@ const Overview = connect(
         caseSummary: state.case.caseSummary,
         fetchingCaseSummary: state.case.fetchingCaseSummary,
         fetchingDebtDetails: state.debt.fetchingDebtSummary,
-        debts: state.debts
+        fetchingCasePayoffDate: state.case.fetchingCasePayoffDate,
+        debts: state.debts,
+        caseFirstDisbursementDate: caseFirstPaymentDateSelector(state),
+        casePayoffDate: casePayoffDateSelector(state),
+        caseProgress: caseProgressTracker(state)
     }),
     dispatch => bindActionCreators({
         getCaseSummary,
         getDebts,
-        logout
+        logout,
+        getCasePayoffDate
     }, dispatch)
 )(
     _Overview

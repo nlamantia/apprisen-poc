@@ -23,7 +23,6 @@ export const GET_CASE_SUMMARY = "getCaseSummary"
 // Also, since we're using Saga, if there is a saga watcher for this type of action, then it is called
 // ( usually, either a saga or a reducer will handle an action, not both.)
 export function getCaseSummary(credentials: LoginResponse): CaseTypes {
-    console.log({credentials, e: 'action'})
     return {
         type: GET_CASE_SUMMARY,
         payload: { credentials }

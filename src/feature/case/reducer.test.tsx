@@ -50,6 +50,7 @@ describe('Case time selectors', () => {
    const casePayoffDateUnix = 1586490297
    const firstDisbursementDateTicks = 637220870950000000 ;
    const firstDisbursementDateUnix = 1586490295;
+   const initialState = caseReducer(undefined, null)
    global.Date.now = () => 1586490296
 
    const stateWithPayoffDate = caseReducer(initialState, setCasePayoffDate(
@@ -69,16 +70,32 @@ describe('Case time selectors', () => {
        expect(casePayoffDateSelector(stateWithBoth)).toEqual(casePayoffDateString)
    })
 
-   it('gets first payment date', () => {
-      expect(caseFirstPaymentDateSelector(stateWithBoth)).toEqual(firstDisbursementDateTicks)
+   it('handles null casePayoff', () => {
+      expect(casePayoffDateSelector(initialState)).toEqual("")
    })
 
    it('gets casePayoff date in unix time', () => {
       expect(casePayoffDateUnixTimeSelector(stateWithBoth)).toEqual(casePayoffDateUnix)
    })
 
+   it('gets casePayoff date in unix time, handles null', () => {
+      expect(casePayoffDateUnixTimeSelector(initialState)).toEqual(null)
+   })
+
+   it('gets first payment date', () => {
+      expect(caseFirstPaymentDateSelector(stateWithBoth)).toEqual(firstDisbursementDateTicks)
+   })
+
+    it('gets first payment date, handles null', () => {
+        expect(caseFirstPaymentDateSelector(initialState)).toEqual(null)
+    })
+
    it('gets firstPayment date in unix time', () => {
       expect(caseFirstPaymentDateUnixTimeSelector(stateWithBoth)).toEqual(firstDisbursementDateUnix)
+   })
+
+   it('gets firstPayment date in unix time, handles null', () => {
+      expect(caseFirstPaymentDateUnixTimeSelector(initialState)).toEqual(null)
    })
 
    it('gets progress from beginning to projected end of case', () => {

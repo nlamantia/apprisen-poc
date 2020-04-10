@@ -13,8 +13,7 @@ export const restService = {
     callLoginEndpoint: async (credentials: LoginRequest): Promise<LoginResponse> => {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        console.log(credentials)
-        const response = await fetch(LOGIN_URL, {
+        const response = await fetch("https://apprisen-facade-test.herokuapp.com/api/auth/login", {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(credentials)
@@ -23,11 +22,11 @@ export const restService = {
     },
 
     callCaseSummaryEndpoint: (credentials: LoginResponse): Promise<CaseSummary> => {
-        console.log({credentials, e: 'callCase' })
         const headers = new Headers();
 
         const {signedToken, username, expiresOn} = credentials
 
+        // todo consolidate header logic
         headers.append("Authorization-Token", signedToken)
         headers.append('Username', username)
         headers.append('ExpiresOn', expiresOn)
@@ -46,10 +45,17 @@ export const restService = {
         headers.append("Authorization-Token", signedToken)
         headers.append('Username', username)
         headers.append('ExpiresOn', expiresOn)
+        console.log({signedToken})
+        console.log({username})
+        console.log({expiresOn})
 
         const { linkedApplication: [ {}, { externalId} ] } = credentials
 
-        return restService.callApi(PAY_OFF_FORECAST + externalId, { headers })
+        return restService.callApi(PAY_OFF_FORECAST + externalId, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ caseNumber, IncreaseAmount, IsOneTimePayment })
+        })
 
     },
 
@@ -62,6 +68,7 @@ export const restService = {
                 throw new Error(String(response.status));
             }
         } catch (error) {
+            // todo handle errors in store
             restErrorHandler.handleError(error);
             return {};
         }
@@ -99,7 +106,8 @@ export const restService = {
 } 
 
 const CLIENT_INFORMATION_URL = "https://apprisen-facade-test.herokuapp.com/api/case/client-details/";
-const PAY_OFF_FORECAST = "https://apprisen-facade-test.herokuapp.com/api/case/payoffforecast";
+const PAY_OFF_FORECAST = "https://apprisen-facade-test.herokuapp.com/api/case/payoffforecast/";
 const CASE_SUMMARY_URL = "https://apprisen-facade-test.herokuapp.com/api/case/case-summary/";
 const DEBT_DETAIL_URL = "https://apprisen-facade-test.herokuapp.com/api/case/debt-details/";
 const LOGIN_URL = "https://apprisen-facade-test.herokuapp.com/api/auth/login";
+

@@ -40,7 +40,6 @@ export const caseReducer = (state: CaseState = initialState, action) => {
     if (!action) return state
     switch(action.type) {
         case GET_CASE_PAYOFF_DATE:
-            console.log("GET")
             return {
                 ...state,
                 fetchingCasePayoffDate: true
@@ -69,9 +68,6 @@ export const caseReducer = (state: CaseState = initialState, action) => {
             break;
         case SET_CASE_PAYOFF_DATE:
             const { payload: { casePayoffDate } } = action
-            console.log("set")
-            console.log(action)
-            console.log(casePayoffDate)
 
             return {
                 ...state,
@@ -91,13 +87,23 @@ export const caseReducer = (state: CaseState = initialState, action) => {
 
 // Returns date in ISO 8601 (i think)
 export const casePayoffDateSelector = (state) => state.casePayoffDate
-export const casePayoffDateUnixTimeSelector = (state) => new Date(casePayoffDateSelector(state)).getTime()
+export const casePayoffDateUnixTimeSelector = (state) => {
+    const payoffDate = casePayoffDateSelector(state)
+    if (!payoffDate) return null
+    return new Date(payoffDate).getTime()
+}
 // todo case summary selector
 // and even more selectors
 
-export const caseFirstPaymentDateSelector = (state) => state.caseSummary.firstDisbursementDate.ticks
+export const caseFirstPaymentDateSelector = (state) => {
+    const { caseSummary } = state
+    if (!caseSummary) return null
+    return state.caseSummary.firstDisbursementDate.ticks
+}
+
 export const caseFirstPaymentDateUnixTimeSelector = (state) => {
     const ticks = caseFirstPaymentDateSelector(state)
+    if (!ticks) return null
     return Math.floor((ticks - 621355968000000000) / 10000000)
 }
 

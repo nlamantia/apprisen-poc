@@ -15,7 +15,6 @@ export function * getCaseWorker(action) {
 
     if (credentials && credentials !== {}) {
         const caseSummary = yield call(restService.callCaseSummaryEndpoint, credentials)
-        console.log("TEST")
         if (true) { // todo validation
             yield put(setCaseSummary(caseSummary))
         } else {
@@ -28,7 +27,6 @@ export function * getCaseWorker(action) {
 }
 
 function * getCaseSummaryWatcher() {
-    console.log({e: 'watcher'})
     yield takeEvery(GET_CASE_SUMMARY, getCaseWorker)
 }
 
@@ -46,7 +44,8 @@ export function * getCasePayoffDateForecastWorker(action) {
     const { auth: { credentials } } = state
 
     if (credentials && credentials !== {}) {
-        const { casePayoffDate } = (yield call
+        console.log('before')
+        const res  = (yield call
             (restService.callPayoffForecast,
                 {
                     credentials,
@@ -54,6 +53,10 @@ export function * getCasePayoffDateForecastWorker(action) {
                     IncreaseAmount,
                     IsOneTimePayment
                 }))
+        console.log('after')
+        const { casePayoffDate} = res
+        console.log(res)
+        console.log(casePayoffDate)
         if (true) { // todo validation
             yield put(setCasePayoffDate({ casePayoffDate }))
         } else {

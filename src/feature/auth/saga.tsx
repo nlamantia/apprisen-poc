@@ -16,7 +16,6 @@ export function * loginWorker(action) {
     // todo validate
     if ( loginResponse && signedToken && username && expiresOn) {
         // todo use logger
-        console.log('storing credential:' + JSON.stringify(loginResponse))
         // todo store in redux vs storage, or both?
         // yield call(Storage.set, ({
         //     key: 'credentials',
@@ -35,7 +34,6 @@ export function * loginWatcher() {
 }
 
 export function * logoutWorker() {
-    console.log('called logout')
     Storage.remove({ key: 'credentials' }).then(() => console.log('removed credential'));
     yield put(setCredentials(null))
 }

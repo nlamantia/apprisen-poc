@@ -23,8 +23,6 @@ class _LenderOverview extends Component {
 
     render() {
         const { debts, selectedDebtId } = this.props as any
-        console.log(debts)
-        console.log(selectedDebtId)
 
         const lender = debts.filter(debt => debt.$id === selectedDebtId)[0]
 

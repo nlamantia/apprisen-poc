@@ -24,7 +24,6 @@ export const setCredentials = (credentials: LoginResponse) => ({
 
 export const LOGIN = "login"
 export const login = (credentials: LoginRequest) =>  {
-    console.log(credentials)
     return {
     type: LOGIN,
     payload: { credentials }
