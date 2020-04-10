@@ -86,7 +86,7 @@ export const caseReducer = (state: CaseState = initialState, action) => {
 // https://tickstodatetime.azurewebsites.net/
 
 // Returns date in ISO 8601 (i think)
-export const casePayoffDateSelector = (state) => state.casePayoffDate
+export const casePayoffDateSelector = (state) => state.case.casePayoffDate
 export const casePayoffDateUnixTimeSelector = (state) => {
     const payoffDate = casePayoffDateSelector(state)
     if (!payoffDate) return null
@@ -106,7 +106,6 @@ export const caseFirstPaymentDateUnixTimeSelector = (state) => {
     if (!ticks) return null
     return Math.floor((ticks - 621355968000000000) / 10000000)
 }
-
 
 export const caseProgressTracker = (state) => 1.0 - (
     ( Date.now() - caseFirstPaymentDateUnixTimeSelector(state) ) /

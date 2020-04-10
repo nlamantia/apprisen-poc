@@ -45,16 +45,18 @@ export const restService = {
         headers.append("Authorization-Token", signedToken)
         headers.append('Username', username)
         headers.append('ExpiresOn', expiresOn)
+        headers.append('Content-Type', 'application/json')
         console.log({signedToken})
         console.log({username})
         console.log({expiresOn})
 
-        const { linkedApplication: [ {}, { externalId} ] } = credentials
+        const { linkedApplication: [{}, { externalId } ] } = credentials
 
-        return restService.callApi(PAY_OFF_FORECAST + externalId, {
+        let requestBody = JSON.stringify({ caseNumber: externalId, IncreaseAmount, IsOneTimePayment });
+        return restService.callApi(PAY_OFF_FORECAST, {
             method: 'POST',
-            headers,
-            body: JSON.stringify({ caseNumber, IncreaseAmount, IsOneTimePayment })
+            headers: headers,
+            body: requestBody
         })
 
     },

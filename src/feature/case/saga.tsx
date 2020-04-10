@@ -54,11 +54,11 @@ export function * getCasePayoffDateForecastWorker(action) {
                     IsOneTimePayment
                 }))
         console.log('after')
-        const { casePayoffDate} = res
+        const { payoffDate} = res
         console.log(res)
-        console.log(casePayoffDate)
+        console.log(payoffDate)
         if (true) { // todo validation
-            yield put(setCasePayoffDate({ casePayoffDate }))
+            yield put(setCasePayoffDate({ casePayoffDate: payoffDate }))
         } else {
 
         }
