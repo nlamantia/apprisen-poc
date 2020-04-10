@@ -15,7 +15,6 @@ import {
 import React, {useEffect, useState} from "react";
 import {Redirect, useLocation} from "react-router-dom";
 import logo from "../../images/apprisen-logo.png";
-import authService from "../../services/auth.service";
 import Menu from "../menu/menu";
 import ProgressTracker from "../common/progress-tracker";
 import LenderList from "./lender-list";
@@ -25,7 +24,11 @@ import {getCasePayoffDate, getCaseSummary} from "../../feature/case/action";
 import {getDebts} from "../../feature/debt/action";
 import {bindActionCreators} from "redux";
 import {logout} from '../../feature/auth/action'
-import {caseFirstPaymentDateSelector, casePayoffDateSelector, caseProgressTracker} from "../../feature/case/reducer";
+import {
+    caseFirstPaymentDateUnixTimeSelector,
+    casePayoffDateSelector,
+    caseProgressTracker
+} from "../../feature/case/reducer";
 
 
 const _Overview = (props) => {
@@ -99,7 +102,7 @@ const _Overview = (props) => {
                         <IonGrid>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
-                                    <ProgressTracker currentLabel={printDate(new Date())} startLabel={caseFirstDisbursementDate} endLabel={casePayoffDate} currentProgress={caseProgress}/>
+                                    <ProgressTracker currentLabel={printDate(new Date())} startLabel={printDate(new Date(caseFirstDisbursementDate))} endLabel={printDate(new Date(casePayoffDate))} currentProgress={caseProgress}/>
                                 </IonCol>
                             </IonRow>
                             <IonRow>
@@ -134,7 +137,7 @@ const Overview = connect(
         fetchingDebtDetails: state.debt.fetchingDebtSummary,
         fetchingCasePayoffDate: state.case.fetchingCasePayoffDate,
         debts: state.debts,
-        caseFirstDisbursementDate: caseFirstPaymentDateSelector(state),
+        caseFirstDisbursementDate: caseFirstPaymentDateUnixTimeSelector(state),
         casePayoffDate: casePayoffDateSelector(state),
         caseProgress: caseProgressTracker(state)
     }),

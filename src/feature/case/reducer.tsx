@@ -1,5 +1,5 @@
 import {GET_CASE_PAYOFF_DATE, GET_CASE_SUMMARY, SET_CASE_PAYOFF_DATE, SET_CASE_SUMMARY} from "./action";
-import { CaseSummary } from "models/case/case-summary";
+import {CaseSummary} from "models/case/case-summary";
 
 // This is an interface which creates a contract saying 'the state of the reducer must always look like this'
 export interface CaseState {
@@ -96,18 +96,18 @@ export const casePayoffDateUnixTimeSelector = (state) => {
 // and even more selectors
 
 export const caseFirstPaymentDateSelector = (state) => {
-    const { caseSummary } = state
+    const { caseSummary } = state.case
     if (!caseSummary) return null
-    return state.caseSummary.firstDisbursementDate.ticks
+    return state.case.caseSummary.firstDisbursementDate.ticks
 }
 
 export const caseFirstPaymentDateUnixTimeSelector = (state) => {
     const ticks = caseFirstPaymentDateSelector(state)
     if (!ticks) return null
-    return Math.floor((ticks - 621355968000000000) / 10000000)
+    return Math.floor(ticks / 10000);
 }
 
-export const caseProgressTracker = (state) => 1.0 - (
+export const caseProgressTracker = (state) =>
     ( Date.now() - caseFirstPaymentDateUnixTimeSelector(state) ) /
-    ( casePayoffDateUnixTimeSelector(state) - caseFirstPaymentDateUnixTimeSelector(state) )
+    ( casePayoffDateUnixTimeSelector(state) - caseFirstPaymentDateUnixTimeSelector(state)
 )
