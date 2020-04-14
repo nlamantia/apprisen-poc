@@ -83,6 +83,10 @@ ion-list-header {
     --background: linear-gradient(90deg, rgba(7, 166, 104, 1) 0%, rgba(11, 91, 59, 1) 81%);
 }
 
+ion-progress-bar {
+    height: 20px;
+}
+
 .toolbar-header {
     --background: rgba(11, 91, 59, 1);
 }
@@ -111,8 +115,20 @@ ion-list-header {
     float: right;
 }
 
+.right-aligned {
+    text-align: right;
+}
+
+.center-aligned {
+    text-align: center;
+}
+
 .row-text {
     font-size: 14px;
+}
+
+.progress-tracker-label h3 {
+    font-weight: bold;
 }
 
 .clickable {

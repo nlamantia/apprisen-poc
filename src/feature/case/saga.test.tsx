@@ -1,10 +1,10 @@
 import React from 'react'
-import {getCaseWorker} from "./saga";
+import {getCasePayoffDateForecastWatcher, getCasePayoffDateForecastWorker, getCaseWorker} from "./saga";
 import {CaseSummary} from "../../models/case/case-summary";
-import {call, put} from "redux-saga/effects";
+import {call, put, select, takeEvery} from "redux-saga/effects";
 import {restService} from "../../services/rest.service";
 import {LoginResponse} from "../../models/auth/login-response";
-import {getCaseSummary, setCaseSummary} from "./action";
+import {GET_CASE_PAYOFF_DATE, getCasePayoffDate, getCaseSummary, setCasePayoffDate, setCaseSummary} from "./action";
 
 describe('case saga', () => {
    it('handles successful case call', () => {
@@ -47,7 +47,7 @@ describe('case saga', () => {
       }
 
       expect(generator.next().value).toEqual(
-          call(restService.callCaseSummaryEndpoint, credentials.linkedApplication[0].externalId)
+          call(restService.callCaseSummaryEndpoint as any, credentials.linkedApplication[0].externalId)
       )
       expect(generator.next(caseSummary).value).toEqual(
           put(setCaseSummary(caseSummary))
@@ -60,5 +60,49 @@ describe('case saga', () => {
 
    it('handles failed case call', () => {
       // todo
+   })
+
+   it('Waits to get payoff date', () => {
+      const generator = getCasePayoffDateForecastWatcher()
+      expect(generator.next().value).toEqual(
+          takeEvery(GET_CASE_PAYOFF_DATE, getCasePayoffDateForecastWorker)
+      );
+   })
+
+   it('Grabs forecast date', () => {
+      const credentials = { 'erik' : 'was here'}
+      const caseNumber = 5
+      const increaseAmount = 6
+      const isOneTimePayment = true
+      const generator = getCasePayoffDateForecastWorker(getCasePayoffDate({
+         caseNumber,
+         increaseAmount,
+         isOneTimePayment
+      }))
+
+      const state = { auth: { credentials }}
+      expect(generator.next(state as any).value).toEqual(
+          select()
+      );
+      expect(generator.next(
+          {
+             auth: { credentials }
+          } as any
+      ).value).toEqual(
+          call(restService.callPayoffForecast,
+              {
+                 credentials,
+                 caseNumber,
+                 IncreaseAmount: increaseAmount,
+                 IsOneTimePayment: isOneTimePayment
+              }
+          )
+      )
+
+      const casePayoffDate = "an arbritrary string, should be a date" // todo validate string is date
+
+      expect(generator.next({ casePayoffDate } as any).value).toEqual(
+         put(setCasePayoffDate({ casePayoffDate }))
+      )
    })
 })

@@ -23,7 +23,6 @@ export const GET_CASE_SUMMARY = "getCaseSummary"
 // Also, since we're using Saga, if there is a saga watcher for this type of action, then it is called
 // ( usually, either a saga or a reducer will handle an action, not both.)
 export function getCaseSummary(credentials: LoginResponse): CaseTypes {
-    console.log({credentials, e: 'action'})
     return {
         type: GET_CASE_SUMMARY,
         payload: { credentials }
@@ -35,5 +34,23 @@ export function setCaseSummary(caseSummary: CaseSummary): CaseTypes {
     return {
         type: SET_CASE_SUMMARY,
         payload: { caseSummary }
+    }
+}
+
+
+export const SET_CASE_PAYOFF_DATE = "setCasePayoffDate"
+export function setCasePayoffDate({ casePayoffDate }) : CaseTypes {
+    return {
+        type: SET_CASE_PAYOFF_DATE,
+        payload: { casePayoffDate }
+    }
+}
+
+
+export const GET_CASE_PAYOFF_DATE = "getCasePayoffDate"
+export function getCasePayoffDate({ caseNumber, increaseAmount, isOneTimePayment }) : CaseTypes {
+    return {
+        type: GET_CASE_PAYOFF_DATE,
+        payload: { caseNumber, increaseAmount, isOneTimePayment }
     }
 }

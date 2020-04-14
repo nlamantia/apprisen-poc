@@ -1,10 +1,12 @@
-import {GET_CASE_SUMMARY, SET_CASE_SUMMARY} from "./action";
-import { CaseSummary } from "models/case/case-summary";
+import {GET_CASE_PAYOFF_DATE, GET_CASE_SUMMARY, SET_CASE_PAYOFF_DATE, SET_CASE_SUMMARY} from "./action";
+import {CaseSummary} from "models/case/case-summary";
 
 // This is an interface which creates a contract saying 'the state of the reducer must always look like this'
 export interface CaseState {
     caseSummary: CaseSummary,
     fetchingCaseSummary: boolean
+    casePayoffDate: string,
+    fetchingCasePayoffDate: boolean
 }
 
 // This is an object which defines the initial state of our store
@@ -13,7 +15,10 @@ export interface CaseState {
 // B. when you call caseReducer() without passing any parameters, this exact object is returned
 const initialState : CaseState = {
     caseSummary: null as CaseSummary,
-    fetchingCaseSummary: false
+    fetchingCaseSummary: false,
+    casePayoffDate: "",
+    // todo move to loading flag reducer?
+    fetchingCasePayoffDate: false
 }
 
 // This is a reducer, the core concept behind redux
@@ -34,6 +39,11 @@ const initialState : CaseState = {
 export const caseReducer = (state: CaseState = initialState, action) => {
     if (!action) return state
     switch(action.type) {
+        case GET_CASE_PAYOFF_DATE:
+            return {
+                ...state,
+                fetchingCasePayoffDate: true
+            }
         case GET_CASE_SUMMARY:
             return {
                 ...state,
@@ -56,8 +66,48 @@ export const caseReducer = (state: CaseState = initialState, action) => {
                 fetchingCaseSummary: false
             }
             break;
+        case SET_CASE_PAYOFF_DATE:
+            const { payload: { casePayoffDate } } = action
+
+            return {
+                ...state,
+                casePayoffDate,
+                fetchingCasePayoffDate: false
+            }
+            break;
         default:
             return {...state};
             break;
     }
 }
+
+// https://www.venea.net/web/net_ticks_datetime_converter
+// https://www.unixtimestamp.com/index.php
+// https://tickstodatetime.azurewebsites.net/
+
+// Returns date in ISO 8601 (i think)
+export const casePayoffDateSelector = (state) => state.case.casePayoffDate
+export const casePayoffDateUnixTimeSelector = (state) => {
+    const payoffDate = casePayoffDateSelector(state)
+    if (!payoffDate) return null
+    return new Date(payoffDate).getTime()
+}
+// todo case summary selector
+// and even more selectors
+
+export const caseFirstPaymentDateSelector = (state) => {
+    const { caseSummary } = state.case
+    if (!caseSummary) return null
+    return state.case.caseSummary.firstDisbursementDate.ticks
+}
+
+export const caseFirstPaymentDateUnixTimeSelector = (state) => {
+    const ticks = caseFirstPaymentDateSelector(state)
+    if (!ticks) return null
+    return Math.floor(ticks / 10000);
+}
+
+export const caseProgressTracker = (state) =>
+    ( Date.now() - caseFirstPaymentDateUnixTimeSelector(state) ) /
+    ( casePayoffDateUnixTimeSelector(state) - caseFirstPaymentDateUnixTimeSelector(state)
+)

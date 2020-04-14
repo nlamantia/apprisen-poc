@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-actions'
 import { CaseSummary } from "models/case/case-summary";
-import {GET_CASE_SUMMARY, SET_CASE_SUMMARY} from "./action";
+import {GET_CASE_PAYOFF_DATE, GET_CASE_SUMMARY, SET_CASE_PAYOFF_DATE, SET_CASE_SUMMARY} from "./action";
 import {LoginRequest} from "../../models/auth/login-request";
 import {LoginResponse} from "../../models/auth/login-response";
 
@@ -13,15 +13,28 @@ interface SetCaseMessageAction {
     payload: { caseSummary: CaseSummary }
 }
 
+interface GetCasePayoffDateMessageAction {
+    type: typeof GET_CASE_PAYOFF_DATE,
+    payload: { caseNumber, increaseAmount, isOneTimePayment }
+}
+
+interface SetCasePayoffDateMessageAction {
+    type: typeof SET_CASE_PAYOFF_DATE,
+    payload: { casePayoffDate: string }
+}
+
 interface GetCaseMessageAction {
     type: typeof GET_CASE_SUMMARY,
+    // todo don't pass in credentials
     payload: { credentials: LoginResponse }
 }
+
 
 // This is a type which is used to say that 'any action created by this function must match one of the following interfaces'
 // In this case, every action creator for the
 export type CaseTypes =
     GetCaseMessageAction |
-    SetCaseMessageAction
-
+    SetCaseMessageAction |
+    GetCasePayoffDateMessageAction |
+    SetCasePayoffDateMessageAction
 
