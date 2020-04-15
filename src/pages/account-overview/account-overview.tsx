@@ -58,7 +58,7 @@ const _AccountOverview = ( props ) => {
           <IonContent id="accountOverview">
             <IonGrid>
               <IonRow>
-                <IonCol size={"12"} sizeMd={"6"}>
+                <IonCol size={"12"} sizeMd={"6"} offsetMd={"3"}>
                   <IonCard>
                     <IonList class="ion-no-padding">
                       <IonListHeader class={"white ion-text-center ion-padding-end"}>

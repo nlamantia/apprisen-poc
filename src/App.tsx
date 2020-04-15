@@ -28,6 +28,7 @@ import "./theme/variables.css";
 
 import {Provider} from 'react-redux'
 import {store} from "./config/store";
+import MakePayment from "./pages/payment/make-payment";
 
 const Main = () => {
   return (
@@ -52,6 +53,10 @@ const Main = () => {
             path="/lender-overview"
             render={props => <LenderOverview lender={props as any} />}
           />
+          <Route
+            path="/make-payment"
+            render={props => <MakePayment/>}
+            />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
