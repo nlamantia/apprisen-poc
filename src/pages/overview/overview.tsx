@@ -24,6 +24,7 @@ import {getCasePayoffDate, getCaseSummary} from "../../feature/case/action";
 import {getDebts} from "../../feature/debt/action";
 import {bindActionCreators} from "redux";
 import {logout} from '../../feature/auth/action'
+
 import {
     caseFirstPaymentDateUnixTimeSelector,
     casePayoffDateSelector,
@@ -85,7 +86,6 @@ const _Overview = (props) => {
         !authorized ? redirectLogin() :
             <>
                 {/*<Menu pageName={'pageName'} /> todo fix this*/}
-                <Menu/>
                 <IonPage>
                     <IonHeader>
                         <IonToolbar>

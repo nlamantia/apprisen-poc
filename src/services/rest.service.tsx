@@ -1,12 +1,10 @@
-import { LoginResponse } from "../models/auth/login-response";
-import { LoginRequest } from "../models/auth/login-request";
-// import { CaseSummary } from "../models/case/case-summary";
-// import { DebtDetail } from "../models/case/debt-detail";
-import { ClientInformation } from "../models/case/client-information";
+import {LoginResponse} from "../models/auth/login-response";
+import {LoginRequest} from "../models/auth/login-request";
+import {ClientInformation} from "../models/case/client-information";
 import authService from "../services/auth.service";
-import { CaseSummary } from "../models/case/case-summary";
-import { restErrorHandler } from "../services/rest-error-handler";
-import { DebtDetail } from "../models/case/debt-detail";
+import {CaseSummary} from "../models/case/case-summary";
+import {restErrorHandler} from "../services/rest-error-handler";
+import {DebtDetail} from "../models/case/debt-detail";
 import {PaymentRequest} from "../models/payment/payment-request";
 
 export const restService = {

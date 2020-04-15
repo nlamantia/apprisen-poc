@@ -1,5 +1,6 @@
 // eslint-disable-next-line
 import {
+  IonButton,
   IonCard,
   IonFabButton,
   IonIcon,
@@ -7,7 +8,7 @@ import {
   IonLabel,
   IonList,
   IonListHeader,
-  IonSkeletonText,
+  IonSkeletonText, IonText,
   IonThumbnail
 } from "@ionic/react";
 // eslint-disable-next-line
@@ -22,6 +23,8 @@ import money from "../../images/notes.svg";
 import {connect} from 'react-redux'
 import {bindActionCreators} from "redux";
 import {getCaseSummary} from "../../feature/case/action";
+
+import '@ionic/react/css/core.css';
 
 class _OverviewCard extends Component {
 
@@ -84,6 +87,11 @@ class _OverviewCard extends Component {
                 <h3>Amount Due</h3>
                 <p>${currentMonthlyPayment}</p>
               </IonLabel>
+            </IonItem>
+            <IonItem>
+                <IonButton class={'full-button'}>
+                  <b>Make a Payment</b>
+                </IonButton>
             </IonItem>
           </IonList>
         </IonCard>
