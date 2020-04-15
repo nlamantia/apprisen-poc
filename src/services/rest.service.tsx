@@ -7,6 +7,7 @@ import authService from "../services/auth.service";
 import { CaseSummary } from "../models/case/case-summary";
 import { restErrorHandler } from "../services/rest-error-handler";
 import { DebtDetail } from "../models/case/debt-detail";
+import {PaymentRequest} from "../models/payment/payment-request";
 
 export const restService = {
 
@@ -61,6 +62,25 @@ export const restService = {
 
     },
 
+    callMakePayment: (credentials: LoginResponse, paymentDetails: PaymentRequest) : Promise<string> => {
+        const headers = new Headers();
+
+        const {signedToken, username, expiresOn} = credentials;
+
+        headers.append("Authorization-Token", signedToken);
+        headers.append('Username', username);
+        headers.append('ExpiresOn', expiresOn);
+        headers.append('Content-Type', 'application/json');
+
+        let requestBody = JSON.stringify(paymentDetails);
+        console.log(requestBody);
+        return restService.callApi(MAKE_PAYMENT_URL, {
+            method: 'POST',
+            headers: headers,
+            body: requestBody
+        })
+    },
+
     callApi: async (url: string, options: RequestInit): Promise<any> => {
         try {
             const response = await fetch(url, options);
@@ -105,11 +125,12 @@ export const restService = {
         return headers;
     }
 
-} 
+};
 
 const CLIENT_INFORMATION_URL = "https://apprisen-facade-test.herokuapp.com/api/case/client-details/";
 const PAY_OFF_FORECAST = "https://apprisen-facade-test.herokuapp.com/api/case/payoffforecast/";
 const CASE_SUMMARY_URL = "https://apprisen-facade-test.herokuapp.com/api/case/case-summary/";
 const DEBT_DETAIL_URL = "https://apprisen-facade-test.herokuapp.com/api/case/debt-details/";
+const MAKE_PAYMENT_URL = "https://apprisen-facade-test.herokuapp.com/api/payment/createwebpayment";
 const LOGIN_URL = "https://apprisen-facade-test.herokuapp.com/api/auth/login";
 
