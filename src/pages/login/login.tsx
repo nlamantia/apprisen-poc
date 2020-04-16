@@ -24,6 +24,7 @@ import {bindActionCreators} from 'redux'
 import logo from "../../images/apprisen-logo.png";
 import {LoginRequest} from "../../models/auth/login-request";
 import {login, resetLoginStatus, setLoginStatus} from "../../feature/auth/action";
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 const _Login = (props: any) => {
 
@@ -40,6 +41,10 @@ const _Login = (props: any) => {
 
     const handleLoginClick = () => {
         login(credentials)
+    }
+
+    const handleAccountCreationClick = () => {
+        InAppBrowser.create("https://my.apprisen.com/myapprisen/NewAccount.aspx",'_blank', 'location=yes');
     }
 
 
@@ -91,6 +96,9 @@ const _Login = (props: any) => {
                                             {loginState === 'ACTIVE' ? <span><IonSpinner class={'spinner'} name="crescent" /></span> : null}
                                         </IonButton>
                                     </IonItem>
+                                    <IonItem>
+                                        <IonButton className={'full-button'} expand="full" onClick={handleAccountCreationClick}>Create Account</IonButton>
+                                    </IonItem>    
                                 </IonList>
                             </IonCard>
                         </IonCol>
