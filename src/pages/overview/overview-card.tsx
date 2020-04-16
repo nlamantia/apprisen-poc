@@ -8,7 +8,7 @@ import {
     IonLabel,
     IonList,
     IonListHeader,
-    IonSkeletonText, IonText,
+    IonSkeletonText, IonSpinner, IonText,
     IonThumbnail
 } from "@ionic/react";
 // eslint-disable-next-line
@@ -88,10 +88,14 @@ class _OverviewCard extends Component {
                                 <p>${currentMonthlyPayment}</p>
                             </IonLabel>
                         </IonItem>
-                        <IonItem>
-                            <IonButton class={'full-button'} href={'/make-payment'}>
-                                <b>Make a Payment</b>
+                        <IonItem className={'full-button'}>
+                            <Link to={{
+                                pathname: `/make-payment`
+                            }} style={{width: 100 + "%"}}>
+                            <IonButton className={'full-button'} expand="full">
+                                <b>Make Payment</b>
                             </IonButton>
+                            </Link>
                         </IonItem>
                     </IonList>
                 </IonCard>

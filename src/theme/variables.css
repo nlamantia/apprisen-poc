@@ -108,7 +108,7 @@ ion-progress-bar {
 }
 
 .full-button {
-    width: 100%;
+    width: 100% !important;
 }
 
 .amount {
