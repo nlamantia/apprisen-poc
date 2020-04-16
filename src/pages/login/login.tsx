@@ -44,7 +44,7 @@ const _Login = (props: any) => {
     }
 
     const handleAccountCreationClick = () => {
-        InAppBrowser.create("https://my.apprisen.com/myapprisen/NewAccount.aspx",'_blank', 'location=yes');
+        InAppBrowser.create("https://my.apprisen.com/myapprisen/NewAccount.aspx",'_system', 'location=yes');
     }
 
 
@@ -96,7 +96,7 @@ const _Login = (props: any) => {
                                             {loginState === 'ACTIVE' ? <span><IonSpinner class={'spinner'} name="crescent" /></span> : null}
                                         </IonButton>
                                     </IonItem>
-                                    <IonItem>
+                                    <IonItem className={'full-button'}>
                                         <IonButton className={'full-button'} expand="full" onClick={handleAccountCreationClick}>Create Account</IonButton>
                                     </IonItem>    
                                 </IonList>
