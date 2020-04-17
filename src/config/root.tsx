@@ -8,13 +8,16 @@ import { debtReducer } from "../feature/debt/reducer";
 import { debtSaga } from 'feature/debt/saga'
 import {authReducer} from "../feature/auth/reducer";
 import {authSaga} from "../feature/auth/saga";
+import {paymentReducer} from "../feature/payment/reducer";
+import {paymentSaga} from "../feature/payment/saga";
 
 export const rootReducer = () => {
     return combineReducers({
         "case": caseReducer,
         "client": clientReducer,
         "debt": debtReducer,
-        "auth": authReducer
+        "auth": authReducer,
+        "payment": paymentReducer,
     })
 }
 
@@ -23,6 +26,7 @@ export function* rootSaga() {
         caseSaga(),
         clientSaga(),
         debtSaga(),
-        authSaga()
+        authSaga(),
+        paymentSaga()
     ])
 }

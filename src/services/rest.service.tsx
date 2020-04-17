@@ -79,6 +79,19 @@ export const restService = {
         })
     },
 
+    callGetClientData: (credentials: LoginResponse) : Promise<string> => {
+        const headers = new Headers();
+
+        const {signedToken, username, expiresOn} = credentials;
+        const {linkedApplication: [{}, { externalId }]} = credentials;
+
+        headers.append("Authorization-Token", signedToken);
+        headers.append('Username', username);
+        headers.append('ExpiresOn', expiresOn);
+
+        return restService.callApi(CLIENT_DATA_URL + externalId, {  headers: headers });
+    },
+
     callApi: async (url: string, options: RequestInit): Promise<any> => {
         try {
             const response = await fetch(url, options);
@@ -130,5 +143,6 @@ const PAY_OFF_FORECAST = "https://apprisen-facade-test.herokuapp.com/api/case/pa
 const CASE_SUMMARY_URL = "https://apprisen-facade-test.herokuapp.com/api/case/case-summary/";
 const DEBT_DETAIL_URL = "https://apprisen-facade-test.herokuapp.com/api/case/debt-details/";
 const MAKE_PAYMENT_URL = "https://apprisen-facade-test.herokuapp.com/api/payment/createwebpayment";
+const CLIENT_DATA_URL = "https://apprisen-facade-test.herokuapp.com/api/client/getclientdata/";
 const LOGIN_URL = "https://apprisen-facade-test.herokuapp.com/api/auth/login";
 

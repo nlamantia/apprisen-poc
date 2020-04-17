@@ -1,7 +1,30 @@
 import {all, call, put, select, takeEvery} from "@redux-saga/core/effects";
 import {restService} from "../../services/rest.service";
-import {MAKE_PAYMENT, setConfirmation, setPaymentStatus} from "./action";
+import {GET_CLIENT_ACCOUNT_DATA, MAKE_PAYMENT, setClientAccountData, setConfirmation, setPaymentStatus} from "./action";
 import {PaymentRequest} from "../../models/payment/payment-request";
+
+export function * getClientAccountDataWorker(action) {
+    const state = yield select();
+
+    const { auth: { credentials } } = state;
+
+    const clientDataResponse = yield call(restService.callGetClientData, credentials);
+
+    const { bankAccountTypes, IsSuccess, errors } = clientDataResponse;
+
+    if (clientDataResponse && bankAccountTypes && IsSuccess) {
+        yield put(setClientAccountData(clientDataResponse));
+    } else if (errors && errors.length) {
+        yield put(setPaymentStatus({paymentStatus: "FAILURE"}));
+        for (let error in errors) {
+            console.error(error);
+        }
+    }
+}
+
+export function * getClientAccountDataWatcher() {
+    yield takeEvery(GET_CLIENT_ACCOUNT_DATA, getClientAccountDataWorker)
+}
 
 export function * makePaymentWorker(action) {
     const state = yield select();
@@ -35,6 +58,7 @@ export function * makePaymentWatcher() {
 
 export function * paymentSaga() {
     yield all([
-        makePaymentWatcher()
+        makePaymentWatcher(),
+        getClientAccountDataWatcher()
     ])
 }

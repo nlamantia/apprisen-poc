@@ -15,7 +15,6 @@ import {
 import React, {useEffect, useState} from "react";
 import {Redirect, useLocation} from "react-router-dom";
 import logo from "../../images/apprisen-logo.png";
-import Menu from "../menu/menu";
 import ProgressTracker from "../common/progress-tracker";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
@@ -30,6 +29,7 @@ import {
     casePayoffDateSelector,
     caseProgressTracker
 } from "../../feature/case/reducer";
+import {getClientAccountData} from "../../feature/payment/action";
 
 
 const _Overview = (props) => {
@@ -38,6 +38,7 @@ const _Overview = (props) => {
     const {getDebts, fetchingDebtDetails, debts} = props
     const { getCaseSummary, fetchingCaseSummary, caseSummary, caseFirstDisbursementDate } = props
     const { getCasePayoffDate, fetchingCasePayoffDate, casePayoffDate } = props
+    const { getClientAccountData, clientAccountData } = props;
 
     const location = useLocation();
     const [authorized, setAuthorized] = useState<boolean>(true);
@@ -61,6 +62,10 @@ const _Overview = (props) => {
                 // todo caseNumber selector
                 getCasePayoffDate({ caseNumber: 5, increaseAmount: 0, isOneTimePayment: true })
             }
+            if (!clientAccountData || !clientAccountData.bankAccountTypes) {
+                console.log('get client data');
+                getClientAccountData();
+            }
 
 
             // todo having getDebts() and getCaseSummary() fire at the same time makes them not work. SetTimeoute mitigates this. find better solution
@@ -76,10 +81,14 @@ const _Overview = (props) => {
     }
 
     const printDate = (date) => {
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        const year = date.getFullYear();
-        return month + "/" + day + "/" + year;
+        if (date && date.getMonth() && date.getDate() && date.getFullYear()) {
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const year = date.getFullYear();
+            return month + "/" + day + "/" + year;
+        } else {
+            return "";
+        }
     };
 
     return (
@@ -134,8 +143,9 @@ const Overview = connect(
     state => ({
         caseSummary: state.case.caseSummary,
         fetchingCaseSummary: state.case.fetchingCaseSummary,
-        fetchingDebtDetails: state.debt.fetchingDebtSummary,
+        fetchingDebtDetails: state.debt.fetchingDebtDetail,
         fetchingCasePayoffDate: state.case.fetchingCasePayoffDate,
+        clientAccountData: state.payment.clientAccountData,
         debts: state.debts,
         caseFirstDisbursementDate: caseFirstPaymentDateUnixTimeSelector(state),
         casePayoffDate: casePayoffDateSelector(state),
@@ -145,6 +155,7 @@ const Overview = connect(
         getCaseSummary,
         getDebts,
         logout,
+        getClientAccountData,
         getCasePayoffDate
     }, dispatch)
 )(
