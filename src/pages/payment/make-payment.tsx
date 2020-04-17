@@ -12,12 +12,12 @@ import {
     IonListHeader,
     IonMenuButton,
     IonPage,
-    IonRow,
+    IonRow, IonSelect, IonSelectOption,
     IonTitle,
     IonToolbar
 } from "@ionic/react";
 import {connect} from 'react-redux'
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {bindActionCreators} from "redux";
 import {getClientAccountData} from "../../feature/payment/action";
 // eslint-disable-next-line
@@ -29,6 +29,9 @@ const _MakePayment = ( props ) => {
 
     const { bankAccountTypes } = clientAccountData;
     const { linkedApplication: [{}, { externalId }] } = credentials;
+
+    const [accountType, setAccountType] = useState<string>('');
+    const [prefix, setPrefix] = useState<string>('');
     console.log("External ID: " + externalId);
 
     let date = new Date();
@@ -147,9 +150,13 @@ const _MakePayment = ( props ) => {
                                             <IonLabel>
                                                 <h3>Account Type</h3>
                                             </IonLabel>
-                                            <h3 className={"ion-text-right"}>
-                                                {'<'}Drop-Down{'>'}
-                                            </h3>
+                                            <IonSelect value={accountType} className={"ion-text-right"}  onIonChange={e => setAccountType(e.detail.value)}>
+                                                {bankAccountTypes.map((bankAccountType) => {
+                                                    return(
+                                                        <IonSelectOption value={bankAccountType.id}>{bankAccountType.name}</IonSelectOption>
+                                                    );
+                                                })}
+                                            </IonSelect>
                                         </IonItem>
                                         <IonItem>
                                             <IonLabel>
@@ -171,10 +178,11 @@ const _MakePayment = ( props ) => {
                                             <IonLabel>
                                                 <h3>Primary Name on Account</h3>
                                             </IonLabel>
-                                            <h3 className={"ion-text-right"}>
-                                                {'<'}Drop-Down{'>'}
-                                                {'<'}Input{'>'}
-                                            </h3>
+                                            <IonSelect value={prefix} onIonChange={(e) => setPrefix(e.detail.value)}>
+                                                <IonSelectOption value={'Mr.'}>Mr.</IonSelectOption>
+                                                <IonSelectOption value={'Mrs.'}>Mr.</IonSelectOption>
+                                                <IonSelectOption value={'Ms.'}>Mr.</IonSelectOption>
+                                            </IonSelect>
                                         </IonItem>
                                         <IonItem>
                                             <IonButton slot={'start'}>
