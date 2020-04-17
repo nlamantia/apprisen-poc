@@ -18,7 +18,7 @@ export const paymentReducer = (state = initialState, action) => {
     if (!action) return state;
     switch(action.type) {
         case SET_CONFIRMATION:
-            const { payload: { confirmationNumber } } = action;
+            const { payload: { response: { confirmationNumber } } } = action;
 
             return {
                 ...state,

@@ -29,6 +29,7 @@ import "./theme/variables.css";
 import {Provider} from 'react-redux'
 import {store} from "./config/store";
 import MakePayment from "./pages/payment/make-payment";
+import PaymentConfirmation from "./pages/payment/payment-confirmation";
 
 const Main = () => {
   return (
@@ -57,6 +58,11 @@ const Main = () => {
             path="/make-payment"
             render={props => <MakePayment/>}
             />
+
+            <Route
+              path="/payment-confirmation"
+              render={props => <PaymentConfirmation />}
+              />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>

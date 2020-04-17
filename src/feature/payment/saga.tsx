@@ -29,22 +29,25 @@ export function * getClientAccountDataWatcher() {
 export function * makePaymentWorker(action) {
     const state = yield select();
 
+    console.log("Inside payment worker");
     const { auth: { credentials } } = state;
 
-    const request = {} as PaymentRequest;
+    const {payload: { payment: request }} = action;
 
+    console.log("before call" + JSON.stringify(request));
     const makePaymentResponse = yield call(restService.callMakePayment, credentials, request);
+    console.log(JSON.stringify(makePaymentResponse));
 
-    const { confirmationNumber, isSuccess, errors } = makePaymentResponse;
+    const { confirmationNumber, errors } = makePaymentResponse;
 
     yield put(setPaymentStatus({paymentStatus: "PENDING"}));
 
-    if ( makePaymentResponse && confirmationNumber && isSuccess) {
-
+    if ( makePaymentResponse && confirmationNumber) {
+        console.log("success");
         yield put(setConfirmation(makePaymentResponse));
         yield put(setPaymentStatus({paymentStatus: "SUCCESS"}));
 
-    } else if (errors && errors.length) {
+    } else if (errors) {
         yield put(setPaymentStatus({paymentStatus: "FAILURE"}));
         for (let error in errors) {
             console.error(error);

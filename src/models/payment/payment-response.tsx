@@ -2,6 +2,6 @@ import {Error} from '../common/error'
 
 export interface PaymentResponse {
     confirmationNumber: string;
-    isSuccess: boolean;
+    IsSuccess: boolean;
     errors: Error[];
 }

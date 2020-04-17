@@ -69,6 +69,7 @@ export const restService = {
         headers.append('Username', username);
         headers.append('ExpiresOn', expiresOn);
         headers.append('Content-Type', 'application/json');
+        console.log(JSON.stringify(headers));
 
         let requestBody = JSON.stringify(paymentDetails);
         console.log(requestBody);
@@ -142,7 +143,7 @@ const CLIENT_INFORMATION_URL = "https://apprisen-facade-test.herokuapp.com/api/c
 const PAY_OFF_FORECAST = "https://apprisen-facade-test.herokuapp.com/api/case/payoffforecast/";
 const CASE_SUMMARY_URL = "https://apprisen-facade-test.herokuapp.com/api/case/case-summary/";
 const DEBT_DETAIL_URL = "https://apprisen-facade-test.herokuapp.com/api/case/debt-details/";
-const MAKE_PAYMENT_URL = "https://apprisen-facade-test.herokuapp.com/api/payment/createwebpayment";
+const MAKE_PAYMENT_URL = "https://apprisen-facade-test.herokuapp.com/api/case/payment";
 const CLIENT_DATA_URL = "https://apprisen-facade-test.herokuapp.com/api/client/getclientdata/";
 const LOGIN_URL = "https://apprisen-facade-test.herokuapp.com/api/auth/login";
 

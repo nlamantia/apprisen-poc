@@ -9,6 +9,7 @@ import {
     SET_CONFIRMATION,
     SET_PAYMENT_STATUS
 } from "./action";
+import {PaymentRequest} from "../../models/payment/payment-request";
 
 // This is an interface (typescript feature)
 // This is a way of adding something like 'static typing' to javascript

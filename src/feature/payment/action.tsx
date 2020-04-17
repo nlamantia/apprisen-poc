@@ -3,6 +3,7 @@ import {PaymentStatus} from "../../models/payment/payment-status";
 import {ClientAccountData} from "../../models/client/client-account-data";
 import {LoginResponse} from "../../models/auth/login-response";
 import {PaymentActionTypes} from "./interface";
+import {PaymentRequest} from "../../models/payment/payment-request";
 
 export const SET_CONFIRMATION = "setConfirmation";
 export const setConfirmation = (response: PaymentResponse): PaymentActionTypes => ({
