@@ -26,7 +26,7 @@ import {logout} from '../../feature/auth/action'
 
 import {
     caseFirstPaymentDateUnixTimeSelector,
-    casePayoffDateSelector,
+    casePayoffDateSelector, casePayoffDateUnixTimeSelector,
     caseProgressTracker
 } from "../../feature/case/reducer";
 import {getClientAccountData} from "../../feature/payment/action";
@@ -39,6 +39,8 @@ const _Overview = (props) => {
     const { getCaseSummary, fetchingCaseSummary, caseSummary, caseFirstDisbursementDate } = props
     const { getCasePayoffDate, fetchingCasePayoffDate, casePayoffDate } = props
     const { getClientAccountData, clientAccountData } = props;
+    const { credentials } = props;
+    const { linkedApplication: [{}, { externalId }] } = credentials;
 
     const location = useLocation();
     const [authorized, setAuthorized] = useState<boolean>(true);
@@ -60,7 +62,7 @@ const _Overview = (props) => {
                 // todo mock this
                 // todo decide between caseNumber and externalId
                 // todo caseNumber selector
-                getCasePayoffDate({ caseNumber: 5, increaseAmount: 0, isOneTimePayment: true })
+                getCasePayoffDate({ caseNumber: externalId, increaseAmount: 0, isOneTimePayment: true })
             }
             if (!clientAccountData || !clientAccountData.bankAccountTypes) {
                 console.log('get client data');
@@ -81,14 +83,10 @@ const _Overview = (props) => {
     }
 
     const printDate = (date) => {
-        if (date && date.getMonth() && date.getDate() && date.getFullYear()) {
-            const month = date.getMonth() + 1;
-            const day = date.getDate();
-            const year = date.getFullYear();
-            return month + "/" + day + "/" + year;
-        } else {
-            return "";
-        }
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const year = date.getFullYear();
+        return month + "/" + day + "/" + year;
     };
 
     return (
@@ -146,6 +144,7 @@ const Overview = connect(
         fetchingDebtDetails: state.debt.fetchingDebtDetail,
         fetchingCasePayoffDate: state.case.fetchingCasePayoffDate,
         clientAccountData: state.payment.clientAccountData,
+        credentials: state.auth.credentials,
         debts: state.debts,
         caseFirstDisbursementDate: caseFirstPaymentDateUnixTimeSelector(state),
         casePayoffDate: casePayoffDateSelector(state),

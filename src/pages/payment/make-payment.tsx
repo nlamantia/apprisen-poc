@@ -1,22 +1,24 @@
 import {
     IonBackButton,
+    IonButton,
     IonButtons,
     IonCard,
     IonCol,
     IonContent,
     IonGrid,
     IonHeader,
+    IonInput,
     IonItem,
     IonLabel,
     IonList,
     IonListHeader,
     IonMenuButton,
     IonPage,
-    IonRow, IonSelect, IonSelectOption,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
     IonTitle,
-    IonToolbar,
-    IonInput,
-    IonButton
+    IonToolbar
 } from "@ionic/react";
 import {connect} from 'react-redux'
 import React, {useEffect, useState} from "react";
@@ -126,7 +128,7 @@ const _MakePayment = ( props ) => {
                                             <IonLabel position="stacked">Amount</IonLabel>
                                             <IonInput name="amount" placeholder="Payment Amount" onIonChange={(e) => handleChange(e)}></IonInput>
                                             <IonLabel position="floating">Payment Date</IonLabel>
-                                            <IonInput name="effectiveDate" placeholder="Payment Date"  readonly={true} value={printDate(date)}></IonInput>
+                                            <IonInput name="effectiveDate" placeholder="Payment Date"  readonly={true} value={printDate(new Date())}></IonInput>
                                             <IonLabel position="floating">Comment</IonLabel>
                                             <IonInput name="clientComments" placeholder="Comment" onIonChange={(e) => handleChange(e)}></IonInput>
                                         </IonItem>
