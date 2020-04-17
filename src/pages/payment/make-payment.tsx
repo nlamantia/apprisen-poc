@@ -14,9 +14,13 @@ import {
     IonPage,
     IonRow,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonInput,
+    IonSelect,
+    IonSelectOption,
+    IonButton
 } from "@ionic/react";
-import React from "react";
+import React, { useState } from "react";
 // eslint-disable-next-line
 import Menu from "../menu/menu";
 
@@ -24,6 +28,20 @@ import Menu from "../menu/menu";
 const MakePayment = ( props ) => {
     // const { caseSummary, debts } = props
     // const { estimatedBalance, currentMonthlyPayment, totalMonthlyDeposit } = caseSummary
+
+    const [paymentRequest, setPaymentRequest] = useState<PaymentRequest>();
+
+    function handleChange(evt: any) {
+        setPaymentRequest({ ...paymentRequest, [evt.target.name]: evt.target.value })
+        console.log(paymentRequest)
+    }
+
+    const printDate = (date) => {
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const year = date.getFullYear();
+        return month + "/" + day + "/" + year;
+    };
 
     return (
         <>
@@ -49,45 +67,46 @@ const MakePayment = ( props ) => {
                                     <IonList class="ion-no-padding">
                                         <IonListHeader class={"white ion-text-center ion-padding-end"}>
                                             <IonLabel>
-                                                <h2>Payment Information</h2>
+                                                <h2>Payment Details</h2>
                                             </IonLabel>
                                         </IonListHeader>
                                         <IonItem>
-                                            <IonLabel>
-                                                <h3>Current Balance</h3>
-                                            </IonLabel>
-                                            <IonLabel>
-                                                <h3 className={"ion-text-right"}>
-                                                    $15000
-                                                </h3>
-                                            </IonLabel>
-                                        </IonItem>
-                                        <IonItem>
-                                            <IonLabel>
-                                                <h3>
-                                                    Monthly Payment
-                                                </h3>
-                                            </IonLabel>
-                                            <IonLabel>
-                                                <h3 className={"ion-text-right"}>
-                                                    $400
-                                                </h3>
-                                            </IonLabel>
-                                        </IonItem>
-                                        <IonItem>
-                                            <IonLabel>
-                                                <h3>
-                                                    Total Monthly Deposit
-                                                </h3>
-                                            </IonLabel>
-                                            <IonLabel>
-                                                <h3 className={"ion-text-right"}>
-                                                    $400
-                                                </h3>
-                                            </IonLabel>
+                                            <IonLabel position="stacked">Amount</IonLabel>
+                                            <IonInput name="amount" placeholder="Payment Amount" onIonChange={(e) => handleChange(e)}></IonInput>
+                                            <IonLabel position="floating">Payment Date</IonLabel>
+                                            <IonInput name="effectiveDate" placeholder="Payment Date"  readonly={true} value={printDate(new Date())}></IonInput>
+                                            <IonLabel position="floating">Comment</IonLabel>
+                                            <IonInput name="clientComments" placeholder="Comment" onIonChange={(e) => handleChange(e)}></IonInput>
                                         </IonItem>
                                     </IonList>
                                 </IonCard>
+                                <IonCard>
+                                    <IonList class="ion-no-padding">
+                                        <IonListHeader class={"white ion-text-center ion-padding-end"}>
+                                            <IonLabel>
+                                                <h2>Banking Information</h2>
+                                            </IonLabel>
+                                        </IonListHeader>
+                                        <IonItem>
+                                            <IonLabel position="floating">Account Type</IonLabel>
+                                            <IonSelect name="bank-account" placeholder="Select One" onIonChange={(e) => handleChange(e)}>
+                                                <IonSelectOption value="Chekcing">Checking</IonSelectOption>
+                                                <IonSelectOption value="Savings">Savings</IonSelectOption>
+                                            </IonSelect>
+                                            <IonLabel position="floating">Routing Number</IonLabel>
+                                            <IonInput name="routingNumber" placeholder="Routing Number"  onIonChange={(e) => handleChange(e)}></IonInput>
+                                            <IonLabel position="floating">Account Number</IonLabel>
+                                            <IonInput name="accountNumber" placeholder="Account Number"  onIonChange={(e) => handleChange(e)}></IonInput>
+                                            <IonLabel position="floating">Primary Name on Account</IonLabel>
+                                            <IonInput name="primaryNameOnAccount" placeholder="Name" onIonChange={(e) => handleChange(e)}></IonInput>
+                                        </IonItem>
+                                    </IonList>
+                                    <IonItem>
+                                        <IonButton className={'full-button'} expand="full">
+                                                Submit Payment
+                                            </IonButton>
+                                    </IonItem>
+                                </IonCard>    
                             </IonCol>
                         </IonRow>
                     </IonGrid>
