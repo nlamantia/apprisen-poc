@@ -48,9 +48,9 @@ export function setCasePayoffDate({ casePayoffDate }) : CaseTypes {
 
 
 export const GET_CASE_PAYOFF_DATE = "getCasePayoffDate"
-export function getCasePayoffDate({ caseNumber, increaseAmount, isOneTimePayment }) : CaseTypes {
+export function getCasePayoffDate({ increaseAmount, isOneTimePayment }) : CaseTypes {
     return {
         type: GET_CASE_PAYOFF_DATE,
-        payload: { caseNumber, increaseAmount, isOneTimePayment }
+        payload: { increaseAmount, isOneTimePayment }
     }
 }

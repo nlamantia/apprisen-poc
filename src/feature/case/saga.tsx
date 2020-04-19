@@ -1,29 +1,17 @@
-import {all, call, put, takeEvery, select } from 'redux-saga/effects'
-import {restService} from "../../services/rest.service";
+import {all, call, put, select, takeEvery} from 'redux-saga/effects'
 import {GET_CASE_PAYOFF_DATE, GET_CASE_SUMMARY, setCasePayoffDate, setCaseSummary} from "./action";
 import {Plugins} from "@capacitor/core";
-
+import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest.service";
 const { Storage } = Plugins;
 
 
-export function * getCaseWorker(action) {
-    // const { payload: { credentials }} = action
-
-    const state = yield select()
-
-    const { auth: { credentials } } = state
-
-    if (credentials && credentials !== {}) {
-        const caseSummary = yield call(restService.callCaseSummaryEndpoint, credentials)
-        if (true) { // todo validation
-            yield put(setCaseSummary(caseSummary))
-        } else {
-
-        }
+export function * getCaseWorker() {
+    const caseSummary = yield call(callCaseSummaryEndpoint)
+    if (true) {
+        yield put(setCaseSummary(caseSummary))
     } else {
 
-        // todo handle unauthorized attempt to get case
-    }    // const { payload: { credentials }} = action
+    }
 }
 
 function * getCaseSummaryWatcher() {
@@ -33,38 +21,23 @@ function * getCaseSummaryWatcher() {
 export function * getCasePayoffDateForecastWorker(action) {
     const {
         payload: {
-            caseNumber,
             increaseAmount: IncreaseAmount,
             isOneTimePayment: IsOneTimePayment
         }
     } = action
 
-    const state = yield select()
+    const { payoffDate } = (
+        yield call(callPayoffForecast,
+            {
+                IncreaseAmount,
+                IsOneTimePayment
+            })
+    )
 
-    const { auth: { credentials } } = state
-
-    if (credentials && credentials !== {}) {
-        console.log('before')
-        const res  = (yield call
-            (restService.callPayoffForecast,
-                {
-                    credentials,
-                    caseNumber,
-                    IncreaseAmount,
-                    IsOneTimePayment
-                }))
-        console.log('after')
-        const { payoffDate} = res
-        console.log(res)
-        console.log(payoffDate)
-        if (true) { // todo validation
-            yield put(setCasePayoffDate({ casePayoffDate: payoffDate }))
-        } else {
-
-        }
+    if (true) { // todo validation
+        yield put(setCasePayoffDate({ casePayoffDate: payoffDate }))
     } else {
 
-        // todo handle unauthorized attempt to get case
     }
 }
 
