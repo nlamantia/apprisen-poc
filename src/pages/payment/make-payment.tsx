@@ -23,28 +23,28 @@ import {
 import {connect} from 'react-redux'
 import React, {useEffect, useState} from "react";
 import {bindActionCreators} from "redux";
-import {getClientAccountData, makePayment} from "../../feature/payment/action";
+import {getClientAccountData, makePayment, setPaymentStatus} from "../../feature/payment/action";
 import {PaymentRequest} from "../../models/payment/payment-request";
 // eslint-disable-next-line
 
 
-const _MakePayment = ( props ) => {
+const _MakePayment = ( props: any ) => {
     const { clientAccountData, getClientAccountData } = props;
     const { credentials } = props;
     const { paymentStatus, makePayment } = props;
 
     const { bankAccountTypes } = clientAccountData;
     const { linkedApplication: [{}, { externalId }] } = credentials;
+    const { paymentStatus: status, active } = paymentStatus;
 
     const routingNumber: any = React.useRef();
     const accountNumber: any = React.useRef();
+    const millisInADay = 86400000;
 
     console.log("External ID: " + externalId);
 
     let date = new Date();
-    date.setMonth(3);
-    date.setFullYear(2020);
-    date.setDate(20);
+    date.setTime(date.getTime() + millisInADay);
 
     const printDate = (date) => {
         if (date && date.getMonth() && date.getDate() && date.getFullYear()) {
@@ -76,16 +76,18 @@ const _MakePayment = ( props ) => {
     const [payment, setPaymentRequest] = useState<PaymentRequest>(initialPaymentRequest);
 
     useEffect(() => {
-        if (paymentStatus && paymentStatus === "SUCCESS") {
-            routingNumber.current.value = '';
-            accountNumber.current.value = '';
-            props.history.push('/payment-confirmation');
-        }
-        else if (!clientAccountData || !bankAccountTypes) {
+        if (paymentStatus && !active) {
+            if (status === "SUCCESS") {
+                routingNumber.current.value = '';
+                accountNumber.current.value = '';
+                setPaymentStatus({paymentStatus: status, active: true})
+                props.history.push('/payment-confirmation');
+            }
+        } else if (!clientAccountData || !bankAccountTypes) {
             console.log("No client account data. Fetching...");
             getClientAccountData();
         }
-    });
+    }, [paymentStatus, active]);
 
     const handlePayment = () => {
         console.log("Making payment...");
@@ -128,7 +130,7 @@ const _MakePayment = ( props ) => {
                                             <IonLabel position="stacked">Amount</IonLabel>
                                             <IonInput name="amount" placeholder="Payment Amount" onIonChange={(e) => handleChange(e)}></IonInput>
                                             <IonLabel position="floating">Payment Date</IonLabel>
-                                            <IonInput name="effectiveDate" placeholder="Payment Date"  readonly={true} value={printDate(new Date())}></IonInput>
+                                            <IonInput name="effectiveDate" placeholder="Payment Date"  readonly={true} value={printDate(date)}></IonInput>
                                             <IonLabel position="floating">Comment</IonLabel>
                                             <IonInput name="clientComments" placeholder="Comment" onIonChange={(e) => handleChange(e)}></IonInput>
                                         </IonItem>
@@ -151,9 +153,9 @@ const _MakePayment = ( props ) => {
                                                 })}
                                             </IonSelect>
                                             <IonLabel position="floating">Routing Number</IonLabel>
-                                            <IonInput name="routingNumber" placeholder="Routing Number"  onIonChange={(e) => handleChange(e)}></IonInput>
+                                            <IonInput name="routingNumber" ref={routingNumber} placeholder="Routing Number"  onIonChange={(e) => handleChange(e)}></IonInput>
                                             <IonLabel position="floating">Account Number</IonLabel>
-                                            <IonInput name="accountNumber" placeholder="Account Number"  onIonChange={(e) => handleChange(e)}></IonInput>
+                                            <IonInput name="accountNumber" ref={accountNumber} placeholder="Account Number"  onIonChange={(e) => handleChange(e)}></IonInput>
                                             <IonLabel position="floating">Primary Name on Account</IonLabel>
                                             <IonInput name="primaryNameOnAccount" placeholder="Name" onIonChange={(e) => handleChange(e)}></IonInput>
                                         </IonItem>
@@ -181,7 +183,8 @@ const MakePayment = connect(
     }),
     dispatch => bindActionCreators({
         getClientAccountData,
-        makePayment
+        makePayment,
+        setPaymentStatus
     }, dispatch)
 )(
     _MakePayment

@@ -123,6 +123,15 @@ ion-progress-bar {
     text-align: center;
 }
 
+.bold-and-centered {
+    text-align: center;
+}
+
+.bold-and-centered h2 {
+    font-weight: bold;
+    font-size: 18pt;
+}
+
 .row-text {
     font-size: 14px;
 }

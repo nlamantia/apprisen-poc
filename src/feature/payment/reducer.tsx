@@ -8,9 +8,14 @@ export interface PaymentState {
     clientAccountData: ClientAccountData
 }
 
+const initialPaymentStatus: PaymentStatus = {
+    paymentStatus: "PENDING",
+    active: false
+};
+
 const initialState: PaymentState = {
     confirmationNumber: "",
-    paymentStatus: {} as PaymentStatus,
+    paymentStatus: initialPaymentStatus,
     clientAccountData: {} as ClientAccountData
 }
 
@@ -26,11 +31,15 @@ export const paymentReducer = (state = initialState, action) => {
             };
 
         case SET_PAYMENT_STATUS:
-            const {payload: { paymentStatus } } = action;
+            const {payload: { status: { paymentStatus, active } } } = action;
+            console.log(JSON.stringify(paymentStatus));
 
             return {
                 ...state,
-                paymentStatus
+                paymentStatus: {
+                    paymentStatus,
+                    active
+                }
             };
 
         case SET_CLIENT_ACCOUNT_DATA:

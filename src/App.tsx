@@ -56,12 +56,12 @@ const Main = () => {
           />
           <Route
             path="/make-payment"
-            render={props => <MakePayment/>}
+            component={withRouter(MakePayment)}
             />
 
             <Route
               path="/payment-confirmation"
-              render={props => <PaymentConfirmation />}
+              component={withRouter(PaymentConfirmation)}
               />
         </IonRouterOutlet>
       </IonReactRouter>
