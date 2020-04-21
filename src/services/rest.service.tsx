@@ -12,6 +12,8 @@ const PAY_OFF_FORECAST = BASE_URL + "/api/case/payoffforecast/";
 const CASE_SUMMARY_URL = BASE_URL + "/api/case/case-summary/";
 const DEBT_DETAIL_URL = BASE_URL + "/api/case/debt-details/";
 const LOGIN_URL = BASE_URL + "/api/auth/login";
+const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
+const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
 
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]
 
@@ -24,14 +26,14 @@ export const callLoginEndpoint = async (credentials: LoginRequest): Promise<Logi
         headers,
         body: JSON.stringify(credentials)
     });
-}
+};
 
 export const callCaseSummaryEndpoint = async (): Promise<CaseSummary> => {
     const externalId = await getCaseId()
     debugger;
 
     return callApi(CASE_SUMMARY_URL + externalId);
-}
+};
 
 export const callPayoffForecast = async ({IncreaseAmount, IsOneTimePayment}): Promise<string> => {
 
@@ -46,7 +48,7 @@ export const callPayoffForecast = async ({IncreaseAmount, IsOneTimePayment}): Pr
         headers
     })
 
-}
+};
 
 export const callDebtDetailEndpoint = async (): Promise<DebtDetail> => {
     const externalId = await getCaseId()
@@ -58,13 +60,31 @@ export const callDebtDetailEndpoint = async (): Promise<DebtDetail> => {
             headers
         }
     );
-}
+};
+
+export const callMakePayment = async (paymentDetails: PaymentRequest) : Promise<string> => {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    let requestBody = JSON.stringify(paymentDetails);
+    return await callApi(MAKE_PAYMENT_URL, {
+        method: 'POST',
+        headers: headers,
+        body: requestBody
+    })
+};
+
+export const callGetClientData = async () : Promise<string> => {
+    const externalId = await getCaseId();
+
+    return await callApi(CLIENT_DATA_URL + externalId);
+};
 
 export const callClientInformationEndpoint = async (): Promise<ClientInformation> => {
-    const externalId = await getCaseId()
+    const externalId = await getCaseId();
 
     return await callApi(CLIENT_INFORMATION_URL + externalId);
-}
+};
 
 export const callApi = async (url: string, options: RequestInit = {}): Promise<any> => {
     try {
@@ -82,7 +102,7 @@ export const callApi = async (url: string, options: RequestInit = {}): Promise<a
         // todo handle errors in store
         return {};
     }
-}
+};
 
 const getHeaders = async (parameterHeaders: Headers, url: string) : Promise<Headers> => {
     let authHeaders: Headers
@@ -101,4 +121,5 @@ const getHeaders = async (parameterHeaders: Headers, url: string) : Promise<Head
         mergeHeaders(headers, parameterHeaders)
     }
 
-    return headers};
+    return headers
+};

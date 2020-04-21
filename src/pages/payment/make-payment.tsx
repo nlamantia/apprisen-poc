@@ -40,11 +40,12 @@ const _MakePayment = ( props: any ) => {
     const routingNumber: any = React.useRef();
     const accountNumber: any = React.useRef();
     const millisInADay = 86400000;
+    const numOfDays = 2;
 
     console.log("External ID: " + externalId);
 
     let date = new Date();
-    date.setTime(date.getTime() + millisInADay);
+    date.setTime(date.getTime() + (numOfDays * millisInADay));
 
     const printDate = (date) => {
         if (date && date.getMonth() && date.getDate() && date.getFullYear()) {

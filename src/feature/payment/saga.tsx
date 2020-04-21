@@ -1,14 +1,10 @@
-import {all, call, put, select, takeEvery} from "@redux-saga/core/effects";
-import {restService} from "../../services/rest.service";
+import {all, call, put, takeEvery} from "@redux-saga/core/effects";
 import {GET_CLIENT_ACCOUNT_DATA, MAKE_PAYMENT, setClientAccountData, setConfirmation, setPaymentStatus} from "./action";
 import {PaymentResponse} from "../../models/payment/payment-response";
+import {callGetClientData, callMakePayment} from "../../services/rest.service";
 
 export function * getClientAccountDataWorker(action) {
-    const state = yield select();
-
-    const { auth: { credentials } } = state;
-
-    const clientDataResponse = yield call(restService.callGetClientData, credentials);
+    const clientDataResponse = yield call(callGetClientData);
 
     const { bankAccountTypes, IsSuccess, errors } = clientDataResponse;
 
@@ -27,14 +23,10 @@ export function * getClientAccountDataWatcher() {
 }
 
 export function * makePaymentWorker(action) {
-    const state = yield select();
-
     console.log("Inside payment worker");
-    const { auth: { credentials } } = state;
-
     const {payload: { payment: request }} = action;
 
-    const makePaymentResponse = yield call(restService.callMakePayment, credentials, request);
+    const makePaymentResponse = yield call(callMakePayment, request);
     // const makePaymentResponse = yield getFakeResponse();
 
     const { confirmationNumber, errors } = makePaymentResponse;
