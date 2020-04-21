@@ -3,8 +3,8 @@ import {GET_CLIENT_INFORMATION, getClientInformation, setClientInformation} from
 import {getClientInformationWatcher, getClientInformationWorker} from "./saga";
 import {call, put, takeEvery} from "redux-saga/effects";
 import {LoginResponse} from "../../models/auth/login-response";
-import {restService} from "../../services/rest.service";
 import {ClientInformation} from "../../models/case/client-information";
+import {callClientInformationEndpoint} from "../../services/rest.service";
 
 describe('client saga', () => {
    it('waits for action', () => {
@@ -35,7 +35,7 @@ describe('client saga', () => {
       }
       const generator = getClientInformationWorker(getClientInformation(credentials))
       expect(generator.next().value).toEqual(
-          call(restService.callClientInformationEndpoint, credentials.linkedApplication[0].externalId)
+          call(callClientInformationEndpoint)
       )
       const clientInformation : ClientInformation = {
          address1: "address1",

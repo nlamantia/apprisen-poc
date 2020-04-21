@@ -15,7 +15,7 @@ interface SetCaseMessageAction {
 
 interface GetCasePayoffDateMessageAction {
     type: typeof GET_CASE_PAYOFF_DATE,
-    payload: { caseNumber, increaseAmount, isOneTimePayment }
+    payload: { increaseAmount, isOneTimePayment }
 }
 
 interface SetCasePayoffDateMessageAction {

@@ -1,32 +1,78 @@
-import { LoginRequest } from '../models/auth/login-request';
-import { LoginResponse } from '../models/auth/login-response';
-import { Plugins } from '@capacitor/core';
-import { restService } from './rest.service';
-const { Storage } = Plugins;
+import {LoginResponse} from '../models/auth/login-response';
+import {Plugins} from '@capacitor/core';
 
-const authService = {
+const {Storage} = Plugins;
 
-    isAuthenticated: async () => {
-        const cred = (await Storage.get({ key: 'credentials' })).value
-        return cred != null;
-    },
+export const isAuthenticated = async () => {
+    const cred = (await Storage.get({key: 'credentials'})).value
+    return cred != null;
+}
 
-    logout: () => {
-        console.log('called logout')
-        Storage.remove({ key: 'credentials' }).then(() => console.log('removed credential'));
-    },
-
-    getCredentials: async () => {
-        const credString = (await Storage.get({ key: 'credentials' })).value;
-        return credString ? JSON.parse(credString) : null;
-    },
-
-    getAuthHeaders: async () => {
-        const credString = (await Storage.get({ key: 'credentials' })).value;
-        console.log('retrieved creds from storage: ' + credString);
-        const cred: LoginResponse = credString ? JSON.parse(credString) : null;
-        return cred ? {signedToken: cred.signedToken, username: cred.username, expiresOn: cred.expiresOn} : {};
+export const login = (credentials : LoginResponse) => {
+    try {
+        Storage.set({key: 'credentials', value: JSON.stringify(credentials) })
+    } catch(e) {
+        console.log('Could not set credentials!')
     }
 }
 
-export default authService;
+export const logout = () => {
+    console.log('called logout')
+    Storage.remove({key: 'credentials'}).then(() => console.log('removed credential'));
+}
+
+export const getCredentials = async(): Promise<LoginResponse> => {
+    return new Promise( async (resolve, reject) => {
+        try {
+            const credString = (await Storage.get({key: 'credentials'})).value;
+            if (credString) {
+                resolve(credString ? JSON.parse(credString) : null);
+            } else {
+                reject("Can't get credentials!")
+            }
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
+
+
+export const getCaseId = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const credentials = await getCredentials()
+            const {linkedApplication: [{}, {externalId}]} = credentials
+            resolve(externalId)
+        } catch(e) {
+            reject("Could not get case id!")
+        }
+    })
+}
+
+export const getAuthHeaders = (): Promise<Headers> => {
+    return new Promise(async (resolve, reject) => {
+        const headers = new Headers();
+        try {
+            const {signedToken, username, expiresOn} = await getCredentials()
+            await assertLoggedIn({signedToken, username, expiresOn})
+
+            headers.append("Authorization-Token", signedToken)
+            headers.append('Username', username)
+            headers.append('ExpiresOn', expiresOn)
+        } catch(e) {
+            reject(e)
+        }
+        resolve(headers)
+    })
+}
+
+export const assertLoggedIn = async credentials => {
+    const {signedToken, username, expiresOn} = await getCredentials()
+    if (new Date().getMilliseconds() >= new Date(expiresOn).getMilliseconds()) {
+        throw new Error("Credentials are expired;")
+    }
+    if (signedToken === '' || !signedToken ) {
+        throw new Error("Invalid token! User must not be logged in!");
+    }
+}
+

@@ -2,9 +2,9 @@ import React from 'react'
 import {getCasePayoffDateForecastWatcher, getCasePayoffDateForecastWorker, getCaseWorker} from "./saga";
 import {CaseSummary} from "../../models/case/case-summary";
 import {call, put, select, takeEvery} from "redux-saga/effects";
-import {restService} from "../../services/rest.service";
 import {LoginResponse} from "../../models/auth/login-response";
 import {GET_CASE_PAYOFF_DATE, getCasePayoffDate, getCaseSummary, setCasePayoffDate, setCaseSummary} from "./action";
+import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest.service";
 
 describe('case saga', () => {
    it('handles successful case call', () => {
@@ -27,7 +27,7 @@ describe('case saga', () => {
          $id: "$id",
       }
 
-      const generator = getCaseWorker(getCaseSummary(credentials))
+      const generator = getCaseWorker()
 
       const caseSummary : CaseSummary = {
          clientName: "name",
@@ -47,7 +47,7 @@ describe('case saga', () => {
       }
 
       expect(generator.next().value).toEqual(
-          call(restService.callCaseSummaryEndpoint as any, credentials.linkedApplication[0].externalId)
+          call(callCaseSummaryEndpoint as any)
       )
       expect(generator.next(caseSummary).value).toEqual(
           put(setCaseSummary(caseSummary))
@@ -89,10 +89,8 @@ describe('case saga', () => {
              auth: { credentials }
           } as any
       ).value).toEqual(
-          call(restService.callPayoffForecast,
+          call(callPayoffForecast,
               {
-                 credentials,
-                 caseNumber,
                  IncreaseAmount: increaseAmount,
                  IsOneTimePayment: isOneTimePayment
               }

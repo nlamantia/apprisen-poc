@@ -3,7 +3,7 @@ import {getDebtDetailWatcher, getDebtDetailWorker} from "./saga";
 import {call, takeEvery} from 'redux-saga/effects'
 import {GET_DEBTS, getDebts} from "./action";
 import {LoginResponse} from "../../models/auth/login-response";
-import {restService} from "../../services/rest.service";
+import {callDebtDetailEndpoint} from "../../services/rest.service";
 
 describe('debt saga', () => {
    it('waits for  GET_DEBTS', () => {
@@ -34,7 +34,7 @@ describe('debt saga', () => {
       }
       const generator = getDebtDetailWorker(getDebts(credentials))
       const caseId = credentials ? credentials.linkedApplication[1].externalId : "";
-      expect(generator.next().value).toEqual(call(restService.callDebtDetailEndpoint, caseId))
+      expect(generator.next().value).toEqual(call(callDebtDetailEndpoint))
    })
 
    it('handles failed get debt', () => {

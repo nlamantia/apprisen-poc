@@ -13,7 +13,6 @@ import {
 } from '@ionic/react';
 import {connect} from 'react-redux'
 import React from 'react';
-import authService from '../../services/auth.service'
 import { logout } from '../../feature/auth/action'
 import {withRouter} from 'react-router';
 import {bindActionCreators} from "redux";

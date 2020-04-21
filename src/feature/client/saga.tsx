@@ -1,6 +1,6 @@
 import { put, takeEvery, all, call } from 'redux-saga/effects'
-import { restService } from "../../services/rest.service";
 import { GET_CLIENT_INFORMATION, setClientInformation } from "./action";
+import {callClientInformationEndpoint} from "../../services/rest.service";
 
 
 export function * getClientInformationWorker(action) {
@@ -9,7 +9,7 @@ export function * getClientInformationWorker(action) {
     const caseId = credentials ? credentials.linkedApplication[0].externalId : "";
 
     if (caseId !== "") {
-        const clientInformation = yield call(restService.callClientInformationEndpoint, caseId)
+        const clientInformation = yield call(callClientInformationEndpoint)
 
         if (true) { // todo validate
             yield put(setClientInformation(clientInformation))

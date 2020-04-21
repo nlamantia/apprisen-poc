@@ -1,8 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { restService } from '../../services/rest.service';
-import authService from "../../services/auth.service"
-import { ClientInformation } from '../../models/case/client-information';
-import { IonContent, IonPage, IonHeader, IonToolbar, IonThumbnail, IonTitle, IonButtons, IonMenuButton, IonCard, IonList, IonListHeader, IonLabel, IonItem } from '@ionic/react';
+import React, {useEffect} from 'react';
+import {
+    IonButtons,
+    IonCard,
+    IonContent,
+    IonHeader,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonMenuButton,
+    IonPage,
+    IonThumbnail,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react';
 import Menu from "../menu/menu";
 import logo from "../../images/apprisen-logo.png";
 import {connect} from 'react-redux'

@@ -2,7 +2,7 @@ import React from 'react'
 import {loginWatcher, loginWorker} from "./saga";
 import {call, put, takeEvery} from "redux-saga/effects";
 import {LOGIN, setCredentials, setLoginStatus} from "./action";
-import {restService} from "../../services/rest.service";
+import {callLoginEndpoint} from "../../services/rest.service";
 import {Plugins} from "@capacitor/core";
 import {LoginResponse} from "../../models/auth/login-response";
 const { Storage } = Plugins;
@@ -42,7 +42,7 @@ describe('auth saga', () => {
       }
 
       expect(generator.next().value).toEqual(
-          call(restService.callLoginEndpoint, credential)
+          call(callLoginEndpoint, credential)
       )
 
       expect(generator.next(loginResponse).value).toEqual(
@@ -81,7 +81,7 @@ describe('auth saga', () => {
       }
 
       expect(generator.next(loginResponse).value).toEqual(
-         call(restService.callLoginEndpoint, credential)
+         call(callLoginEndpoint, credential)
       )
 
       expect(generator.next(loginResponse).value).toEqual(
