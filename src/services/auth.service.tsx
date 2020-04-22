@@ -10,7 +10,9 @@ export const isAuthenticated = async () => {
 
 export const login = (credentials : LoginResponse) => {
     try {
-        Storage.set({key: 'credentials', value: JSON.stringify(credentials) })
+        let creds = JSON.stringify(credentials);
+        console.log("Writing to store: " + creds);
+        Storage.set({key: 'credentials', value: creds })
     } catch(e) {
         console.log('Could not set credentials!')
     }

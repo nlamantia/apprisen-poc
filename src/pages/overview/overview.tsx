@@ -22,11 +22,11 @@ import {connect} from 'react-redux'
 import {getCasePayoffDate, getCaseSummary} from "../../feature/case/action";
 import {getDebts} from "../../feature/debt/action";
 import {bindActionCreators} from "redux";
-import {logout} from '../../feature/auth/action'
+import {getCredentials, logout} from '../../feature/auth/action'
 
 import {
     caseFirstPaymentDateUnixTimeSelector,
-    casePayoffDateSelector, casePayoffDateUnixTimeSelector,
+    casePayoffDateSelector,
     caseProgressTracker
 } from "../../feature/case/reducer";
 import {getClientAccountData} from "../../feature/payment/action";
@@ -39,41 +39,12 @@ const _Overview = (props) => {
     const { getCaseSummary, fetchingCaseSummary, caseSummary, caseFirstDisbursementDate } = props
     const { getCasePayoffDate, fetchingCasePayoffDate, casePayoffDate } = props
     const { getClientAccountData, clientAccountData } = props;
-    const { credentials } = props;
-    const { linkedApplication: [{}, { externalId }] } = credentials;
+    const { credentials, getCredentials } = props;
+    let externalId = React.useRef();
 
     const location = useLocation();
     const [authorized, setAuthorized] = useState<boolean>(true);
     const [restError, setRestError] = useState<boolean>(false);
-
-
-    useEffect(
-        () => {
-            if (!caseSummary && !fetchingCaseSummary) {
-                console.log('get case summary')
-                getCaseSummary();
-            }
-            if (!debts && !fetchingDebtDetails) {
-                console.log('get case summary')
-                getDebts();
-            }
-            if (!casePayoffDate && !fetchingCasePayoffDate) {
-                console.log('get case payoff debt!')
-                // todo mock this
-                // todo decide between caseNumber and externalId
-                // todo caseNumber selector
-                getCasePayoffDate({ caseNumber: externalId, increaseAmount: 0, isOneTimePayment: true })
-            }
-            if (!clientAccountData || !clientAccountData.bankAccountTypes) {
-                console.log('get client data');
-                getClientAccountData();
-            }
-
-
-            // todo having getDebts() and getCaseSummary() fire at the same time makes them not work. SetTimeoute mitigates this. find better solution
-            // setTimeout(getCaseSummaryDebts, 2000)
-        }, []);
-
 
     function redirectLogin() {
         logout()
@@ -81,6 +52,43 @@ const _Overview = (props) => {
             <Redirect to="/login"/>
         );
     }
+
+    useEffect(
+        () => {
+            if (credentials && credentials.linkedApplication) {
+                const [, second] = credentials.linkedApplication;
+                externalId.current = second.externalId;
+                if (!caseSummary && !fetchingCaseSummary) {
+                    console.log('get case summary')
+                    getCaseSummary();
+                }
+                if (!debts && !fetchingDebtDetails) {
+                    console.log('get case summary')
+                    getDebts();
+                }
+                if (!casePayoffDate && !fetchingCasePayoffDate) {
+                    console.log('get case payoff debt!')
+                    // todo mock this
+                    // todo decide between caseNumber and externalId
+                    // todo caseNumber selector
+                    getCasePayoffDate({caseNumber: externalId, increaseAmount: 0, isOneTimePayment: true})
+                }
+                if (!clientAccountData || !clientAccountData.bankAccountTypes) {
+                    console.log('get client data');
+                    getClientAccountData();
+                }
+            } else {
+                try {
+                    getCredentials();
+                } catch (e) {
+                    redirectLogin();
+                }
+            }
+
+
+            // todo having getDebts() and getCaseSummary() fire at the same time makes them not work. SetTimeoute mitigates this. find better solution
+            // setTimeout(getCaseSummaryDebts, 2000)
+        }, [credentials]);
 
     const printDate = (date) => {
         const month = date.getMonth() + 1;
@@ -155,7 +163,8 @@ const Overview = connect(
         getDebts,
         logout,
         getClientAccountData,
-        getCasePayoffDate
+        getCasePayoffDate,
+        getCredentials
     }, dispatch)
 )(
     _Overview

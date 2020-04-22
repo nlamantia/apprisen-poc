@@ -1,8 +1,9 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
-import {LOGIN, LOGOUT, setCredentials, setLoginStatus} from "./action";
+import {GET_CREDENTIALS, LOGIN, LOGOUT, setCredentials, setLoginStatus} from "./action";
 import {Plugins} from "@capacitor/core";
 import {callLoginEndpoint} from "../../services/rest.service";
 import {assertLoggedIn, login, logout} from "../../services/auth.service";
+import {LoginResponse} from "../../models/auth/login-response";
 
 const { Storage } = Plugins;
 
@@ -30,6 +31,21 @@ export function * loginWatcher() {
     yield takeEvery(LOGIN, loginWorker)
 }
 
+export function * getCredentialsWorker(action) {
+    const credsString = (yield Storage.get({key: 'credentials'})).value;
+
+    if (!credsString || credsString === "") {
+        throw new Error("No credentials found");
+    } else {
+        console.log("credentials found!")
+        yield put(setCredentials(JSON.parse(credsString) as LoginResponse));
+    }
+}
+
+export function * getCredentialsWatcher() {
+    yield takeEvery(GET_CREDENTIALS, getCredentialsWorker);
+}
+
 export function * logoutWorker() {
     yield call(logout)
     yield put(setCredentials(null))
@@ -42,6 +58,7 @@ export function * logoutWatcher() {
 export function * authSaga() {
     yield all([
         loginWatcher(),
-        logoutWatcher()
+        logoutWatcher(),
+        getCredentialsWatcher()
     ])
 }
