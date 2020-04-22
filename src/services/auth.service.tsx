@@ -11,7 +11,6 @@ export const isAuthenticated = async () => {
 export const login = (credentials : LoginResponse) => {
     try {
         let creds = JSON.stringify(credentials);
-        console.log("Writing to store: " + creds);
         Storage.set({key: 'credentials', value: creds })
     } catch(e) {
         console.log('Could not set credentials!')
@@ -69,7 +68,7 @@ export const getAuthHeaders = (): Promise<Headers> => {
 }
 
 export const assertLoggedIn = async credentials => {
-    const {signedToken, username, expiresOn} = await getCredentials()
+    const {signedToken, username, expiresOn} = await credentials ? credentials : getCredentials()
     if (new Date().getMilliseconds() >= new Date(expiresOn).getMilliseconds()) {
         throw new Error("Credentials are expired;")
     }

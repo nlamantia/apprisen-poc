@@ -38,7 +38,9 @@ export function * getCredentialsWorker(action) {
         throw new Error("No credentials found");
     } else {
         console.log("credentials found!")
-        yield put(setCredentials(JSON.parse(credsString) as LoginResponse));
+        let credentials = JSON.parse(credsString);
+        yield assertLoggedIn(credentials);
+        yield put(setCredentials(credentials as LoginResponse));
     }
 }
 

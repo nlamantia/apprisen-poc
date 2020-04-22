@@ -25,6 +25,9 @@ import React, {useEffect, useState} from "react";
 import {bindActionCreators} from "redux";
 import {getClientAccountData, makePayment, setPaymentStatus} from "../../feature/payment/action";
 import {PaymentRequest} from "../../models/payment/payment-request";
+import {getCredentials, logout} from "../../feature/auth/action";
+import {Redirect} from "react-router";
+import {BankAccountType} from "../../models/banking/bank-account-type";
 // eslint-disable-next-line
 
 
@@ -32,17 +35,15 @@ const _MakePayment = ( props: any ) => {
     const { clientAccountData, getClientAccountData } = props;
     const { credentials } = props;
     const { paymentStatus, makePayment } = props;
+    const { getCredentials, logout } = props;
 
-    const { bankAccountTypes } = clientAccountData;
-    const { linkedApplication: [{}, { externalId }] } = credentials;
     const { paymentStatus: status, active } = paymentStatus;
+    let externalId = React.useRef(0);
 
     const routingNumber: any = React.useRef();
     const accountNumber: any = React.useRef();
     const millisInADay = 86400000;
     const numOfDays = 2;
-
-    console.log("External ID: " + externalId);
 
     let date = new Date();
     date.setTime(date.getTime() + (numOfDays * millisInADay));
@@ -62,9 +63,9 @@ const _MakePayment = ( props: any ) => {
         return num < 10 ? "0" + num : num;
     };
 
-    const initialPaymentRequest = {
-        clientNumber: externalId,
-        caseNumber: externalId,
+    let initialPaymentRequest = {
+        clientNumber: externalId.current,
+        caseNumber: externalId.current,
         effectiveDate: printDate(date),
         routingNumber: "",
         accountNumber: "",
@@ -75,20 +76,45 @@ const _MakePayment = ( props: any ) => {
     } as PaymentRequest;
 
     const [payment, setPaymentRequest] = useState<PaymentRequest>(initialPaymentRequest);
+    const [bankAccountTypes, setBankAccountTypes] = useState<BankAccountType[]>([]);
+
+    function redirectLogin() {
+        logout();
+        return (
+            <Redirect to="/login"/>
+        );
+    }
 
     useEffect(() => {
-        if (paymentStatus && !active) {
-            if (status === "SUCCESS") {
-                routingNumber.current.value = '';
-                accountNumber.current.value = '';
-                setPaymentStatus({paymentStatus: status, active: true})
-                props.history.push('/payment-confirmation');
+        if (credentials && credentials.linkedApplication) {
+            const [, linkedApp] = credentials.linkedApplication;
+            externalId.current = linkedApp;
+            initialPaymentRequest.clientNumber = externalId.current;
+            initialPaymentRequest.caseNumber = externalId.current;
+            if (paymentStatus && !active) {
+                if (status === "SUCCESS") {
+                    routingNumber.current.value = '';
+                    accountNumber.current.value = '';
+                    setPaymentStatus({paymentStatus: status, active: true})
+                    props.history.push('/payment-confirmation');
+                }
             }
-        } else if (!clientAccountData || !bankAccountTypes) {
-            console.log("No client account data. Fetching...");
-            getClientAccountData();
+            console.log("past payment status if statement");
+            if (!clientAccountData || !clientAccountData.bankAccountTypes) {
+                console.log("No client account data. Fetching...");
+                getClientAccountData();
+            } else {
+                console.log("setting account types");
+                setBankAccountTypes(clientAccountData.bankAccountTypes);
+            }
+        } else {
+            try {
+                getCredentials();
+            } catch (e) {
+                redirectLogin();
+            }
         }
-    }, [paymentStatus, active]);
+    }, [paymentStatus, active, credentials, clientAccountData]);
 
     const handlePayment = () => {
         console.log("Making payment...");
@@ -185,7 +211,9 @@ const MakePayment = connect(
     dispatch => bindActionCreators({
         getClientAccountData,
         makePayment,
-        setPaymentStatus
+        setPaymentStatus,
+        getCredentials,
+        logout
     }, dispatch)
 )(
     _MakePayment
