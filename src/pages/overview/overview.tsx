@@ -35,6 +35,7 @@ import {
 
 import { logoFacebook } from "ionicons/icons";
 import SocialMediaFooter from "pages/common/social-media-footer";
+import AdditionalResourcesPreview from "pages/additional-resources/additional-resources-preview";
  
 
 
@@ -119,6 +120,9 @@ const _Overview = (props) => {
                                 <IonCol size={"12"} sizeMd={"6"} sizeLg={"5"}>
                                     <LenderList/>
                                 </IonCol>
+                            </IonRow>
+                            <IonRow>
+                                <AdditionalResourcesPreview/>
                             </IonRow>
                         </IonGrid>
                         <IonToast
