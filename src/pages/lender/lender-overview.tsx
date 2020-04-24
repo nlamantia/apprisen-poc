@@ -13,99 +13,127 @@ import {
     IonTitle,
     IonToolbar
 } from "@ionic/react";
-import React, {Component} from "react";
+import React, {useEffect, useState} from "react";
 import {connect} from 'react-redux'
+import {bindActionCreators} from "redux";
+import {getDebts, getSelectedDebt} from "../../feature/debt/action";
+import {getCredentials, logout} from "../../feature/auth/action";
+import {CaseDebt} from "../../models/case/case-debt";
 
-class _LenderOverview extends Component {
-    constructor(props) {
-        super(props)
-    }
+const _LenderOverview = (props) => {
+    const {debts, selectedDebtId} = props;
 
-    render() {
-        const { debts, selectedDebtId } = this.props as any
+    const { credentials, getCredentials, logout } = props;
+    const { getDebts, getSelectedDebt } = props;
 
-        const lender = debts.filter(debt => debt.$id === selectedDebtId)[0]
+    const [lender, setLender] = useState<CaseDebt>(null);
 
-        return (
-            <IonPage>
-                <IonHeader>
-                    <IonToolbar>
-                        <IonButtons slot="start">
-                            <IonBackButton defaultHref="/overview" />
-                        </IonButtons>
-                        <IonTitle>{lender.creditorName}</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-                <IonContent>
-                    <IonCard>
-                        <IonList class="ion-no-padding">
-                            <IonListHeader class={"white ion-text-center ion-padding-end"}>
-                                <IonLabel>
-                                    <h2>Lender Details</h2>
-                                </IonLabel>
-                            </IonListHeader>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Account Number</h3>
-                                </IonLabel>
-                                <IonLabel>
+    useEffect(() => {
+        if (credentials) {
+            console.log("found credentials");
+            if (!lender) {
+                if (debts && selectedDebtId) {
+                    console.log('found selected debt ID');
+                    let filteredDebts = debts.filter(debt => debt.$id === selectedDebtId);
+                    if (filteredDebts && filteredDebts.length > 0) {
+                        setLender(filteredDebts[0]);
+                    }
+                } else {
+                    console.log('some information is missing');
+                    getDebts();
+                    getSelectedDebt();
+                }
+            }
+        } else {
+            console.log("no credentials found")
+            try {
+                getCredentials();
+            } catch (e) {
+                console.log(JSON.stringify(e));
+                logout();
+            }
+        }
+    }, [credentials, debts, selectedDebtId]);
+
+    return (
+        <IonPage>
+            <IonHeader>
+                <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonBackButton defaultHref="/overview"/>
+                    </IonButtons>
+                    <IonTitle>{lender ? lender.creditorName : ""}</IonTitle>
+                </IonToolbar>
+            </IonHeader>
+            <IonContent>
+                <IonCard>
+                    <IonList class="ion-no-padding">
+                        <IonListHeader class={"white ion-text-center ion-padding-end"}>
+                            <IonLabel>
+                                <h2>Lender Details</h2>
+                            </IonLabel>
+                        </IonListHeader>
+                        <IonItem>
+                            <IonLabel>
+                                <h3>Account Number</h3>
+                            </IonLabel>
+                            <IonLabel>
+                                <h3 className={"ion-text-right"}>
+                                    {lender ? lender.accountNumber : ""}
+                                </h3>
+                            </IonLabel>
+                        </IonItem>
+                        <IonItem>
+                            <IonLabel>
+                                <h3>Remaining Balance</h3>
+                            </IonLabel>
+                            <IonLabel>
+                                <h3 className={"ion-text-right"}>
+                                    ${lender ? lender.currentBalance : 0}
+                                </h3>
+                            </IonLabel>
+                        </IonItem>
+                        <IonItem>
+                            <IonLabel>
+                                <h3>Starting Balance</h3>
+                            </IonLabel>
+                            <IonLabel>
+                                {lender ?
                                     <h3 className={"ion-text-right"}>
-                                        {lender.accountNumber}
-                                    </h3>
-                                </IonLabel>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Remaining Balance</h3>
-                                </IonLabel>
-                                <IonLabel>
+                                        ${lender.originalBalance.toFixed(2)}
+                                    </h3> :
                                     <h3 className={"ion-text-right"}>
-                                        ${lender.currentBalance}
+                                        <IonSkeletonText animated style={{width: '100%'}}/>
                                     </h3>
-                                </IonLabel>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Starting Balance</h3>
-                                </IonLabel>
-                                <IonLabel>
-                                    {lender.originalBalance ?
-                                        <h3 className={"ion-text-right"}>
-                                            ${lender.originalBalance.toFixed(2)}
-                                        </h3> :
-                                        <h3 className={"ion-text-right"}>
-                                            <IonSkeletonText animated style={{ width: '100%' }} />
-                                        </h3>
-                                    }
-                                </IonLabel>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>APR</h3>
-                                </IonLabel>
-                                <IonLabel>
-                                    <h3 className={"ion-text-right"}>
-                                        {lender.apr}%
-                                    </h3>
-                                </IonLabel>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Debt Type</h3>
-                                </IonLabel>
-                                <IonLabel>
-                                    <h3 className={"ion-text-right"}>
-                                        {lender.debtType}
-                                    </h3>
-                                </IonLabel>
-                            </IonItem>
-                        </IonList>
-                    </IonCard>
-                </IonContent>
-            </IonPage>
-        )
-    }
-}
+                                }
+                            </IonLabel>
+                        </IonItem>
+                        <IonItem>
+                            <IonLabel>
+                                <h3>APR</h3>
+                            </IonLabel>
+                            <IonLabel>
+                                <h3 className={"ion-text-right"}>
+                                    {(lender ? lender.apr : 0) * 100}%
+                                </h3>
+                            </IonLabel>
+                        </IonItem>
+                        <IonItem>
+                            <IonLabel>
+                                <h3>Debt Type</h3>
+                            </IonLabel>
+                            <IonLabel>
+                                <h3 className={"ion-text-right"}>
+                                    {lender ? lender.debtType : ""}
+                                </h3>
+                            </IonLabel>
+                        </IonItem>
+                    </IonList>
+                </IonCard>
+            </IonContent>
+        </IonPage>
+    )
+};
 
 const LenderOverview = connect(
     state => ({
@@ -113,7 +141,14 @@ const LenderOverview = connect(
         // todo error checking
         debts: state.debt.debts,
         selectedDebtId: state.debt.selectedDebtId,
-    })
+        credentials: state.auth.credentials
+    }),
+    dispatch => bindActionCreators({
+        getSelectedDebt,
+        getDebts,
+        getCredentials,
+        logout
+    }, dispatch)
 )(
     _LenderOverview
 );
