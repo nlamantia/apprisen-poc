@@ -10,7 +10,10 @@ import {
     IonThumbnail,
     IonTitle,
     IonToast,
-    IonToolbar
+    IonToolbar,
+    IonFooter,
+    IonIcon,
+    IonButton
 } from "@ionic/react";
 import React, {useEffect, useState} from "react";
 import {Redirect, useLocation} from "react-router-dom";
@@ -30,6 +33,10 @@ import {
     caseProgressTracker
 } from "../../feature/case/reducer";
 import {getClientAccountData} from "../../feature/payment/action";
+
+import { logoFacebook } from "ionicons/icons";
+import SocialMediaFooter from "pages/common/social-media-footer";
+ 
 
 
 const _Overview = (props) => {
@@ -136,8 +143,9 @@ const _Overview = (props) => {
                             color="danger"
                             duration={4000}
                             header="Oops Something went wrong..."
-                        />
+                        />   
                     </IonContent>
+                    <SocialMediaFooter/>
                 </IonPage>
             </>
     )
