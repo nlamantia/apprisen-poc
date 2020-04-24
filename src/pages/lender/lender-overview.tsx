@@ -19,6 +19,7 @@ import {bindActionCreators} from "redux";
 import {getDebts, getSelectedDebt} from "../../feature/debt/action";
 import {getCredentials, logout} from "../../feature/auth/action";
 import {CaseDebt} from "../../models/case/case-debt";
+import SocialMediaFooter from "../common/social-media-footer";
 
 const _LenderOverview = (props) => {
     const {debts, selectedDebtId} = props;
@@ -131,6 +132,7 @@ const _LenderOverview = (props) => {
                     </IonList>
                 </IonCard>
             </IonContent>
+            <SocialMediaFooter/>
         </IonPage>
     )
 };

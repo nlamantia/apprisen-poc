@@ -28,6 +28,7 @@ import {getCredentials, logout} from "../../feature/auth/action";
 import {Redirect} from "react-router";
 import {CaseDebt} from "../../models/case/case-debt";
 import {CaseSummary} from "../../models/case/case-summary";
+import SocialMediaFooter from "../common/social-media-footer";
 
 
 const _AccountOverview = ( props ) => {
@@ -196,6 +197,7 @@ const _AccountOverview = ( props ) => {
               </IonRow>
             </IonGrid>
           </IonContent>
+          <SocialMediaFooter/>
         </IonPage>
       </>
     )

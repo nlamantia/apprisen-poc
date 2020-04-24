@@ -93,7 +93,7 @@ class _OverviewCard extends Component {
                                 pathname: `/make-payment`
                             }} style={{width: 100 + "%"}}>
                             <IonButton className={'full-button'} expand="full">
-                                <b>Make Payment</b>
+                                Make Payment
                             </IonButton>
                             </Link>
                         </IonItem>
