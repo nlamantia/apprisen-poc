@@ -16,6 +16,11 @@ export const resetLoginStatus = () => ({
     type: RESET_LOGIN_STATUS,
 })
 
+export const GET_CREDENTIALS = "getCredentials"
+export const getCredentials = () => ({
+    type: GET_CREDENTIALS
+})
+
 export const SET_CREDENTIALS = "setCredentials"
 export const setCredentials = (credentials: LoginResponse) => ({
    type: SET_CREDENTIALS,

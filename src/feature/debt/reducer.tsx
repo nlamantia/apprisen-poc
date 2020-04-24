@@ -1,6 +1,6 @@
 import {GET_DEBTS, SELECT_DEBT, SET_DEBTS} from "./action";
-import { DebtDetail } from "models/case/debt-detail";
 import {CaseDebt} from "../../models/case/case-debt";
+import {Storage} from "@capacitor/core";
 
 export interface DebtState {
     debts: CaseDebt[] // todo
@@ -9,7 +9,6 @@ export interface DebtState {
 }
 
 const initialState : DebtState = {
-    // debtDetail: {} as DebtDetail,
     debts: null,
     selectedDebtId: null as number,
     fetchingDebtDetail: false
@@ -37,7 +36,9 @@ export const debtReducer = (state = initialState, action) => {
         }
         case SELECT_DEBT: {
             const { payload: { id }  } = action
-            const { debts } = state
+
+            Storage.set({key: 'selectedDebtId', value: id});
+
             return {
                 ...state,
                 selectedDebtId: id

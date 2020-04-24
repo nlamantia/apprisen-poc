@@ -25,5 +25,11 @@ export function selectDebt(id: string): DebtTypes {
         type: SELECT_DEBT,
         payload: { id }
     }
+}
 
+export const GET_SELECTED_DEBT = "getSelectedDebt";
+export function getSelectedDebt(): DebtTypes {
+    return {
+        type: GET_SELECTED_DEBT
+    }
 }

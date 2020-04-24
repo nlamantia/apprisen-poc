@@ -1060,6 +1060,20 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@ionic-native/core@^5.23.0":
+  version "5.24.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-5.24.0.tgz#538e2623f3290982a9b1891a365d69ad83a9b481"
+  integrity sha512-FHMrBFMioe5lIz7Yk03rWkQB+IaA2l0f96frGhhrduJGUtHokQcgxctSR2UlPFQ34wfILqsBGpj+c284RyeA2Q==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/in-app-browser@^5.23.0":
+  version "5.24.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/in-app-browser/-/in-app-browser-5.24.0.tgz#03bfb010aea062fb1e120a887ea7e64a3b48fe0d"
+  integrity sha512-tRnI9/pT+oIHrlnnssocqlZ6Zm1OA7XGNxG45AoF3nFfVonkDqSaBqhvUhIdfOIBornk09SYh9G9V5lYAdyioA==
+  dependencies:
+    "@types/cordova" latest
+
 "@ionic/cli-framework@3.0.5":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@ionic/cli-framework/-/cli-framework-3.0.5.tgz#283e3e78f692cb84965613e6ee5499ea9a832bdf"
@@ -1614,6 +1628,11 @@
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
+
+"@types/cordova@latest":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@types/cordova/-/cordova-0.0.34.tgz#ea7addf74ecec3d7629827a0c39e2c9addc73d04"
+  integrity sha1-6nrd907Ow9dimCegw54smt3HPQQ=
 
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
@@ -3332,6 +3351,11 @@ copy-descriptor@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
+
+cordova-plugin-inappbrowser@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-inappbrowser/-/cordova-plugin-inappbrowser-3.2.0.tgz#8615e1510dcf796875b420416331b768fee28d86"
+  integrity sha512-tYsK0H9M8POmJTVnfyIsiRgoOxnypa9IQIbf/Hsgi7vbgUYRHtBUfvXwq4RhMqLIVrCeJLXF2hTXTDNY0a/eTA==
 
 core-js-compat@^3.6.2:
   version "3.6.4"

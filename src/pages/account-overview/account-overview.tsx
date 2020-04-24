@@ -1,44 +1,74 @@
 import {
-  IonBackButton,
-  IonButtons,
-  IonCard,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonListHeader,
-  IonMenuButton,
-  IonPage,
-  IonRow,
-  IonTitle,
-  IonToolbar
+    IonBackButton,
+    IonButtons,
+    IonCard,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonListHeader,
+    IonMenuButton,
+    IonPage,
+    IonRow,
+    IonTitle,
+    IonToolbar
 } from "@ionic/react";
 import {connect} from 'react-redux'
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 // eslint-disable-next-line
 import {Doughnut} from 'react-chartjs-2';
 import Menu from "../menu/menu";
 import {getCaseSummary} from "../../feature/case/action";
 import {getDebts} from "../../feature/debt/action";
 import {bindActionCreators} from "redux";
+import {getCredentials, logout} from "../../feature/auth/action";
+import {Redirect} from "react-router";
+import {CaseDebt} from "../../models/case/case-debt";
+import {CaseSummary} from "../../models/case/case-summary";
+import SocialMediaFooter from "../common/social-media-footer";
 
 
 const _AccountOverview = ( props ) => {
     const { caseSummary, debts } = props
-    const { estimatedBalance, currentMonthlyPayment, totalMonthlyDeposit } = caseSummary
+    const { credentials, getCredentials, logout } = props;
 
-    // useEffect(
-    //     () => {
-    //         const { getCaseSummary, getDebts } = props
-    //         if (!caseSummary || caseSummary === {})
-    //           getCaseSummary();
-    //         if (!debts || debts === {})
-    //           getDebts();
-    //     }, []);
-    //
+    const [userDebts, setUserDebts] = useState<CaseDebt[]>([]);
+    const [userCaseSummary, setUserCaseSummary] = useState<CaseSummary>({} as CaseSummary);
+
+  function redirectLogin() {
+    logout();
+    return (
+        <Redirect to="/login"/>
+    );
+  }
+
+    useEffect(
+        () => {
+          if (credentials && credentials.linkedApplication) {
+            const {getCaseSummary, getDebts} = props
+            if (!caseSummary || caseSummary === {}) {
+              getCaseSummary();
+            } else {
+              setUserCaseSummary(caseSummary);
+            }
+
+            if (!debts || debts === {}) {
+              getDebts();
+            } else {
+              setUserDebts(debts)
+            }
+          } else {
+            try {
+              getCredentials();
+            } catch (e) {
+              redirectLogin();
+            }
+          }
+        }, [credentials, caseSummary, debts]);
+
     return (
       <>
         {/*<Menu pageName={'accountOverview'} /> todo fix this*/}
@@ -58,7 +88,7 @@ const _AccountOverview = ( props ) => {
           <IonContent id="accountOverview">
             <IonGrid>
               <IonRow>
-                <IonCol size={"12"} sizeMd={"6"}>
+                <IonCol size={"12"} sizeMd={"6"} offsetMd={"3"}>
                   <IonCard>
                     <IonList class="ion-no-padding">
                       <IonListHeader class={"white ion-text-center ion-padding-end"}>
@@ -72,7 +102,7 @@ const _AccountOverview = ( props ) => {
                         </IonLabel>
                         <IonLabel>
                           <h3 className={"ion-text-right"}>
-                            ${estimatedBalance}
+                            ${userCaseSummary && userCaseSummary.estimatedBalance ? userCaseSummary.estimatedBalance : 0}
                           </h3>
                         </IonLabel>
                       </IonItem>
@@ -84,7 +114,7 @@ const _AccountOverview = ( props ) => {
                         </IonLabel>
                         <IonLabel>
                           <h3 className={"ion-text-right"}>
-                            ${currentMonthlyPayment}
+                            ${userCaseSummary && userCaseSummary.currentMonthlyPayment ? userCaseSummary.currentMonthlyPayment : 0}
                           </h3>
                         </IonLabel>
                       </IonItem>
@@ -96,7 +126,7 @@ const _AccountOverview = ( props ) => {
                         </IonLabel>
                         <IonLabel>
                           <h3 className={"ion-text-right"}>
-                            ${totalMonthlyDeposit}
+                            ${userCaseSummary && userCaseSummary.totalMonthlyDeposit ? userCaseSummary.totalMonthlyDeposit : 0}
                           </h3>
                         </IonLabel>
                       </IonItem>
@@ -109,7 +139,7 @@ const _AccountOverview = ( props ) => {
                           <h2>Balance Breakdown</h2>
                         </IonLabel>
                       </IonListHeader>
-                      {debts.map(debt => {
+                      {userDebts.map(debt => {
                         return (
                           <IonItem>
                             <IonLabel>
@@ -126,15 +156,15 @@ const _AccountOverview = ( props ) => {
                   <IonCard>
                     <IonItem className={"ion-no-padding"}>
                       <div className={"chart-div ion-padding-vertical"}>
-                        {debts.length > 0 && (
+                        {userDebts.length > 0 && (
                           <Doughnut
                             data={{
-                              labels: debts.map(
+                              labels: userDebts.map(
                                 lender => lender.creditorName
                               ),
                               datasets: [
                                 {
-                                  data: debts.map(
+                                  data: userDebts.map(
                                     lender => lender.currentBalance
                                   ),
                                   backgroundColor: [
@@ -167,6 +197,7 @@ const _AccountOverview = ( props ) => {
               </IonRow>
             </IonGrid>
           </IonContent>
+          <SocialMediaFooter/>
         </IonPage>
       </>
     )
@@ -177,79 +208,17 @@ const _AccountOverview = ( props ) => {
 const AccountOverview = connect(
     state => ({
       caseSummary: state.case.caseSummary,
-      debts: state.debt.debts
+      debts: state.debt.debts,
+      credentials: state.auth.credentials
     }),
     dispatch => bindActionCreators({
       getCaseSummary,
-      getDebts
+      getDebts,
+      getCredentials,
+      logout
     }, dispatch)
 )(
     _AccountOverview
 );
 
 export default AccountOverview
-
-// eslint-disable-next-line
-// todo move to json
-const data = [
-  {
-    balance: 18510.15,
-    date: '10/12/2018'
-  },
-  {
-    balance: 18210.15,
-    date: '11/12/2018'
-  },
-  {
-    balance: 17910.15,
-    date: '12/12/2018'
-  },
-  {
-    balance: 17610.15,
-    date: '01/12/2019'
-  },
-  {
-    balance: 17310.15,
-    date: '02/12/2019'
-  },
-  {
-    balance: 16810.15,
-    date: '03/12/2019'
-  },
-  {
-    balance: 16310.15,
-    date: '04/12/2019'
-  },
-  {
-    balance: 15810.15,
-    date: '05/12/2019'
-  },
-  {
-    balance: 15310.15,
-    date: '06/12/2019'
-  },
-  {
-    balance: 14810.15,
-    date: '07/12/2019'
-  },
-  {
-    balance: 14310.15,
-    date: '08/12/2019'
-  },
-  {
-    balance: 13810.15,
-    date: '09/12/2019'
-  },
-  {
-    balance: 13310.15,
-    date: '10/12/2019'
-  },
-  {
-    balance: 12810.15,
-    date: '11/12/2019'
-  },
-  {
-    balance: 12310.15,
-    date: '12/12/2019'
-  }
-]
