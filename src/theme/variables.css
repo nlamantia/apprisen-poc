@@ -195,3 +195,21 @@ ion-col {
 .height {
     height: 200px;
 }
+
+.social-media-button {
+    width: 40px;
+    font-size: 32px;
+}
+
+ion-icon {
+    color: black
+}
+
+.social-media-grid {
+    --ion-grid-width: 200px;
+}
+
+.socila-media-column {
+    --ion-grid-column-padding: 0;
+    --ion-grid-columns: 6;
+}
