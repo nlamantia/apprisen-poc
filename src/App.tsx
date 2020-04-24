@@ -28,6 +28,11 @@ import "./theme/variables.css";
 
 import { Provider } from 'react-redux'
 import {store} from "./config/store";
+import AdditionalResourcesFinancial from "pages/additional-resources/additional-resources-financial";
+import AdditionalResourcesBudget from "pages/additional-resources/additional-resources-budget";
+import AdditionalResourcesCredit from "pages/additional-resources/additional-resources-credit";
+import AdditionalResourcesQuickTips from "pages/additional-resources/additional-resources-quicktips";
+import AdditionalResourcesCalculators from "pages/additional-resources/additonal-resources-calculators";
 
 const Main = () => {
   return (
@@ -40,6 +45,11 @@ const Main = () => {
           <Route exact path="/" render={() => <Redirect to="/login" />} />
           <Route path="/user/:id" component={UserDetails} />
           <Route path="/profile" component={Profile} />
+          <Route path="/resources/financial" component={AdditionalResourcesFinancial} />
+          <Route path="/resources/budget" component={AdditionalResourcesBudget} />
+          <Route path="/resources/credit" component={AdditionalResourcesCredit} />
+          <Route path="/resources/quicktips" component={AdditionalResourcesQuickTips} />
+          <Route path="/resources/calculators" component={AdditionalResourcesCalculators} />
           <Route
             path="/payment-overview"
             render={props => <PaymentOverview caseData={props as any} />}

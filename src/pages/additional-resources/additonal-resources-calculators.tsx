@@ -22,13 +22,12 @@ import {
     IonItem
 } from "@ionic/react";
 import React, {useEffect, useState} from "react";
-import logo from "../../images/apprisen-logo.png";
 import SocialMediaFooter from "pages/common/social-media-footer";
 import AdditionalResourcesCard from "./additional-resources-card";
  
 
 
-const AdditionalResources = (props) => {
+const AdditionalResourcesCalculators = (props) => {
 
 
     return (
@@ -39,17 +38,21 @@ const AdditionalResources = (props) => {
                 <IonButtons slot="start">
                 <IonBackButton defaultHref="/overview" />
                 </IonButtons>
-                <IonTitle>Additional Resources</IonTitle>
+                <IonTitle>Calculators</IonTitle>
             </IonToolbar>
             </IonHeader>
             <IonContent>
-            <IonGrid>
-                <IonRow>
-                    <IonCol size={"4"} sizeMd={"3"}>
-                        <AdditionalResourcesCard imageLink={logo} url="www.google.com" name="Test"/>
-                    </IonCol>
-                </IonRow>
-            </IonGrid>
+                <IonCard>
+                    <IonItem>  
+                        <IonGrid>
+                            <IonRow>
+                                <IonCol size={"12"} sizeMd={"2"} sizeLg={"4"} className="resources-column">
+                                    <AdditionalResourcesCard imageLink="https://www.apprisen.com/wp-content/uploads/2019/08/hero9.png" url="https://www.apprisen.com/financial-calculators/" title="Financial Calculators"/>
+                                </IonCol>
+                            </IonRow>
+                        </IonGrid>
+                    </IonItem>  
+                </IonCard>
             </IonContent>
             <SocialMediaFooter/>
         </IonPage>
@@ -57,4 +60,4 @@ const AdditionalResources = (props) => {
     )
 }
 
-export default AdditionalResources
+export default AdditionalResourcesCalculators

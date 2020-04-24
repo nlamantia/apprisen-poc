@@ -209,7 +209,16 @@ ion-icon {
     --ion-grid-width: 200px;
 }
 
-.socila-media-column {
+.socia.-media-column {
     --ion-grid-column-padding: 0;
     --ion-grid-columns: 6;
+}
+
+.clickable-card {
+    cursor: pointer;
+}
+
+.resources-column {
+    display: flex;
+    justify-content: center;
 }

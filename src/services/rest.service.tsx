@@ -28,8 +28,6 @@ export const callLoginEndpoint = async (credentials: LoginRequest): Promise<Logi
 
 export const callCaseSummaryEndpoint = async (): Promise<CaseSummary> => {
     const externalId = await getCaseId()
-    debugger;
-
     return callApi(CASE_SUMMARY_URL + externalId);
 }
 

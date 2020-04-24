@@ -122,7 +122,9 @@ const _Overview = (props) => {
                                 </IonCol>
                             </IonRow>
                             <IonRow>
-                                <AdditionalResourcesPreview/>
+                                <IonCol size={"12"} sizeMd={"8"} sizeLg={"3"} offsetLg={"2"}>   
+                                    <AdditionalResourcesPreview/>
+                                </IonCol>
                             </IonRow>
                         </IonGrid>
                         <IonToast
