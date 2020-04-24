@@ -44,7 +44,7 @@ const _MakePayment = ( props: any ) => {
     const routingNumber: any = React.useRef();
     const accountNumber: any = React.useRef();
     const millisInADay = 86400000;
-    const numOfDays = 2;
+    const numOfDays = 1;
 
     let date = new Date();
     date.setTime(date.getTime() + (numOfDays * millisInADay));
@@ -89,7 +89,8 @@ const _MakePayment = ( props: any ) => {
     useEffect(() => {
         if (credentials && credentials.linkedApplication) {
             const [, linkedApp] = credentials.linkedApplication;
-            externalId.current = linkedApp;
+            const { externalId: id } = linkedApp;
+            externalId.current = id;
             initialPaymentRequest.clientNumber = externalId.current;
             initialPaymentRequest.caseNumber = externalId.current;
             if (paymentStatus && !active) {
