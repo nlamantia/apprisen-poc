@@ -45,6 +45,7 @@ const _MakePayment = ( props: any ) => {
     const accountNumber: any = React.useRef();
     const millisInADay = 86400000;
     const numOfDays = 1;
+    const toastDuration = 3000;
 
     let date = new Date();
     date.setTime(date.getTime() + (numOfDays * millisInADay));
@@ -80,12 +81,13 @@ const _MakePayment = ( props: any ) => {
     const [bankAccountTypes, setBankAccountTypes] = useState<BankAccountType[]>([]);
 
     // for input validation
-    const [validRoutingNumber, setValidRoutingNumber] = useState<boolean>(true);
-    const [validAccountNumber, setValidAccountNumber] = useState<boolean>(true);
-    const [validAmount, setValidAmount] = useState<boolean>(true);
-    const [validBankAccountType, setValidBankAccountType] = useState<boolean>(true);
-    const [validName, setValidName] = useState<boolean>(true);
-    const [validClientComments, setValidClientComments] = useState<boolean>(true);
+    const [validRoutingNumber, setValidRoutingNumber] = useState<boolean>(false);
+    const [validAccountNumber, setValidAccountNumber] = useState<boolean>(false);
+    const [validAmount, setValidAmount] = useState<boolean>(false);
+    const [validBankAccountType, setValidBankAccountType] = useState<boolean>(false);
+    const [validName, setValidName] = useState<boolean>(false);
+    const [validClientComments, setValidClientComments] = useState<boolean>(false);
+    const [fieldsVisited, setFieldsVisited] = useState<string[]>([]);
 
     // for showing toast
     const [shouldShowToast, setShouldShowToast] = useState<boolean>(false);
@@ -171,6 +173,22 @@ const _MakePayment = ( props: any ) => {
                 console.log('Unrecognized field for validation');
         }
         evt.target.color = valid ? 'dark' : 'danger';
+        setFieldsVisited(getUpdatedFieldsVisited(evt.target.name));
+    };
+
+    const getUpdatedFieldsVisited = (field: string): string[] => {
+        let fields = [];
+        for (let i in fieldsVisited) {
+            fields.push(fieldsVisited[i]);
+        }
+        fields.push(field);
+        return fields.filter((value, index, self) => {
+            return self.indexOf(value) === index;
+        });
+    };
+
+    const visited = (field: string): boolean => {
+        return fieldsVisited.includes(field);
     };
 
     const isValidInput = () => {
@@ -207,11 +225,8 @@ const _MakePayment = ( props: any ) => {
         return /[A-Za-z0-9]+/.test(text);
     };
 
-
-    const toastDuration = 3000;
     return (
         <>
-            {console.log(payment)}
             {/*<Menu pageName={'accountOverview'} /> todo fix this*/}
             <IonPage>
                 <IonHeader>
@@ -244,7 +259,7 @@ const _MakePayment = ( props: any ) => {
                                             </IonLabel>
                                         </IonListHeader>
                                         <IonItem lines={'none'}>
-                                            <IonLabel color={validAmount ? 'dark' : 'danger'} position="stacked">Amount</IonLabel>
+                                            <IonLabel color={!visited("amount") || validAmount ? 'dark' : 'danger'} position="stacked">Amount</IonLabel>
                                             <IonInput name="amount" placeholder="Payment Amount" onIonChange={(e) => handleChange(e)} onIonBlur={validate}></IonInput>
                                         </IonItem>
                                         <IonItem lines={'none'}>
@@ -252,7 +267,7 @@ const _MakePayment = ( props: any ) => {
                                             <IonInput name="effectiveDate" placeholder="Payment Date"  readonly={true} value={printDate(date)}></IonInput>
                                         </IonItem>
                                         <IonItem lines={'none'}>
-                                            <IonLabel color={validClientComments ? 'dark' : 'danger'} position="stacked">Comment</IonLabel>
+                                            <IonLabel color={!visited("clientComments") || validClientComments ? 'dark' : 'danger'} position="stacked">Comment</IonLabel>
                                             <IonInput name="clientComments" placeholder="Comment" onIonChange={(e) => handleChange(e)} onIonBlur={validate}></IonInput>
                                         </IonItem>
                                     </IonList>
@@ -265,7 +280,7 @@ const _MakePayment = ( props: any ) => {
                                             </IonLabel>
                                         </IonListHeader>
                                         <IonItem lines={'none'}>
-                                            <IonLabel color={validBankAccountType ? 'dark' : 'danger'} position="floating">Account Type</IonLabel>
+                                            <IonLabel color={!visited("bankAccountType") || validBankAccountType ? 'dark' : 'danger'} position="floating">Account Type</IonLabel>
                                             <IonSelect name="bankAccountType" placeholder="Select One" onIonChange={(e) => handleChange(e)}>
                                                 {bankAccountTypes.map((bankAccountType) => {
                                                     return(
@@ -275,15 +290,15 @@ const _MakePayment = ( props: any ) => {
                                             </IonSelect>
                                         </IonItem>
                                         <IonItem lines={'none'}>
-                                            <IonLabel color={validRoutingNumber ? 'dark' : 'danger'} position="floating">Routing Number</IonLabel>
+                                            <IonLabel color={!visited("routingNumber") || validRoutingNumber ? 'dark' : 'danger'} position="floating">Routing Number</IonLabel>
                                             <IonInput name="routingNumber" ref={routingNumber} placeholder="Routing Number" onIonBlur={validate} onIonChange={(e) => handleChange(e)}></IonInput>
                                         </IonItem>
                                         <IonItem lines={'none'}>
-                                            <IonLabel color={validAccountNumber ? 'dark' : 'danger'} position="floating">Account Number</IonLabel>
+                                            <IonLabel color={!visited("accountNumber") || validAccountNumber ? 'dark' : 'danger'} position="floating">Account Number</IonLabel>
                                             <IonInput name="accountNumber" ref={accountNumber} placeholder="Account Number" onIonBlur={validate} onIonChange={(e) => handleChange(e)}></IonInput>
                                         </IonItem>
                                         <IonItem lines={'none'}>
-                                            <IonLabel color={validName ? 'dark' : 'danger'} position="floating">Primary Name on Account</IonLabel>
+                                            <IonLabel color={!visited("primaryNameOnAccount") || validName ? 'dark' : 'danger'} position="floating">Primary Name on Account</IonLabel>
                                             <IonInput name="primaryNameOnAccount" placeholder="Name" onIonBlur={validate} onIonChange={(e) => handleChange(e)}></IonInput>
                                         </IonItem>
                                     </IonList>
