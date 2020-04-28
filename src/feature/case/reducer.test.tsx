@@ -148,4 +148,20 @@ describe('Case time selectors', () => {
       };
       expect(caseProgressTracker(overallState)).toEqual(-1)
    });
+
+   it('gets progress null ticks non-null firstDisbursementDate', () => {
+      const myState = caseReducer(stateWithPayoffDate, setCaseSummary(
+          {
+             ...caseSummary,
+             firstDisbursementDate: {
+                ...caseSummary.firstDisbursementDate,
+                ticks: undefined
+             }
+          }
+      ))
+      const overallState = {
+         case: myState
+      };
+      expect(caseProgressTracker(overallState)).toEqual(-1)
+   });
 })
