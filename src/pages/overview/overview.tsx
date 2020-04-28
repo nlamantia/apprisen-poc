@@ -25,7 +25,7 @@ import {getCredentials, logout} from '../../feature/auth/action'
 
 import {
     caseFirstPaymentDateUnixTimeSelector,
-    casePayoffDateSelector,
+    casePayoffDateSelector, casePayoffDateUnixTimeSelector,
     caseProgressTracker
 } from "../../feature/case/reducer";
 import {getClientAccountData} from "../../feature/payment/action";
@@ -91,12 +91,24 @@ const _Overview = (props) => {
             // setTimeout(getCaseSummaryDebts, 2000)
         }, [credentials]);
 
-    const printDate = (date) => {
+    const printDate = (time) => {
+        let date = new Date();
+        if (time) {
+            if (time === -1) {
+                return "";
+            } else {
+                date = new Date(time);
+            }
+        }
         const month = date.getMonth() + 1;
         const day = date.getDate();
         const year = date.getFullYear();
         return month + "/" + day + "/" + year;
     };
+
+    const printTodaysDate = () => {
+        return printDate(null);
+    }
 
     return (
         !authorized ? redirectLogin() :
@@ -118,7 +130,7 @@ const _Overview = (props) => {
                         <IonGrid>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
-                                    <ProgressTrackerCard currentLabel={printDate(new Date())} startLabel={printDate(new Date(caseFirstDisbursementDate))} endLabel={printDate(new Date(casePayoffDate))} currentProgress={caseProgress}/>
+                                    <ProgressTrackerCard currentLabel={printTodaysDate()} startLabel={printDate(caseFirstDisbursementDate)} endLabel={printDate(casePayoffDate)} currentProgress={caseProgress}/>
                                 </IonCol>
                             </IonRow>
                             <IonRow>
@@ -157,7 +169,7 @@ const Overview = connect(
         credentials: state.auth.credentials,
         debts: state.debts,
         caseFirstDisbursementDate: caseFirstPaymentDateUnixTimeSelector(state),
-        casePayoffDate: casePayoffDateSelector(state),
+        casePayoffDate: casePayoffDateUnixTimeSelector(state),
         caseProgress: caseProgressTracker(state)
     }),
     dispatch => bindActionCreators({

@@ -86,7 +86,7 @@ export const caseReducer = (state: CaseState = initialState, action) => {
 export const casePayoffDateSelector = (state) => state.case.casePayoffDate
 export const casePayoffDateUnixTimeSelector = (state) => {
     const payoffDate = casePayoffDateSelector(state)
-    if (!payoffDate) return null
+    if (!payoffDate) return -1;
     return new Date(payoffDate).getTime()
 }
 // todo case summary selector
@@ -94,20 +94,20 @@ export const casePayoffDateUnixTimeSelector = (state) => {
 
 export const caseFirstPaymentDateSelector = (state) => {
     const { caseSummary } = state.case
-    if (!caseSummary || !caseSummary.firstDisbursementDate) return null
+    if (!caseSummary || !caseSummary.firstDisbursementDate) return -1;
     return state.case.caseSummary.firstDisbursementDate.ticks
 }
 
 export const caseFirstPaymentDateUnixTimeSelector = (state) => {
     const ticks = caseFirstPaymentDateSelector(state)
-    if (!ticks) return null
+    if (!ticks) return -1;
     return Math.floor(ticks / 10000);
 }
 
 export const caseProgressTracker = (state) => {
     let firstPaymentDate = caseFirstPaymentDateUnixTimeSelector(state);
     let payoffDate = casePayoffDateUnixTimeSelector(state);
-    if (firstPaymentDate && payoffDate) {
+    if (firstPaymentDate !== -1 && payoffDate !== -1) {
         return (Date.now() - firstPaymentDate) / (payoffDate - firstPaymentDate);
     } else {
         return -1;
