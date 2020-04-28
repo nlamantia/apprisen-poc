@@ -46,12 +46,14 @@ describe('case reducer', () => {
 
 describe('Case time selectors', () => {
    // todo convert to const case
-   const casePayoffDateString = "1970-01-19T08:41:30.297Z"
-   const casePayoffDateUnix = 1586490297
-   const firstDisbursementDateTicks = 637220870950000000 ;
-   const firstDisbursementDateUnix = 1586490295;
-   const initialState = caseReducer(undefined, null)
-   global.Date.now = () => 1586490296
+   const casePayoffDateString = "2024-07-24T04:00:00.000Z"
+   const casePayoffDateUnix = 1721793600000
+   const firstDisbursementDateTicks = 13209012000000000;
+   const firstDisbursementDateUnix = 1320901200000;
+
+   const initialState = caseReducer(undefined, null);
+
+   global.Date.now = () => 1588107303088
 
    const stateWithPayoffDate = caseReducer(initialState, setCasePayoffDate(
              {casePayoffDate: casePayoffDateString}
@@ -67,38 +69,83 @@ describe('Case time selectors', () => {
    ))
 
    it('gets casePayoff date', () => {
-       expect(casePayoffDateSelector(stateWithBoth)).toEqual(casePayoffDateString)
+      const overallState = {
+         case: stateWithBoth
+      };
+       expect(casePayoffDateSelector(overallState)).toEqual(casePayoffDateString)
    })
 
    it('handles null casePayoff', () => {
-      expect(casePayoffDateSelector(initialState)).toEqual("")
+      const overallState = {
+         case: initialState
+      };
+      console.log("Overall state: " + JSON.stringify(overallState));
+      expect(casePayoffDateSelector(overallState)).toEqual("")
    })
 
    it('gets casePayoff date in unix time', () => {
-      expect(casePayoffDateUnixTimeSelector(stateWithBoth)).toEqual(casePayoffDateUnix)
+      console.log(JSON.stringify(stateWithBoth))
+      console.log(new Date("2024-07-24T04:00:00.000Z").getTime());
+      const overallState = {
+         case: stateWithBoth
+      };
+      expect(casePayoffDateUnixTimeSelector(overallState)).toEqual(casePayoffDateUnix)
    })
 
    it('gets casePayoff date in unix time, handles null', () => {
-      expect(casePayoffDateUnixTimeSelector(initialState)).toEqual(null)
+      const overallState = {
+         case: initialState
+      };
+      expect(casePayoffDateUnixTimeSelector(overallState)).toEqual(null)
    })
 
    it('gets first payment date', () => {
-      expect(caseFirstPaymentDateSelector(stateWithBoth)).toEqual(firstDisbursementDateTicks)
+      const overallState = {
+         case: stateWithBoth
+      };
+      expect(caseFirstPaymentDateSelector(overallState)).toEqual(firstDisbursementDateTicks)
    })
 
     it('gets first payment date, handles null', () => {
-        expect(caseFirstPaymentDateSelector(initialState)).toEqual(null)
+       const overallState = {
+          case: initialState
+       };
+        expect(caseFirstPaymentDateSelector(overallState)).toEqual(null)
     })
 
    it('gets firstPayment date in unix time', () => {
-      expect(caseFirstPaymentDateUnixTimeSelector(stateWithBoth)).toEqual(firstDisbursementDateUnix)
+      const overallState = {
+         case: stateWithBoth
+      };
+      console.log(JSON.stringify(overallState))
+      expect(caseFirstPaymentDateUnixTimeSelector(overallState)).toEqual(firstDisbursementDateUnix)
    })
 
    it('gets firstPayment date in unix time, handles null', () => {
-      expect(caseFirstPaymentDateUnixTimeSelector(initialState)).toEqual(null)
+      const overallState = {
+         case: initialState
+      };
+      expect(caseFirstPaymentDateUnixTimeSelector(overallState)).toEqual(null)
    })
 
    it('gets progress from beginning to projected end of case', () => {
-      expect(caseProgressTracker(stateWithBoth)).toEqual(.5)
+      const overallState = {
+         case: stateWithBoth
+      };
+      expect(caseProgressTracker(overallState)).toBeCloseTo(.666)
    })
+
+   it('gets progress null first and payoff ticks', () => {
+      const overallState = {
+         case: initialState
+      };
+      expect(caseProgressTracker(overallState)).toEqual(-1)
+   });
+
+   it('gets progress null first ticks', () => {
+      const overallState = {
+         case: stateWithPayoffDate
+      };
+      expect(caseProgressTracker(overallState)).toEqual(-1)
+   });
 })

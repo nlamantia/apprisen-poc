@@ -8,10 +8,10 @@ import {
     IonListHeader,
     IonProgressBar,
     IonRow
-} from '@ionic/react';
+} from "@ionic/react";
 import React from "react";
 
-const ProgressTracker = (props) => {
+const ProgressTrackerCard = (props) => {
     const {startLabel, endLabel, currentLabel, currentProgress} = props;
 
     return (
@@ -46,5 +46,4 @@ const ProgressTracker = (props) => {
         </>
     )
 };
-
-export default ProgressTracker
+export default ProgressTrackerCard;

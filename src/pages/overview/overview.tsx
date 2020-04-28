@@ -10,15 +10,11 @@ import {
     IonThumbnail,
     IonTitle,
     IonToast,
-    IonToolbar,
-    IonFooter,
-    IonIcon,
-    IonButton
+    IonToolbar
 } from "@ionic/react";
 import React, {useEffect, useState} from "react";
 import {Redirect, useLocation} from "react-router-dom";
 import logo from "../../images/apprisen-logo.png";
-import ProgressTracker from "../common/progress-tracker";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
 import {connect} from 'react-redux'
@@ -33,10 +29,8 @@ import {
     caseProgressTracker
 } from "../../feature/case/reducer";
 import {getClientAccountData} from "../../feature/payment/action";
-
-import { logoFacebook } from "ionicons/icons";
 import SocialMediaFooter from "pages/common/social-media-footer";
- 
+import ProgressTrackerCard from "../common/progress-tracker-card";
 
 
 const _Overview = (props) => {
@@ -124,7 +118,7 @@ const _Overview = (props) => {
                         <IonGrid>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
-                                    <ProgressTracker currentLabel={printDate(new Date())} startLabel={printDate(new Date(caseFirstDisbursementDate))} endLabel={printDate(new Date(casePayoffDate))} currentProgress={caseProgress}/>
+                                    <ProgressTrackerCard currentLabel={printDate(new Date())} startLabel={printDate(new Date(caseFirstDisbursementDate))} endLabel={printDate(new Date(casePayoffDate))} currentProgress={caseProgress}/>
                                 </IonCol>
                             </IonRow>
                             <IonRow>
