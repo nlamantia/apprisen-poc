@@ -30,13 +30,13 @@ const ProgressTrackerCard = (props) => {
                         <IonGrid>
                             <IonRow>
                                 <IonCol size={"4"}>
-                                    <IonLabel class="progress-tracker-label"><h3>Start:</h3><p>{startLabel}</p></IonLabel>
+                                    <IonLabel class="progress-tracker-label"><h3>Original Balance:</h3><p>{startLabel}</p></IonLabel>
                                 </IonCol>
                                 <IonCol class="progress-tracker-label center-aligned" size={"4"}>
-                                    <IonLabel><h3>Current:</h3><p>{currentLabel}</p></IonLabel>
+                                    <IonLabel><h3>Current Monthly Payment:</h3><p>{currentLabel}</p></IonLabel>
                                 </IonCol>
                                 <IonCol class="progress-tracker-label right-aligned" size={"4"}>
-                                    <IonLabel><h3>End:</h3><p>{endLabel}</p></IonLabel>
+                                    <IonLabel><h3>Remaining Balance:</h3><p>{endLabel}</p></IonLabel>
                                 </IonCol>
                             </IonRow>
                         </IonGrid>

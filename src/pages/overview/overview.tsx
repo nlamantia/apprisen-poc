@@ -18,16 +18,10 @@ import logo from "../../images/apprisen-logo.png";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
 import {connect} from 'react-redux'
-import {getCasePayoffDate, getCaseSummary} from "../../feature/case/action";
+import {getCaseSummary} from "../../feature/case/action";
 import {getDebts} from "../../feature/debt/action";
 import {bindActionCreators} from "redux";
 import {getCredentials, logout} from '../../feature/auth/action'
-
-import {
-    caseFirstPaymentDateUnixTimeSelector,
-    casePayoffDateSelector, casePayoffDateUnixTimeSelector,
-    caseProgressTracker
-} from "../../feature/case/reducer";
 import {getClientAccountData} from "../../feature/payment/action";
 import SocialMediaFooter from "pages/common/social-media-footer";
 import ProgressTrackerCard from "../common/progress-tracker-card";
@@ -35,10 +29,9 @@ import ProgressTrackerCard from "../common/progress-tracker-card";
 
 const _Overview = (props) => {
 
-    const { caseProgress, logout } = props
+    const { logout } = props
     const {getDebts, fetchingDebtDetails, debts} = props
-    const { getCaseSummary, fetchingCaseSummary, caseSummary, caseFirstDisbursementDate } = props
-    const { getCasePayoffDate, fetchingCasePayoffDate, casePayoffDate } = props
+    const { getCaseSummary, fetchingCaseSummary, caseSummary } = props
     const { getClientAccountData, clientAccountData } = props;
     const { credentials, getCredentials } = props;
     let externalId = React.useRef();
@@ -46,6 +39,10 @@ const _Overview = (props) => {
     const location = useLocation();
     const [authorized, setAuthorized] = useState<boolean>(true);
     const [restError, setRestError] = useState<boolean>(false);
+    const [totalOriginalBalance, setTotalOriginalBalance] = useState<number>(0.00);
+    const [currentBalance, setCurrentBalance] = useState<number>(0.00);
+    const [monthlyPayment, setMonthlyPayment] = useState<number>(0.00);
+    const [caseProgress, setCaseProgress] = useState<number>(0);
 
     function redirectLogin() {
         logout()
@@ -54,26 +51,40 @@ const _Overview = (props) => {
         );
     }
 
+    const calculateCurrentProgress = () => {
+        if (totalOriginalBalance > 0) {
+            return (totalOriginalBalance - currentBalance) / totalOriginalBalance;
+        } else {
+            return 0;
+        }
+    };
+
     useEffect(
         () => {
             if (credentials && credentials.linkedApplication) {
                 const [, second] = credentials.linkedApplication;
                 externalId.current = second.externalId;
+
                 if (!caseSummary && !fetchingCaseSummary) {
                     console.log('get case summary')
                     getCaseSummary();
+                } else if (caseSummary) {
+                    setCurrentBalance(caseSummary.estimatedBalance);
+                    setMonthlyPayment(caseSummary.currentMonthlyPayment);
+                    setCaseProgress(calculateCurrentProgress());
                 }
+
                 if (!debts && !fetchingDebtDetails) {
                     console.log('get case summary')
                     getDebts();
+                } else if (debts) {
+                    setTotalOriginalBalance(
+                        debts.reduce(0.00, (current, nextDebt) => {
+                            return current + nextDebt.originalBalance;
+                        })
+                    );
                 }
-                if (!casePayoffDate && !fetchingCasePayoffDate) {
-                    console.log('get case payoff debt!')
-                    // todo mock this
-                    // todo decide between caseNumber and externalId
-                    // todo caseNumber selector
-                    getCasePayoffDate({caseNumber: externalId, increaseAmount: 0, isOneTimePayment: true})
-                }
+
                 if (!clientAccountData || !clientAccountData.bankAccountTypes) {
                     console.log('get client data');
                     getClientAccountData();
@@ -90,25 +101,6 @@ const _Overview = (props) => {
             // todo having getDebts() and getCaseSummary() fire at the same time makes them not work. SetTimeoute mitigates this. find better solution
             // setTimeout(getCaseSummaryDebts, 2000)
         }, [credentials]);
-
-    const printDate = (time) => {
-        let date = new Date();
-        if (time) {
-            if (time === -1) {
-                return "";
-            } else {
-                date = new Date(time);
-            }
-        }
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        const year = date.getFullYear();
-        return month + "/" + day + "/" + year;
-    };
-
-    const printTodaysDate = () => {
-        return printDate(null);
-    }
 
     return (
         !authorized ? redirectLogin() :
@@ -130,7 +122,7 @@ const _Overview = (props) => {
                         <IonGrid>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
-                                    <ProgressTrackerCard currentLabel={printTodaysDate()} startLabel={printDate(caseFirstDisbursementDate)} endLabel={printDate(casePayoffDate)} currentProgress={caseProgress}/>
+                                    <ProgressTrackerCard currentLabel={"$" + monthlyPayment} startLabel={"$" + totalOriginalBalance} endLabel={"$" + currentBalance} currentProgress={caseProgress}/>
                                 </IonCol>
                             </IonRow>
                             <IonRow>
@@ -167,17 +159,13 @@ const Overview = connect(
         fetchingCasePayoffDate: state.case.fetchingCasePayoffDate,
         clientAccountData: state.payment.clientAccountData,
         credentials: state.auth.credentials,
-        debts: state.debts,
-        caseFirstDisbursementDate: caseFirstPaymentDateUnixTimeSelector(state),
-        casePayoffDate: casePayoffDateUnixTimeSelector(state),
-        caseProgress: caseProgressTracker(state)
+        debts: state.debts
     }),
     dispatch => bindActionCreators({
         getCaseSummary,
         getDebts,
         logout,
         getClientAccountData,
-        getCasePayoffDate,
         getCredentials
     }, dispatch)
 )(
