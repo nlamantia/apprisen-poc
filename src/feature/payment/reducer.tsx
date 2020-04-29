@@ -1,11 +1,13 @@
 import {PaymentStatus} from "../../models/payment/payment-status";
-import {SET_CLIENT_ACCOUNT_DATA, SET_CONFIRMATION, SET_PAYMENT_STATUS} from "./action";
+import {SET_CLIENT_ACCOUNT_DATA, SET_CONFIRMATION, SET_PAYMENT_HISTORY, SET_PAYMENT_STATUS} from "./action";
 import {ClientAccountData} from "../../models/client/client-account-data";
+import {CaseDeposit} from "../../models/payment/case-deposit";
 
 export interface PaymentState {
     confirmationNumber: string,
     paymentStatus: PaymentStatus,
-    clientAccountData: ClientAccountData
+    clientAccountData: ClientAccountData,
+    paymentHistory: CaseDeposit[]
 }
 
 const initialPaymentStatus: PaymentStatus = {
@@ -16,11 +18,12 @@ const initialPaymentStatus: PaymentStatus = {
 const initialState: PaymentState = {
     confirmationNumber: "",
     paymentStatus: initialPaymentStatus,
-    clientAccountData: {} as ClientAccountData
+    clientAccountData: {} as ClientAccountData,
+    paymentHistory: [] as CaseDeposit[]
 }
 
-export const paymentReducer = (state = initialState, action) => {
-    if (!action) return state;
+export const paymentReducer = (state: PaymentState = initialState, action) => {
+    if (!action) return {...state};
     switch(action.type) {
         case SET_CONFIRMATION:
             const { payload: { response: { confirmationNumber } } } = action;
@@ -48,6 +51,15 @@ export const paymentReducer = (state = initialState, action) => {
             return {
                 ...state,
                 clientAccountData
+            };
+
+        case SET_PAYMENT_HISTORY:
+            const {payload: { payments } } = action;
+            console.log("Setting payment history: " + JSON.stringify(payments));
+
+            return {
+                ...state,
+                paymentHistory: payments
             };
 
         default:
