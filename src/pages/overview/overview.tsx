@@ -79,9 +79,9 @@ const _Overview = (props) => {
                     getDebts();
                 } else if (debts) {
                     setTotalOriginalBalance(
-                        debts.reduce(0.00, (current, nextDebt) => {
+                        debts.reduce((current, nextDebt) => {
                             return current + nextDebt.originalBalance;
-                        })
+                        }, 0.00)
                     );
                 }
 
@@ -96,11 +96,7 @@ const _Overview = (props) => {
                     redirectLogin();
                 }
             }
-
-
-            // todo having getDebts() and getCaseSummary() fire at the same time makes them not work. SetTimeoute mitigates this. find better solution
-            // setTimeout(getCaseSummaryDebts, 2000)
-        }, [credentials]);
+        }, [credentials, debts, clientAccountData, caseSummary, totalOriginalBalance]);
 
     return (
         !authorized ? redirectLogin() :
@@ -159,7 +155,7 @@ const Overview = connect(
         fetchingCasePayoffDate: state.case.fetchingCasePayoffDate,
         clientAccountData: state.payment.clientAccountData,
         credentials: state.auth.credentials,
-        debts: state.debts
+        debts: state.debt.debts
     }),
     dispatch => bindActionCreators({
         getCaseSummary,
