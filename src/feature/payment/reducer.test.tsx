@@ -44,32 +44,32 @@ const fakeResponse = {
     caseDeposits: [
         {
             $id: "2",
-            postedDate: "2020-04-17T00:00:00",
+            postedDate: 1587081600000,
             amount: 670.0000
         },
         {
             $id: "3",
-            postedDate: "2020-03-17T00:00:00",
+            postedDate: 1584403200000,
             amount: 670.0000
         },
         {
             $id: "4",
-            postedDate: "2020-02-18T00:00:00",
+            postedDate: 1581984000000,
             amount: 670.0000
         },
         {
             $id: "5",
-            postedDate: "2020-01-17T00:00:00",
+            postedDate: 1579219200000,
             amount: 670.0000
         },
         {
             $id: "6",
-            postedDate: "2019-12-17T00:00:00",
+            postedDate: 1576540800000,
             amount: 670.0000
         },
         {
             $id: "7",
-            postedDate: "2019-11-18T00:00:00",
+            postedDate: 1574035200000,
             amount: 654.0000
         }
     ],

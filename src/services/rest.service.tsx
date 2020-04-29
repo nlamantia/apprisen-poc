@@ -15,7 +15,7 @@ const DEBT_DETAIL_URL = BASE_URL + "/api/case/debt-details/";
 const LOGIN_URL = BASE_URL + "/api/auth/login";
 const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
 const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
-const PAYMENT_HISTORY_URL = BASE_URL + "/api/case/getcasedepositdetail/";
+const PAYMENT_HISTORY_URL = BASE_URL + "/api/case/payment-history/";
 
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]
 
@@ -41,48 +41,9 @@ export const callPaymentHistory = async (): Promise<PaymentHistoryResponse> => {
     // const externalId = await getCaseId();
     const externalId = 9902398;
 
-    // return callApi(PAYMENT_HISTORY_URL + externalId);
-    return getFakePaymentHistoryResponse();
+    return callApi(PAYMENT_HISTORY_URL + externalId);
+    // return getFakePaymentHistoryResponse();
 };
-
-function getFakePaymentHistoryResponse() {
-    return {
-        caseDeposits: [
-            {
-                $id: "2",
-                postedDate: "2020-04-17T00:00:00",
-                amount: 670.0000
-            },
-            {
-                $id: "3",
-                postedDate: "2020-03-17T00:00:00",
-                amount: 670.0000
-            },
-            {
-                $id: "4",
-                postedDate: "2020-02-18T00:00:00",
-                amount: 670.0000
-            },
-            {
-                $id: "5",
-                postedDate: "2020-01-17T00:00:00",
-                amount: 670.0000
-            },
-            {
-                $id: "6",
-                postedDate: "2019-12-17T00:00:00",
-                amount: 670.0000
-            },
-            {
-                $id: "7",
-                postedDate: "2019-11-18T00:00:00",
-                amount: 654.0000
-            }
-        ],
-        IsSuccess: true,
-        errors: []
-    } as PaymentHistoryResponse;
-}
 
 export const callPayoffForecast = async ({IncreaseAmount, IsOneTimePayment}): Promise<string> => {
 

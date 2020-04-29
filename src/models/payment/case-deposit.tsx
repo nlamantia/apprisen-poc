@@ -1,5 +1,5 @@
 export interface CaseDeposit {
     $id: any;
-    postedDate: string;
+    postedDate: number;
     amount: number;
 }

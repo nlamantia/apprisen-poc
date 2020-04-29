@@ -35,7 +35,6 @@ export const paymentReducer = (state: PaymentState = initialState, action) => {
 
         case SET_PAYMENT_STATUS:
             const {payload: { status: { paymentStatus, active } } } = action;
-            console.log(JSON.stringify(paymentStatus));
 
             return {
                 ...state,
@@ -55,7 +54,6 @@ export const paymentReducer = (state: PaymentState = initialState, action) => {
 
         case SET_PAYMENT_HISTORY:
             const {payload: { payments } } = action;
-            console.log("Setting payment history: " + JSON.stringify(payments));
 
             return {
                 ...state,

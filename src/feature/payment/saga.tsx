@@ -33,7 +33,6 @@ export function * getPaymentHistoryWorker(action) {
     const paymentHistoryResponse = yield call(callPaymentHistory);
 
     const { caseDeposits, IsSuccess, errors } = paymentHistoryResponse;
-    console.log(JSON.stringify(paymentHistoryResponse));
 
     if (paymentHistoryResponse && caseDeposits && IsSuccess) {
         yield put(setPaymentHistory(caseDeposits));
