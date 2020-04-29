@@ -22,7 +22,7 @@ import {getCaseSummary} from "../../feature/case/action";
 import {getDebts} from "../../feature/debt/action";
 import {bindActionCreators} from "redux";
 import {getCredentials, logout} from '../../feature/auth/action'
-import {getClientAccountData} from "../../feature/payment/action";
+import {getClientAccountData, getPaymentHistory} from "../../feature/payment/action";
 import SocialMediaFooter from "pages/common/social-media-footer";
 import ProgressTrackerCard from "../common/progress-tracker-card";
 
@@ -34,6 +34,7 @@ const _Overview = (props) => {
     const { getCaseSummary, fetchingCaseSummary, caseSummary } = props
     const { getClientAccountData, clientAccountData } = props;
     const { credentials, getCredentials } = props;
+    const { paymentHistory, getPaymentHistory } = props;
     let externalId = React.useRef();
 
     const location = useLocation();
@@ -65,6 +66,11 @@ const _Overview = (props) => {
                 const [, second] = credentials.linkedApplication;
                 externalId.current = second.externalId;
 
+                if (!paymentHistory || !paymentHistory.length) {
+                    console.log('get payment history');
+                    getPaymentHistory();
+                }
+
                 if (!caseSummary && !fetchingCaseSummary) {
                     console.log('get case summary')
                     getCaseSummary();
@@ -72,17 +78,17 @@ const _Overview = (props) => {
                     setCurrentBalance(caseSummary.estimatedBalance);
                     setMonthlyPayment(caseSummary.currentMonthlyPayment);
                     setCaseProgress(calculateCurrentProgress());
+
+                    if (paymentHistory) {
+                        const sum = (current, nextPayment) => (current + nextPayment.amount);
+                        const totalPaid = paymentHistory.reduce(sum, 0.00);
+                        setTotalOriginalBalance(caseSummary.estimatedBalance + totalPaid);
+                    }
                 }
 
                 if (!debts && !fetchingDebtDetails) {
                     console.log('get case summary')
                     getDebts();
-                } else if (debts) {
-                    setTotalOriginalBalance(
-                        debts.reduce((current, nextDebt) => {
-                            return current + nextDebt.originalBalance;
-                        }, 0.00)
-                    );
                 }
 
                 if (!clientAccountData || !clientAccountData.bankAccountTypes) {
@@ -96,7 +102,7 @@ const _Overview = (props) => {
                     redirectLogin();
                 }
             }
-        }, [credentials, debts, clientAccountData, caseSummary, totalOriginalBalance]);
+        }, [credentials, debts, clientAccountData, caseSummary, totalOriginalBalance, paymentHistory]);
 
     return (
         !authorized ? redirectLogin() :
@@ -155,12 +161,14 @@ const Overview = connect(
         fetchingCasePayoffDate: state.case.fetchingCasePayoffDate,
         clientAccountData: state.payment.clientAccountData,
         credentials: state.auth.credentials,
-        debts: state.debt.debts
+        debts: state.debt.debts,
+        paymentHistory: state.payment.paymentHistory
     }),
     dispatch => bindActionCreators({
         getCaseSummary,
         getDebts,
         logout,
+        getPaymentHistory,
         getClientAccountData,
         getCredentials
     }, dispatch)

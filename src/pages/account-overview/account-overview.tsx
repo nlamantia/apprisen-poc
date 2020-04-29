@@ -82,7 +82,6 @@ const _AccountOverview = ( props ) => {
     return (
       <>
         {/*<Menu pageName={'accountOverview'} /> todo fix this*/}
-        <Menu />
         <IonPage>
           <IonHeader>
             <IonToolbar>
