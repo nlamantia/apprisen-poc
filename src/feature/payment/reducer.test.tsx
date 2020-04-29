@@ -37,7 +37,7 @@ describe('payment reducer', () => {
                 expect(paymentInHistory.amount).toEqual(paymentInResponse.amount);
             }
         });
-    })
+    });
 });
 
 const fakeResponse = {
