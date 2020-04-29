@@ -29,14 +29,18 @@ import {Redirect} from "react-router";
 import {CaseDebt} from "../../models/case/case-debt";
 import {CaseSummary} from "../../models/case/case-summary";
 import SocialMediaFooter from "../common/social-media-footer";
-
+import {getPaymentHistory} from "../../feature/payment/action";
+import {CaseDeposit} from "../../models/payment/case-deposit";
+import {printDate} from "../common/utility-functions";
 
 const _AccountOverview = ( props ) => {
     const { caseSummary, debts } = props
     const { credentials, getCredentials, logout } = props;
+    const { paymentHistory } = props;
 
     const [userDebts, setUserDebts] = useState<CaseDebt[]>([]);
     const [userCaseSummary, setUserCaseSummary] = useState<CaseSummary>({} as CaseSummary);
+    const [userPaymentHistory, setUserPaymentHistory] = useState<CaseDeposit[]>([]);
 
   function redirectLogin() {
     logout();
@@ -48,7 +52,7 @@ const _AccountOverview = ( props ) => {
     useEffect(
         () => {
           if (credentials && credentials.linkedApplication) {
-            const {getCaseSummary, getDebts} = props
+            const {getCaseSummary, getDebts, getPaymentHistory} = props
             if (!caseSummary || caseSummary === {}) {
               getCaseSummary();
             } else {
@@ -60,6 +64,12 @@ const _AccountOverview = ( props ) => {
             } else {
               setUserDebts(debts)
             }
+
+            if (!paymentHistory || !paymentHistory.length || paymentHistory.length === 0) {
+                getPaymentHistory();
+            } else {
+                setUserPaymentHistory(paymentHistory);
+            }
           } else {
             try {
               getCredentials();
@@ -67,7 +77,7 @@ const _AccountOverview = ( props ) => {
               redirectLogin();
             }
           }
-        }, [credentials, caseSummary, debts]);
+        }, [credentials, caseSummary, debts, paymentHistory]);
 
     return (
       <>
@@ -132,6 +142,27 @@ const _AccountOverview = ( props ) => {
                       </IonItem>
                     </IonList>
                   </IonCard>
+                    <IonCard>
+                        <IonList class="ion-no-padding">
+                            <IonListHeader class={"white ion-text-center ion-padding-end"}>
+                                <IonLabel>
+                                    <h2>Payment History</h2>
+                                </IonLabel>
+                            </IonListHeader>
+                            {userPaymentHistory.map(caseDeposit => {
+                                return (
+                                    <IonItem>
+                                        <IonLabel>
+                                            <h3>{printDate(new Date(caseDeposit.postedDate))}</h3>
+                                        </IonLabel>
+                                        <div className={"ion-text-right row-text"}>
+                                            ${caseDeposit.amount.toFixed(2)}
+                                        </div>
+                                    </IonItem>
+                                );
+                            })}
+                        </IonList>
+                    </IonCard>
                   <IonCard>
                     <IonList class="ion-no-padding">
                       <IonListHeader class={"white ion-text-center ion-padding-end"}>
@@ -209,12 +240,14 @@ const AccountOverview = connect(
     state => ({
       caseSummary: state.case.caseSummary,
       debts: state.debt.debts,
-      credentials: state.auth.credentials
+      credentials: state.auth.credentials,
+      paymentHistory: state.payment.paymentHistory
     }),
     dispatch => bindActionCreators({
       getCaseSummary,
       getDebts,
       getCredentials,
+      getPaymentHistory,
       logout
     }, dispatch)
 )(

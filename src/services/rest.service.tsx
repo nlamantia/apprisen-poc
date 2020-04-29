@@ -4,6 +4,7 @@ import {ClientInformation} from "../models/case/client-information";
 import {CaseSummary} from "../models/case/case-summary";
 import {DebtDetail} from "../models/case/debt-detail";
 import {getAuthHeaders, getCaseId} from "./auth.service";
+import {PaymentHistoryResponse} from "../models/payment/payment-history-response";
 
 export const BASE_URL = "https://apprisen-facade-test.herokuapp.com"
 
@@ -14,6 +15,7 @@ const DEBT_DETAIL_URL = BASE_URL + "/api/case/debt-details/";
 const LOGIN_URL = BASE_URL + "/api/auth/login";
 const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
 const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
+const PAYMENT_HISTORY_URL = BASE_URL + "/api/case/getcasedepositdetail/";
 
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]
 
@@ -30,10 +32,57 @@ export const callLoginEndpoint = async (credentials: LoginRequest): Promise<Logi
 
 export const callCaseSummaryEndpoint = async (): Promise<CaseSummary> => {
     const externalId = await getCaseId()
-    debugger;
 
     return callApi(CASE_SUMMARY_URL + externalId);
 };
+
+export const callPaymentHistory = async (): Promise<PaymentHistoryResponse> => {
+    // commented out for now because no payment history for regular test user
+    // const externalId = await getCaseId();
+    const externalId = 9902398;
+
+    // return callApi(PAYMENT_HISTORY_URL + externalId);
+    return getFakePaymentHistoryResponse();
+};
+
+function getFakePaymentHistoryResponse() {
+    return {
+        caseDeposits: [
+            {
+                $id: "2",
+                postedDate: "2020-04-17T00:00:00",
+                amount: 670.0000
+            },
+            {
+                $id: "3",
+                postedDate: "2020-03-17T00:00:00",
+                amount: 670.0000
+            },
+            {
+                $id: "4",
+                postedDate: "2020-02-18T00:00:00",
+                amount: 670.0000
+            },
+            {
+                $id: "5",
+                postedDate: "2020-01-17T00:00:00",
+                amount: 670.0000
+            },
+            {
+                $id: "6",
+                postedDate: "2019-12-17T00:00:00",
+                amount: 670.0000
+            },
+            {
+                $id: "7",
+                postedDate: "2019-11-18T00:00:00",
+                amount: 654.0000
+            }
+        ],
+        IsSuccess: true,
+        errors: []
+    } as PaymentHistoryResponse;
+}
 
 export const callPayoffForecast = async ({IncreaseAmount, IsOneTimePayment}): Promise<string> => {
 
