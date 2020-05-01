@@ -44,19 +44,20 @@ const _Menu = ( props : any ) => {
     const { pageName } = props
 
     return (
-        <IonMenu side="end" menuId="menu" contentId={pageName}>
+        <IonMenu side="end" menuId="menu" type="overlay" contentId={pageName}>
             <IonHeader class="toolbar-header">
                 <IonToolbar class="toolbar-header">
                     <IonTitle>Menu</IonTitle>
                     <IonButtons slot="end">
-                        <IonMenuButton menu="menu"></IonMenuButton>
+                        <IonMenuToggle>
+                            <IonMenuButton menu="menu"></IonMenuButton>
+                        </IonMenuToggle>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
                 <IonList>
                     {pages.map(page => (
-                        <IonMenuToggle>
                             <IonItem
                                 class='clickable ion-activatable'
                                 key={page.title}
@@ -67,7 +68,6 @@ const _Menu = ( props : any ) => {
                                     {page.title}
                                 </IonLabel>
                             </IonItem>
-                        </IonMenuToggle>
                     ))}
                 </IonList>
             </IonContent>
@@ -81,7 +81,7 @@ const Menu = connect(
         logout
     }, dispatch)
 )(
-    _Menu
+    withRouter(_Menu)
 );
 
-export default withRouter(Menu);
+export default Menu;

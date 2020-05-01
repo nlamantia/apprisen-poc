@@ -30,8 +30,7 @@ const _Profile = (props) => {
     // @ts-ignore
     return (
         <>
-            {/*<Menu pageName={'profile'} /> todo error on this for some reason*/}
-            <Menu />
+            <Menu pageName={'profile'} />
             <IonPage>
                 <IonHeader>
                     <IonToolbar>

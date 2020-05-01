@@ -36,6 +36,7 @@ import {getClientAccountData} from "../../feature/payment/action";
 
 import { logoFacebook } from "ionicons/icons";
 import SocialMediaFooter from "pages/common/social-media-footer";
+import Menu from "../menu/menu";
  
 
 
@@ -107,7 +108,7 @@ const _Overview = (props) => {
     return (
         !authorized ? redirectLogin() :
             <>
-                {/*<Menu pageName={'pageName'} /> todo fix this*/}
+                <Menu pageName={'overview'} />
                 <IonPage>
                     <IonHeader>
                         <IonToolbar>
@@ -120,7 +121,7 @@ const _Overview = (props) => {
                             </IonButtons>
                         </IonToolbar>
                     </IonHeader>
-                    <IonContent id="pageName">
+                    <IonContent id="overview">
                         <IonGrid>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
