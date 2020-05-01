@@ -76,7 +76,11 @@ class _OverviewCard extends Component {
                             </IonThumbnail>
                             <IonLabel>
                                 <h3>Upcoming Due Date</h3>
-                                <p>{nextPaymentDueOn ? nextPaymentDueOn.toString().substring(0, 10) : null}</p>
+                                <p>
+                                    {nextPaymentDueOn
+                                        ? nextPaymentDueOn.toString().substring(0, 10)
+                                        : <IonSkeletonText animated style={{width: '60%'}}/>}
+                                </p>
                             </IonLabel>
                         </IonItem>
                         <IonItem>
@@ -85,7 +89,11 @@ class _OverviewCard extends Component {
                             </IonThumbnail>
                             <IonLabel>
                                 <h3>Amount Due</h3>
-                                <p>${currentMonthlyPayment}</p>
+                                <p>
+                                    {currentMonthlyPayment
+                                        ? "$" + currentMonthlyPayment
+                                        : <IonSkeletonText animated style={{width: '60%'}}/>}
+                                </p>
                             </IonLabel>
                         </IonItem>
                         <IonItem className={'full-button'}>

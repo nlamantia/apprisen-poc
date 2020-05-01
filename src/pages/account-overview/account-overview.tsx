@@ -234,7 +234,6 @@ const _AccountOverview = (props) => {
     )
 }
 
-
 const AccountOverview = connect(
     state => ({
         caseSummary: state.case.caseSummary,
