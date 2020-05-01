@@ -4,6 +4,7 @@ import {ClientInformation} from "../models/case/client-information";
 import {CaseSummary} from "../models/case/case-summary";
 import {DebtDetail} from "../models/case/debt-detail";
 import {getAuthHeaders, getCaseId} from "./auth.service";
+import {PaymentHistoryResponse} from "../models/payment/payment-history-response";
 
 export const BASE_URL = "https://apprisen-facade-test.herokuapp.com"
 
@@ -14,6 +15,7 @@ const DEBT_DETAIL_URL = BASE_URL + "/api/case/debt-details/";
 const LOGIN_URL = BASE_URL + "/api/auth/login";
 const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
 const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
+const PAYMENT_HISTORY_URL = BASE_URL + "/api/case/payment-history/";
 
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]
 
@@ -31,6 +33,15 @@ export const callLoginEndpoint = async (credentials: LoginRequest): Promise<Logi
 export const callCaseSummaryEndpoint = async (): Promise<CaseSummary> => {
     const externalId = await getCaseId()
     return callApi(CASE_SUMMARY_URL + externalId);
+};
+
+export const callPaymentHistory = async (): Promise<PaymentHistoryResponse> => {
+    // commented out for now because no payment history for regular test user
+    // const externalId = await getCaseId();
+    const externalId = 9902398;
+
+    return callApi(PAYMENT_HISTORY_URL + externalId);
+    // return getFakePaymentHistoryResponse();
 };
 
 export const callPayoffForecast = async ({IncreaseAmount, IsOneTimePayment}): Promise<string> => {

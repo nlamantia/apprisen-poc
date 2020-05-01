@@ -28,7 +28,6 @@ import {PaymentRequest} from "../../models/payment/payment-request";
 import {getCredentials, logout} from "../../feature/auth/action";
 import {Redirect} from "react-router";
 import {BankAccountType} from "../../models/banking/bank-account-type";
-import SocialMediaFooter from "../common/social-media-footer";
 // eslint-disable-next-line
 
 
@@ -308,7 +307,6 @@ const _MakePayment = ( props: any ) => {
                         </IonRow>
                     </IonGrid>
                 </IonContent>
-                <SocialMediaFooter/>
             </IonPage>
         </>
     )

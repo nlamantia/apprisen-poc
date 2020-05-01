@@ -1,33 +1,22 @@
 import {
+    IonBackButton,
     IonButtons,
+    IonCard,
     IonCol,
     IonContent,
     IonGrid,
     IonHeader,
-    IonMenuButton,
+    IonItem,
     IonPage,
     IonRow,
-    IonThumbnail,
     IonTitle,
-    IonToast,
-    IonToolbar,
-    IonFooter,
-    IonIcon,
-    IonButton,
-    IonCard,
-    IonList,
-    IonBackButton,
-    IonListHeader,
-    IonLabel,
-    IonItem
+    IonToolbar
 } from "@ionic/react";
-import React, {useEffect, useState} from "react";
-import SocialMediaFooter from "pages/common/social-media-footer";
+import React from "react";
 import AdditionalResourcesCard from "./additional-resources-card";
 import facebookDMP from "../../images/facebook-DMP.jpg";
 import unitedWay from "../../images/united-way.jpg";
 import cfpb from "../../images/cfpb.png";
- 
 
 
 const AdditionalResources = (props) => {
@@ -63,7 +52,6 @@ const AdditionalResources = (props) => {
                     </IonItem>  
                 </IonCard>
             </IonContent>
-            <SocialMediaFooter/>
         </IonPage>
             </>
     )
