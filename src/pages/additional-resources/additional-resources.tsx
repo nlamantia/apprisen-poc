@@ -24,10 +24,13 @@ import {
 import React, {useEffect, useState} from "react";
 import SocialMediaFooter from "pages/common/social-media-footer";
 import AdditionalResourcesCard from "./additional-resources-card";
+import facebookDMP from "../../images/facebook-DMP.jpg";
+import unitedWay from "../../images/united-way.jpg";
+import cfpb from "../../images/cfpb.png";
  
 
 
-const AdditionalResourcesCalculators = (props) => {
+const AdditionalResources = (props) => {
 
 
     return (
@@ -38,7 +41,7 @@ const AdditionalResourcesCalculators = (props) => {
                 <IonButtons slot="start">
                 <IonBackButton defaultHref="/overview" />
                 </IonButtons>
-                <IonTitle>Calculators</IonTitle>
+                <IonTitle>Additional Resources</IonTitle>
             </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -46,8 +49,14 @@ const AdditionalResourcesCalculators = (props) => {
                     <IonItem>  
                         <IonGrid>
                             <IonRow>
-                                <IonCol size={"12"} sizeMd={"2"} sizeLg={"4"} className="resources-column">
-                                    <AdditionalResourcesCard imageLink="https://www.apprisen.com/wp-content/uploads/2019/08/hero9.png" url="https://www.apprisen.com/financial-calculators/" title="Financial Calculators"/>
+                                <IonCol size={"12"} sizeMd={"2"} sizeLg={"3"} className="resources-column">
+                                    <AdditionalResourcesCard imageLink={facebookDMP} url="https://www.facebook.com/groups/ApprisenDMPCommunity" title="Facebook DMP Community"/>
+                                </IonCol>
+                                <IonCol size={"12"} sizeMd={"2"} sizeLg={"3"} className="resources-column">
+                                    <AdditionalResourcesCard imageLink={unitedWay} url=" https://www.unitedway.org/" title="United Way"/>  
+                                </IonCol>
+                                <IonCol size={"12"} sizeMd={"2"} sizeLg={"3"} className="resources-column">
+                                    <AdditionalResourcesCard imageLink={cfpb} url="https://www.consumerfinance.gov/consumer-tools/" title="Financial Education Resources"/>
                                 </IonCol>
                             </IonRow>
                         </IonGrid>
@@ -60,4 +69,4 @@ const AdditionalResourcesCalculators = (props) => {
     )
 }
 
-export default AdditionalResourcesCalculators
+export default AdditionalResources

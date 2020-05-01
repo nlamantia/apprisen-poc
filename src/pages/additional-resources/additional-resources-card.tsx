@@ -16,7 +16,7 @@ const AdditionalResourcesCard = (props : ResourceInput) => {
     }
 
     return (
-        <IonCard class="color">
+        <IonCard class="resources">
             <IonList class="ion-no-padding" lines="none">
                 <IonListHeader class={"white"}>
                     <IonLabel>
@@ -26,9 +26,7 @@ const AdditionalResourcesCard = (props : ResourceInput) => {
                         <IonIcon className={"arrow-color"} icon={arrowForward} onClick={handleClick}/>
                     </IonFabButton>
                 </IonListHeader>
-                <IonCardContent >
-                    <IonImg src={imageLink}/>
-                </IonCardContent>
+                <img src={imageLink}/>
             </IonList>
         </IonCard>
     )

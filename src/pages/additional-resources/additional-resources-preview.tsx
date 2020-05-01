@@ -22,58 +22,10 @@ const AdditionalResourcesPreview = (props) => {
                         </IonLabel>
                     </IonListHeader>
                     <IonItem lines="inset">
-                        <IonLabel>Financial</IonLabel>
+                        <IonLabel>View All</IonLabel>
                         <Link
                             to={{
-                            pathname: `/resources/financial`
-                            }}
-                        >
-                            <IonFabButton class={"fab-button"} color={"light"}>
-                                <IonIcon className={"arrow-color"} icon={arrowForward} />
-                            </IonFabButton>
-                        </Link>
-                    </IonItem>
-                    <IonItem lines="inset">
-                        <IonLabel>Budget, Planning & Saving</IonLabel>
-                        <Link
-                            to={{
-                            pathname: `/resources/budget`
-                            }}
-                        >
-                            <IonFabButton class={"fab-button"} color={"light"}>
-                                <IonIcon className={"arrow-color"} icon={arrowForward} />
-                            </IonFabButton>
-                        </Link>
-                    </IonItem>
-                    <IonItem lines="inset">
-                        <IonLabel>Calculators</IonLabel>
-                        <Link
-                            to={{
-                            pathname: `/resources/calculators`
-                            }}
-                        >
-                            <IonFabButton class={"fab-button"} color={"light"}>
-                                <IonIcon className={"arrow-color"} icon={arrowForward} />
-                            </IonFabButton>
-                        </Link>
-                    </IonItem>
-                    <IonItem lines="inset">
-                        <IonLabel>Credit Report Resources</IonLabel>
-                        <Link
-                            to={{
-                            pathname: `/resources/credit`
-                            }}
-                        >
-                            <IonFabButton class={"fab-button"} color={"light"}>
-                                <IonIcon className={"arrow-color"} icon={arrowForward} />
-                            </IonFabButton>
-                        </Link>
-                    </IonItem>
-                    <IonItem lines="inset">
-                        <IonLabel>Quick Tips</IonLabel>
-                        <Link
-                            to={{
-                            pathname: `/resources/quicktips`
+                            pathname: `/resources`
                             }}
                         >
                             <IonFabButton class={"fab-button"} color={"light"}>

@@ -122,7 +122,7 @@ const _Overview = (props) => {
                                 </IonCol>
                             </IonRow>
                             <IonRow>
-                                <IonCol size={"12"} sizeMd={"8"} sizeLg={"3"} offsetLg={"2"}>   
+                                <IonCol size={"12"} sizeMd={"6"} sizeLg={"3"} offsetLg={"2"}>   
                                     <AdditionalResourcesPreview/>
                                 </IonCol>
                             </IonRow>
@@ -134,7 +134,7 @@ const _Overview = (props) => {
                             color="danger"
                             duration={4000}
                             header="Oops Something went wrong..."
-                        />   
+                        />
                     </IonContent>
                     <SocialMediaFooter/>
                 </IonPage>
