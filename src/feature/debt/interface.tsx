@@ -1,5 +1,5 @@
 import {DebtDetail} from "models/case/debt-detail";
-import { GET_DEBTS, SET_DEBTS, SELECT_DEBT } from "./action";
+import {GET_DEBTS, SET_DEBTS, SELECT_DEBT, GET_SELECTED_DEBT} from "./action";
 import {LoginResponse} from "../../models/auth/login-response";
 
 interface GetDebtsMessageAction {
@@ -17,7 +17,12 @@ interface SelectDebtMessageAction {
     payload: { id: string }
 }
 
+interface GetSelectedDebtAction {
+    type: typeof GET_SELECTED_DEBT
+}
+
 export type DebtTypes =
     GetDebtsMessageAction |
     SetDebtsMessageAction |
-    SelectDebtMessageAction
+    SelectDebtMessageAction |
+    GetSelectedDebtAction

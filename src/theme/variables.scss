@@ -108,7 +108,7 @@ ion-progress-bar {
 }
 
 .full-button {
-    width: 100%;
+    width: 100% !important;
 }
 
 .amount {
@@ -121,6 +121,15 @@ ion-progress-bar {
 
 .center-aligned {
     text-align: center;
+}
+
+.bold-and-centered {
+    text-align: center;
+}
+
+.bold-and-centered h2 {
+    font-weight: bold;
+    font-size: 18pt;
 }
 
 .row-text {
@@ -202,7 +211,7 @@ ion-col {
 }
 
 ion-icon {
-    color: black
+    color: white
 }
 
 .social-media-grid {

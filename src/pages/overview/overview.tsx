@@ -18,7 +18,6 @@ import {
 import React, {useEffect, useState} from "react";
 import {Redirect, useLocation} from "react-router-dom";
 import logo from "../../images/apprisen-logo.png";
-import Menu from "../menu/menu";
 import ProgressTracker from "../common/progress-tracker";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
@@ -26,12 +25,14 @@ import {connect} from 'react-redux'
 import {getCasePayoffDate, getCaseSummary} from "../../feature/case/action";
 import {getDebts} from "../../feature/debt/action";
 import {bindActionCreators} from "redux";
-import {logout} from '../../feature/auth/action'
+import {getCredentials, logout} from '../../feature/auth/action'
+
 import {
     caseFirstPaymentDateUnixTimeSelector,
     casePayoffDateSelector,
     caseProgressTracker
 } from "../../feature/case/reducer";
+import {getClientAccountData} from "../../feature/payment/action";
 
 import { logoFacebook } from "ionicons/icons";
 import SocialMediaFooter from "pages/common/social-media-footer";
@@ -45,35 +46,13 @@ const _Overview = (props) => {
     const {getDebts, fetchingDebtDetails, debts} = props
     const { getCaseSummary, fetchingCaseSummary, caseSummary, caseFirstDisbursementDate } = props
     const { getCasePayoffDate, fetchingCasePayoffDate, casePayoffDate } = props
+    const { getClientAccountData, clientAccountData } = props;
+    const { credentials, getCredentials } = props;
+    let externalId = React.useRef();
 
     const location = useLocation();
     const [authorized, setAuthorized] = useState<boolean>(true);
     const [restError, setRestError] = useState<boolean>(false);
-
-
-    useEffect(
-        () => {
-            if (!caseSummary && !fetchingCaseSummary) {
-                console.log('get case summary')
-                getCaseSummary();
-            }
-            if (!debts && !fetchingDebtDetails) {
-                console.log('get case summary')
-                getDebts();
-            }
-            if (!casePayoffDate && !fetchingCasePayoffDate) {
-                console.log('get case payoff debt!')
-                // todo mock this
-                // todo decide between caseNumber and externalId
-                // todo caseNumber selector
-                getCasePayoffDate({ caseNumber: 5, increaseAmount: 0, isOneTimePayment: true })
-            }
-
-
-            // todo having getDebts() and getCaseSummary() fire at the same time makes them not work. SetTimeoute mitigates this. find better solution
-            // setTimeout(getCaseSummaryDebts, 2000)
-        }, []);
-
 
     function redirectLogin() {
         logout()
@@ -81,6 +60,43 @@ const _Overview = (props) => {
             <Redirect to="/login"/>
         );
     }
+
+    useEffect(
+        () => {
+            if (credentials && credentials.linkedApplication) {
+                const [, second] = credentials.linkedApplication;
+                externalId.current = second.externalId;
+                if (!caseSummary && !fetchingCaseSummary) {
+                    console.log('get case summary')
+                    getCaseSummary();
+                }
+                if (!debts && !fetchingDebtDetails) {
+                    console.log('get case summary')
+                    getDebts();
+                }
+                if (!casePayoffDate && !fetchingCasePayoffDate) {
+                    console.log('get case payoff debt!')
+                    // todo mock this
+                    // todo decide between caseNumber and externalId
+                    // todo caseNumber selector
+                    getCasePayoffDate({caseNumber: externalId, increaseAmount: 0, isOneTimePayment: true})
+                }
+                if (!clientAccountData || !clientAccountData.bankAccountTypes) {
+                    console.log('get client data');
+                    getClientAccountData();
+                }
+            } else {
+                try {
+                    getCredentials();
+                } catch (e) {
+                    redirectLogin();
+                }
+            }
+
+
+            // todo having getDebts() and getCaseSummary() fire at the same time makes them not work. SetTimeoute mitigates this. find better solution
+            // setTimeout(getCaseSummaryDebts, 2000)
+        }, [credentials]);
 
     const printDate = (date) => {
         const month = date.getMonth() + 1;
@@ -93,7 +109,6 @@ const _Overview = (props) => {
         !authorized ? redirectLogin() :
             <>
                 {/*<Menu pageName={'pageName'} /> todo fix this*/}
-                <Menu/>
                 <IonPage>
                     <IonHeader>
                         <IonToolbar>
@@ -148,8 +163,10 @@ const Overview = connect(
     state => ({
         caseSummary: state.case.caseSummary,
         fetchingCaseSummary: state.case.fetchingCaseSummary,
-        fetchingDebtDetails: state.debt.fetchingDebtSummary,
+        fetchingDebtDetails: state.debt.fetchingDebtDetail,
         fetchingCasePayoffDate: state.case.fetchingCasePayoffDate,
+        clientAccountData: state.payment.clientAccountData,
+        credentials: state.auth.credentials,
         debts: state.debts,
         caseFirstDisbursementDate: caseFirstPaymentDateUnixTimeSelector(state),
         casePayoffDate: casePayoffDateSelector(state),
@@ -159,7 +176,9 @@ const Overview = connect(
         getCaseSummary,
         getDebts,
         logout,
-        getCasePayoffDate
+        getClientAccountData,
+        getCasePayoffDate,
+        getCredentials
     }, dispatch)
 )(
     _Overview

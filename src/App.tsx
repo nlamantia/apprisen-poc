@@ -1,5 +1,5 @@
-import { IonApp, IonRouterOutlet } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
+import {IonApp, IonRouterOutlet} from "@ionic/react";
+import {IonReactRouter} from "@ionic/react-router";
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/display.css";
@@ -14,7 +14,7 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React from "react";
-import { BrowserRouter, Redirect, Route, withRouter } from "react-router-dom";
+import {Redirect, Route, withRouter} from "react-router-dom";
 import AccountOverview from "./pages/account-overview/account-overview";
 import LenderOverview from "./pages/lender/lender-overview";
 import Login from "./pages/login/login";
@@ -26,10 +26,12 @@ import Profile from "./pages/profile/profile";
 /* Theme variables */
 import "./theme/variables.scss";
 
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
 import {store} from "./config/store";
 import AdditionalResources from "pages/additional-resources/additional-resources";
 
+import MakePayment from "./pages/payment/make-payment";
+import PaymentConfirmation from "./pages/payment/payment-confirmation";
 
 const Main = () => {
   return (
@@ -55,6 +57,15 @@ const Main = () => {
             path="/lender-overview"
             render={props => <LenderOverview lender={props as any} />}
           />
+          <Route
+            path="/make-payment"
+            component={withRouter(MakePayment)}
+            />
+
+            <Route
+              path="/payment-confirmation"
+              component={withRouter(PaymentConfirmation)}
+              />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
