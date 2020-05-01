@@ -12,7 +12,7 @@ import {
     IonToolbar
 } from '@ionic/react';
 import {connect} from 'react-redux'
-import React from 'react';
+import React, {useEffect} from 'react';
 import { logout } from '../../feature/auth/action'
 import {withRouter} from 'react-router';
 import {bindActionCreators} from "redux";
@@ -43,20 +43,25 @@ const _Menu = ( props : any ) => {
 
     const { pageName } = props
 
+    useEffect(() => {
+       // console.log("Menu props: " + JSON.stringify(props));
+    });
+
     return (
-        <IonMenu side="end" menuId="menu" contentId={pageName}>
+        <IonMenu side="end" menuId="menu" type="overlay" contentId={pageName}>
             <IonHeader class="toolbar-header">
                 <IonToolbar class="toolbar-header">
                     <IonTitle>Menu</IonTitle>
                     <IonButtons slot="end">
-                        <IonMenuButton menu="menu"></IonMenuButton>
+                        <IonMenuToggle>
+                            <IonMenuButton menu="menu" autoHide={false}/>
+                        </IonMenuToggle>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
                 <IonList>
                     {pages.map(page => (
-                        <IonMenuToggle>
                             <IonItem
                                 class='clickable ion-activatable'
                                 key={page.title}
@@ -67,7 +72,6 @@ const _Menu = ( props : any ) => {
                                     {page.title}
                                 </IonLabel>
                             </IonItem>
-                        </IonMenuToggle>
                     ))}
                 </IonList>
             </IonContent>
@@ -81,7 +85,7 @@ const Menu = connect(
         logout
     }, dispatch)
 )(
-    _Menu
+    withRouter(_Menu)
 );
 
-export default withRouter(Menu);
+export default Menu;

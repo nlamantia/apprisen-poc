@@ -1,12 +1,12 @@
-import { SET_CLIENT_INFORMATION } from "./action";
-import { ClientInformation } from "models/case/client-information";
+import {SET_CLIENT_INFORMATION} from "./action";
+import {ClientInformation} from "models/case/client-information";
 
 export interface CaseState {
-    clientInformation: ClientInformation
+    clientInformation: ClientInformation;
 }
 
 const initialState = {
-    clientInformation: {} as ClientInformation,
+    clientInformation: {} as ClientInformation
 }
 
 export const clientReducer = (state = initialState, action) => {
