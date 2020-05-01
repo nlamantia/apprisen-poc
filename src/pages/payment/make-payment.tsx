@@ -12,12 +12,12 @@ import {
     IonLabel,
     IonList,
     IonListHeader,
-    IonMenuButton,
     IonPage,
     IonRow,
     IonSelect,
     IonSelectOption,
-    IonTitle, IonToast,
+    IonTitle,
+    IonToast,
     IonToolbar
 } from "@ionic/react";
 import {connect} from 'react-redux'
@@ -227,7 +227,6 @@ const _MakePayment = ( props: any ) => {
 
     return (
         <>
-            {/*<Menu pageName={'accountOverview'} /> todo fix this*/}
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
@@ -235,9 +234,6 @@ const _MakePayment = ( props: any ) => {
                             <IonBackButton defaultHref="/overview" />
                         </IonButtons>
                         <IonTitle>Make a Payment</IonTitle>
-                        <IonButtons slot="end">
-                            <IonMenuButton></IonMenuButton>
-                        </IonButtons>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent id="makePayment">

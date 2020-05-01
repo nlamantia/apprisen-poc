@@ -1,6 +1,5 @@
 import {
     IonButton,
-    IonButtons,
     IonCard,
     IonCol,
     IonContent,
@@ -10,7 +9,6 @@ import {
     IonLabel,
     IonList,
     IonListHeader,
-    IonMenuButton,
     IonPage,
     IonRow,
     IonThumbnail,
@@ -33,7 +31,6 @@ const _PaymentConfirmation = ( props ) => {
 
     return (
         <>
-            {/*<Menu pageName={'accountOverview'} /> todo fix this*/}
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
@@ -41,9 +38,6 @@ const _PaymentConfirmation = ( props ) => {
                             <img alt="apprisen-logo" src={logo}/>
                         </IonThumbnail>
                         <IonTitle>Make a Payment</IonTitle>
-                        <IonButtons slot="end">
-                            <IonMenuButton></IonMenuButton>
-                        </IonButtons>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent id="paymentConfirmation">
