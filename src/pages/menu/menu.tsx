@@ -12,7 +12,7 @@ import {
     IonToolbar
 } from '@ionic/react';
 import {connect} from 'react-redux'
-import React from 'react';
+import React, {useEffect} from 'react';
 import { logout } from '../../feature/auth/action'
 import {withRouter} from 'react-router';
 import {bindActionCreators} from "redux";
@@ -43,6 +43,10 @@ const _Menu = ( props : any ) => {
 
     const { pageName } = props
 
+    useEffect(() => {
+       // console.log("Menu props: " + JSON.stringify(props));
+    });
+
     return (
         <IonMenu side="end" menuId="menu" type="overlay" contentId={pageName}>
             <IonHeader class="toolbar-header">
@@ -50,7 +54,7 @@ const _Menu = ( props : any ) => {
                     <IonTitle>Menu</IonTitle>
                     <IonButtons slot="end">
                         <IonMenuToggle>
-                            <IonMenuButton menu="menu"></IonMenuButton>
+                            <IonMenuButton menu="menu" autoHide={false}/>
                         </IonMenuToggle>
                     </IonButtons>
                 </IonToolbar>

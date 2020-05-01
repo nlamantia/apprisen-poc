@@ -33,7 +33,6 @@ const _PaymentConfirmation = ( props ) => {
 
     return (
         <>
-            {/*<Menu pageName={'accountOverview'} /> todo fix this*/}
             <IonPage>
                 <IonHeader>
                     <IonToolbar>

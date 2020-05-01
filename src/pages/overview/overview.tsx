@@ -10,10 +10,7 @@ import {
     IonThumbnail,
     IonTitle,
     IonToast,
-    IonToolbar,
-    IonFooter,
-    IonIcon,
-    IonButton
+    IonToolbar
 } from "@ionic/react";
 import React, {useEffect, useState} from "react";
 import {Redirect, useLocation} from "react-router-dom";
@@ -33,11 +30,7 @@ import {
     caseProgressTracker
 } from "../../feature/case/reducer";
 import {getClientAccountData} from "../../feature/payment/action";
-
-import { logoFacebook } from "ionicons/icons";
 import SocialMediaFooter from "pages/common/social-media-footer";
-import Menu from "../menu/menu";
- 
 
 
 const _Overview = (props) => {
@@ -108,7 +101,6 @@ const _Overview = (props) => {
     return (
         !authorized ? redirectLogin() :
             <>
-                <Menu pageName={'overview'} />
                 <IonPage>
                     <IonHeader>
                         <IonToolbar>

@@ -13,7 +13,6 @@ import {
     IonTitle,
     IonToolbar
 } from '@ionic/react';
-import Menu from "../menu/menu";
 import logo from "../../images/apprisen-logo.png";
 import {connect} from 'react-redux'
 import {getClientInformation} from "../../feature/client/action";
@@ -30,7 +29,6 @@ const _Profile = (props) => {
     // @ts-ignore
     return (
         <>
-            <Menu pageName={'profile'} />
             <IonPage>
                 <IonHeader>
                     <IonToolbar>

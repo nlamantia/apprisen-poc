@@ -17,7 +17,8 @@ import {
     IonRow,
     IonSelect,
     IonSelectOption,
-    IonTitle, IonToast,
+    IonTitle,
+    IonToast,
     IonToolbar
 } from "@ionic/react";
 import {connect} from 'react-redux'
@@ -227,7 +228,6 @@ const _MakePayment = ( props: any ) => {
 
     return (
         <>
-            {/*<Menu pageName={'accountOverview'} /> todo fix this*/}
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
