@@ -31,7 +31,7 @@ import {
 } from "../../feature/case/reducer";
 import {getClientAccountData} from "../../feature/payment/action";
 import SocialMediaFooter from "pages/common/social-media-footer";
-
+import AdditionalResourcesPreview from "pages/additional-resources/additional-resources-preview";
 
 const _Overview = (props) => {
 
@@ -128,6 +128,11 @@ const _Overview = (props) => {
                                     <LenderList/>
                                 </IonCol>
                             </IonRow>
+                            <IonRow>
+                                <IonCol size={"12"} sizeMd={"6"} sizeLg={"3"} offsetLg={"2"}>
+                                    <AdditionalResourcesPreview/>
+                                </IonCol>
+                            </IonRow>
                         </IonGrid>
                         <IonToast
                             isOpen={restError}
@@ -136,7 +141,7 @@ const _Overview = (props) => {
                             color="danger"
                             duration={4000}
                             header="Oops Something went wrong..."
-                        />   
+                        />
                     </IonContent>
                     <SocialMediaFooter/>
                 </IonPage>

@@ -34,10 +34,12 @@ import Home from "./pages/user/Home";
 import UserDetails from "./pages/user/UserDetails";
 import Profile from "./pages/profile/profile";
 /* Theme variables */
-import "./theme/variables.css";
+import "./theme/variables.scss";
 
 import {Provider} from 'react-redux'
 import {store} from "./config/store";
+import AdditionalResources from "pages/additional-resources/additional-resources";
+
 import MakePayment from "./pages/payment/make-payment";
 import PaymentConfirmation from "./pages/payment/payment-confirmation";
 import {bindActionCreators} from "redux";
@@ -100,6 +102,7 @@ const _Main = (props: any) => {
           <Route exact path="/" render={() => <Redirect to="/login" />} />
           <Route path="/user/:id" component={UserDetails} />
           <Route path="/profile" component={Profile} />
+          <Route path="/resources" component={AdditionalResources} />
           <Route
             path="/payment-overview"
             render={props => <PaymentOverview caseData={props as any} />}
