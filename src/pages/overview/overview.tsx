@@ -30,8 +30,6 @@ import {
     caseProgressTracker
 } from "../../feature/case/reducer";
 import {getClientAccountData} from "../../feature/payment/action";
-import SocialMediaFooter from "pages/common/social-media-footer";
-import AdditionalResourcesPreview from "pages/additional-resources/additional-resources-preview";
 
 const _Overview = (props) => {
 

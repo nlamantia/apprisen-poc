@@ -26,7 +26,6 @@ import {getCredentials, logout} from "../../feature/auth/action";
 import {Redirect} from "react-router";
 import {CaseDebt} from "../../models/case/case-debt";
 import {CaseSummary} from "../../models/case/case-summary";
-import SocialMediaFooter from "../common/social-media-footer";
 import {getPaymentHistory} from "../../feature/payment/action";
 import {CaseDeposit} from "../../models/payment/case-deposit";
 import {printDate} from "../common/utility-functions";
@@ -230,7 +229,6 @@ const _AccountOverview = (props) => {
                         </IonRow>
                     </IonGrid>
                 </IonContent>
-                <SocialMediaFooter/>
             </IonPage>
         </>
     )
