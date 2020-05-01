@@ -218,7 +218,131 @@ ion-icon {
     --ion-grid-width: 200px;
 }
 
-.socila-media-column {
+.socia.-media-column {
     --ion-grid-column-padding: 0;
     --ion-grid-columns: 6;
 }
+
+.clickable-card {
+    cursor: pointer;
+}
+
+.resources-column {
+    display: flex;
+    justify-content: center;
+}
+
+#sharpenChat.light {
+    position: fixed !important;
+    right: 5rem !important;
+  }
+  
+  @media (max-width: 767px) {
+
+    #sharpenChat.light {
+        position: fixed !important;
+        right: 3rem !important;
+      }
+
+      #openChatBtn {
+        position: relative;
+        &:before {
+      content: "";
+      width: 70px !important;
+      height: 70px !important;
+      background-size: contain;
+      background-image: url(https://www.apprisen.com/wp-content/themes/apprisen/assets/images/iris-help.png);
+      background-repeat: no-repeat;
+      display: inline-block;
+      z-index: 1000;
+      position: absolute;
+      bottom: 0.5rem;
+    }
+    &:after {
+      content: "Chat with IRIS" !important;
+      background-color: #ffffff;
+      border-radius: 0.9375rem;
+      bottom: 1.2rem !important;
+      height: 2.8rem;
+      padding: 0 1.3rem 0 0.3rem;
+      position: absolute;
+      right: 10%;
+      width: 120px !important;
+      z-index: 999;
+      line-height: 2.8;
+    }
+    &.collapse {
+      &:after {
+        display: none;
+      }
+    }
+  }
+  
+  #mainChatIcon,
+  #chatHoverMsg {
+    display: none;
+  }
+} 
+
+
+
+#openChatBtn {
+    position: relative;
+    &:before {
+      content: "";
+      width: 90px;
+      height: 90px;
+      background-size: contain;
+      background-image: url(https://www.apprisen.com/wp-content/themes/apprisen/assets/images/iris-help.png);
+      background-repeat: no-repeat;
+      display: inline-block;
+      z-index: 1000;
+      position: absolute;
+      bottom: 0.5rem;
+    }
+    &:after {
+      content: "Chat with IRIS now";
+      background-color: #ffffff;
+      border-radius: 0.9375rem;
+      bottom: 1.8rem;
+      height: 2.8rem;
+      padding: 0 1.3rem 0 0.3rem;
+      position: absolute;
+      right: 10%;
+      width: 185px;
+      z-index: 999;
+      line-height: 2.8;
+    }
+    &.collapse {
+      &:after {
+        display: none;
+      }
+    }
+  }
+  
+  #mainChatIcon,
+  #chatHoverMsg {
+    display: none;
+  }
+
+@media (max-width: 767px) {
+    ion-card.resources {
+        img {
+            margin: 5px auto;
+            height: 25vh !important;
+            width: auto !important;
+            max-width: 95%;
+            align-items: center;
+        }
+        }  
+  }  
+
+ion-card.resources {
+    img {
+        margin: 5px auto;
+        height: 30vh;
+        width: auto !important;
+        max-width: 95%;
+        align-items: center;
+    }
+    }  
