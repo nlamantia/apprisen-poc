@@ -10,7 +10,6 @@ import {
     IonLabel,
     IonList,
     IonListHeader,
-    IonMenuButton,
     IonPage,
     IonRow,
     IonTitle,
@@ -77,9 +76,6 @@ const _AccountOverview = ( props ) => {
                 <IonBackButton defaultHref="/overview" />
               </IonButtons>
               <IonTitle>Account Overview</IonTitle>
-              <IonButtons slot="end">
-                <IonMenuButton />
-              </IonButtons>
             </IonToolbar>
           </IonHeader>
           <IonContent id="accountOverview">

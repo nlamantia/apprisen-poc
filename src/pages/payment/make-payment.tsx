@@ -12,7 +12,6 @@ import {
     IonLabel,
     IonList,
     IonListHeader,
-    IonMenuButton,
     IonPage,
     IonRow,
     IonSelect,
@@ -235,9 +234,6 @@ const _MakePayment = ( props: any ) => {
                             <IonBackButton defaultHref="/overview" />
                         </IonButtons>
                         <IonTitle>Make a Payment</IonTitle>
-                        <IonButtons slot="end">
-                            <IonMenuButton></IonMenuButton>
-                        </IonButtons>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent id="makePayment">
