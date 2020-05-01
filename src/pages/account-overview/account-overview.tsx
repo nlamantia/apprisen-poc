@@ -10,7 +10,6 @@ import {
     IonLabel,
     IonList,
     IonListHeader,
-    IonMenuButton,
     IonPage,
     IonRow,
     IonTitle,
@@ -20,7 +19,6 @@ import {connect} from 'react-redux'
 import React, {useEffect, useState} from "react";
 // eslint-disable-next-line
 import {Doughnut} from 'react-chartjs-2';
-import Menu from "../menu/menu";
 import {getCaseSummary} from "../../feature/case/action";
 import {getDebts} from "../../feature/debt/action";
 import {bindActionCreators} from "redux";
@@ -81,8 +79,6 @@ const _AccountOverview = (props) => {
 
     return (
         <>
-            {/*<Menu pageName={'accountOverview'} /> todo fix this*/}
-            <Menu/>
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
@@ -90,9 +86,7 @@ const _AccountOverview = (props) => {
                             <IonBackButton defaultHref="/overview"/>
                         </IonButtons>
                         <IonTitle>Account Overview</IonTitle>
-                        <IonButtons slot="end">
-                            <IonMenuButton></IonMenuButton>
-                        </IonButtons>
+
                     </IonToolbar>
                 </IonHeader>
                 <IonContent id="accountOverview">
