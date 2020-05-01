@@ -55,8 +55,9 @@ const _Main = (props: any) => {
   const { logout } = props;
 
   const pages: Page[] = [
-    { title: 'Profile', route: '/profile', action: (e) => null},
     { title: 'Overview', route: '/overview', action: (e) => null},
+    { title: 'Profile', route: '/profile', action: (e) => null},
+    { title: 'Additional Resources', route: '/resources', action: (e) => null },
     { title: 'Logout', route: '/login', action: (e) => logout()}
   ]
 

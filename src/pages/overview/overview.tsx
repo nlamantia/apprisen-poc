@@ -128,11 +128,6 @@ const _Overview = (props) => {
                                     <LenderList/>
                                 </IonCol>
                             </IonRow>
-                            <IonRow>
-                                <IonCol size={"12"} sizeMd={"6"} sizeLg={"3"} offsetLg={"2"}>
-                                    <AdditionalResourcesPreview/>
-                                </IonCol>
-                            </IonRow>
                         </IonGrid>
                         <IonToast
                             isOpen={restError}
@@ -143,7 +138,6 @@ const _Overview = (props) => {
                             header="Oops Something went wrong..."
                         />
                     </IonContent>
-                    <SocialMediaFooter/>
                 </IonPage>
             </>
     )
