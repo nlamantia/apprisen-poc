@@ -31,35 +31,68 @@ import {store} from "./config/store";
 import MakePayment from "./pages/payment/make-payment";
 import PaymentConfirmation from "./pages/payment/payment-confirmation";
 
+const PrivateRoute = ({component, render, ...props}) => {
+    const isAuthorized = true
+    const isVerified = true
+
+    const shouldRedirect =  (!isAuthorized || !isVerified)
+    const pathname = isAuthorized ? '/login' : '/verify'
+
+    return (
+        <Route {...props} exact
+               render={(props => (
+                   shouldRedirect ? (
+                        component ? (
+                           <div>
+                               {React.createElement(component, props)}
+                           </div>
+                        ) : (
+                            <div>
+                                {React.createElement(render, props)}
+                            </div>
+                        )
+                       ) :
+                       (
+                           <Redirect
+                               to={{
+                                   pathname: '/login',
+                               }}
+                           />
+                       )
+               ))}
+        />
+    )
+}
+
 const Main = () => {
   return (
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route path="/overview" component={withRouter(Overview)} exact={true} />
-          <Route path="/home" component={Home} exact={true} />
+          <PrivateRoute path="/overview" component={withRouter(Overview)} exact={true} />
+          <PrivateRoute path="/home" component={Home} exact={true} />
           <Route path="/login" component={withRouter(Login)} exact={true} />
           <Route exact path="/" render={() => <Redirect to="/login" />} />
-          <Route path="/user/:id" component={UserDetails} />
-          <Route path="/profile" component={Profile} />
-          <Route
+          <PrivateRoute path="/user/:id" component={UserDetails} />
+          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute
             path="/payment-overview"
             render={props => <PaymentOverview caseData={props as any} />}
           />
-          <Route
+          <PrivateRoute
             path="/account-overview"
             render={props => <AccountOverview caseData={props as any} />}
           />
-          <Route
+          <PrivateRoute
             path="/lender-overview"
             render={props => <LenderOverview lender={props as any} />}
           />
-          <Route
+          <PrivateRoute
             path="/make-payment"
             component={withRouter(MakePayment)}
             />
 
-            <Route
+            <PrivateRoute
               path="/payment-confirmation"
               component={withRouter(PaymentConfirmation)}
               />
