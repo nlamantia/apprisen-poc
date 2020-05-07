@@ -17,6 +17,7 @@ export const login = (credentials : LoginResponse) => {
     }
 }
 
+
 export const logout = () => {
     console.log('called logout')
     Storage.remove({key: 'credentials'}).then(() => console.log('removed credential'));
@@ -37,12 +38,25 @@ export const getCredentials = async(): Promise<LoginResponse> => {
     })
 }
 
+export const isVerified = async () => {
+    try {
+        const caseId = await getCaseId();
+        return !!caseId
+    } catch(e) {
+        return false
+    }
+}
+
 
 export const getCaseId = () => {
+    const APP_NAME = 'One Time Payment'
     return new Promise(async (resolve, reject) => {
         try {
             const credentials = await getCredentials()
-            const {linkedApplication: [{}, {externalId}]} = credentials
+            console.log(credentials)
+            console.log(credentials.linkedApplication.filter( e =>  e.application === APP_NAME )[0
+                ])
+            const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === APP_NAME )[0]
             resolve(externalId)
         } catch(e) {
             reject("Could not get case id!")

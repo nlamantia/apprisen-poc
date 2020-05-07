@@ -1,5 +1,5 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
-import {GET_CREDENTIALS, LOGIN, LOGOUT, setCredentials, setLoginStatus} from "./action";
+import {GET_CREDENTIALS, LOGIN, LOGOUT, setCredentials, setLoginStatus, verify, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
 import {callLoginEndpoint} from "../../services/rest.service";
 import {assertLoggedIn, login, logout} from "../../services/auth.service";
@@ -46,6 +46,16 @@ export function * getCredentialsWorker(action) {
 
 export function * getCredentialsWatcher() {
     yield takeEvery(GET_CREDENTIALS, getCredentialsWorker);
+}
+
+
+export function * verifyWorker(action) {
+    const { payload } = action
+    yield call(verify, payload)
+}
+
+export function * verifyWatcher() {
+    yield takeEvery(VERIFY, getCredentialsWorker);
 }
 
 export function * logoutWorker() {

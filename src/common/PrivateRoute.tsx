@@ -1,5 +1,6 @@
 import {Redirect, Route} from "react-router-dom";
-import {isAuthenticated} from "../services/auth.service";
+import {isAuthenticated, isVerified} from "../services/auth.service";
+import { useLocation } from 'react-router-dom'
 import React, {useEffect, useState} from "react";
 
 const PrivateRoute = ({component = {}, render = {}, ...props}: {
@@ -9,30 +10,37 @@ const PrivateRoute = ({component = {}, render = {}, ...props}: {
     exact? : boolean
 }) => {
     const [isAuthedOptional, setIsAuthedOptional] = useState({ isPresent: false, value: undefined })
+    const [isVerifiedOptional, setIsVerifiedOptional] = useState({ isPresent: false, value: undefined })
+
+    const location = useLocation()
 
     useEffect( () => {
-        const determineIfUserIsAuthenticated =  async () => {
-            const value = await isAuthenticated()
-            setIsAuthedOptional({isPresent: true, value})
+        const determineUserStatus =  async () => {
+            const authenticated = await isAuthenticated()
+            // const verified = await isVerified()
+             const verified = false
+            setIsAuthedOptional({isPresent: true, value: authenticated})
+            setIsVerifiedOptional({isPresent: true, value: verified})
         }
-        determineIfUserIsAuthenticated()
+        determineUserStatus()
     }, [])
 
     if (!isAuthedOptional.isPresent) return (<div />)
-    const { value : isAuthed } = isAuthedOptional
+    const { value : authed } = isAuthedOptional
 
-    const isVerified = true
+    if (!isVerifiedOptional.isPresent) return (<div />)
+    const { value : verified } = isVerifiedOptional
 
-    const shouldRedirect =  (!isAuthed || !isVerified)
-    const pathname = isAuthed ? '/login' : '/verify'
+    const shouldRedirect =  (!authed || !verified)
+    const pathname = authed ? '/login' : '/verify'
 
     return (
         <Route {...props} exact
                render={(props => (
-                   shouldRedirect ? (
+                   ( shouldRedirect && pathname !== location.pathname ) ? (
                            <Redirect
                                to={{
-                                   pathname: '/login',
+                                   pathname,
                                }}
                            />
                        ) :

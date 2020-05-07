@@ -31,6 +31,7 @@ import {store} from "./config/store";
 import MakePayment from "./pages/payment/make-payment";
 import PaymentConfirmation from "./pages/payment/payment-confirmation";
 import PrivateRoute from "./common/PrivateRoute";
+import Verify from "./pages/verify/verify";
 
 
 
@@ -42,6 +43,7 @@ const Main = () => {
           <PrivateRoute path="/overview" component={withRouter(Overview)} exact={true} />
           <PrivateRoute path="/home" component={Home} exact={true} />
           <Route path="/login" component={withRouter(Login)} exact={true} />
+          <PrivateRoute path="/verify" component={withRouter(Verify)} exact={true} />
           <PrivateRoute exact path="/" component={() => <Redirect to="/overview" />} />
           <PrivateRoute path="/user/:id" component={UserDetails} />
           <PrivateRoute path="/profile" component={Profile} />

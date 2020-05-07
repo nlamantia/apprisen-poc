@@ -40,3 +40,9 @@ export const logout = (credentials: LoginRequest) =>  ({
     type: LOGOUT,
     payload: { credentials }
 })
+
+export const VERIFY = "verify"
+export const verify = ({zipCode, lastFourOfSSID, XXX}) => ({
+    type: VERIFY,
+    payload: {zipCode, lastFourOfSSID, XXX}
+})
