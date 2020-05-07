@@ -1,6 +1,16 @@
 import React, {Component, useEffect, useState} from "react";
 // eslint-disable-next-line
-import {IonButton, IonCard, IonItem, IonLabel, IonList, IonListHeader, IonToast, IonAlert} from "@ionic/react";
+import {
+    IonButton,
+    IonCard,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonListHeader,
+    IonToast,
+    IonAlert,
+    IonProgressBar, IonRow, IonCol, IonGrid
+} from "@ionic/react";
 // eslint-disable-next-line
 import {CaseDebt} from "../../models/case/case-debt";
 import {Link} from "react-router-dom";
@@ -32,11 +42,14 @@ const _LenderList = (props: any) => {
                 {debts && debts.length > 0
                     ? debts.map((caseDebt: CaseDebt, i: any) => {
                         return (
-                            <IonItem key={i}>
-                                <IonLabel>
+                            <IonItem className={'lender-flex'} key={i}>
+                                <IonLabel className="ion-text-wrap">
                                     <h3>{caseDebt.creditorName}</h3>
-                                    <p>${caseDebt.currentBalance} balance</p>
+                                    <p>${caseDebt.currentBalance}</p>
                                 </IonLabel>
+                                <div className={'lender-progress-holder'}>
+                                    <IonProgressBar value={0.5}/>
+                                </div>
                                 <Link
                                     to={{
                                         pathname: `/lender-overview`,

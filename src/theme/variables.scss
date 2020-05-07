@@ -237,6 +237,25 @@ ion-icon {
     justify-content: center;
 }
 
+.lender-flex {
+  display: flex;
+  justify-content: center !important;
+  align-items: stretch !important;
+}
+
+.lender-flex .ion-text-wrap {
+  width: 30%;
+  flex-grow: 4;
+  text-align: center;
+}
+
+.lender-progress-holder {
+  padding: 10px;
+  height: auto;
+  flex-grow: 4;
+  flex-shrink: 3;
+}
+
 #sharpenChat.light {
     position: fixed !important;
     right: 5rem !important;
