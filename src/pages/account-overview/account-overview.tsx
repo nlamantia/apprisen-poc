@@ -200,15 +200,16 @@ const _AccountOverview = (props) => {
                                                                     lender => lender.currentBalance
                                                                 ),
                                                                 backgroundColor: [
-                                                                    "#FF6384",
-                                                                    "#36A2EB",
-                                                                    "#FFCE56",
-                                                                    "#64fb6f"
+                                                                    "#008752",
+                                                                    "#FAA634",
+                                                                    "#007FB2",
+                                                                    "#439539"
                                                                 ],
                                                                 hoverBackgroundColor: [
-                                                                    "#FF6384",
-                                                                    "#36A2EB",
-                                                                    "#FFCE56"
+                                                                    "#008752",
+                                                                    "#FAA634",
+                                                                    "#007FB2",
+                                                                    "#439539"
                                                                 ]
                                                             }
                                                         ]
