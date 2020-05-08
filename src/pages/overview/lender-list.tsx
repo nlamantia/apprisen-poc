@@ -1,16 +1,6 @@
-import React, {Component, useEffect, useState} from "react";
+import React from "react";
 // eslint-disable-next-line
-import {
-    IonButton,
-    IonCard,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonListHeader,
-    IonToast,
-    IonAlert,
-    IonProgressBar, IonRow, IonCol, IonGrid
-} from "@ionic/react";
+import {IonButton, IonCard, IonItem, IonLabel, IonList, IonListHeader, IonProgressBar} from "@ionic/react";
 // eslint-disable-next-line
 import {CaseDebt} from "../../models/case/case-debt";
 import {Link} from "react-router-dom";
@@ -19,6 +9,7 @@ import {bindActionCreators} from "redux";
 import {getDebts, selectDebt} from "../../feature/debt/action";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {getClientInformation} from "feature/client/action";
+import {calculateProgress} from "../common/utility-functions";
 
 const _LenderList = (props: any) => {
 
@@ -48,7 +39,7 @@ const _LenderList = (props: any) => {
                                     <p>${caseDebt.currentBalance}</p>
                                 </IonLabel>
                                 <div className={'lender-progress-holder'}>
-                                    <IonProgressBar value={0.5}/>
+                                    <IonProgressBar value={calculateProgress(caseDebt.originalBalance, caseDebt.currentBalance)}/>
                                 </div>
                                 <Link
                                     to={{

@@ -9,4 +9,4 @@ export const printDate = (date: Date) => {
 
 export const calculateProgress = (starting, current) => {
     return current > starting ? 0 : (starting - current) / starting;
-}
+};

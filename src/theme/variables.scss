@@ -244,20 +244,13 @@ ion-icon {
 }
 
 .lender-flex .ion-text-wrap {
-  width: 30%;
-  flex-grow: 8;
-  text-align: center;
+  flex-shrink: 3;
 }
 
 .lender-progress-holder {
-  padding: 10px;
+  padding: 10px 20px 10px 20px;
   height: auto;
-  flex-grow: 4;
-  flex-shrink: 1 !important;
-}
-
-.lender-flex a:last-child {
-  flex-shrink: 1;
+  flex-grow: 2;
 }
 
 #sharpenChat.light {
@@ -266,9 +259,11 @@ ion-icon {
   }
   
   @media (max-width: 767px) {
-
-    .lender-flex {
-      justify-content: space-evenly;
+    .lender-flex .ion-text-wrap {
+      width: 50% !important;
+      flex-grow: 6 !important;
+      flex-shrink: 4;
+      text-align: left;
     }
 
     .lender-flex .ion-text-wrap h3 {
@@ -278,9 +273,7 @@ ion-icon {
     .lender-progress-holder {
       width: 0 !important;
       visibility: hidden;
-      border: 2pt solid cyan;
     }
-
 
     #sharpenChat.light {
         position: fixed !important;
