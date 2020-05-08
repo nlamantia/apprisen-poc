@@ -76,8 +76,8 @@ const _LenderOverview = (props) => {
                         <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
                             <ProgressTrackerCard 
                                 currentLabel={"N/A"}
-                                startLabel={"$" + (lender && lender.originalBalance ? lender.originalBalance.toFixed(2) : 0)}
-                                endLabel={"$" + (lender && lender.currentBalance ? lender.currentBalance.toFixed(2) : 0)}
+                                startLabel={"$" + ((lender && lender.originalBalance) ? lender.originalBalance.toFixed(2) : 0)}
+                                endLabel={"$" + ((lender && lender.currentBalance) ? lender.currentBalance.toFixed(2) : 0)}
                                 currentProgress={progress}/>
                         </IonCol>
                     </IonRow>
