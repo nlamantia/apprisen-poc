@@ -121,7 +121,7 @@ const _AccountOverview = (props) => {
                                                 </h3>
                                             </IonLabel>
                                         </IonItem>
-                                        <IonItem>
+                                        {/* <IonItem>
                                             <IonLabel>
                                                 <h3>
                                                     Total Monthly Deposit
@@ -132,7 +132,7 @@ const _AccountOverview = (props) => {
                                                     ${userCaseSummary && userCaseSummary.totalMonthlyDeposit ? userCaseSummary.totalMonthlyDeposit : 0}
                                                 </h3>
                                             </IonLabel>
-                                        </IonItem>
+                                        </IonItem> */}
                                     </IonList>
                                 </IonCard>
                                 <IonCard>
@@ -200,15 +200,16 @@ const _AccountOverview = (props) => {
                                                                     lender => lender.currentBalance
                                                                 ),
                                                                 backgroundColor: [
-                                                                    "#FF6384",
-                                                                    "#36A2EB",
-                                                                    "#FFCE56",
-                                                                    "#64fb6f"
+                                                                    "#008752",
+                                                                    "#FAA634",
+                                                                    "#007FB2",
+                                                                    "#439539"
                                                                 ],
                                                                 hoverBackgroundColor: [
-                                                                    "#FF6384",
-                                                                    "#36A2EB",
-                                                                    "#FFCE56"
+                                                                    "#008752",
+                                                                    "#FAA634",
+                                                                    "#007FB2",
+                                                                    "#439539"
                                                                 ]
                                                             }
                                                         ]
