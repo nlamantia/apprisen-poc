@@ -6,3 +6,7 @@ export const printDate = (date: Date) => {
     const year = date.getFullYear();
     return month + "/" + day + "/" + year;
 };
+
+export const calculateProgress = (starting, current) => {
+    return current > starting ? 0 : (starting - current) / starting;
+}
