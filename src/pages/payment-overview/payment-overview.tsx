@@ -106,15 +106,16 @@ export const PaymentOverview = (props) => {
                                   lender => lender.nextPaymentAmount
                                 ),
                                 backgroundColor: [
-                                  "#FF6384",
-                                  "#36A2EB",
-                                  "#FFCE56",
-                                  "#64fb6f"
+                                  "#439539",
+                                  "#007FB2",
+                                  "#FAA634",
+                                  "#008752"
                                 ],
                                 hoverBackgroundColor: [
-                                  "#FF6384",
-                                  "#36A2EB",
-                                  "#FFCE56"
+                                  "#439539",
+                                  "#007FB2",
+                                  "#FAA634",
+                                  "#008752"
                                 ]
                               }
                             ]

@@ -121,7 +121,7 @@ const _AccountOverview = (props) => {
                                                 </h3>
                                             </IonLabel>
                                         </IonItem>
-                                        <IonItem>
+                                        {/* <IonItem>
                                             <IonLabel>
                                                 <h3>
                                                     Total Monthly Deposit
@@ -132,7 +132,7 @@ const _AccountOverview = (props) => {
                                                     ${userCaseSummary && userCaseSummary.totalMonthlyDeposit ? userCaseSummary.totalMonthlyDeposit : 0}
                                                 </h3>
                                             </IonLabel>
-                                        </IonItem>
+                                        </IonItem> */}
                                     </IonList>
                                 </IonCard>
                                 <IonCard>

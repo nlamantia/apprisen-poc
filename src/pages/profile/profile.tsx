@@ -11,7 +11,10 @@ import {
     IonPage,
     IonThumbnail,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonCol,
+    IonRow,
+    IonGrid
 } from '@ionic/react';
 import logo from "../../images/apprisen-logo.png";
 import {connect} from 'react-redux'
@@ -58,58 +61,64 @@ const _Profile = (props) => {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent id="profile">
-                    <IonCard>
-                        <IonList class="ion-no-padding">
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Name</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {userInfo ? userInfo.firstName + ' ' + userInfo.lastName : ""}
-                                </div>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Email</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {userInfo ? userInfo.emailAddress : ""}
-                                </div>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Phone Number</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {userInfo ? userInfo.cellPhone : ""}
-                                </div>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Address</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {userInfo ? userInfo.address1 : ""}
-                                </div>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>City</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {userInfo ? userInfo.city : ""}
-                                </div>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>State</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {userInfo ? userInfo.state : ""}
-                                </div>
-                            </IonItem>
-                        </IonList>
-                    </IonCard>
+                    <IonGrid>
+                        <IonRow>
+                            <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
+                                <IonCard >
+                                    <IonList class="ion-no-padding">
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>Name</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.firstName + ' ' + userInfo.lastName : ""}
+                                            </div>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>Email</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.emailAddress : ""}
+                                            </div>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>Phone Number</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.cellPhone : ""}
+                                            </div>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>Address</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.address1 : ""}
+                                            </div>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>City</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.city : ""}
+                                            </div>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>State</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.state : ""}
+                                            </div>
+                                        </IonItem>
+                                    </IonList>
+                                </IonCard>
+                            </IonCol>
+                        </IonRow>
+                    </IonGrid>
                 </IonContent>
             </IonPage>
         </>

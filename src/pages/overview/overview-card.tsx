@@ -13,7 +13,7 @@ import {
 } from "@ionic/react";
 // eslint-disable-next-line
 import {arrowForward} from "ionicons/icons";
-import React, {Component} from "react";
+import React, {Component, useEffect} from "react";
 // eslint-disable-next-line
 import {Link, Redirect} from "react-router-dom";
 // eslint-disable-next-line
@@ -22,21 +22,51 @@ import goal from "../../images/goal.svg";
 import money from "../../images/notes.svg";
 import {connect} from 'react-redux'
 import {bindActionCreators} from "redux";
-import {getCaseSummary} from "../../feature/case/action";
+import {getCaseSummary, getCasePayoffDate} from "../../feature/case/action";
+import {
+    caseFirstPaymentDateUnixTimeSelector,
+    casePayoffDateSelector,
+    caseProgressTracker
+} from "../../feature/case/reducer";
 
 import '@ionic/react/css/core.css';
 
-class _OverviewCard extends Component {
+const _OverviewCard = (props) => {
+
+    const { getCaseSummary, fetchingCaseSummary, caseSummary } = props
+    const { getCasePayoffDate, fetchingCasePayoffDate} = props
+    const { casePayoffDate } = props
+    
+
+    useEffect(
+        () => {
+            if (!caseSummary && !fetchingCaseSummary) {
+                console.log('get case summary')
+                getCaseSummary();
+            }
+            if (!casePayoffDate && !fetchingCasePayoffDate) {
+                console.log('get case payoff debt!')
+                // todo mock this
+                // todo decide between caseNumber and externalId
+                // todo caseNumber selector
+                getCasePayoffDate({ caseNumber: 5, increaseAmount: 0, isOneTimePayment: true })
+            }
+        }, []
+    );
+
+    const printDate = (date) => {
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const year = date.getFullYear();
+        return year + "-" + month + "-" + day;
+    };
 
 
-    componentDidMount() {
-        console.log('OverviewCard view entered')
-        const {getCaseSummary, credentials} = this.props as any
-    }
+    // componentDidMount() {
+    //     console.log('OverviewCard view entered')
+    //     const {getCaseSummary, credentials} = this.props as any
+    // }
 
-
-    render() {
-        const props = this.props as any
         const {caseSummary: {estimatedBalance, nextPaymentDueOn, currentMonthlyPayment}} =
             (props.caseSummary && props.caseSummary != {}) ? props :
                 {caseSummary: {estimatedBalance: null, nextPaymentDueOn: null, currentMonthlyPayment: null}}
@@ -64,9 +94,9 @@ class _OverviewCard extends Component {
                                 <img alt="apprisen-logo" src={goal}/>
                             </IonThumbnail>
                             <IonLabel>
-                                <h3>Remaining Balance</h3>
-                                {estimatedBalance ?
-                                    <p>${estimatedBalance}</p> : <IonSkeletonText animated style={{width: '60%'}}/>
+                                <h3>Estimated Payoff Date</h3>
+                                {casePayoffDate ?
+                                    <p>{printDate(new Date(casePayoffDate))}</p> : <IonSkeletonText animated style={{width: '60%'}}/>
                                 }
                             </IonLabel>
                         </IonItem>
@@ -110,16 +140,20 @@ class _OverviewCard extends Component {
             </>
         );
     }
-}
+
 
 const OverviewCard = connect(
     state => ({
         caseSummary: state.case.caseSummary,
         caseState: state.case,
-        credentials: state.auth.credentials
+        credentials: state.auth.credentials,
+        casePayoffDate: state.case.casePayoffDate,
+        fetchingCasePayoffDate: state.case.fetchingCasePayoffDate,
+        fetchingCaseSummary: state.case.fetchingCaseSummary
     }),
     dispatch => bindActionCreators({
-        getCaseSummary
+        getCaseSummary,
+        getCasePayoffDate
     }, dispatch)
 )(_OverviewCard)
 
