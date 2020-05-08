@@ -18,9 +18,8 @@ const _LenderList = (props: any) => {
 
     const handleUploadStatementClick = () => {
         InAppBrowser.create("https://clientportal.apprisen.com", '_system', 'location=yes');
-    }
+    };
 
-    console.log(debts)
     return (
         <IonCard class="color">
             <IonList class="ion-no-padding">
@@ -66,7 +65,7 @@ const _LenderList = (props: any) => {
             </IonItem>
         </IonCard>
     )
-}
+};
 
 const LenderList = connect(
     state => ({
@@ -79,6 +78,6 @@ const LenderList = connect(
         selectDebt,
         getClientInformation
     }, dispatch)
-)(_LenderList)
+)(_LenderList);
 
 export default LenderList
