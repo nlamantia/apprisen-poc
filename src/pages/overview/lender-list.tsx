@@ -1,6 +1,6 @@
-import React, {Component, useEffect, useState} from "react";
+import React from "react";
 // eslint-disable-next-line
-import {IonButton, IonCard, IonItem, IonLabel, IonList, IonListHeader, IonToast, IonAlert} from "@ionic/react";
+import {IonButton, IonCard, IonItem, IonLabel, IonList, IonListHeader, IonProgressBar} from "@ionic/react";
 // eslint-disable-next-line
 import {CaseDebt} from "../../models/case/case-debt";
 import {Link} from "react-router-dom";
@@ -9,6 +9,7 @@ import {bindActionCreators} from "redux";
 import {getDebts, selectDebt} from "../../feature/debt/action";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {getClientInformation} from "feature/client/action";
+import {calculateProgress} from "../common/utility-functions";
 
 const _LenderList = (props: any) => {
 
@@ -17,9 +18,8 @@ const _LenderList = (props: any) => {
 
     const handleUploadStatementClick = () => {
         InAppBrowser.create("https://clientportal.apprisen.com", '_system', 'location=yes');
-    }
+    };
 
-    console.log(debts)
     return (
         <IonCard class="color">
             <IonList class="ion-no-padding">
@@ -32,11 +32,14 @@ const _LenderList = (props: any) => {
                 {debts && debts.length > 0
                     ? debts.map((caseDebt: CaseDebt, i: any) => {
                         return (
-                            <IonItem key={i}>
-                                <IonLabel>
+                            <IonItem className={'lender-flex'} key={i}>
+                                <IonLabel className="ion-text-wrap">
                                     <h3>{caseDebt.creditorName}</h3>
-                                    <p>${caseDebt.currentBalance} balance</p>
+                                    <p>${caseDebt.currentBalance}</p>
                                 </IonLabel>
+                                <div className={'lender-progress-holder'}>
+                                    <IonProgressBar value={calculateProgress(caseDebt.originalBalance, caseDebt.currentBalance)}/>
+                                </div>
                                 <Link
                                     to={{
                                         pathname: `/lender-overview`,
@@ -62,7 +65,7 @@ const _LenderList = (props: any) => {
             </IonItem>
         </IonCard>
     )
-}
+};
 
 const LenderList = connect(
     state => ({
@@ -75,6 +78,6 @@ const LenderList = connect(
         selectDebt,
         getClientInformation
     }, dispatch)
-)(_LenderList)
+)(_LenderList);
 
 export default LenderList

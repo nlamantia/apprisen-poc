@@ -73,20 +73,16 @@ const _Overview = (props) => {
                     console.log('get case summary')
                     getCaseSummary();
                 } else if (caseSummary) {
-                    setCurrentBalance(caseSummary.estimatedBalance);
-                    setMonthlyPayment(caseSummary.currentMonthlyPayment);
+                    setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
+                    setMonthlyPayment(caseSummary.currentMonthlyPayment.toFixed(2));
                     setCaseProgress(calculateCurrentProgress());
-
-                    if (paymentHistory) {
-                        const sum = (current, nextPayment) => (current + nextPayment.amount);
-                        const totalPaid = paymentHistory.reduce(sum, 0.00);
-                        setTotalOriginalBalance(caseSummary.estimatedBalance + totalPaid);
-                    }
                 }
 
                 if (!debts && !fetchingDebtDetails) {
                     console.log('get case summary')
                     getDebts();
+                } else if (debts) {
+                    setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));
                 }
 
                 if (!clientAccountData || !clientAccountData.bankAccountTypes) {
@@ -118,7 +114,7 @@ const _Overview = (props) => {
                         </IonToolbar>
                     </IonHeader>
                     <IonContent id="overview">
-                        <IonGrid>
+                        <IonGrid className={'lender-grid'}>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
                                     <ProgressTrackerCard currentLabel={"$" + monthlyPayment} startLabel={"$" + totalOriginalBalance} endLabel={"$" + currentBalance} currentProgress={caseProgress}/>
