@@ -21,7 +21,7 @@ interface SetLoginStatusMessageAction {
 
 interface VerifyUserMessageAction {
     type: typeof VERIFY,
-    payload: { lastFourOfSSID: number, zipCode: number, XXX: string }
+    payload: { lastFourOfSSID: number, zipCode: number, clientId: string }
 }
 
 

@@ -29,13 +29,16 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 const _Login = (props: any) => {
     const [lastFourOfSSID, setLastFourOfSSID] = useState(null)
     const [zipCode, setZipCode] = useState(null)
-    const [XXX, setXXX] = useState(null)
+    const [clientId, setClientId] = useState(null)
 
     const { verify } = props
-    const { state } = props
+
+    const handleIonChange = (setter) => (e) => {
+        setter((e.target as HTMLInputElement).value)
+    }
 
     const handleVerifyClick = () => {
-        verify({lastFourOfSSID, zipCode, XXX})
+        verify({lastFourOfSSID, zipCode, clientId})
     }
 
     return (
@@ -60,16 +63,16 @@ const _Login = (props: any) => {
                                         </IonLabel>
                                     </IonListHeader>
                                     <IonItem>
-                                        <IonLabel position="floating">Username</IonLabel>
-                                        <IonInput name="ssid" placeholder="Enter the last four of your SSID" onIonChange={setLastFourOfSSID}></IonInput>
+                                        <IonLabel position="floating">Last Four of SSID</IonLabel>
+                                        <IonInput name="ssid" placeholder="Enter the last four of your SSID" onIonChange={handleIonChange(setLastFourOfSSID)}></IonInput>
                                     </IonItem>
                                     <IonItem>
-                                        <IonLabel position="floating">Password</IonLabel>
-                                        <IonInput name="zip" placeholder="Enter your zip code"  onIonChange={setZipCode} type="password"></IonInput>
+                                        <IonLabel position="floating">Zip Code</IonLabel>
+                                        <IonInput name="zip" placeholder="Enter your zip code"  onIonChange={handleIonChange(setZipCode)} type="password"></IonInput>
                                     </IonItem>
                                     <IonItem>
-                                        <IonLabel position="floating">Username</IonLabel>
-                                        <IonInput name="XXX" placeholder="Enter XXX" onIonChange={setXXX}></IonInput>
+                                        <IonLabel position="floating">Client ID</IonLabel>
+                                        <IonInput name="client Id" placeholder="Enter your client id" onIonChange={handleIonChange(setClientId)}></IonInput>
                                     </IonItem>
                                     <IonItem className={'full-button'}>
                                         <IonButton className={'full-button'} onClick={handleVerifyClick} expand="full">

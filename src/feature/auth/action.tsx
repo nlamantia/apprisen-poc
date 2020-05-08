@@ -42,7 +42,7 @@ export const logout = (credentials: LoginRequest) =>  ({
 })
 
 export const VERIFY = "verify"
-export const verify = ({zipCode, lastFourOfSSID, XXX}) => ({
+export const verify = ({zipCode, lastFourOfSSID, clientId}) => ({
     type: VERIFY,
-    payload: {zipCode, lastFourOfSSID, XXX}
+    payload: {zipCode, lastFourOfSSID, clientId}
 })

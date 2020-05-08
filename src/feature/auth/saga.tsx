@@ -1,8 +1,8 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
-import {GET_CREDENTIALS, LOGIN, LOGOUT, setCredentials, setLoginStatus, verify, VERIFY} from "./action";
+import {GET_CREDENTIALS, LOGIN, LOGOUT, setCredentials, setLoginStatus, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
-import {callLoginEndpoint} from "../../services/rest.service";
-import {assertLoggedIn, login, logout} from "../../services/auth.service";
+import {callLinkAccount, callLoginEndpoint, verify} from "../../services/rest.service";
+import {assertLoggedIn, getCaseId, getCredentials, login, logout} from "../../services/auth.service";
 import {LoginResponse} from "../../models/auth/login-response";
 
 const { Storage } = Plugins;
@@ -51,11 +51,23 @@ export function * getCredentialsWatcher() {
 
 export function * verifyWorker(action) {
     const { payload } = action
-    yield call(verify, payload)
+    console.log('a')
+    const responseToVerify = yield call(verify, payload)
+    console.log(responseToVerify)
+    const externalApplicationId = yield call(getCaseId)
+    const {signedToken, username, expiresOn} = yield call(getCredentials)
+    const responseToLink = yield call(callLinkAccount, {
+        Application: "??",
+        ExternalApplicationId: externalApplicationId,
+        SignedToken: signedToken,
+        UserName: username,
+        ExpiresOn: expiresOn
+    })
+    console.log(responseToLink)
 }
 
 export function * verifyWatcher() {
-    yield takeEvery(VERIFY, getCredentialsWorker);
+    yield takeEvery(VERIFY, verifyWorker);
 }
 
 export function * logoutWorker() {
@@ -71,6 +83,7 @@ export function * authSaga() {
     yield all([
         loginWatcher(),
         logoutWatcher(),
-        getCredentialsWatcher()
+        getCredentialsWatcher(),
+        verifyWatcher()
     ])
 }

@@ -14,7 +14,8 @@ const DEBT_DETAIL_URL = BASE_URL + "/api/case/debt-details/";
 const LOGIN_URL = BASE_URL + "/api/auth/login";
 const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
 const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
-const VERIFY_URL = BASE_URL + "";
+const VERIFY_URL = BASE_URL + "/api/Client/VerifyClientNumber";
+const LINK_ACCOUNT_URL = BASE_URL + "api/account/LinkAccountWithExternalApp"
 
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]
 
@@ -38,10 +39,10 @@ export const callCaseSummaryEndpoint = async (): Promise<CaseSummary> => {
 
 export const verify = async (body) => {
     const headers = new Headers()
-    headers.set("Content-Type", "application/json")
 
     return await callApi(VERIFY_URL,
         {
+            method: 'POST',
             headers,
             body: JSON.stringify(body)
         }
@@ -93,6 +94,14 @@ export const callGetClientData = async () : Promise<string> => {
     return await callApi(CLIENT_DATA_URL + externalId);
 };
 
+export const callLinkAccount = async(requestBody) : Promise<void> => {
+    return await callApi(LINK_ACCOUNT_URL, {
+        method: 'POST',
+        body: JSON.stringify(requestBody)
+    })
+}
+
+
 export const callClientInformationEndpoint = async (): Promise<ClientInformation> => {
     const externalId = await getCaseId();
 
@@ -113,6 +122,7 @@ export const callApi = async (url: string, options: RequestInit = {}): Promise<a
         }
     } catch (error) {
         // todo handle errors in store
+        console.log(error)
         return {};
     }
 };

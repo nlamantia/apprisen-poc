@@ -32,7 +32,7 @@ const PrivateRoute = ({component = {}, render = {}, ...props}: {
     const { value : verified } = isVerifiedOptional
 
     const shouldRedirect =  (!authed || !verified)
-    const pathname = authed ? '/login' : '/verify'
+    const pathname = !authed ? '/login' : '/verify'
 
     return (
         <Route {...props} exact
