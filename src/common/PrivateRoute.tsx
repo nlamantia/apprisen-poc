@@ -17,8 +17,7 @@ const PrivateRoute = ({component = {}, render = {}, ...props}: {
     useEffect( () => {
         const determineUserStatus =  async () => {
             const authenticated = await isAuthenticated()
-            // const verified = await isVerified()
-             const verified = false
+            const verified = await isVerified()
             setIsAuthedOptional({isPresent: true, value: authenticated})
             setIsVerifiedOptional({isPresent: true, value: verified})
         }
