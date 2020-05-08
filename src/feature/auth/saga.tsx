@@ -51,19 +51,20 @@ export function * getCredentialsWatcher() {
 
 export function * verifyWorker(action) {
     const { payload } = action
-    console.log('a')
-    const responseToVerify = yield call(verify, payload)
-    console.log(responseToVerify)
-    const externalApplicationId = yield call(getCaseId)
-    const {signedToken, username, expiresOn} = yield call(getCredentials)
-    const responseToLink = yield call(callLinkAccount, {
-        Application: "??",
-        ExternalApplicationId: externalApplicationId,
-        SignedToken: signedToken,
-        UserName: username,
-        ExpiresOn: expiresOn
-    })
-    console.log(responseToLink)
+    try {
+        yield call(verify, payload)
+        const externalApplicationId = yield call(getCaseId)
+        const {signedToken, username, expiresOn} = yield call(getCredentials)
+        const responseToLink = yield call(callLinkAccount, {
+            Application: "??",
+            ExternalApplicationId: externalApplicationId,
+            SignedToken: signedToken,
+            UserName: username,
+            ExpiresOn: expiresOn
+        })
+    } catch(e) {
+
+    }
 }
 
 export function * verifyWatcher() {
