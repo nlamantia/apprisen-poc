@@ -30,6 +30,7 @@ import {
 } from "../../feature/case/reducer";
 
 import '@ionic/react/css/core.css';
+import {printDate} from "../common/utility-functions";
 
 const _OverviewCard = (props) => {
 
@@ -53,19 +54,6 @@ const _OverviewCard = (props) => {
             }
         }, []
     );
-
-    const printDate = (date) => {
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        const year = date.getFullYear();
-        return year + "-" + month + "-" + day;
-    };
-
-
-    // componentDidMount() {
-    //     console.log('OverviewCard view entered')
-    //     const {getCaseSummary, credentials} = this.props as any
-    // }
 
         const {caseSummary: {estimatedBalance, nextPaymentDueOn, currentMonthlyPayment}} =
             (props.caseSummary && props.caseSummary != {}) ? props :
@@ -108,7 +96,7 @@ const _OverviewCard = (props) => {
                                 <h3>Upcoming Due Date</h3>
                                 <p>
                                     {nextPaymentDueOn
-                                        ? nextPaymentDueOn.toString().substring(0, 10)
+                                        ? printDate(new Date(nextPaymentDueOn))
                                         : <IonSkeletonText animated style={{width: '60%'}}/>}
                                 </p>
                             </IonLabel>
