@@ -56,7 +56,7 @@ export function * verifyWorker(action) {
         const externalApplicationId = yield call(getCaseId)
         const {signedToken, username, expiresOn} = yield call(getCredentials)
         const responseToLink = yield call(callLinkAccount, {
-            Application: "??",
+            Application: "TestMyChange",
             ExternalApplicationId: externalApplicationId,
             SignedToken: signedToken,
             UserName: username,
