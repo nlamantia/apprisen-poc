@@ -27,7 +27,7 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import React from "react";
+import React, {useEffect} from "react";
 import {connect, Provider} from 'react-redux'
 import {Redirect, Route, withRouter} from "react-router-dom";
 import AccountOverview from "./pages/account-overview/account-overview";
@@ -42,21 +42,20 @@ import Profile from "./pages/profile/profile";
 import "./theme/variables.scss";
 import {store} from "./config/store";
 
+import AdditionalResources from "pages/additional-resources/additional-resources";
 import MakePayment from "./pages/payment/make-payment";
 import PaymentConfirmation from "./pages/payment/payment-confirmation";
-import PrivateRoute from "./common/PrivateRoute";
-
-
 import {bindActionCreators} from "redux";
 import {logout} from "./feature/auth/action";
+import PrivateRoute from "./common/PrivateRoute";
 import Verify from "./pages/verify/verify";
-import AdditionalResources from "./pages/additional-resources/additional-resources";
 
 interface Page {
   title: string;
   route: string;
   action: Function;
 }
+
 
 const _Main = (props: any) => {
   const { logout } = props;
@@ -112,7 +111,7 @@ const _Main = (props: any) => {
           <PrivateRoute path="/user/:id" component={UserDetails} />
           <PrivateRoute path="/profile" component={Profile} />
           <PrivateRoute path="/resources" component={AdditionalResources} />
-          <PrivateRoute
+          <Route
             path="/payment-overview"
             component={PaymentOverview}
           />
