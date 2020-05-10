@@ -1,11 +1,17 @@
 import {LoginResponse} from '../models/auth/login-response';
 import {Plugins} from '@capacitor/core';
+import {LINKED_APP_NAME} from "../config/app-constants";
 
 const {Storage} = Plugins;
 
-export const isAuthenticated = async () => {
-    const cred = (await Storage.get({key: 'credentials'})).value
-    return cred != null;
+export const isAuthenticated = (cred: string) => {
+    if (cred) {
+        const { signedToken, expiresOn } = JSON.parse(cred) as any;
+        if (signedToken && expiresOn) {
+            return Date.now() < new Date(expiresOn / 10000).getTime()
+        }
+    }
+    return false;
 }
 
 export const login = (credentials : LoginResponse) => {
@@ -49,14 +55,12 @@ export const isVerified = async () => {
 
 
 export const getCaseId = () => {
-    const APP_NAME = 'One Time Payment'
     return new Promise(async (resolve, reject) => {
         try {
             const credentials = await getCredentials()
             console.log(credentials)
-            console.log(credentials.linkedApplication.filter( e =>  e.application === APP_NAME )[0
-                ])
-            const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === APP_NAME )[0]
+            console.log(credentials.linkedApplication.filter( e =>  e.application === LINKED_APP_NAME )[0])
+            const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === LINKED_APP_NAME )[0]
             resolve(externalId)
         } catch(e) {
             reject("Could not get case id!")

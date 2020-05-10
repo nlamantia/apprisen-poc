@@ -2,6 +2,9 @@ import {Redirect, Route} from "react-router-dom";
 import {isAuthenticated, isVerified} from "../services/auth.service";
 import { useLocation } from 'react-router-dom'
 import React, {useEffect, useState} from "react";
+import {Plugins} from "@capacitor/core";
+
+const {Storage} = Plugins;
 
 const PrivateRoute = ({component = {}, render = {}, ...props}: {
     component? : any,
@@ -16,7 +19,8 @@ const PrivateRoute = ({component = {}, render = {}, ...props}: {
 
     useEffect( () => {
         const determineUserStatus =  async () => {
-            const authenticated = await isAuthenticated()
+            const creds = (await Storage.get({key: 'credentials'})).value;
+            const authenticated = isAuthenticated(creds);
             const verified = await isVerified()
             setIsAuthedOptional({isPresent: true, value: authenticated})
             setIsVerifiedOptional({isPresent: true, value: verified})
