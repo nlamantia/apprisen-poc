@@ -1,4 +1,18 @@
-import {IonApp, IonRouterOutlet} from "@ionic/react";
+import {
+    IonApp,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonMenu,
+    IonMenuButton,
+    IonMenuToggle,
+    IonRouterOutlet,
+    IonTitle,
+    IonToolbar
+} from "@ionic/react";
 import {IonReactRouter} from "@ionic/react-router";
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -14,6 +28,7 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React from "react";
+import {connect, Provider} from 'react-redux'
 import {Redirect, Route, withRouter} from "react-router-dom";
 import AccountOverview from "./pages/account-overview/account-overview";
 import LenderOverview from "./pages/lender/lender-overview";
@@ -24,22 +39,71 @@ import Home from "./pages/user/Home";
 import UserDetails from "./pages/user/UserDetails";
 import Profile from "./pages/profile/profile";
 /* Theme variables */
-import "./theme/variables.css";
-
-import {Provider} from 'react-redux'
+import "./theme/variables.scss";
 import {store} from "./config/store";
+
 import MakePayment from "./pages/payment/make-payment";
 import PaymentConfirmation from "./pages/payment/payment-confirmation";
 import PrivateRoute from "./common/PrivateRoute";
+
+
+import {bindActionCreators} from "redux";
+import {logout} from "./feature/auth/action";
 import Verify from "./pages/verify/verify";
+import AdditionalResources from "./pages/additional-resources/additional-resources";
 
+interface Page {
+  title: string;
+  route: string;
+  action: Function;
+}
 
+const _Main = (props: any) => {
+  const { logout } = props;
 
-const Main = () => {
+  const pages: Page[] = [
+    { title: 'Overview', route: '/overview', action: (e) => null},
+    { title: 'Profile', route: '/profile', action: (e) => null},
+    { title: 'Additional Resources', route: '/resources', action: (e) => null },
+    { title: 'Logout', route: '/login', action: (e) => logout()}
+  ]
+
   return (
     <IonApp>
+      <IonMenu side="end" menuId="menu" type="overlay" contentId={'main-content'}>
+        <IonHeader class="toolbar-header">
+          <IonToolbar class="toolbar-header">
+            <IonTitle>Menu</IonTitle>
+            <IonButtons slot="end">
+              <IonMenuToggle autoHide={true}>
+                <IonMenuButton menu="menu" />
+              </IonMenuToggle>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <IonList>
+            {pages.map(page => (
+                <IonMenuToggle autoHide={true}>
+                <IonItem
+                    class='clickable ion-activatable'
+                    href={page.route}
+                    routerDirection={'forward'}
+                    key={page.title}
+                    onClick={(e) => page.action()}
+                    button
+                >
+                  <IonLabel>
+                    {page.title}
+                  </IonLabel>
+                </IonItem>
+                </IonMenuToggle>
+            ))}
+          </IonList>
+        </IonContent>
+      </IonMenu>
       <IonReactRouter>
-        <IonRouterOutlet>
+        <IonRouterOutlet id={'main-content'}>
           <PrivateRoute path="/overview" component={withRouter(Overview)} exact={true} />
           <PrivateRoute path="/home" component={Home} exact={true} />
           <Route path="/login" component={withRouter(Login)} exact={true} />
@@ -47,6 +111,7 @@ const Main = () => {
           <PrivateRoute exact path="/" component={() => <Redirect to="/overview" />} />
           <PrivateRoute path="/user/:id" component={UserDetails} />
           <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute path="/resources" component={AdditionalResources} />
           <PrivateRoute
             path="/payment-overview"
             component={PaymentOverview}
@@ -73,6 +138,15 @@ const Main = () => {
     </IonApp>
   )
 };
+
+const Main = connect(
+    state => ({}),
+    dispatch => bindActionCreators({
+      logout
+    }, dispatch)
+)(
+    _Main
+);
 
 const App = () => (
     <Provider store={store()}>

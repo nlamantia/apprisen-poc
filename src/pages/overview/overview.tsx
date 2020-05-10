@@ -10,48 +10,38 @@ import {
     IonThumbnail,
     IonTitle,
     IonToast,
-    IonToolbar,
-    IonFooter,
-    IonIcon,
-    IonButton
+    IonToolbar
 } from "@ionic/react";
 import React, {useEffect, useState} from "react";
 import {Redirect, useLocation} from "react-router-dom";
 import logo from "../../images/apprisen-logo.png";
-import ProgressTracker from "../common/progress-tracker";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
 import {connect} from 'react-redux'
-import {getCasePayoffDate, getCaseSummary} from "../../feature/case/action";
+import {getCaseSummary} from "../../feature/case/action";
 import {getDebts} from "../../feature/debt/action";
 import {bindActionCreators} from "redux";
 import {getCredentials, logout} from '../../feature/auth/action'
-
-import {
-    caseFirstPaymentDateUnixTimeSelector,
-    casePayoffDateSelector,
-    caseProgressTracker
-} from "../../feature/case/reducer";
-import {getClientAccountData} from "../../feature/payment/action";
-
-import { logoFacebook } from "ionicons/icons";
-import SocialMediaFooter from "pages/common/social-media-footer";
- 
-
+import {getClientAccountData, getPaymentHistory} from "../../feature/payment/action";
+import ProgressTrackerCard from "../common/progress-tracker-card";
 
 const _Overview = (props) => {
 
-    const { caseProgress, logout } = props
+    const { logout } = props
     const {getDebts, fetchingDebtDetails, debts} = props
-    const { getCaseSummary, fetchingCaseSummary, caseSummary, caseFirstDisbursementDate } = props
-    const { getCasePayoffDate, fetchingCasePayoffDate, casePayoffDate } = props
+    const { getCaseSummary, fetchingCaseSummary, caseSummary } = props
     const { getClientAccountData, clientAccountData } = props;
     const { credentials, getCredentials } = props;
+    const { paymentHistory, getPaymentHistory } = props;
     let externalId = React.useRef();
 
     const location = useLocation();
     const [authorized, setAuthorized] = useState<boolean>(true);
     const [restError, setRestError] = useState<boolean>(false);
+    const [totalOriginalBalance, setTotalOriginalBalance] = useState<number>(0.00);
+    const [currentBalance, setCurrentBalance] = useState<number>(0.00);
+    const [monthlyPayment, setMonthlyPayment] = useState<number>(0.00);
+    const [caseProgress, setCaseProgress] = useState<number>(0);
 
     function redirectLogin() {
         logout()
@@ -60,26 +50,41 @@ const _Overview = (props) => {
         );
     }
 
+    const calculateCurrentProgress = () => {
+        if (totalOriginalBalance > 0) {
+            return (totalOriginalBalance - currentBalance) / totalOriginalBalance;
+        } else {
+            return 0;
+        }
+    };
+
     useEffect(
         () => {
             if (credentials && credentials.linkedApplication) {
                 const [, second] = credentials.linkedApplication;
                 externalId.current = second.externalId;
+
+                if (!paymentHistory || !paymentHistory.length) {
+                    console.log('get payment history');
+                    getPaymentHistory();
+                }
+
                 if (!caseSummary && !fetchingCaseSummary) {
                     console.log('get case summary')
                     getCaseSummary();
+                } else if (caseSummary) {
+                    setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
+                    setMonthlyPayment(caseSummary.currentMonthlyPayment.toFixed(2));
+                    setCaseProgress(calculateCurrentProgress());
                 }
+
                 if (!debts && !fetchingDebtDetails) {
                     console.log('get case summary')
                     getDebts();
+                } else if (debts) {
+                    setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));
                 }
-                if (!casePayoffDate && !fetchingCasePayoffDate) {
-                    console.log('get case payoff debt!')
-                    // todo mock this
-                    // todo decide between caseNumber and externalId
-                    // todo caseNumber selector
-                    getCasePayoffDate({caseNumber: externalId, increaseAmount: 0, isOneTimePayment: true})
-                }
+
                 if (!clientAccountData || !clientAccountData.bankAccountTypes) {
                     console.log('get client data');
                     getClientAccountData();
@@ -91,23 +96,11 @@ const _Overview = (props) => {
                     redirectLogin();
                 }
             }
-
-
-            // todo having getDebts() and getCaseSummary() fire at the same time makes them not work. SetTimeoute mitigates this. find better solution
-            // setTimeout(getCaseSummaryDebts, 2000)
-        }, [credentials]);
-
-    const printDate = (date) => {
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        const year = date.getFullYear();
-        return month + "/" + day + "/" + year;
-    };
+        }, [credentials, debts, clientAccountData, caseSummary, totalOriginalBalance, paymentHistory]);
 
     return (
         !authorized ? redirectLogin() :
             <>
-                {/*<Menu pageName={'pageName'} /> todo fix this*/}
                 <IonPage>
                     <IonHeader>
                         <IonToolbar>
@@ -120,11 +113,11 @@ const _Overview = (props) => {
                             </IonButtons>
                         </IonToolbar>
                     </IonHeader>
-                    <IonContent id="pageName">
-                        <IonGrid>
+                    <IonContent id="overview">
+                        <IonGrid className={'lender-grid'}>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
-                                    <ProgressTracker currentLabel={printDate(new Date())} startLabel={printDate(new Date(caseFirstDisbursementDate))} endLabel={printDate(new Date(casePayoffDate))} currentProgress={caseProgress}/>
+                                    <ProgressTrackerCard currentLabel={"$" + monthlyPayment} startLabel={"$" + totalOriginalBalance} endLabel={"$" + currentBalance} currentProgress={caseProgress}/>
                                 </IonCol>
                             </IonRow>
                             <IonRow>
@@ -143,9 +136,8 @@ const _Overview = (props) => {
                             color="danger"
                             duration={4000}
                             header="Oops Something went wrong..."
-                        />   
+                        />
                     </IonContent>
-                    <SocialMediaFooter/>
                 </IonPage>
             </>
     )
@@ -161,17 +153,15 @@ const Overview = connect(
         fetchingCasePayoffDate: state.case.fetchingCasePayoffDate,
         clientAccountData: state.payment.clientAccountData,
         credentials: state.auth.credentials,
-        debts: state.debts,
-        caseFirstDisbursementDate: caseFirstPaymentDateUnixTimeSelector(state),
-        casePayoffDate: casePayoffDateSelector(state),
-        caseProgress: caseProgressTracker(state)
+        debts: state.debt.debts,
+        paymentHistory: state.payment.paymentHistory
     }),
     dispatch => bindActionCreators({
         getCaseSummary,
         getDebts,
         logout,
+        getPaymentHistory,
         getClientAccountData,
-        getCasePayoffDate,
         getCredentials
     }, dispatch)
 )(

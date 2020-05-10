@@ -15,14 +15,11 @@ import {
   IonRow,
   IonThumbnail,
   IonTitle,
-  IonToolbar,
-  withIonLifeCycle
+  IonToolbar
 } from "@ionic/react";
-import React, { Component } from "react";
-import { Doughnut } from "react-chartjs-2";
+import React from "react";
+import {Doughnut} from "react-chartjs-2";
 import Payment from "../../images/payment.svg";
-import { CaseData } from "../../models/case/case-data";
-import { Lender } from "../../models/lender";
 
 export const PaymentOverview = (props) => {
     const { caseData: { history: { location: { state: { caseData : lenders }, caseData } } } } = (this.props as any)
@@ -106,15 +103,16 @@ export const PaymentOverview = (props) => {
                                   lender => lender.nextPaymentAmount
                                 ),
                                 backgroundColor: [
-                                  "#FF6384",
-                                  "#36A2EB",
-                                  "#FFCE56",
-                                  "#64fb6f"
+                                  "#439539",
+                                  "#007FB2",
+                                  "#FAA634",
+                                  "#008752"
                                 ],
                                 hoverBackgroundColor: [
-                                  "#FF6384",
-                                  "#36A2EB",
-                                  "#FFCE56"
+                                  "#439539",
+                                  "#007FB2",
+                                  "#FAA634",
+                                  "#008752"
                                 ]
                               }
                             ]

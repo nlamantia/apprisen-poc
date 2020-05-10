@@ -37,7 +37,7 @@ const initialState : CaseState = {
 // https://searchstorage.techtarget.com/definition/race-condition
 // https://old.reddit.com/r/functionalprogramming/comments/7z6lz2/why_does_functional_mean_no_race_conditions/
 export const caseReducer = (state: CaseState = initialState, action) => {
-    if (!action) return state
+    if (!action) return {...state};
     switch(action.type) {
         case GET_CASE_PAYOFF_DATE:
             return {
@@ -65,7 +65,6 @@ export const caseReducer = (state: CaseState = initialState, action) => {
                 caseSummary,
                 fetchingCaseSummary: false
             }
-            break;
         case SET_CASE_PAYOFF_DATE:
             const { payload: { casePayoffDate } } = action
 
@@ -74,10 +73,8 @@ export const caseReducer = (state: CaseState = initialState, action) => {
                 casePayoffDate,
                 fetchingCasePayoffDate: false
             }
-            break;
         default:
             return {...state};
-            break;
     }
 }
 
@@ -89,7 +86,7 @@ export const caseReducer = (state: CaseState = initialState, action) => {
 export const casePayoffDateSelector = (state) => state.case.casePayoffDate
 export const casePayoffDateUnixTimeSelector = (state) => {
     const payoffDate = casePayoffDateSelector(state)
-    if (!payoffDate) return null
+    if (!payoffDate) return -1;
     return new Date(payoffDate).getTime()
 }
 // todo case summary selector
@@ -97,19 +94,22 @@ export const casePayoffDateUnixTimeSelector = (state) => {
 
 export const caseFirstPaymentDateSelector = (state) => {
     const { caseSummary } = state.case
-    if (!caseSummary) return null
-    const { firstDisbursementDate } = caseSummary
-    const { ticks } = firstDisbursementDate
-    return ticks
+    if (!caseSummary || !caseSummary.firstDisbursementDate) return -1;
+    return caseSummary.firstDisbursementDate.ticks
 }
 
 export const caseFirstPaymentDateUnixTimeSelector = (state) => {
     const ticks = caseFirstPaymentDateSelector(state)
-    if (!ticks) return null
+    if (!ticks) return -1;
     return Math.floor(ticks / 10000);
 }
 
-export const caseProgressTracker = (state) =>
-    ( Date.now() - caseFirstPaymentDateUnixTimeSelector(state) ) /
-    ( casePayoffDateUnixTimeSelector(state) - caseFirstPaymentDateUnixTimeSelector(state)
-)
+export const caseProgressTracker = (state) => {
+    let firstPaymentDate = caseFirstPaymentDateUnixTimeSelector(state);
+    let payoffDate = casePayoffDateUnixTimeSelector(state);
+    if (firstPaymentDate !== -1 && payoffDate !== -1) {
+        return (Date.now() - firstPaymentDate) / (payoffDate - firstPaymentDate);
+    } else {
+        return -1;
+    }
+};

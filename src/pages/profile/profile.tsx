@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     IonButtons,
     IonCard,
@@ -11,27 +11,43 @@ import {
     IonPage,
     IonThumbnail,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonCol,
+    IonRow,
+    IonGrid
 } from '@ionic/react';
-import Menu from "../menu/menu";
 import logo from "../../images/apprisen-logo.png";
 import {connect} from 'react-redux'
 import {getClientInformation} from "../../feature/client/action";
 import {bindActionCreators} from "redux";
+import {getCredentials} from "../../feature/auth/action";
+import {ClientInformation} from "../../models/case/client-information";
 
 const _Profile = (props) => {
-    const { clientInformation, getClientInformation } = props
+    const { clientInformation, getClientInformation } = props;
+    const { credentials, getCredentials } = props;
+
+    const [userInfo, setUserInfo] = useState<ClientInformation>(null);
+
     useEffect(() => {
-        if (!clientInformation) {
-            getClientInformation()
+        if (credentials && credentials.linkedApplication) {
+            if (!userInfo) {
+                if (!clientInformation || !clientInformation.firstName) {
+                    console.log("getting client information");
+                    getClientInformation()
+                } else {
+                    setUserInfo(clientInformation);
+                }
+            }
+        } else {
+            console.log("getting credentials");
+            getCredentials();
         }
-    })
+    }, [userInfo, clientInformation, credentials])
 
     // @ts-ignore
     return (
         <>
-            {/*<Menu pageName={'profile'} /> todo error on this for some reason*/}
-            <Menu />
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
@@ -45,58 +61,64 @@ const _Profile = (props) => {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent id="profile">
-                    <IonCard>
-                        <IonList class="ion-no-padding">
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Name</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {clientInformation.firstName + ' ' + clientInformation.lastName}
-                                </div>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Email</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {clientInformation.emailAddress}
-                                </div>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Phone Number</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {clientInformation.cellPhone}
-                                </div>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>Address</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {clientInformation.address1}
-                                </div>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>City</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {clientInformation.city}
-                                </div>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <h3>State</h3>
-                                </IonLabel>
-                                <div className={"ion-text-right row-text"}>
-                                    {clientInformation.state}
-                                </div>
-                            </IonItem>
-                        </IonList>
-                    </IonCard>
+                    <IonGrid>
+                        <IonRow>
+                            <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
+                                <IonCard >
+                                    <IonList class="ion-no-padding">
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>Name</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.firstName + ' ' + userInfo.lastName : ""}
+                                            </div>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>Email</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.emailAddress : ""}
+                                            </div>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>Phone Number</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.cellPhone : ""}
+                                            </div>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>Address</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.address1 : ""}
+                                            </div>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>City</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.city : ""}
+                                            </div>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel>
+                                                <h3>State</h3>
+                                            </IonLabel>
+                                            <div className={"ion-text-right row-text"}>
+                                                {userInfo ? userInfo.state : ""}
+                                            </div>
+                                        </IonItem>
+                                    </IonList>
+                                </IonCard>
+                            </IonCol>
+                        </IonRow>
+                    </IonGrid>
                 </IonContent>
             </IonPage>
         </>
@@ -106,10 +128,12 @@ const _Profile = (props) => {
 
 const Profile = connect(
     state => ({
+        credentials: state.auth.credentials,
         clientInformation: state.client.clientInformation
     }),
     dispatch => bindActionCreators({
-        getClientInformation
+        getClientInformation,
+        getCredentials
     }, dispatch)
 )(
     _Profile

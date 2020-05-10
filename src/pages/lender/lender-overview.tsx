@@ -1,14 +1,14 @@
 import {
     IonBackButton,
     IonButtons,
-    IonCard,
-    IonContent,
+    IonCard, IonCol,
+    IonContent, IonGrid,
     IonHeader,
     IonItem,
     IonLabel,
     IonList,
     IonListHeader,
-    IonPage,
+    IonPage, IonRow,
     IonSkeletonText,
     IonTitle,
     IonToolbar
@@ -19,7 +19,8 @@ import {bindActionCreators} from "redux";
 import {getDebts, getSelectedDebt} from "../../feature/debt/action";
 import {getCredentials, logout} from "../../feature/auth/action";
 import {CaseDebt} from "../../models/case/case-debt";
-import SocialMediaFooter from "../common/social-media-footer";
+import ProgressTrackerCard from "../common/progress-tracker-card";
+import {calculateProgress} from "../common/utility-functions";
 
 const _LenderOverview = (props) => {
     const {debts, selectedDebtId} = props;
@@ -28,6 +29,7 @@ const _LenderOverview = (props) => {
     const { getDebts, getSelectedDebt } = props;
 
     const [lender, setLender] = useState<CaseDebt>(null);
+    const [progress, setProgress] = useState<number>(0.00);
 
     useEffect(() => {
         if (credentials) {
@@ -37,7 +39,9 @@ const _LenderOverview = (props) => {
                     console.log('found selected debt ID');
                     let filteredDebts = debts.filter(debt => debt.$id === selectedDebtId);
                     if (filteredDebts && filteredDebts.length > 0) {
-                        setLender(filteredDebts[0]);
+                        const lender = filteredDebts[0];
+                        setLender(lender);
+                        setProgress(calculateProgress(lender.originalBalance, lender.currentBalance));
                     }
                 } else {
                     console.log('some information is missing');
@@ -67,72 +71,86 @@ const _LenderOverview = (props) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <IonCard>
-                    <IonList class="ion-no-padding">
-                        <IonListHeader class={"white ion-text-center ion-padding-end"}>
-                            <IonLabel>
-                                <h2>Lender Details</h2>
-                            </IonLabel>
-                        </IonListHeader>
-                        <IonItem>
-                            <IonLabel>
-                                <h3>Account Number</h3>
-                            </IonLabel>
-                            <IonLabel>
-                                <h3 className={"ion-text-right"}>
-                                    {lender ? lender.accountNumber : ""}
-                                </h3>
-                            </IonLabel>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel>
-                                <h3>Remaining Balance</h3>
-                            </IonLabel>
-                            <IonLabel>
-                                <h3 className={"ion-text-right"}>
-                                    ${lender ? lender.currentBalance : 0}
-                                </h3>
-                            </IonLabel>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel>
-                                <h3>Starting Balance</h3>
-                            </IonLabel>
-                            <IonLabel>
-                                {lender ?
-                                    <h3 className={"ion-text-right"}>
-                                        ${lender.originalBalance.toFixed(2)}
-                                    </h3> :
-                                    <h3 className={"ion-text-right"}>
-                                        <IonSkeletonText animated style={{width: '100%'}}/>
-                                    </h3>
-                                }
-                            </IonLabel>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel>
-                                <h3>APR</h3>
-                            </IonLabel>
-                            <IonLabel>
-                                <h3 className={"ion-text-right"}>
-                                    {(lender ? lender.apr : 0) * 100}%
-                                </h3>
-                            </IonLabel>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel>
-                                <h3>Debt Type</h3>
-                            </IonLabel>
-                            <IonLabel>
-                                <h3 className={"ion-text-right"}>
-                                    {lender ? lender.debtType : ""}
-                                </h3>
-                            </IonLabel>
-                        </IonItem>
-                    </IonList>
-                </IonCard>
+                <IonGrid>
+                    <IonRow>
+                        <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
+                            <ProgressTrackerCard 
+                                currentLabel={"N/A"}
+                                startLabel={"$" + ((lender && lender.originalBalance) ? lender.originalBalance.toFixed(2) : 0)}
+                                endLabel={"$" + ((lender && lender.currentBalance) ? lender.currentBalance.toFixed(2) : 0)}
+                                currentProgress={progress}/>
+                        </IonCol>
+                    </IonRow>
+                    <IonRow>
+                        <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
+                            <IonCard>
+                                <IonList class="ion-no-padding">
+                                    <IonListHeader class={"white ion-text-center ion-padding-end"}>
+                                        <IonLabel>
+                                            <h2>Lender Details</h2>
+                                        </IonLabel>
+                                    </IonListHeader>
+                                    <IonItem>
+                                        <IonLabel>
+                                            <h3>Account Number</h3>
+                                        </IonLabel>
+                                        <IonLabel>
+                                            <h3 className={"ion-text-right"}>
+                                                {lender ? lender.accountNumber : ""}
+                                            </h3>
+                                        </IonLabel>
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel>
+                                            <h3>Remaining Balance</h3>
+                                        </IonLabel>
+                                        <IonLabel>
+                                            <h3 className={"ion-text-right"}>
+                                                ${lender ? lender.currentBalance : 0}
+                                            </h3>
+                                        </IonLabel>
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel>
+                                            <h3>Starting Balance</h3>
+                                        </IonLabel>
+                                        <IonLabel>
+                                            {lender ?
+                                                <h3 className={"ion-text-right"}>
+                                                    ${lender.originalBalance.toFixed(2)}
+                                                </h3> :
+                                                <h3 className={"ion-text-right"}>
+                                                    <IonSkeletonText animated style={{width: '100%'}}/>
+                                                </h3>
+                                            }
+                                        </IonLabel>
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel>
+                                            <h3>APR</h3>
+                                        </IonLabel>
+                                        <IonLabel>
+                                            <h3 className={"ion-text-right"}>
+                                                {(lender ? lender.apr : 0) * 100}%
+                                            </h3>
+                                        </IonLabel>
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel>
+                                            <h3>Debt Type</h3>
+                                        </IonLabel>
+                                        <IonLabel>
+                                            <h3 className={"ion-text-right"}>
+                                                {lender ? lender.debtType : ""}
+                                            </h3>
+                                        </IonLabel>
+                                    </IonItem>
+                                </IonList>
+                            </IonCard>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
             </IonContent>
-            <SocialMediaFooter/>
         </IonPage>
     )
 };

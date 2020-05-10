@@ -12,12 +12,12 @@ import {
     IonLabel,
     IonList,
     IonListHeader,
-    IonMenuButton,
     IonPage,
     IonRow,
     IonSelect,
     IonSelectOption,
-    IonTitle, IonToast,
+    IonTitle,
+    IonToast,
     IonToolbar
 } from "@ionic/react";
 import {connect} from 'react-redux'
@@ -28,7 +28,6 @@ import {PaymentRequest} from "../../models/payment/payment-request";
 import {getCredentials, logout} from "../../feature/auth/action";
 import {Redirect} from "react-router";
 import {BankAccountType} from "../../models/banking/bank-account-type";
-import SocialMediaFooter from "../common/social-media-footer";
 // eslint-disable-next-line
 
 
@@ -227,7 +226,6 @@ const _MakePayment = ( props: any ) => {
 
     return (
         <>
-            {/*<Menu pageName={'accountOverview'} /> todo fix this*/}
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
@@ -235,9 +233,6 @@ const _MakePayment = ( props: any ) => {
                             <IonBackButton defaultHref="/overview" />
                         </IonButtons>
                         <IonTitle>Make a Payment</IonTitle>
-                        <IonButtons slot="end">
-                            <IonMenuButton></IonMenuButton>
-                        </IonButtons>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent id="makePayment">
@@ -312,7 +307,6 @@ const _MakePayment = ( props: any ) => {
                         </IonRow>
                     </IonGrid>
                 </IonContent>
-                <SocialMediaFooter/>
             </IonPage>
         </>
     )

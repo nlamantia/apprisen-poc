@@ -1,25 +1,16 @@
-import { put, takeEvery, all, call } from 'redux-saga/effects'
-import { GET_CLIENT_INFORMATION, setClientInformation } from "./action";
+import {all, call, put, takeEvery} from 'redux-saga/effects'
+import {GET_CLIENT_INFORMATION, setClientInformation} from "./action";
 import {callClientInformationEndpoint} from "../../services/rest.service";
 
 
 export function * getClientInformationWorker(action) {
-    const { payload: { credentials } } = action
+    const clientInformation = yield call(callClientInformationEndpoint)
 
-    const caseId = credentials ? credentials.linkedApplication[0].externalId : "";
-
-    if (caseId !== "") {
-        const clientInformation = yield call(callClientInformationEndpoint)
-
-        if (true) { // todo validate
-            yield put(setClientInformation(clientInformation))
-        } else {
-
-        }
+    if (clientInformation && clientInformation.isSuccess) { // todo validate
+        yield put(setClientInformation(clientInformation))
     } else {
-        // todo handle case
+        console.error("Unable to get client information");
     }
-
 }
 
 export function * getClientInformationWatcher() {

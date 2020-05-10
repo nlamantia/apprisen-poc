@@ -8,10 +8,10 @@ import {
     IonListHeader,
     IonProgressBar,
     IonRow
-} from '@ionic/react';
+} from "@ionic/react";
 import React from "react";
 
-const ProgressTracker = (props) => {
+const ProgressTrackerCard = (props) => {
     const {startLabel, endLabel, currentLabel, currentProgress} = props;
 
     return (
@@ -29,14 +29,14 @@ const ProgressTracker = (props) => {
                     <IonItem>
                         <IonGrid>
                             <IonRow>
-                                <IonCol size={"4"}>
-                                    <IonLabel class="progress-tracker-label"><h3>Start:</h3><p>{startLabel}</p></IonLabel>
+                                <IonCol class="progress-tracker-label" size={"4"}>
+                                    <IonLabel className="ion-text-wrap"><h3>Original Balance:</h3><p>{startLabel}</p></IonLabel>
                                 </IonCol>
                                 <IonCol class="progress-tracker-label center-aligned" size={"4"}>
-                                    <IonLabel><h3>Current:</h3><p>{currentLabel}</p></IonLabel>
+                                    <IonLabel className="ion-text-wrap"><h3>Current Monthly Payment:</h3><p>{currentLabel}</p></IonLabel>
                                 </IonCol>
                                 <IonCol class="progress-tracker-label right-aligned" size={"4"}>
-                                    <IonLabel><h3>End:</h3><p>{endLabel}</p></IonLabel>
+                                    <IonLabel className="ion-text-wrap"><h3>Current Balance:</h3><p>{endLabel}</p></IonLabel>
                                 </IonCol>
                             </IonRow>
                         </IonGrid>
@@ -46,5 +46,4 @@ const ProgressTracker = (props) => {
         </>
     )
 };
-
-export default ProgressTracker
+export default ProgressTrackerCard;

@@ -1,6 +1,6 @@
 import {DebtTypes} from "./interface";
-import {DebtDetail} from "../../models/case/debt-detail";
 import {LoginResponse} from "../../models/auth/login-response";
+import {CaseDebt} from "../../models/case/case-debt";
 
 
 export const GET_DEBTS = "getDebts"
@@ -12,7 +12,7 @@ export function getDebts(credentials: LoginResponse): DebtTypes {
 }
 
 export const SET_DEBTS = "setDebts"
-export function setDebts(debts : DebtDetail[] ): DebtTypes {
+export function setDebts(debts : CaseDebt[] ): DebtTypes {
     return {
         type: SET_DEBTS,
         payload: { debts }

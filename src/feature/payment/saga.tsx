@@ -1,7 +1,14 @@
 import {all, call, put, takeEvery} from "@redux-saga/core/effects";
-import {GET_CLIENT_ACCOUNT_DATA, MAKE_PAYMENT, setClientAccountData, setConfirmation, setPaymentStatus} from "./action";
+import {
+    GET_CLIENT_ACCOUNT_DATA,
+    GET_PAYMENT_HISTORY, getPaymentHistory,
+    MAKE_PAYMENT,
+    setClientAccountData,
+    setConfirmation, setPaymentHistory,
+    setPaymentStatus
+} from "./action";
 import {PaymentResponse} from "../../models/payment/payment-response";
-import {callGetClientData, callMakePayment} from "../../services/rest.service";
+import {callGetClientData, callMakePayment, callPaymentHistory} from "../../services/rest.service";
 
 export function * getClientAccountDataWorker(action) {
     const clientDataResponse = yield call(callGetClientData);
@@ -20,6 +27,24 @@ export function * getClientAccountDataWorker(action) {
 
 export function * getClientAccountDataWatcher() {
     yield takeEvery(GET_CLIENT_ACCOUNT_DATA, getClientAccountDataWorker)
+}
+
+export function * getPaymentHistoryWorker(action) {
+    const paymentHistoryResponse = yield call(callPaymentHistory);
+
+    const { caseDeposits, IsSuccess, errors } = paymentHistoryResponse;
+
+    if (paymentHistoryResponse && caseDeposits && IsSuccess) {
+        yield put(setPaymentHistory(caseDeposits));
+    } else if (errors && errors.length) {
+        for (let i = 0; i < errors.length; i++) {
+            console.error(JSON.stringify(errors[i]));
+        }
+    }
+}
+
+export function * getPaymentHistoryWatcher() {
+    yield takeEvery(GET_PAYMENT_HISTORY, getPaymentHistoryWorker)
 }
 
 export function * makePaymentWorker(action) {
@@ -62,6 +87,7 @@ export function * makePaymentWatcher() {
 export function * paymentSaga() {
     yield all([
         makePaymentWatcher(),
-        getClientAccountDataWatcher()
+        getClientAccountDataWatcher(),
+        getPaymentHistoryWatcher()
     ])
 }

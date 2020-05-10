@@ -6,11 +6,9 @@ import {Storage} from "@capacitor/core";
 export function * getDebtDetailWorker(action) {
     const debtDetail = yield call(callDebtDetailEndpoint)
 
-    if (debtDetail) { // is valid
+    if (debtDetail && debtDetail.caseDebts) { // is valid
         const { caseDebts } = debtDetail
         yield put(setDebts(caseDebts))
-    } else {
-        // todo handle this
     }
 }
 
@@ -38,6 +36,3 @@ export function * debtSaga() {
         getSelectedDebtIdWatcher()
     ])
 }
-
-
-
