@@ -39,6 +39,18 @@ const _AccountOverview = (props) => {
     const [userCaseSummary, setUserCaseSummary] = useState<CaseSummary>({} as CaseSummary);
     const [userPaymentHistory, setUserPaymentHistory] = useState<CaseDeposit[]>([]);
 
+    const colors = [
+        "#008752",
+        "#FAA634",
+        "#007FB2",
+        "#439539",
+        "#008E7F",
+        "#BEC0C2",
+        "#0096D6",
+        "#6CB33F",
+        "#717073"
+    ]
+
     function redirectLogin() {
         logout();
         return (
@@ -199,18 +211,8 @@ const _AccountOverview = (props) => {
                                                                 data: userDebts.map(
                                                                     lender => lender.currentBalance
                                                                 ),
-                                                                backgroundColor: [
-                                                                    "#008752",
-                                                                    "#FAA634",
-                                                                    "#007FB2",
-                                                                    "#439539"
-                                                                ],
-                                                                hoverBackgroundColor: [
-                                                                    "#008752",
-                                                                    "#FAA634",
-                                                                    "#007FB2",
-                                                                    "#439539"
-                                                                ]
+                                                                backgroundColor: colors,
+                                                                hoverBackgroundColor: colors
                                                             }
                                                         ]
                                                     }}
