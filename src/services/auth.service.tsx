@@ -1,17 +1,27 @@
 import {LoginResponse} from '../models/auth/login-response';
+import moment from 'moment'
 import {Plugins} from '@capacitor/core';
 import {LINKED_APP_NAME} from "../config/app-constants";
 
 const {Storage} = Plugins;
 
-export const isAuthenticated = (cred: string) => {
-    if (cred) {
-        const { signedToken, expiresOn } = JSON.parse(cred) as any;
-        if (signedToken && expiresOn) {
-            return Date.now() < new Date(expiresOn / 10000).getTime()
-        }
+export const isAuthenticated = async (parCreds?: LoginResponse) : Promise<Boolean> => {
+    try {
+        const creds : LoginResponse = parCreds ? parCreds : await getCredentials()
+        console.log(creds)
+        if (!creds) { return false }
+        console.log({credsNotExpired: !(await areCredentialsExpired(creds))})
+        return !(await areCredentialsExpired(creds))
+    } catch(e) {
+        console.log(e); console.log('whaaa')
+        return false
     }
-    return false;
+}
+
+export const areCredentialsExpired = async (parCreds?: LoginResponse ) : Promise<Boolean> => {
+    const creds = parCreds ? parCreds : await getCredentials()
+    const { expiresOn } = creds
+    return Date.now() > new Date(Number(expiresOn) / 10000).getTime()
 }
 
 export const login = (credentials : LoginResponse) => {

@@ -10,6 +10,7 @@ import {authReducer} from "../feature/auth/reducer";
 import {authSaga} from "../feature/auth/saga";
 import {paymentReducer} from "../feature/payment/reducer";
 import {paymentSaga} from "../feature/payment/saga";
+import {commonReducer} from "../feature/common/reducer";
 
 export const rootReducer = () => {
     return combineReducers({
@@ -18,6 +19,7 @@ export const rootReducer = () => {
         "debt": debtReducer,
         "auth": authReducer,
         "payment": paymentReducer,
+        "common": commonReducer
     })
 }
 

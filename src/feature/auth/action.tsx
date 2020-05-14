@@ -46,3 +46,9 @@ export const verify = ({zipCode, lastFourOfSSID, clientId}) => ({
     type: VERIFY,
     payload: {zipCode, lastFourOfSSID, clientId}
 })
+
+export const SET_EXTERNAL_ID = 'set_external_id'
+export const setExternalId = ({ externalId }) => ( {
+   type: SET_EXTERNAL_ID,
+   payload: { externalId }
+} )

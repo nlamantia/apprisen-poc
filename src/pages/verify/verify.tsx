@@ -12,19 +12,15 @@ import {
     IonListHeader,
     IonPage,
     IonRow,
-    IonSpinner,
     IonThumbnail,
     IonTitle,
-    IonToast,
     IonToolbar
 } from "@ionic/react";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import logo from "../../images/apprisen-logo.png";
-import {LoginRequest} from "../../models/auth/login-request";
-import {login, resetLoginStatus, setLoginStatus, verify} from "../../feature/auth/action";
-import { InAppBrowser } from '@ionic-native/in-app-browser';
+import {verify} from "../../feature/auth/action";
 
 const _Login = (props: any) => {
     const [lastFourOfSSID, setLastFourOfSSID] = useState(null)

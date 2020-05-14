@@ -49,6 +49,7 @@ import {bindActionCreators} from "redux";
 import {logout} from "./feature/auth/action";
 import PrivateRoute from "./common/PrivateRoute";
 import Verify from "./pages/verify/verify";
+import {AuthContextProvider} from "./common/AuthProvider";
 
 interface Page {
   title: string;
@@ -69,71 +70,73 @@ const _Main = (props: any) => {
 
   return (
     <IonApp>
-      <IonMenu side="end" menuId="menu" type="overlay" contentId={'main-content'}>
-        <IonHeader class="toolbar-header">
-          <IonToolbar class="toolbar-header">
-            <IonTitle>Menu</IonTitle>
-            <IonButtons slot="end">
-              <IonMenuToggle autoHide={true}>
-                <IonMenuButton menu="menu" />
-              </IonMenuToggle>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <IonList>
-            {pages.map(page => (
-                <IonMenuToggle autoHide={true}>
-                <IonItem
-                    class='clickable ion-activatable'
-                    href={page.route}
-                    routerDirection={'forward'}
-                    key={page.title}
-                    onClick={(e) => page.action()}
-                    button
-                >
-                  <IonLabel>
-                    {page.title}
-                  </IonLabel>
-                </IonItem>
-                </IonMenuToggle>
-            ))}
-          </IonList>
-        </IonContent>
-      </IonMenu>
-      <IonReactRouter>
-        <IonRouterOutlet id={'main-content'}>
-          <PrivateRoute path="/overview" component={withRouter(Overview)} exact={true} />
-          <PrivateRoute path="/home" component={Home} exact={true} />
-          <Route path="/login" component={withRouter(Login)} exact={true} />
-          <PrivateRoute path="/verify" component={withRouter(Verify)} exact={true} />
-          <PrivateRoute exact path="/" component={() => <Redirect to="/overview" />} />
-          <PrivateRoute path="/user/:id" component={UserDetails} />
-          <PrivateRoute path="/profile" component={Profile} />
-          <PrivateRoute path="/resources" component={AdditionalResources} />
-          <Route
-            path="/payment-overview"
-            component={PaymentOverview}
-          />
-          <PrivateRoute
-            path="/account-overview"
-            component={AccountOverview}
-          />
-          <PrivateRoute
-            path="/lender-overview"
-            component={LenderOverview}
-          />
-          <PrivateRoute
-            path="/make-payment"
-            component={withRouter(MakePayment)}
-            />
-
-            <PrivateRoute
-              path="/payment-confirmation"
-              component={withRouter(PaymentConfirmation)}
+        <AuthContextProvider>
+          <IonMenu side="end" menuId="menu" type="overlay" contentId={'main-content'}>
+            <IonHeader class="toolbar-header">
+              <IonToolbar class="toolbar-header">
+                <IonTitle>Menu</IonTitle>
+                <IonButtons slot="end">
+                  <IonMenuToggle autoHide={true}>
+                    <IonMenuButton menu="menu" />
+                  </IonMenuToggle>
+                </IonButtons>
+              </IonToolbar>
+            </IonHeader>
+            <IonContent>
+              <IonList>
+                {pages.map(page => (
+                    <IonMenuToggle autoHide={true}>
+                    <IonItem
+                        class='clickable ion-activatable'
+                        href={page.route}
+                        routerDirection={'forward'}
+                        key={page.title}
+                        onClick={(e) => page.action()}
+                        button
+                    >
+                      <IonLabel>
+                        {page.title}
+                      </IonLabel>
+                    </IonItem>
+                    </IonMenuToggle>
+                ))}
+              </IonList>
+            </IonContent>
+          </IonMenu>
+          <IonReactRouter>
+            <IonRouterOutlet id={'main-content'}>
+              <PrivateRoute path="/overview" component={withRouter(Overview)} exact={true} />
+              <PrivateRoute path="/home" component={Home} exact={true} />
+              <Route path="/login" component={withRouter(Login)} exact={true} />
+              <Route path="/verify" component={withRouter(Verify)} exact={true} />
+              <PrivateRoute exact path="/" component={() => <Redirect to="/overview" />} />
+              <PrivateRoute path="/user/:id" component={UserDetails} />
+              <PrivateRoute path="/profile" component={Profile} />
+              <PrivateRoute path="/resources" component={AdditionalResources} />
+              <PrivateRoute
+                path="/payment-overview"
+                component={PaymentOverview}
               />
-        </IonRouterOutlet>
-      </IonReactRouter>
+              <PrivateRoute
+                path="/account-overview"
+                component={AccountOverview}
+              />
+              <PrivateRoute
+                path="/lender-overview"
+                component={LenderOverview}
+              />
+              <PrivateRoute
+                path="/make-payment"
+                component={withRouter(MakePayment)}
+                />
+
+                <PrivateRoute
+                  path="/payment-confirmation"
+                  component={withRouter(PaymentConfirmation)}
+                  />
+            </IonRouterOutlet>
+          </IonReactRouter>
+        </AuthContextProvider>
     </IonApp>
   )
 };

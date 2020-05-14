@@ -1,8 +1,8 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
-import {GET_CREDENTIALS, LOGIN, LOGOUT, setCredentials, setLoginStatus, VERIFY} from "./action";
+import {GET_CREDENTIALS, LOGIN, LOGOUT, setCredentials, setExternalId, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
-import {callLinkAccount, callLoginEndpoint, verify} from "../../services/rest.service";
-import {assertLoggedIn, getCaseId, getCredentials, login, logout} from "../../services/auth.service";
+import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest.service";
+import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth.service";
 import {LoginResponse} from "../../models/auth/login-response";
 
 const { Storage } = Plugins;
@@ -13,17 +13,14 @@ export function * loginWorker(action) {
 
     const { signedToken, username, expiresOn } = loginResponse
 
-    yield put(setLoginStatus({loginState: "ACTIVE", message: "PENDING"}))
-
     // todo validate
     if ( loginResponse && signedToken && username && expiresOn) {
-        yield call(login,loginResponse)
+        yield call(setCredentials,loginResponse)
+        yield call(login, loginResponse)
         yield assertLoggedIn(loginResponse)
 
         yield put(setCredentials(loginResponse))
-        yield put(setLoginStatus({loginState: "INACTIVE", message: "SUCCESS"}))
     } else {
-        yield put(setLoginStatus({loginState: "INACTIVE", message: "FAILURE"}))
     }
 }
 
@@ -50,18 +47,20 @@ export function * getCredentialsWatcher() {
 
 
 export function * verifyWorker(action) {
-    const { payload } = action
+    const { payload: {zipCode, lastFourOfSSID, clientId} } = action
     try {
-        yield call(verify, payload)
-        const externalApplicationId = yield call(getCaseId)
         const {signedToken, username, expiresOn} = yield call(getCredentials)
+        const responseToVerify = yield call(callVerifyClientNumber, {zipCode, lastFourOfSSID, clientId})
+
         const responseToLink = yield call(callLinkAccount, {
             Application: "TestMyChange",
-            ExternalApplicationId: externalApplicationId,
+            ExternalApplicationId: clientId,
             SignedToken: signedToken,
             UserName: username,
             ExpiresOn: expiresOn
         })
+
+        yield put(setExternalId(clientId))
     } catch(e) {
 
     }

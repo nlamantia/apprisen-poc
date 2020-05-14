@@ -12,19 +12,19 @@ import {
     IonListHeader,
     IonPage,
     IonRow,
-    IonSpinner,
     IonThumbnail,
     IonTitle,
     IonToast,
     IonToolbar
 } from "@ionic/react";
+import {connect, useSelector} from 'react-redux'
 import React, {useEffect, useState} from "react";
-import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import logo from "../../images/apprisen-logo.png";
 import {LoginRequest} from "../../models/auth/login-request";
-import {login, resetLoginStatus, setLoginStatus} from "../../feature/auth/action";
-import { InAppBrowser } from '@ionic-native/in-app-browser';
+import {login, resetLoginStatus} from "../../feature/auth/action";
+import {InAppBrowser} from '@ionic-native/in-app-browser';
+import {useAuthContext} from "../../common/AuthProvider";
 
 const _Login = (props: any) => {
 
@@ -32,33 +32,27 @@ const _Login = (props: any) => {
     const [credentials, setCredentials] = useState<LoginRequest>({ username: '', password: '' });
     const [failedLoginAlert, setFailedLoginAlert] = useState<boolean>(false);
 
+
+    const loginState = useSelector(state => state.common.status.login)
+    console.log(loginState)
+    const {isAuthedOptional: {value: authed} }  = useAuthContext()
+    console.log(authed)
+
+    useEffect(() => {
+        if (authed) { console.log('yo'); props.history.push('/'); }
+    }, [authed])
+
     function handleChange(evt: any) {
         setCredentials({ ...credentials, [evt.target.name]: evt.target.value })
     }
-    const { login, loginStatus, resetLoginStatus } = props
-    const { loginState, message } = (loginStatus || {loginState: null, message: null})
-    const { state } = props
-
     const handleLoginClick = () => {
+        const { login } = props
         login(credentials)
     }
 
     const handleAccountCreationClick = () => {
         InAppBrowser.create("https://my.apprisen.com/myapprisen/NewAccount.aspx",'_system', 'location=yes');
     }
-
-
-    useEffect(() => {
-        const { loginState, message } = (loginStatus || {loginState: null, message: null})
-        if (loginState === "INACTIVE") {
-            if (message === "SUCCESS") {
-                passwordInput.current.value = '';
-                props.history.push('/overview');
-            } else {
-                setFailedLoginAlert(true)
-            }
-        }
-    }, [loginState])
 
     return (
         <IonPage>
@@ -93,7 +87,6 @@ const _Login = (props: any) => {
                                     <IonItem className={'full-button'}>
                                         <IonButton className={'full-button'} onClick={handleLoginClick} expand="full">
                                             Login
-                                            {loginState === 'ACTIVE' ? <span><IonSpinner class={'spinner'} name="crescent" /></span> : null}
                                         </IonButton>
                                     </IonItem>
                                     <IonItem className={'full-button'}>

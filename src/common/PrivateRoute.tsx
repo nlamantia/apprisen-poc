@@ -1,8 +1,10 @@
-import {Redirect, Route} from "react-router-dom";
-import {isAuthenticated, isVerified} from "../services/auth.service";
-import { useLocation } from 'react-router-dom'
-import React, {useEffect, useState} from "react";
+import {Redirect, Route, useLocation} from "react-router-dom";
+import {areCredentialsExpired, logout} from "../services/auth.service";
+import { useSelector } from 'react-redux'
+import React from "react";
 import {Plugins} from "@capacitor/core";
+import {useAuthContext} from "./AuthProvider";
+import {IonButton, IonSpinner} from "@ionic/react";
 
 const {Storage} = Plugins;
 
@@ -12,38 +14,39 @@ const PrivateRoute = ({component = {}, render = {}, ...props}: {
     path : string,
     exact? : boolean
 }) => {
-    const [isAuthedOptional, setIsAuthedOptional] = useState({ isPresent: false, value: undefined })
-    const [isVerifiedOptional, setIsVerifiedOptional] = useState({ isPresent: false, value: undefined })
 
-    const location = useLocation()
+    const { pathname } = useLocation()
+    const loginState = useSelector((state) => state)
 
-    useEffect( () => {
-        const determineUserStatus =  async () => {
-            const creds = (await Storage.get({key: 'credentials'})).value;
-            const authenticated = isAuthenticated(creds);
-            const verified = await isVerified()
-            setIsAuthedOptional({isPresent: true, value: authenticated})
-            setIsVerifiedOptional({isPresent: true, value: verified})
-        }
-        determineUserStatus()
-    }, [])
-
-    if (!isAuthedOptional.isPresent) return (<div />)
-    const { value : authed } = isAuthedOptional
-
-    if (!isVerifiedOptional.isPresent) return (<div />)
-    const { value : verified } = isVerifiedOptional
+    const {isVerifiedOptional, isAuthedOptional}  = useAuthContext()
+    const { isVerifiedOptional: {value: verified}, isAuthedOptional: {value: authed} } =
+                {isVerifiedOptional, isAuthedOptional}
 
     const shouldRedirect =  (!authed || !verified)
-    const pathname = !authed ? '/login' : '/verify'
+    let redirectPath
+    if (!authed) {
+        redirectPath = '/login'
+    } else {
+        if (!verified) {
+            redirectPath = '/verify'
+        } else {
+            if (['/login', '/verify'].includes(pathname)) redirectPath = '/'
+        }
+    }
 
-    return (
-        <Route {...props} exact
+    if ( !authed && isAuthedOptional.isPresent) {
+        areCredentialsExpired().then( expired => {if (expired) logout()})
+    }
+
+    return [isVerifiedOptional, isAuthedOptional].some(e => !e.isPresent) ?
+        <IonSpinner class={'spinner'} name="crescent" /> :
+        (
+            <Route {...props} exact
                render={(props => (
-                   ( shouldRedirect && pathname !== location.pathname ) ? (
+                   ( shouldRedirect ) ? (
                            <Redirect
                                to={{
-                                   pathname,
+                                   pathname: redirectPath,
                                }}
                            />
                        ) :

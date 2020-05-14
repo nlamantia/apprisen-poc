@@ -16,8 +16,9 @@ const LOGIN_URL = BASE_URL + "/api/auth/login";
 const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
 const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
 const PAYMENT_HISTORY_URL = BASE_URL + "/api/case/payment-history/";
-const VERIFY_URL = BASE_URL + "/api/Client/VerifyClientNumber";
 const LINK_ACCOUNT_URL = BASE_URL + "api/account/LinkAccountWithExternalApp"
+const VERIFY_CLIENT_NUMBER_URL = BASE_URL + "/api/Client/VerifyClientNumber"
+
 
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]
 
@@ -46,16 +47,15 @@ export const callPaymentHistory = async (): Promise<PaymentHistoryResponse> => {
     // return getFakePaymentHistoryResponse();
 };
 
-export const verify = async (body) => {
+
+export const callVerifyClientNumber = async(requestBody) : Promise<void> => {
     const headers = new Headers()
 
-    return await callApi(VERIFY_URL,
-        {
-            method: 'POST',
-            headers,
-            body: JSON.stringify(body)
-        }
-    );
+    return await callApi(VERIFY_CLIENT_NUMBER_URL, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(requestBody)
+    })
 }
 
 export const callPayoffForecast = async ({IncreaseAmount, IsOneTimePayment}): Promise<string> => {
