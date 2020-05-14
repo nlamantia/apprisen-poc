@@ -18,7 +18,8 @@ import {
     IonSelectOption,
     IonTitle,
     IonToast,
-    IonToolbar
+    IonToolbar,
+    IonFooter
 } from "@ionic/react";
 import {connect} from 'react-redux'
 import React, {useEffect, useState} from "react";
@@ -306,6 +307,7 @@ const _MakePayment = ( props: any ) => {
                             </IonCol>
                         </IonRow>
                     </IonGrid>
+                    <IonFooter className="ion-no-border"/>
                 </IonContent>
             </IonPage>
         </>

@@ -253,6 +253,13 @@ ion-icon {
   flex-grow: 2;
 }
 
+ion-footer {
+  &.footer-md::before {
+      background-image: none;
+      height: 75px !important;
+  }
+}
+
 #sharpenChat.light {
     position: fixed !important;
     right: 5rem !important;

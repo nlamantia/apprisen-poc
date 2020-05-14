@@ -13,7 +13,8 @@ import {
     IonPage,
     IonRow,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonFooter
 } from "@ionic/react";
 import {connect} from 'react-redux'
 import React, {useEffect, useState} from "react";
@@ -229,6 +230,7 @@ const _AccountOverview = (props) => {
                             </IonCol>
                         </IonRow>
                     </IonGrid>
+                    <IonFooter className="ion-no-border"/>
                 </IonContent>
             </IonPage>
         </>
