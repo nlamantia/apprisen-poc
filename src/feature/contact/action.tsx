@@ -1,5 +1,5 @@
 import {EmailRequest} from "../../models/contact/email-request";
-import {ContactActionType, ContactStatusType} from "./interface";
+import {ContactActionType, ContactStatus} from "./interface";
 
 export const SEND_EMAIL = "sendEmail";
 export const sendEmail = (emailRequest: EmailRequest): ContactActionType => ({
@@ -14,7 +14,7 @@ export const setMessage = (message: string): ContactActionType => ({
 });
 
 export const SET_SENT_STATUS = "setSentStatus";
-export const setSentStatus = (status: ContactStatusType): ContactActionType => ({
+export const setSentStatus = (status: ContactStatus): ContactActionType => ({
     type: SET_SENT_STATUS,
     payload: { status }
 });

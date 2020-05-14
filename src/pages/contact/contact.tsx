@@ -14,16 +14,17 @@ import {
     IonListHeader,
     IonPage,
     IonRow,
+    IonTextarea,
     IonTitle,
     IonToast,
-    IonToolbar,
-    IonTextarea
+    IonToolbar
 } from "@ionic/react";
 import {connect} from 'react-redux'
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {bindActionCreators} from "redux";
 import {getCaseSummary} from "../../feature/case/action";
-import { EmailData } from "models/client/email-data";
+import {EmailData} from "models/client/email-data";
+import {validateNonEmptyString, validateNonEmptyText} from "../common/validators";
 
 const _Contact = (props) => {
 
@@ -42,8 +43,7 @@ const _Contact = (props) => {
     }
 
     function isValidEmailData(emailData : EmailData) {
-        if (emailData.body != "" && emailData.subject != "") {return true;}
-        else {return false;}
+        return validateNonEmptyString(emailData.body) && validateNonEmptyText(emailData.subject);
     }
 
     const handleSend = () => {
@@ -52,17 +52,17 @@ const _Contact = (props) => {
             // Make API call
         }
         else {
-            var x = document.getElementById("sharpenChat");
+            let x = document.getElementById("sharpenChat");
             x.style.display = "none";
             setShouldShowToast(true);
         }
-    }
+    };
 
     const handleToastDismiss = () => {
         var x = document.getElementById("sharpenChat");
         x.style.display = "block";
         setShouldShowToast(false) 
-    }
+    };
 
 
     return (
