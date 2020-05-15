@@ -26,7 +26,7 @@ import {EmailData} from "models/client/email-data";
 import {validateNonEmptyString, validateNonEmptyText} from "../common/validators";
 import {sendEmail, setSentStatus} from "../../feature/contact/action";
 import {EmailRequest} from "../../models/contact/email-request";
-import {CONTACT_US_EMAILS} from "../../app-constants";
+import {CONTACT_US_EMAILS} from "../../common/app-constants";
 import {ContactStatus} from "../../feature/contact/interface";
 import {Redirect} from "react-router";
 
