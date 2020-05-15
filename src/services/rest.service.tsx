@@ -3,8 +3,9 @@ import {LoginRequest} from "../models/auth/login-request";
 import {ClientInformation} from "../models/case/client-information";
 import {CaseSummary} from "../models/case/case-summary";
 import {DebtDetail} from "../models/case/debt-detail";
-import {getAuthHeaders, getCaseId} from "./auth.service";
+import {getAuthHeaders, getCaseId, getCredentials} from "./auth.service";
 import {PaymentHistoryResponse} from "../models/payment/payment-history-response";
+import {toast} from "react-toastify";
 import {EmailRequest} from "../models/contact/email-request";
 
 export const BASE_URL = "https://apprisen-facade-test.herokuapp.com"
@@ -18,6 +19,9 @@ const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
 const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
 const SEND_EMAIL_URL = BASE_URL + "/api/client/sendemail/";
 const PAYMENT_HISTORY_URL = BASE_URL + "/api/case/payment-history/";
+const LINK_ACCOUNT_URL = BASE_URL + "api/account/linkaccountwithexternalapp"
+const VERIFY_CLIENT_NUMBER_URL = BASE_URL + "/api/client/verifyclientnumber"
+
 
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]
 
@@ -29,7 +33,7 @@ export const callLoginEndpoint = async (credentials: LoginRequest): Promise<Logi
         method: 'POST',
         headers,
         body: JSON.stringify(credentials)
-    });
+    },"Logged in!");
 };
 
 export const callCaseSummaryEndpoint = async (): Promise<CaseSummary> => {
@@ -45,6 +49,19 @@ export const callPaymentHistory = async (): Promise<PaymentHistoryResponse> => {
     return callApi(PAYMENT_HISTORY_URL + externalId);
     // return getFakePaymentHistoryResponse();
 };
+
+
+export const callVerifyClientNumber = async(requestBody) : Promise<void> => {
+    const headers = new Headers()
+    headers.append('Content-Type', 'application/json');
+    (window as any).verifiedCalledDeleteThis = true
+
+    return await callApi(VERIFY_CLIENT_NUMBER_URL, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(requestBody)
+    }, "Verification passed, congrats!")
+}
 
 export const callPayoffForecast = async ({IncreaseAmount, IsOneTimePayment}): Promise<string> => {
 
@@ -104,13 +121,21 @@ export const callGetClientData = async () : Promise<string> => {
     return await callApi(CLIENT_DATA_URL + externalId);
 };
 
+export const callLinkAccount = async(requestBody) : Promise<void> => {
+    return await callApi(LINK_ACCOUNT_URL, {
+        method: 'POST',
+        body: JSON.stringify(requestBody)
+    })
+}
+
+
 export const callClientInformationEndpoint = async (): Promise<ClientInformation> => {
     const externalId = await getCaseId();
 
     return await callApi(CLIENT_INFORMATION_URL + externalId);
 };
 
-export const callApi = async (url: string, options: RequestInit = {}): Promise<any> => {
+export const callApi = async (url: string, options: RequestInit = {}, message = null): Promise<any> => {
     try {
         const headers = await getHeaders(options.headers as Headers, url)
         const response = await fetch(url, {
@@ -118,12 +143,15 @@ export const callApi = async (url: string, options: RequestInit = {}): Promise<a
             headers
         });
         if (response.ok) {
+            if (message) toast(message, {autoClose: 500})
             return response.json();
         } else {
+            if (message) toast(message + "ERROR") // todo remove message
             throw new Error(String(response.status));
         }
     } catch (error) {
         // todo handle errors in store
+        console.log(error)
         return {};
     }
 };

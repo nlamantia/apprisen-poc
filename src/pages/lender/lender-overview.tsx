@@ -55,7 +55,6 @@ const _LenderOverview = (props) => {
             try {
                 getCredentials();
             } catch (e) {
-                console.log(JSON.stringify(e));
                 logout();
             }
         }

@@ -9,8 +9,9 @@ export const store = () => {
 
     const middleware = [sagaMiddleware]
 
+    const composeEnhancers = composeWithDevTools({trace: true})
 
-    const store = createStore(rootReducer(), composeWithDevTools(
+    const store = createStore(rootReducer(), composeEnhancers(
         applyMiddleware(...middleware),
     ));
 
