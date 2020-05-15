@@ -10,7 +10,8 @@ import {
     IonThumbnail,
     IonTitle,
     IonToast,
-    IonToolbar
+    IonToolbar,
+    IonFooter
 } from "@ionic/react";
 import React, {useEffect, useState} from "react";
 import {Redirect, useLocation} from "react-router-dom";
@@ -24,6 +25,7 @@ import {bindActionCreators} from "redux";
 import {getCredentials, logout} from '../../feature/auth/action'
 import {getClientAccountData, getPaymentHistory} from "../../feature/payment/action";
 import ProgressTrackerCard from "../common/progress-tracker-card";
+import WelcomeBanner from "pages/common/welcome-banner";
 
 const _Overview = (props) => {
 
@@ -115,6 +117,11 @@ const _Overview = (props) => {
                     </IonHeader>
                     <IonContent id="overview">
                         <IonGrid className={'lender-grid'}>
+                             <IonRow>
+                                <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
+                                    <WelcomeBanner/>
+                                </IonCol>
+                            </IonRow>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
                                     <ProgressTrackerCard currentLabel={"$" + monthlyPayment} startLabel={"$" + totalOriginalBalance} endLabel={"$" + currentBalance} currentProgress={caseProgress}/>
@@ -137,6 +144,7 @@ const _Overview = (props) => {
                             duration={4000}
                             header="Oops Something went wrong..."
                         />
+                        <IonFooter className="ion-no-border"/>
                     </IonContent>
                 </IonPage>
             </>

@@ -14,7 +14,8 @@ import {
     IonToolbar,
     IonCol,
     IonRow,
-    IonGrid
+    IonGrid,
+    IonFooter
 } from "@ionic/react";
 import React from "react";
 import facebookDMP from "../../images/facebook-apprisen.png";
@@ -80,7 +81,7 @@ const AdditionalResources = (props) => {
                     </IonCol>
                 </IonRow>
             </IonGrid>
-
+            <IonFooter className="ion-no-border"/>
             </IonContent>
         </IonPage>
             </>

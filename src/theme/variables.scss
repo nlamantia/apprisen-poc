@@ -253,6 +253,44 @@ ion-icon {
   flex-grow: 2;
 }
 
+ion-footer {
+  &.footer-md::before {
+      background-image: none;
+      height: 75px !important;
+  }
+}
+
+.welcome-banner {
+  --background: linear-gradient(90deg, rgba(7, 166, 104, 1) 0%, rgba(11, 91, 59, 1) 81%);
+}
+
+.welcome-image {
+  height: 100px !important;
+  width: 100px !important;
+  margin-top: auto;
+  margin-bottom: auto;
+  vertical-align: middle;
+  padding: 5px;
+}
+
+.welcome-image-right {
+  height: 100px !important;
+  width: 100px !important;
+  margin-top: auto;
+  margin-bottom: auto;
+  vertical-align: middle;
+  padding: 5px;
+  text-align: right !important;
+}
+
+.banner-text .ion-text-wrap{
+  font-size: 45px !important;
+  color: white !important;
+  text-align: center;
+}
+
+
+
 #sharpenChat.light {
     position: fixed !important;
     right: 5rem !important;
@@ -273,6 +311,31 @@ ion-icon {
     .lender-progress-holder {
       width: 0 !important;
       visibility: hidden;
+    }
+
+    .welcome-image {
+      height: 50px !important;
+      width: 50px !important;
+      margin-top: auto;
+      margin-bottom: auto;
+      vertical-align: middle;
+      padding: 2px;
+    }
+
+    .banner-text .ion-text-wrap{
+      font-size: 18px !important;
+      color: white !important;
+      text-align: center;
+    }
+
+    .welcome-image-right {
+      height: 50px !important;
+      width: 50px !important;
+      margin-top: auto;
+      margin-bottom: auto;
+      vertical-align: middle;
+      padding: 5px;
+      text-align: right !important;
     }
 
     #sharpenChat.light {

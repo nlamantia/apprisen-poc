@@ -52,6 +52,7 @@ import Verify from "./pages/verify/verify";
 import {AuthContextProvider} from "./common/AuthProvider";
 import {NotificationProvider} from "./common/NotificationProvider";
 import {Logout} from "./pages/logout/logout";
+import Contact from "./pages/contact/contact";
 
 interface Page {
   title: string;
@@ -66,6 +67,7 @@ const _Main = (props: any) => {
   const pages: Page[] = [
     { title: 'Overview', route: '/overview', action: (e) => null},
     { title: 'Profile', route: '/profile', action: (e) => null},
+    { title: 'Contact Us', route: '/contact', action: (e) => null},
     { title: 'Additional Resources', route: '/resources', action: (e) => null },
     { title: 'Logout', route: '/login', action: (e) => logout()}
   ]
@@ -115,6 +117,7 @@ const _Main = (props: any) => {
               <Route path="/verify" component={withRouter(Verify)} exact={true} />
               <PrivateRoute exact path="/" component={withRouter(Overview)} />
               <PrivateRoute path="/user/:id" component={UserDetails} />
+              <PrivateRoute path="/contact" component={Contact} />
               <PrivateRoute path="/profile" component={Profile} />
               <PrivateRoute path="/resources" component={AdditionalResources} />
               <PrivateRoute
@@ -124,6 +127,7 @@ const _Main = (props: any) => {
               <PrivateRoute
                 path="/account-overview"
                 component={AccountOverview}
+
               />
               <PrivateRoute
                 path="/lender-overview"

@@ -8,7 +8,6 @@ const { Storage } = Plugins;
 export function * getCaseWorker() {
     const caseSummary = yield call(callCaseSummaryEndpoint)
     if (caseSummary && caseSummary.estimatedBalance) {
-        console.log(JSON.stringify(caseSummary));
         yield put(setCaseSummary(caseSummary))
     }
 }
