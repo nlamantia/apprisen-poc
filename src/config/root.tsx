@@ -21,7 +21,7 @@ export const rootReducer = () => {
         "debt": debtReducer,
         "auth": authReducer,
         "payment": paymentReducer,
-        "common": commonReducer
+        "common": commonReducer,
         "contact": contactReducer
     })
 }

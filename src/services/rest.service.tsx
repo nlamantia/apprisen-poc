@@ -54,7 +54,6 @@ export const callPaymentHistory = async (): Promise<PaymentHistoryResponse> => {
 export const callVerifyClientNumber = async(requestBody) : Promise<void> => {
     const headers = new Headers()
     headers.append('Content-Type', 'application/json');
-    (window as any).verifiedCalledDeleteThis = true
 
     return await callApi(VERIFY_CLIENT_NUMBER_URL, {
         method: 'POST',
@@ -143,7 +142,6 @@ export const callApi = async (url: string, options: RequestInit = {}, message = 
             headers
         });
         if (response.ok) {
-            if (message) toast(message, {autoClose: 500})
             return response.json();
         } else {
             if (message) toast(message + "ERROR") // todo remove message
