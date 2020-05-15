@@ -28,6 +28,12 @@ import {PaymentRequest} from "../../models/payment/payment-request";
 import {getCredentials, logout} from "../../feature/auth/action";
 import {Redirect} from "react-router";
 import {BankAccountType} from "../../models/banking/bank-account-type";
+import {
+    validateAlphanumericOnly,
+    validateNonEmptyText, validateNumber,
+    validatePositiveDecimal,
+    validateText
+} from "../common/validators";
 // eslint-disable-next-line
 
 
@@ -203,26 +209,6 @@ const _MakePayment = ( props: any ) => {
         validate(evt);
         setPaymentRequest({ ...payment, [evt.target.name]: evt.target.value });
     }
-
-    const validateNumber = (text) => {
-        return /\d+/.test(text);
-    };
-
-    const validatePositiveDecimal = (text) => {
-        return /([1-9]\d*(\.\d{2})?)$|(0(\.\d{2})?)$/.test(text);
-    }
-
-    const validateText = (text) => {
-        return /[A-Za-z0-9]*/.test(text);
-    };
-
-    const validateAlphanumericOnly = (text) => {
-        return /[A-Za-z]+/.test(text);
-    };
-
-    const validateNonEmptyText = (text) => {
-        return /[A-Za-z0-9]+/.test(text);
-    };
 
     return (
         <>

@@ -96,7 +96,7 @@ describe('Case time selectors', () => {
       const overallState = {
          case: initialState
       };
-      expect(casePayoffDateUnixTimeSelector(overallState)).toEqual(null)
+      expect(casePayoffDateUnixTimeSelector(overallState)).toEqual(-1)
    })
 
    it('gets first payment date', () => {
@@ -110,7 +110,7 @@ describe('Case time selectors', () => {
        const overallState = {
           case: initialState
        };
-        expect(caseFirstPaymentDateSelector(overallState)).toEqual(null)
+        expect(caseFirstPaymentDateSelector(overallState)).toEqual(-1)
     })
 
    it('gets firstPayment date in unix time', () => {
@@ -125,7 +125,7 @@ describe('Case time selectors', () => {
       const overallState = {
          case: initialState
       };
-      expect(caseFirstPaymentDateUnixTimeSelector(overallState)).toEqual(null)
+      expect(caseFirstPaymentDateUnixTimeSelector(overallState)).toEqual(-1)
    })
 
    it('gets progress from beginning to projected end of case', () => {
