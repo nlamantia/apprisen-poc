@@ -66,7 +66,6 @@ export const callSendEmail = async (emailRequest: EmailRequest): Promise<string>
     headers.append('Content-Type', 'application/json');
 
     let requestBody = JSON.stringify(emailRequest);
-    console.log("Send email request body: " + requestBody);
     return callApi(SEND_EMAIL_URL, {
         method: 'POST',
         body: requestBody,
