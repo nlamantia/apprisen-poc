@@ -35,8 +35,6 @@ const _Login = (props: any) => {
 
     const {isVerifiedOptional, isAuthedOptional }  = useAuthContext()
     useEffect(() => {
-        console.log({yo: 'yo', isVerifiedOptional, isAuthedOptional})
-
         if (isVerifiedOptional.isPresent && isVerifiedOptional.value && pathname !== '/overview') { props.history.push('/overview'); }
     }, [isVerifiedOptional, isAuthedOptional])
 
@@ -71,11 +69,11 @@ const _Login = (props: any) => {
                                     </IonListHeader>
                                     <IonItem>
                                         <IonLabel position="floating">Last Four of SSID</IonLabel>
-                                        <IonInput name="ssid" placeholder="Enter the last four of your SSID" onIonChange={handleIonChange(setLastFourOfSSID)}></IonInput>
+                                        <IonInput name="ssid" placeholder="Enter the last four of your SSID" onIonChange={handleIonChange(setLastFourOfSSID)} type="password"></IonInput>
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel position="floating">Zip Code</IonLabel>
-                                        <IonInput name="zip" placeholder="Enter your zip code"  onIonChange={handleIonChange(setZipCode)} type="password"></IonInput>
+                                        <IonInput name="zip" placeholder="Enter your zip code"  onIonChange={handleIonChange(setZipCode)} ></IonInput>
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel position="floating">Client ID</IonLabel>
