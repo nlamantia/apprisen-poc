@@ -44,6 +44,7 @@ import MakePayment from "./pages/payment/make-payment";
 import PaymentConfirmation from "./pages/payment/payment-confirmation";
 import {bindActionCreators} from "redux";
 import {logout} from "./feature/auth/action";
+import Contact from "./pages/contact/contact";
 
 interface Page {
   title: string;
@@ -57,6 +58,7 @@ const _Main = (props: any) => {
   const pages: Page[] = [
     { title: 'Overview', route: '/overview', action: (e) => null},
     { title: 'Profile', route: '/profile', action: (e) => null},
+    { title: 'Contact Us', route: '/contact', action: (e) => null},
     { title: 'Additional Resources', route: '/resources', action: (e) => null },
     { title: 'Logout', route: '/login', action: (e) => logout()}
   ]
@@ -103,6 +105,7 @@ const _Main = (props: any) => {
           <Route exact path="/" render={() => <Redirect to="/login" />} />
           <Route path="/user/:id" component={UserDetails} />
           <Route path="/profile" component={Profile} />
+          <Route path="/contact" component={Contact} />
           <Route path="/resources" component={AdditionalResources} />
           <Route
             path="/payment-overview"
