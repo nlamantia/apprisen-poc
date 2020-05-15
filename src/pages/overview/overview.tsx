@@ -117,7 +117,7 @@ const _Overview = (props) => {
                     </IonHeader>
                     <IonContent id="overview">
                         <IonGrid className={'lender-grid'}>
-                            <IonRow>
+                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
                                     <WelcomeBanner/>
                                 </IonCol>

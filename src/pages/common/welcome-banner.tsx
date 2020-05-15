@@ -15,20 +15,24 @@ import {
 } from "@ionic/react";
 import React from "react";
 import iris from "../../images/iris.png";
+import logo from "../../images/apprisen-logo.png";
 
 const WelcomeBanner = (props) => {
     
 
     return (
         <>
-            <IonCard>
-                    <IonItem class="toolbar-header">
-                        <IonThumbnail class={"welcome-image"} slot={"start"}>
-                                <img alt="iris" src={iris}/>
-                        </IonThumbnail>
-                        <IonLabel>
-                                Welcome to the Apprisen Client Portal
+            <IonCard class="banner-text">
+                    <IonItem class="welcome-banner">
+
+ <img alt="logo" src={logo} className="welcome-image-right"/>
+                           
+                        <IonLabel className="ion-text-wrap">
+                                Welcome to the Apprisen Portal
                         </IonLabel>
+ <img alt="iris" src={iris} className="welcome-image"/>  
+
+                           
                     </IonItem>
             </IonCard>
         </>
