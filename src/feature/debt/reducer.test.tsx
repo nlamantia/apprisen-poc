@@ -18,14 +18,7 @@ describe('debt reducer', () => {
 
    const state = debtReducer(null,  null)
    it('handles set debts', () => {
-       const stateAfterSetSuccess = debtReducer(state, setDebts(
-           [{
-               caseDebts: [CASE_DEBT],
-               errors: [],
-               isSuccess: true,
-               '$id': "stringId"
-           }]
-       ))
+       const stateAfterSetSuccess = debtReducer(state, setDebts([CASE_DEBT]))
    })
 
    it('handles select debt', () => {

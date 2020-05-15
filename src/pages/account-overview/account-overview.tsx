@@ -13,7 +13,8 @@ import {
     IonPage,
     IonRow,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonFooter
 } from "@ionic/react";
 import {connect} from 'react-redux'
 import React, {useEffect, useState} from "react";
@@ -29,13 +30,47 @@ import {CaseSummary} from "../../models/case/case-summary";
 import {getPaymentHistory} from "../../feature/payment/action";
 import {CaseDeposit} from "../../models/payment/case-deposit";
 import {printDate} from "../common/utility-functions";
+import {BRAND_COLORS} from "../../common/app-constants";
+
+export const getLenderListForGraph = (lenders: CaseDebt[], colors: string[]): CaseDebt[] => {
+    let sortedLenders = lenders.sort((l1, l2) => l2.currentBalance - l1.currentBalance);
+    if (sortedLenders.length <= colors.length) {
+        return lenders;
+    }
+
+    let graphLenders = [];
+    for (let i = 0; i < colors.length - 1; i++) {
+        graphLenders.push(sortedLenders[i])
+    }
+
+    let sumOriginalBalance = 0, sumCurrentBalance = 0;
+    for (let i = colors.length - 1; i < sortedLenders.length; i++) {
+        sumOriginalBalance += sortedLenders[i].originalBalance;
+        sumCurrentBalance += sortedLenders[i].currentBalance;
+    }
+
+    graphLenders.push({
+        accountNumber: "-",
+        apr: 0,
+        creditorName: "Other",
+        currentBalance: sumCurrentBalance,
+        debtId: "-111",
+        debtType: 1,
+        lastCreditorPaymentDate: new Date(),
+        originalBalance: sumOriginalBalance,
+        $id: "-1"
+    } as CaseDebt);
+
+    return graphLenders;
+};
 
 const _AccountOverview = (props) => {
-    const {caseSummary, debts} = props
+    const {caseSummary, debts} = props;
     const {credentials, getCredentials, logout} = props;
     const {paymentHistory} = props;
 
     const [userDebts, setUserDebts] = useState<CaseDebt[]>([]);
+    const [graphDebts, setGraphDebts] = useState<CaseDebt[]>([]);
     const [userCaseSummary, setUserCaseSummary] = useState<CaseSummary>({} as CaseSummary);
     const [userPaymentHistory, setUserPaymentHistory] = useState<CaseDeposit[]>([]);
 
@@ -49,7 +84,7 @@ const _AccountOverview = (props) => {
     useEffect(
         () => {
             if (credentials && credentials.linkedApplication) {
-                const {getCaseSummary, getDebts, getPaymentHistory} = props
+                const {getCaseSummary, getDebts, getPaymentHistory} = props;
                 if (!caseSummary || caseSummary === {}) {
                     getCaseSummary();
                 } else {
@@ -59,7 +94,16 @@ const _AccountOverview = (props) => {
                 if (!debts || debts === {}) {
                     getDebts();
                 } else {
-                    setUserDebts(debts)
+                    setUserDebts(debts);
+                    // FOR DEMO ONLY - REMOVE WHEN DONE
+                    // let debtsForGraph = [];
+                    // for (let i = 0; i < 6; i++) {
+                    //     for (let j = 0; j < debts.length; j++) {
+                    //         debtsForGraph.push(debts[j]);
+                    //     }
+                    // }
+                    // setGraphDebts(getLenderListForGraph(debtsForGraph, BRAND_COLORS));
+                    setGraphDebts(getLenderListForGraph(debts, BRAND_COLORS));
                 }
 
                 if (!paymentHistory || !paymentHistory.length || paymentHistory.length === 0) {
@@ -188,29 +232,19 @@ const _AccountOverview = (props) => {
                                 <IonCard>
                                     <IonItem className={"ion-no-padding"}>
                                         <div className={"chart-div ion-padding-vertical"}>
-                                            {userDebts.length > 0 && (
+                                            {graphDebts.length > 0 && (
                                                 <Doughnut
                                                     data={{
-                                                        labels: userDebts.map(
+                                                        labels: graphDebts.map(
                                                             lender => lender.creditorName
                                                         ),
                                                         datasets: [
                                                             {
-                                                                data: userDebts.map(
+                                                                data: graphDebts.map(
                                                                     lender => lender.currentBalance
                                                                 ),
-                                                                backgroundColor: [
-                                                                    "#008752",
-                                                                    "#FAA634",
-                                                                    "#007FB2",
-                                                                    "#439539"
-                                                                ],
-                                                                hoverBackgroundColor: [
-                                                                    "#008752",
-                                                                    "#FAA634",
-                                                                    "#007FB2",
-                                                                    "#439539"
-                                                                ]
+                                                                backgroundColor: BRAND_COLORS,
+                                                                hoverBackgroundColor: BRAND_COLORS
                                                             }
                                                         ]
                                                     }}
@@ -229,6 +263,7 @@ const _AccountOverview = (props) => {
                             </IonCol>
                         </IonRow>
                     </IonGrid>
+                    <IonFooter className="ion-no-border"/>
                 </IonContent>
             </IonPage>
         </>

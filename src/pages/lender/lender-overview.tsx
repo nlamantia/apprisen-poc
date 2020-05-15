@@ -11,7 +11,8 @@ import {
     IonPage, IonRow,
     IonSkeletonText,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonFooter
 } from "@ionic/react";
 import React, {useEffect, useState} from "react";
 import {connect} from 'react-redux'
@@ -149,6 +150,7 @@ const _LenderOverview = (props) => {
                         </IonCol>
                     </IonRow>
                 </IonGrid>
+                <IonFooter className="ion-no-border"/>
             </IonContent>
         </IonPage>
     )

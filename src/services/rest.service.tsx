@@ -6,6 +6,7 @@ import {DebtDetail} from "../models/case/debt-detail";
 import {getAuthHeaders, getCaseId, getCredentials} from "./auth.service";
 import {PaymentHistoryResponse} from "../models/payment/payment-history-response";
 import {toast} from "react-toastify";
+import {EmailRequest} from "../models/contact/email-request";
 
 export const BASE_URL = "https://apprisen-facade-test.herokuapp.com"
 
@@ -16,6 +17,7 @@ const DEBT_DETAIL_URL = BASE_URL + "/api/case/debt-details/";
 const LOGIN_URL = BASE_URL + "/api/auth/login";
 const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
 const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
+const SEND_EMAIL_URL = BASE_URL + "/api/client/sendemail/";
 const PAYMENT_HISTORY_URL = BASE_URL + "/api/case/payment-history/";
 const LINK_ACCOUNT_URL = BASE_URL + "api/account/linkaccountwithexternalapp"
 const VERIFY_CLIENT_NUMBER_URL = BASE_URL + "/api/client/verifyclientnumber"
@@ -69,6 +71,19 @@ export const callPayoffForecast = async ({IncreaseAmount, IsOneTimePayment}): Pr
 
     let requestBody = JSON.stringify({caseNumber: externalId, IncreaseAmount, IsOneTimePayment});
     return callApi(PAY_OFF_FORECAST, {
+        method: 'POST',
+        body: requestBody,
+        headers
+    })
+
+};
+
+export const callSendEmail = async (emailRequest: EmailRequest): Promise<string> => {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    let requestBody = JSON.stringify(emailRequest);
+    return callApi(SEND_EMAIL_URL, {
         method: 'POST',
         body: requestBody,
         headers
