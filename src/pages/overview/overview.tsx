@@ -25,6 +25,7 @@ import {bindActionCreators} from "redux";
 import {getCredentials, logout} from '../../feature/auth/action'
 import {getClientAccountData, getPaymentHistory} from "../../feature/payment/action";
 import ProgressTrackerCard from "../common/progress-tracker-card";
+import WelcomeBanner from "pages/common/welcome-banner";
 
 const _Overview = (props) => {
 
@@ -116,6 +117,11 @@ const _Overview = (props) => {
                     </IonHeader>
                     <IonContent id="overview">
                         <IonGrid className={'lender-grid'}>
+                            <IonRow>
+                                <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
+                                    <WelcomeBanner/>
+                                </IonCol>
+                            </IonRow>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
                                     <ProgressTrackerCard currentLabel={"$" + monthlyPayment} startLabel={"$" + totalOriginalBalance} endLabel={"$" + currentBalance} currentProgress={caseProgress}/>
