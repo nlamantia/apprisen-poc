@@ -1,7 +1,7 @@
 import {Redirect, Route, useLocation} from "react-router-dom";
 import {areCredentialsExpired, logout} from "../services/auth.service";
 import { useSelector } from 'react-redux'
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Plugins} from "@capacitor/core";
 import {useAuthContext} from "./AuthProvider";
 import {IonButton, IonSpinner} from "@ionic/react";
@@ -16,23 +16,28 @@ const PrivateRoute = ({component = {}, render = {}, ...props}: {
 }) => {
 
     const { pathname } = useLocation()
-    const loginState = useSelector((state) => state)
+    const state = useSelector((state) => state)
 
     const {isVerifiedOptional, isAuthedOptional}  = useAuthContext()
     const { isVerifiedOptional: {value: verified}, isAuthedOptional: {value: authed} } =
                 {isVerifiedOptional, isAuthedOptional}
 
+
     const shouldRedirect =  (!authed || !verified)
-    let redirectPath
-    if (!authed) {
-        redirectPath = '/login'
-    } else {
-        if (!verified) {
-            redirectPath = '/verify'
+
+    const [redirectPath, setRedirectPath] = useState("")
+
+    useEffect(() => {
+        if (!authed) {
+            setRedirectPath('/login')
         } else {
-            if (['/login', '/verify'].includes(pathname)) redirectPath = '/'
+            if (!verified) {
+                setRedirectPath('/verify')
+            } else {
+                if (['/login', '/verify'].includes(pathname)) setRedirectPath('/')
+            }
         }
-    }
+    }, [isVerifiedOptional, isAuthedOptional])
 
     if ( !authed && isAuthedOptional.isPresent) {
         areCredentialsExpired().then( expired => {if (expired) logout()})

@@ -7,7 +7,7 @@ export const AuthContextProvider = props => {
     const [isAuthedOptional, setIsAuthedOptional] = useState({ isPresent: false, value: undefined })
     const [isVerifiedOptional, setIsVerifiedOptional] = useState({ isPresent: false, value: undefined })
 
-    const loginState = useSelector(state => state)
+    const state = useSelector(state => state.common.status)
 
     useEffect( () => {
         (async () => {
@@ -17,11 +17,10 @@ export const AuthContextProvider = props => {
             })
             setIsVerifiedOptional({
                 isPresent: true,
-                value: await isVerified()
+                value: await isVerified(),
             })
         })()
-    }, [loginState])
-
+    }, [state])
 
     const authData = useMemo(() => ( {isVerifiedOptional, isAuthedOptional} ), [isVerifiedOptional, isAuthedOptional])
 

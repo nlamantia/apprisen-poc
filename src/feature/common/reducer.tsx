@@ -1,4 +1,4 @@
-import {LOGIN, SET_CREDENTIALS, SET_EXTERNAL_ID, VERIFY} from "../auth/action";
+import {LOGIN, LOGIN_SUCCESS, SET_CREDENTIALS, SET_EXTERNAL_ID, VERIFY} from "../auth/action";
 
 export const STATUS = 'status'
 
@@ -12,7 +12,7 @@ export const TIMEOUT = 3000
 interface statusShape { key: string, start: string; stop: string}
 interface allStatusShapes { [LOGIN]: statusShape, [VERIFY]: statusShape }
 
-export const LOGIN_STATUS_RELATED_ACTIONS : statusShape  = { key: LOGIN, start: LOGIN, stop: SET_CREDENTIALS }
+export const LOGIN_STATUS_RELATED_ACTIONS : statusShape  = { key: LOGIN, start: LOGIN, stop: LOGIN_SUCCESS}
 export const VERIFY_STATUS_RELATED_ACTIONS : statusShape  = { key: VERIFY, start: VERIFY, stop: SET_EXTERNAL_ID }
 
 const INITIAL_STATUS : statusShape = {key: 'undefined', start: 'undefined', stop: 'undefined'}
@@ -49,7 +49,7 @@ export const commonReducer = (state= initialState, action) => {
 
     const status = STATUS_RELATED_ACTIONS_TO_WATCH[action.type]
     if(status) {
-        const {start, stop, key} = status
+        const {start, key} = status
 
         const curr = state.status[key]
         const disposition = action.type === start ? IN_PROGRESS : COMPLETED;

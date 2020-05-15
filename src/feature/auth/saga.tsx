@@ -1,5 +1,5 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
-import {GET_CREDENTIALS, LOGIN, LOGOUT, setCredentials, setExternalId, VERIFY} from "./action";
+import {GET_CREDENTIALS, LOGIN, loginSuccess, LOGOUT, setCredentials, setExternalId, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
 import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest.service";
 import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth.service";
@@ -19,7 +19,7 @@ export function * loginWorker(action) {
         yield call(login, loginResponse)
         yield assertLoggedIn(loginResponse)
 
-        yield put(setCredentials(loginResponse))
+        yield put(loginSuccess(loginResponse))
     } else {
     }
 }
@@ -50,15 +50,17 @@ export function * verifyWorker(action) {
     const { payload: {zipCode, lastFourOfSSID, clientId} } = action
     try {
         const {signedToken, username, expiresOn} = yield call(getCredentials)
-        const responseToVerify = yield call(callVerifyClientNumber, {zipCode, lastFourOfSSID, clientId})
+        const responseToVerify = yield call(callVerifyClientNumber, {ZipCode: zipCode, Last4SSN: lastFourOfSSID, ClientNumber: clientId})
 
-        const responseToLink = yield call(callLinkAccount, {
-            Application: "TestMyChange",
-            ExternalApplicationId: clientId,
-            SignedToken: signedToken,
-            UserName: username,
-            ExpiresOn: expiresOn
-        })
+        if (responseToVerify.ok && responseToVerify.IsSuccess) {
+            const responseToLink = yield call(callLinkAccount, {
+                Application: "TestMyChange",
+                ExternalApplicationId: clientId,
+                SignedToken: signedToken,
+                UserName: username,
+                ExpiresOn: expiresOn
+            })
+        }
 
         yield put(setExternalId(clientId))
     } catch(e) {

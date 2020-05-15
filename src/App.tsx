@@ -50,6 +50,8 @@ import {logout} from "./feature/auth/action";
 import PrivateRoute from "./common/PrivateRoute";
 import Verify from "./pages/verify/verify";
 import {AuthContextProvider} from "./common/AuthProvider";
+import {NotificationProvider} from "./common/NotificationProvider";
+import {Logout} from "./pages/logout/logout";
 
 interface Page {
   title: string;
@@ -70,6 +72,7 @@ const _Main = (props: any) => {
 
   return (
     <IonApp>
+        <NotificationProvider />
         <AuthContextProvider>
           <IonMenu side="end" menuId="menu" type="overlay" contentId={'main-content'}>
             <IonHeader class="toolbar-header">
@@ -107,9 +110,10 @@ const _Main = (props: any) => {
             <IonRouterOutlet id={'main-content'}>
               <PrivateRoute path="/overview" component={withRouter(Overview)} exact={true} />
               <PrivateRoute path="/home" component={Home} exact={true} />
-              <Route path="/login" component={withRouter(Login)} exact={true} />
+              <Route path="/login" component={Login} exact={true} />
+              <Route path="/logout" component={Logout} exact={true} />
               <Route path="/verify" component={withRouter(Verify)} exact={true} />
-              <PrivateRoute exact path="/" component={() => <Redirect to="/overview" />} />
+              <PrivateRoute exact path="/" component={withRouter(Overview)} />
               <PrivateRoute path="/user/:id" component={UserDetails} />
               <PrivateRoute path="/profile" component={Profile} />
               <PrivateRoute path="/resources" component={AdditionalResources} />
@@ -125,6 +129,7 @@ const _Main = (props: any) => {
                 path="/lender-overview"
                 component={LenderOverview}
               />
+              <Route/>
               <PrivateRoute
                 path="/make-payment"
                 component={withRouter(MakePayment)}

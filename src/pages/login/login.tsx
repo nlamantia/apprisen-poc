@@ -25,6 +25,7 @@ import {LoginRequest} from "../../models/auth/login-request";
 import {login, resetLoginStatus} from "../../feature/auth/action";
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {useAuthContext} from "../../common/AuthProvider";
+import {withRouter} from "react-router";
 
 const _Login = (props: any) => {
 
@@ -34,13 +35,11 @@ const _Login = (props: any) => {
 
 
     const loginState = useSelector(state => state.common.status.login)
-    console.log(loginState)
-    const {isAuthedOptional: {value: authed} }  = useAuthContext()
-    console.log(authed)
+    const {isAuthedOptional }  = useAuthContext()
 
     useEffect(() => {
-        if (authed) { console.log('yo'); props.history.push('/'); }
-    }, [authed])
+        if (isAuthedOptional.isPresent && isAuthedOptional.value) { props.history.push('/'); }
+    }, [isAuthedOptional])
 
     function handleChange(evt: any) {
         setCredentials({ ...credentials, [evt.target.name]: evt.target.value })
@@ -111,7 +110,7 @@ const _Login = (props: any) => {
 }
 
 
-const Login = connect(
+const Login = withRouter(connect(
     state => ({
         loginStatus: state.auth.loginStatus,
     }),
@@ -121,6 +120,6 @@ const Login = connect(
     }, dispatch)
 )(
     _Login
-);
+));
 
 export default Login

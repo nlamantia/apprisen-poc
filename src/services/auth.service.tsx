@@ -8,12 +8,9 @@ const {Storage} = Plugins;
 export const isAuthenticated = async (parCreds?: LoginResponse) : Promise<Boolean> => {
     try {
         const creds : LoginResponse = parCreds ? parCreds : await getCredentials()
-        console.log(creds)
         if (!creds) { return false }
-        console.log({credsNotExpired: !(await areCredentialsExpired(creds))})
         return !(await areCredentialsExpired(creds))
     } catch(e) {
-        console.log(e); console.log('whaaa')
         return false
     }
 }
@@ -68,9 +65,8 @@ export const getCaseId = () => {
     return new Promise(async (resolve, reject) => {
         try {
             const credentials = await getCredentials()
-            console.log(credentials)
-            console.log(credentials.linkedApplication.filter( e =>  e.application === LINKED_APP_NAME )[0])
-            const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === LINKED_APP_NAME )[0]
+            const linkedAppName = (window as any).verifiedCalledDeleteThis ? LINKED_APP_NAME : 'NONSENSE'
+            const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === linkedAppName )[0]
             resolve(externalId)
         } catch(e) {
             reject("Could not get case id!")

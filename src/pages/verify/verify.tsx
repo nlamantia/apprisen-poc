@@ -16,11 +16,13 @@ import {
     IonTitle,
     IonToolbar
 } from "@ionic/react";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import logo from "../../images/apprisen-logo.png";
 import {verify} from "../../feature/auth/action";
+import {useAuthContext} from "../../common/AuthProvider";
+import {useLocation} from "react-router";
 
 const _Login = (props: any) => {
     const [lastFourOfSSID, setLastFourOfSSID] = useState(null)
@@ -28,6 +30,15 @@ const _Login = (props: any) => {
     const [clientId, setClientId] = useState(null)
 
     const { verify } = props
+
+    const { pathname } = useLocation()
+
+    const {isVerifiedOptional, isAuthedOptional }  = useAuthContext()
+    useEffect(() => {
+        console.log({yo: 'yo', isVerifiedOptional, isAuthedOptional})
+
+        if (isVerifiedOptional.isPresent && isVerifiedOptional.value && pathname !== '/overview') { props.history.push('/overview'); }
+    }, [isVerifiedOptional, isAuthedOptional])
 
     const handleIonChange = (setter) => (e) => {
         setter((e.target as HTMLInputElement).value)
@@ -68,7 +79,7 @@ const _Login = (props: any) => {
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel position="floating">Client ID</IonLabel>
-                                        <IonInput name="client Id" placeholder="Enter your client id" onIonChange={handleIonChange(setClientId)}></IonInput>
+                                        <IonInput name="clientId" placeholder="Enter your client id" onIonChange={handleIonChange(setClientId)}></IonInput>
                                     </IonItem>
                                     <IonItem className={'full-button'}>
                                         <IonButton className={'full-button'} onClick={handleVerifyClick} expand="full">

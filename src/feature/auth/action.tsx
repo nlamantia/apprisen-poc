@@ -21,6 +21,14 @@ export const getCredentials = () => ({
     type: GET_CREDENTIALS
 })
 
+
+
+export const LOGIN_SUCCESS = "loginSuccess"
+export const loginSuccess = (credentials: LoginResponse) => ({
+    type: LOGIN_SUCCESS,
+    payload: { credentials }
+})
+
 export const SET_CREDENTIALS = "setCredentials"
 export const setCredentials = (credentials: LoginResponse) => ({
    type: SET_CREDENTIALS,
