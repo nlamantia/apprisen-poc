@@ -4,31 +4,31 @@ import {callSendEmail} from "../../services/rest.service";
 import {ContactStatus} from "./interface";
 
 export function * sendEmailWorker(action) {
-    const {payload: emailRequest} = action;
+    const {payload: { emailRequest } } = action;
 
     if (emailRequest) {
         const { recipients, subject, body } = emailRequest;
+
         if (!recipients || !subject || !body) {
             console.error("Invalid email request");
+            yield(put(setMessage("Could not send email. Insufficient data provided.")));
             yield(put(setSentStatus(ContactStatus.FAILURE)));
-            yield(put(setMessage("Could not send email. Insufficient data provided.")))
         } else {
             const response = yield(call(callSendEmail, emailRequest));
-            console.log("Send email response: " + response);
 
             if (response) {
                 const { errors, IsSuccess } = response;
-                if (!IsSuccess || !errors || errors.length > 0) {
+                if (!IsSuccess && errors && errors.length > 0) {
                     const errorMessage = "Error sending email: " + JSON.stringify(errors);
                     console.error(errorMessage);
 
-                    yield(put(setSentStatus(ContactStatus.FAILURE)));
                     yield(put(setMessage(errorMessage)));
+                    yield(put(setSentStatus(ContactStatus.FAILURE)));
                 } else {
                     const successMessage = "Email sent successfully";
                     console.log(successMessage);
-                    yield(put(setSentStatus(ContactStatus.SUCCESS)));
                     yield(put(setMessage(successMessage)));
+                    yield(put(setSentStatus(ContactStatus.SUCCESS)));
                 }
             }
         }

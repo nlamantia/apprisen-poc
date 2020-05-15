@@ -11,7 +11,7 @@ import {
     IonItem,
     IonLabel,
     IonList,
-    IonListHeader,
+    IonListHeader, IonMenuButton,
     IonPage,
     IonRow,
     IonTextarea,
@@ -20,21 +20,29 @@ import {
     IonToolbar
 } from "@ionic/react";
 import {connect} from 'react-redux'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {bindActionCreators} from "redux";
-import {getCaseSummary} from "../../feature/case/action";
 import {EmailData} from "models/client/email-data";
 import {validateNonEmptyString, validateNonEmptyText} from "../common/validators";
+import {sendEmail, setSentStatus} from "../../feature/contact/action";
+import {EmailRequest} from "../../models/contact/email-request";
+import {CONTACT_US_EMAILS} from "../../app-constants";
+import {ContactStatus} from "../../feature/contact/interface";
+import {Redirect} from "react-router";
 
 const _Contact = (props) => {
+
+    const { sendEmail, setSentStatus } = props;
+    const { sentStatus, toastMessage } = props;
 
     let intialEmailData = {
         subject : "",
         body : ""
-    } as EmailData
+    } as EmailData;
 
     const [emailData, setEmailData] = useState<EmailData>(intialEmailData);
     const [shouldShowToast, setShouldShowToast] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>(null);
     
     const toastDuration = 3000;
 
@@ -49,23 +57,39 @@ const _Contact = (props) => {
     const handleSend = () => {
 
         if (isValidEmailData(emailData)) {
-            // Make API call
+            sendEmail({
+                recipients: CONTACT_US_EMAILS,
+                subject: emailData.subject,
+                body: emailData.body
+            } as EmailRequest);
         }
         else {
             let x = document.getElementById("sharpenChat");
             x.style.display = "none";
             setShouldShowToast(true);
+            setMessage("Subject and Message can not be blank. Please try again.");
         }
     };
 
     const handleToastDismiss = () => {
-        var x = document.getElementById("sharpenChat");
+        let x = document.getElementById("sharpenChat");
         x.style.display = "block";
-        setShouldShowToast(false) 
+        setShouldShowToast(false);
+        setSentStatus(ContactStatus.IDLE);
     };
 
+    useEffect(() => {
+        if (toastMessage) {
+            setMessage(toastMessage);
+        }
+
+        setShouldShowToast(sentStatus === ContactStatus.FAILURE);
+    }, [toastMessage, sentStatus]);
 
     return (
+        sentStatus === ContactStatus.SUCCESS
+        ? <Redirect to={'/overview'} />
+        :
         <>
             <IonPage>
                 <IonHeader>
@@ -74,16 +98,19 @@ const _Contact = (props) => {
                             <IonBackButton defaultHref="/overview" />
                         </IonButtons>
                         <IonTitle>Contact Us</IonTitle>
+                        <IonButtons slot="end">
+                            <IonMenuButton />
+                        </IonButtons>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent id="contact">
-                    { <IonToast
+                    <IonToast
                         isOpen={shouldShowToast}
                         onDidDismiss={handleToastDismiss}
-                        message="Subject and Message can not be blank. Please try again."
+                        message={message}
                         color="danger"
                         duration={toastDuration}
-                    /> }
+                    />
                     <IonGrid>
                         <IonRow>
                             <IonCol size={"12"} sizeMd={"6"} offsetMd={"3"}>
@@ -121,9 +148,13 @@ const _Contact = (props) => {
 };
 
 const Contact = connect(
-    state => ({}),
+    state => ({
+        sentStatus: state.contact.status,
+        toastMessage: state.contact.message
+    }),
     dispatch => bindActionCreators({
-        getCaseSummary
+        sendEmail,
+        setSentStatus
     }, dispatch)
 )(
     _Contact
