@@ -94,7 +94,7 @@ const _AccountOverview = (props) => {
                     getDebts();
                 } else {
                     setUserDebts(debts);
-                    // // FOR DEMO ONLY - REMOVE WHEN DONE
+                    // FOR DEMO ONLY - REMOVE WHEN DONE
                     // let debtsForGraph = [];
                     // for (let i = 0; i < 6; i++) {
                     //     for (let j = 0; j < debts.length; j++) {
