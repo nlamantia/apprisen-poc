@@ -77,8 +77,8 @@ const _LenderOverview = (props) => {
                         <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
                             <ProgressTrackerCard 
                                 currentLabel={"N/A"}
-                                startLabel={"$" + ((lender && lender.originalBalance) ? lender.originalBalance.toFixed(2) : 0)}
-                                endLabel={"$" + ((lender && lender.currentBalance) ? lender.currentBalance.toFixed(2) : 0)}
+                                startLabel={((lender && lender.originalBalance) ? "$" + lender.originalBalance.toFixed(2) : undefined)}
+                                endLabel={((lender && lender.currentBalance) ? "$" + lender.currentBalance.toFixed(2) : undefined)}
                                 currentProgress={progress}/>
                         </IonCol>
                     </IonRow>
@@ -97,7 +97,7 @@ const _LenderOverview = (props) => {
                                         </IonLabel>
                                         <IonLabel>
                                             <h3 className={"ion-text-right"}>
-                                                {lender ? lender.accountNumber : ""}
+                                                {lender ? lender.accountNumber : <IonSkeletonText animated style={{width: '100%'}} />}
                                             </h3>
                                         </IonLabel>
                                     </IonItem>
@@ -107,7 +107,7 @@ const _LenderOverview = (props) => {
                                         </IonLabel>
                                         <IonLabel>
                                             <h3 className={"ion-text-right"}>
-                                                ${lender ? lender.currentBalance : 0}
+                                                {lender ? "$" + lender.currentBalance : <IonSkeletonText animated style={{width: '100%'}} />}
                                             </h3>
                                         </IonLabel>
                                     </IonItem>
@@ -132,7 +132,7 @@ const _LenderOverview = (props) => {
                                         </IonLabel>
                                         <IonLabel>
                                             <h3 className={"ion-text-right"}>
-                                                {(lender ? lender.apr : 0) * 100}%
+                                                {lender ? (lender.apr * 100) + "%" : <IonSkeletonText animated style={{width: '100%'}} />}
                                             </h3>
                                         </IonLabel>
                                     </IonItem>
@@ -142,7 +142,7 @@ const _LenderOverview = (props) => {
                                         </IonLabel>
                                         <IonLabel>
                                             <h3 className={"ion-text-right"}>
-                                                {lender ? lender.debtType : ""}
+                                                {lender ? lender.debtType : <IonSkeletonText animated style={{width: '100%'}} />}
                                             </h3>
                                         </IonLabel>
                                     </IonItem>

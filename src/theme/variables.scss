@@ -120,7 +120,7 @@ ion-progress-bar {
 }
 
 .center-aligned {
-    text-align: center;
+    text-align: center !important;
 }
 
 .bold-and-centered {
@@ -289,7 +289,9 @@ ion-footer {
   text-align: center;
 }
 
-
+.progress-tracker-skeleton {
+  width: 30%;
+}
 
 #sharpenChat.light {
     position: fixed !important;
@@ -306,6 +308,10 @@ ion-footer {
 
     .lender-flex .ion-text-wrap h3 {
       font-size: 12pt !important;
+    }
+
+    .progress-tracker-skeleton {
+      width: 60%;
     }
 
     .lender-progress-holder {
