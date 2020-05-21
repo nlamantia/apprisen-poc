@@ -148,11 +148,16 @@ const _AccountOverview = (props) => {
                                                 <h3>Current Balance</h3>
                                             </IonLabel>
                                             <IonLabel>
-                                                <h3 className={"ion-text-right"}>
-                                                    {userCaseSummary && userCaseSummary.estimatedBalance
-                                                        ? "$" + userCaseSummary.estimatedBalance
-                                                        : <IonSkeletonText animated style={{width: '100%'}}/> }
-                                                </h3>
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        <h3 className={"ion-text-right"}>
+                                                            {userCaseSummary && userCaseSummary.estimatedBalance
+                                                                ? "$" + userCaseSummary.estimatedBalance
+                                                                : <IonSkeletonText animated style={{width: '100%'}}/> }
+                                                        </h3>
+                                                    </div>
+                                                </div>
                                             </IonLabel>
                                         </IonItem>
                                         <IonItem>
@@ -162,11 +167,16 @@ const _AccountOverview = (props) => {
                                                 </h3>
                                             </IonLabel>
                                             <IonLabel>
-                                                <h3 className={"ion-text-right"}>
-                                                    {userCaseSummary && userCaseSummary.currentMonthlyPayment
-                                                        ? "$" + userCaseSummary.currentMonthlyPayment
-                                                        : <IonSkeletonText animated style={{width: '100%'}}/> }
-                                                </h3>
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        <h3 className={"ion-text-right"}>
+                                                            {userCaseSummary && userCaseSummary.currentMonthlyPayment
+                                                                ? "$" + userCaseSummary.currentMonthlyPayment
+                                                                : <IonSkeletonText animated style={{width: '100%'}}/> }
+                                                        </h3>
+                                                    </div>
+                                                </div>
                                             </IonLabel>
                                         </IonItem>
                                         {/* <IonItem>

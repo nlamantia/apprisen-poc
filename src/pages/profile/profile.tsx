@@ -45,12 +45,6 @@ const _Profile = (props) => {
         }
     }, [userInfo, clientInformation, credentials]);
 
-    const createSkeletonText = () => (
-        <h3 className={'full-center'}>
-            <IonSkeletonText animated style={{width: '100%'}}/>
-        </h3>
-    );
-
     // @ts-ignore
     return (
         <>
@@ -77,7 +71,12 @@ const _Profile = (props) => {
                                                 <h3>Name</h3>
                                             </IonLabel>
                                             <IonLabel className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.firstName + ' ' + userInfo.lastName : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.firstName + ' ' + userInfo.lastName : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
                                             </IonLabel>
                                         </IonItem>
                                         <IonItem>
@@ -85,7 +84,12 @@ const _Profile = (props) => {
                                                 <h3>Email</h3>
                                             </IonLabel>
                                             <IonLabel className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.emailAddress : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.emailAddress : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
                                             </IonLabel>
                                         </IonItem>
                                         <IonItem>
@@ -93,7 +97,12 @@ const _Profile = (props) => {
                                                 <h3>Phone Number</h3>
                                             </IonLabel>
                                             <IonLabel className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.cellPhone : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.cellPhone : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
                                             </IonLabel>
                                         </IonItem>
                                         <IonItem>
@@ -101,7 +110,12 @@ const _Profile = (props) => {
                                                 <h3>Address</h3>
                                             </IonLabel>
                                             <IonLabel className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.address1 : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.address1 : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
                                             </IonLabel>
                                         </IonItem>
                                         <IonItem>
@@ -109,7 +123,12 @@ const _Profile = (props) => {
                                                 <h3>City</h3>
                                             </IonLabel>
                                             <IonLabel className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.city : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.city : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
                                             </IonLabel>
                                         </IonItem>
                                         <IonItem>
@@ -117,7 +136,12 @@ const _Profile = (props) => {
                                                 <h3>State</h3>
                                             </IonLabel>
                                             <IonLabel className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.state : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.state : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
                                             </IonLabel>
                                         </IonItem>
                                     </IonList>
