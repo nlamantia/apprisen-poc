@@ -29,11 +29,16 @@ import {EmailRequest} from "../../models/contact/email-request";
 import {CONTACT_US_EMAILS} from "../../common/app-constants";
 import {ContactStatus} from "../../feature/contact/interface";
 import {Redirect} from "react-router";
+import {getClientInformation} from "../../feature/client/action";
+import {getCredentials} from "../../feature/auth/action";
+import {ClientInformation} from "../../models/case/client-information";
 
 const _Contact = (props) => {
 
     const { sendEmail, setSentStatus } = props;
     const { sentStatus, toastMessage } = props;
+    const { clientInformation, getClientInformation } = props;
+    const { credentials, getCredentials } = props;
 
     let intialEmailData = {
         subject : "",
@@ -43,7 +48,7 @@ const _Contact = (props) => {
     const [emailData, setEmailData] = useState<EmailData>(intialEmailData);
     const [shouldShowToast, setShouldShowToast] = useState<boolean>(false);
     const [message, setMessage] = useState<string>(null);
-    
+    const [userInfo, setUserInfo] = useState<ClientInformation>(null);
     const toastDuration = 3000;
 
     function handleChange(evt: any) {
@@ -54,9 +59,27 @@ const _Contact = (props) => {
         return validateNonEmptyString(emailData.body) && validateNonEmptyText(emailData.subject);
     }
 
+    function getContactInfo() {
+        let email = userInfo ? userInfo.emailAddress : "";
+        let firstName = userInfo ? userInfo.firstName : "";
+        let lastName = userInfo ? userInfo.lastName : "";
+
+        return "</br></br>Email : " + email + "</br>First Name : " + firstName + "</br>Last Name : " + lastName;
+    }
+
+    function appendContactInfoToEmailBody(body : string) {
+        return body = body + getContactInfo();
+    }
+
+    function newLinesToBrTag(str){
+        return str.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    }
+
     const handleSend = () => {
 
         if (isValidEmailData(emailData)) {
+            emailData.body = newLinesToBrTag(emailData.body)
+            emailData.body = appendContactInfoToEmailBody(emailData.body)
             sendEmail({
                 recipients: CONTACT_US_EMAILS,
                 subject: emailData.subject,
@@ -83,8 +106,19 @@ const _Contact = (props) => {
             setMessage(toastMessage);
         }
 
+        if (credentials && credentials.linkedApplication) {
+            if (!userInfo) {
+                if (!clientInformation || !clientInformation.firstName) {
+                    getClientInformation()
+                } else {
+                    setUserInfo(clientInformation);
+                }
+            }
+        } else {
+            getCredentials();
+        }
         setShouldShowToast(sentStatus === ContactStatus.FAILURE);
-    }, [toastMessage, sentStatus]);
+    }, [toastMessage, sentStatus, userInfo, clientInformation, credentials]);
 
     return (
         sentStatus === ContactStatus.SUCCESS
@@ -150,11 +184,15 @@ const _Contact = (props) => {
 const Contact = connect(
     state => ({
         sentStatus: state.contact.status,
-        toastMessage: state.contact.message
+        toastMessage: state.contact.message,
+        credentials: state.auth.credentials,
+        clientInformation: state.client.clientInformation
     }),
     dispatch => bindActionCreators({
         sendEmail,
-        setSentStatus
+        setSentStatus,
+        getClientInformation,
+        getCredentials
     }, dispatch)
 )(
     _Contact
