@@ -96,14 +96,14 @@ const _AccountOverview = (props) => {
                 } else {
                     setUserDebts(debts);
                     // FOR DEMO ONLY - REMOVE WHEN DONE
-                    // let debtsForGraph = [];
-                    // for (let i = 0; i < 6; i++) {
-                    //     for (let j = 0; j < debts.length; j++) {
-                    //         debtsForGraph.push(debts[j]);
-                    //     }
-                    // }
-                    // setGraphDebts(getLenderListForGraph(debtsForGraph, BRAND_COLORS));
-                    setGraphDebts(getLenderListForGraph(debts, BRAND_COLORS));
+                    let debtsForGraph = [];
+                    for (let i = 0; i < 6; i++) {
+                        for (let j = 0; j < debts.length; j++) {
+                            debtsForGraph.push(debts[j]);
+                        }
+                    }
+                    setGraphDebts(getLenderListForGraph(debtsForGraph, BRAND_COLORS));
+                    // setGraphDebts(getLenderListForGraph(debts, BRAND_COLORS));
                 }
 
                 if (!paymentHistory || !paymentHistory.length || paymentHistory.length === 0) {

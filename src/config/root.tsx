@@ -10,6 +10,7 @@ import {authReducer} from "../feature/auth/reducer";
 import {authSaga} from "../feature/auth/saga";
 import {paymentReducer} from "../feature/payment/reducer";
 import {paymentSaga} from "../feature/payment/saga";
+import {commonReducer} from "../feature/common/reducer";
 import {contactSaga} from "../feature/contact/saga";
 import {contactReducer} from "../feature/contact/reducer";
 
@@ -20,6 +21,7 @@ export const rootReducer = () => {
         "debt": debtReducer,
         "auth": authReducer,
         "payment": paymentReducer,
+        "common": commonReducer,
         "contact": contactReducer
     })
 }
