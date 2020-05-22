@@ -14,7 +14,7 @@ import {
     IonToolbar,
     IonCol,
     IonRow,
-    IonGrid
+    IonGrid, IonSpinner, IonSkeletonText
 } from '@ionic/react';
 import logo from "../../images/apprisen-logo.png";
 import {connect} from 'react-redux'
@@ -43,7 +43,7 @@ const _Profile = (props) => {
             console.log("getting credentials");
             getCredentials();
         }
-    }, [userInfo, clientInformation, credentials])
+    }, [userInfo, clientInformation, credentials]);
 
     // @ts-ignore
     return (
@@ -70,49 +70,79 @@ const _Profile = (props) => {
                                             <IonLabel>
                                                 <h3>Name</h3>
                                             </IonLabel>
-                                            <div className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.firstName + ' ' + userInfo.lastName : ""}
-                                            </div>
+                                            <IonLabel className={"ion-text-right row-text"}>
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.firstName + ' ' + userInfo.lastName : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
+                                            </IonLabel>
                                         </IonItem>
                                         <IonItem>
                                             <IonLabel>
                                                 <h3>Email</h3>
                                             </IonLabel>
-                                            <div className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.emailAddress : ""}
-                                            </div>
+                                            <IonLabel className={"ion-text-right row-text"}>
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.emailAddress : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
+                                            </IonLabel>
                                         </IonItem>
                                         <IonItem>
                                             <IonLabel>
                                                 <h3>Phone Number</h3>
                                             </IonLabel>
-                                            <div className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.cellPhone : ""}
-                                            </div>
+                                            <IonLabel className={"ion-text-right row-text"}>
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.cellPhone : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
+                                            </IonLabel>
                                         </IonItem>
                                         <IonItem>
                                             <IonLabel>
                                                 <h3>Address</h3>
                                             </IonLabel>
-                                            <div className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.address1 : ""}
-                                            </div>
+                                            <IonLabel className={"ion-text-right row-text"}>
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.address1 : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
+                                            </IonLabel>
                                         </IonItem>
                                         <IonItem>
                                             <IonLabel>
                                                 <h3>City</h3>
                                             </IonLabel>
-                                            <div className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.city : ""}
-                                            </div>
+                                            <IonLabel className={"ion-text-right row-text"}>
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.city : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
+                                            </IonLabel>
                                         </IonItem>
                                         <IonItem>
                                             <IonLabel>
                                                 <h3>State</h3>
                                             </IonLabel>
-                                            <div className={"ion-text-right row-text"}>
-                                                {userInfo ? userInfo.state : ""}
-                                            </div>
+                                            <IonLabel className={"ion-text-right row-text"}>
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        {userInfo ? userInfo.state : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </div>
+                                                </div>
+                                            </IonLabel>
                                         </IonItem>
                                     </IonList>
                                 </IonCard>

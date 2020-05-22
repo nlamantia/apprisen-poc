@@ -120,7 +120,7 @@ ion-progress-bar {
 }
 
 .center-aligned {
-    text-align: center;
+    text-align: center !important;
 }
 
 .bold-and-centered {
@@ -289,7 +289,32 @@ ion-footer {
   text-align: center;
 }
 
+.flex-grid {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
 
+.flex-grid div {
+  flex: 4;
+}
+
+.flex-grid div:first-child {
+  text-align: left;
+}
+
+.flex-grid div:last-child {
+  text-align: right;
+}
+
+.flex-grid div:nth-child(2) {
+  text-align: center;
+}
+
+.flex-grid div.single-card-grid {
+  text-align: right !important;
+  flex: 6 !important;
+}
 
 #sharpenChat.light {
     position: fixed !important;
@@ -306,6 +331,18 @@ ion-footer {
 
     .lender-flex .ion-text-wrap h3 {
       font-size: 12pt !important;
+    }
+
+    .flex-grid div:first-child {
+      flex: 3 !important;
+    }
+
+    .flex-grid div:last-child {
+      flex: 3 !important;
+    }
+
+    .flex-grid div:nth-child(2) {
+      flex: 6 !important;
     }
 
     .lender-progress-holder {
