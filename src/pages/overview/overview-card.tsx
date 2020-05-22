@@ -8,26 +8,21 @@ import {
     IonLabel,
     IonList,
     IonListHeader,
-    IonSkeletonText, IonSpinner, IonText,
+    IonSkeletonText,
     IonThumbnail
 } from "@ionic/react";
 // eslint-disable-next-line
 import {arrowForward} from "ionicons/icons";
-import React, {Component, useEffect} from "react";
+import React, {useEffect} from "react";
 // eslint-disable-next-line
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 // eslint-disable-next-line
 import calendar from "../../images/calendar.svg";
 import goal from "../../images/goal.svg";
 import money from "../../images/notes.svg";
 import {connect} from 'react-redux'
 import {bindActionCreators} from "redux";
-import {getCaseSummary, getCasePayoffDate} from "../../feature/case/action";
-import {
-    caseFirstPaymentDateUnixTimeSelector,
-    casePayoffDateSelector,
-    caseProgressTracker
-} from "../../feature/case/reducer";
+import {getCasePayoffDate, getCaseSummary} from "../../feature/case/action";
 
 import '@ionic/react/css/core.css';
 import {printDate} from "../common/utility-functions";
