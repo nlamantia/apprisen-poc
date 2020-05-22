@@ -65,7 +65,8 @@ export const getCaseId = () => {
     return new Promise(async (resolve, reject) => {
         try {
             const credentials = await getCredentials()
-            const linkedAppName = (window as any).verifiedCalledDeleteThis ? LINKED_APP_NAME : 'NONSENSE'
+            const linkedAppName = ((await Storage.get({key: 'verified'})) as any ).value === "true" ? LINKED_APP_NAME : 'NONSENSE'
+            console.log(await Storage.get({key: 'verified'}))
             const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === linkedAppName )[0]
             resolve(externalId)
         } catch(e) {

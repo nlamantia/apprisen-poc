@@ -5,6 +5,7 @@ import {Plugins} from "@capacitor/core";
 import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest.service";
 import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth.service";
 import {LoginResponse} from "../../models/auth/login-response";
+// @ts-ignore
 import {toast} from "react-toastify";
 
 const { Storage } = Plugins;
@@ -20,6 +21,7 @@ export function * loginWorker(action) {
         yield call(setCredentials,loginResponse)
         yield call(login, loginResponse)
         yield assertLoggedIn(loginResponse)
+        call(toast, 'Logged In!')
 
         yield put(loginSuccess(loginResponse))
     } else {

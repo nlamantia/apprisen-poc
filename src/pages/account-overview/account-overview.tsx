@@ -14,7 +14,7 @@ import {
     IonRow,
     IonTitle,
     IonToolbar,
-    IonFooter
+    IonFooter, IonSkeletonText, IonSpinner
 } from "@ionic/react";
 import {connect} from 'react-redux'
 import React, {useEffect, useState} from "react";
@@ -96,14 +96,14 @@ const _AccountOverview = (props) => {
                 } else {
                     setUserDebts(debts);
                     // FOR DEMO ONLY - REMOVE WHEN DONE
-                    // let debtsForGraph = [];
-                    // for (let i = 0; i < 6; i++) {
-                    //     for (let j = 0; j < debts.length; j++) {
-                    //         debtsForGraph.push(debts[j]);
-                    //     }
-                    // }
-                    // setGraphDebts(getLenderListForGraph(debtsForGraph, BRAND_COLORS));
-                    setGraphDebts(getLenderListForGraph(debts, BRAND_COLORS));
+                    let debtsForGraph = [];
+                    for (let i = 0; i < 6; i++) {
+                        for (let j = 0; j < debts.length; j++) {
+                            debtsForGraph.push(debts[j]);
+                        }
+                    }
+                    setGraphDebts(getLenderListForGraph(debtsForGraph, BRAND_COLORS));
+                    // setGraphDebts(getLenderListForGraph(debts, BRAND_COLORS));
                 }
 
                 if (!paymentHistory || !paymentHistory.length || paymentHistory.length === 0) {
@@ -148,9 +148,16 @@ const _AccountOverview = (props) => {
                                                 <h3>Current Balance</h3>
                                             </IonLabel>
                                             <IonLabel>
-                                                <h3 className={"ion-text-right"}>
-                                                    ${userCaseSummary && userCaseSummary.estimatedBalance ? userCaseSummary.estimatedBalance : 0}
-                                                </h3>
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        <h3 className={"ion-text-right"}>
+                                                            {userCaseSummary && userCaseSummary.estimatedBalance
+                                                                ? "$" + userCaseSummary.estimatedBalance
+                                                                : <IonSkeletonText animated style={{width: '100%'}}/> }
+                                                        </h3>
+                                                    </div>
+                                                </div>
                                             </IonLabel>
                                         </IonItem>
                                         <IonItem>
@@ -160,9 +167,16 @@ const _AccountOverview = (props) => {
                                                 </h3>
                                             </IonLabel>
                                             <IonLabel>
-                                                <h3 className={"ion-text-right"}>
-                                                    ${userCaseSummary && userCaseSummary.currentMonthlyPayment ? userCaseSummary.currentMonthlyPayment : 0}
-                                                </h3>
+                                                <div className={'flex-grid'}>
+                                                    <div className={'single-card-grid'} />
+                                                    <div className={'single-card-grid'}>
+                                                        <h3 className={"ion-text-right"}>
+                                                            {userCaseSummary && userCaseSummary.currentMonthlyPayment
+                                                                ? "$" + userCaseSummary.currentMonthlyPayment
+                                                                : <IonSkeletonText animated style={{width: '100%'}}/> }
+                                                        </h3>
+                                                    </div>
+                                                </div>
                                             </IonLabel>
                                         </IonItem>
                                         {/* <IonItem>
@@ -173,7 +187,9 @@ const _AccountOverview = (props) => {
                                             </IonLabel>
                                             <IonLabel>
                                                 <h3 className={"ion-text-right"}>
-                                                    ${userCaseSummary && userCaseSummary.totalMonthlyDeposit ? userCaseSummary.totalMonthlyDeposit : 0}
+                                                    {userCaseSummary && userCaseSummary.totalMonthlyDeposit
+                                                        ? "$" + userCaseSummary.totalMonthlyDeposit
+                                                        : <IonSkeletonText animated style={{width: '100%'}}/> }
                                                 </h3>
                                             </IonLabel>
                                         </IonItem> */}
@@ -202,7 +218,9 @@ const _AccountOverview = (props) => {
                                             :
                                             <IonItem>
                                                 <IonLabel>
-                                                    <h3 className={'full-center'}>No payments found</h3>
+                                                    <h3 className={'full-center'}>
+                                                        <IonSpinner />
+                                                    </h3>
                                                 </IonLabel>
                                             </IonItem>
                                         }
@@ -215,7 +233,7 @@ const _AccountOverview = (props) => {
                                                 <h2>Balance Breakdown</h2>
                                             </IonLabel>
                                         </IonListHeader>
-                                        {userDebts.map(debt => {
+                                        {userDebts && userDebts.length > 0 ? userDebts.map(debt => {
                                             return (
                                                 <IonItem>
                                                     <IonLabel>
@@ -226,13 +244,18 @@ const _AccountOverview = (props) => {
                                                     </div>
                                                 </IonItem>
                                             );
-                                        })}
+                                        })
+                                        : <IonItem>
+                                                <h3 className={'full-center'}>
+                                                    <IonSpinner />
+                                                </h3>
+                                            </IonItem>}
                                     </IonList>
                                 </IonCard>
                                 <IonCard>
-                                    <IonItem className={"ion-no-padding"}>
+                                    <IonItem>
                                         <div className={"chart-div ion-padding-vertical"}>
-                                            {graphDebts.length > 0 && (
+                                            {graphDebts.length > 0 ? (
                                                 <Doughnut
                                                     data={{
                                                         labels: graphDebts.map(
@@ -256,7 +279,10 @@ const _AccountOverview = (props) => {
 
                                                     }}
                                                 />
-                                            )}
+                                            )
+                                            : <h3 className={'full-center'}>
+                                                    <IonSpinner />
+                                                </h3>}
                                         </div>
                                     </IonItem>
                                 </IonCard>

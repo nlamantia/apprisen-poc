@@ -69,6 +69,10 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-light-tint: #f5f6f9;
 }
 
+ion-menu-button {
+  color: #717073;
+}
+
 ion-toolbar {
     --background: #6cb33f;
     /* --background: #6cb33f; */
@@ -120,7 +124,7 @@ ion-progress-bar {
 }
 
 .center-aligned {
-    text-align: center;
+    text-align: center !important;
 }
 
 .bold-and-centered {
@@ -284,12 +288,38 @@ ion-footer {
 }
 
 .banner-text .ion-text-wrap{
-  font-size: 45px !important;
+  font-size: 35px !important;
   color: white !important;
+  text-align: center;
+  font-family: 'Merriweather', serif;
+}
+
+.flex-grid {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.flex-grid div {
+  flex: 4;
+}
+
+.flex-grid div:first-child {
+  text-align: left;
+}
+
+.flex-grid div:last-child {
+  text-align: right;
+}
+
+.flex-grid div:nth-child(2) {
   text-align: center;
 }
 
-
+.flex-grid div.single-card-grid {
+  text-align: right !important;
+  flex: 6 !important;
+}
 
 #sharpenChat.light {
     position: fixed !important;
@@ -308,6 +338,18 @@ ion-footer {
       font-size: 12pt !important;
     }
 
+    .flex-grid div:first-child {
+      flex: 3 !important;
+    }
+
+    .flex-grid div:last-child {
+      flex: 3 !important;
+    }
+
+    .flex-grid div:nth-child(2) {
+      flex: 6 !important;
+    }
+
     .lender-progress-holder {
       width: 0 !important;
       visibility: hidden;
@@ -323,14 +365,14 @@ ion-footer {
     }
 
     .banner-text .ion-text-wrap{
-      font-size: 18px !important;
+      font-size: 20px !important;
       color: white !important;
       text-align: center;
     }
 
     .welcome-image-right {
-      height: 50px !important;
-      width: 50px !important;
+      height: 75px !important;
+      width: 75px !important;
       margin-top: auto;
       margin-bottom: auto;
       vertical-align: middle;

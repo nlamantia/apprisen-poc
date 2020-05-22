@@ -76,8 +76,8 @@ const _LenderOverview = (props) => {
                         <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
                             <ProgressTrackerCard 
                                 currentLabel={"N/A"}
-                                startLabel={"$" + ((lender && lender.originalBalance) ? lender.originalBalance.toFixed(2) : 0)}
-                                endLabel={"$" + ((lender && lender.currentBalance) ? lender.currentBalance.toFixed(2) : 0)}
+                                startLabel={((lender && lender.originalBalance) ? "$" + lender.originalBalance.toFixed(2) : undefined)}
+                                endLabel={((lender && lender.currentBalance) ? "$" + lender.currentBalance.toFixed(2) : undefined)}
                                 currentProgress={progress}/>
                         </IonCol>
                     </IonRow>
@@ -95,9 +95,14 @@ const _LenderOverview = (props) => {
                                             <h3>Account Number</h3>
                                         </IonLabel>
                                         <IonLabel>
-                                            <h3 className={"ion-text-right"}>
-                                                {lender ? lender.accountNumber : ""}
-                                            </h3>
+                                            <div className={'flex-grid'}>
+                                                <div className={'single-card-grid'} />
+                                                <div className={'single-card-grid'}>
+                                                    <h3 className={"ion-text-right"}>
+                                                        {lender ? lender.accountNumber : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </h3>
+                                                </div>
+                                            </div>
                                         </IonLabel>
                                     </IonItem>
                                     <IonItem>
@@ -105,9 +110,14 @@ const _LenderOverview = (props) => {
                                             <h3>Remaining Balance</h3>
                                         </IonLabel>
                                         <IonLabel>
-                                            <h3 className={"ion-text-right"}>
-                                                ${lender ? lender.currentBalance : 0}
-                                            </h3>
+                                            <div className={'flex-grid'}>
+                                                <div className={'single-card-grid'} />
+                                                <div className={'single-card-grid'}>
+                                                    <h3 className={"ion-text-right"}>
+                                                        {lender ? "$" + lender.currentBalance : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </h3>
+                                                </div>
+                                            </div>
                                         </IonLabel>
                                     </IonItem>
                                     <IonItem>
@@ -115,14 +125,15 @@ const _LenderOverview = (props) => {
                                             <h3>Starting Balance</h3>
                                         </IonLabel>
                                         <IonLabel>
-                                            {lender ?
-                                                <h3 className={"ion-text-right"}>
-                                                    ${lender.originalBalance.toFixed(2)}
-                                                </h3> :
-                                                <h3 className={"ion-text-right"}>
-                                                    <IonSkeletonText animated style={{width: '100%'}}/>
-                                                </h3>
-                                            }
+                                            <div className={'flex-grid'}>
+                                                <div className={'single-card-grid'} />
+                                                <div className={'single-card-grid'}>
+                                                    <h3 className={"ion-text-right"}>
+                                                        {lender && lender.originalBalance ? "$" + lender.originalBalance.toFixed(2) :
+                                                            <IonSkeletonText animated style={{width: '100%'}}/>}
+                                                    </h3>
+                                                </div>
+                                            </div>
                                         </IonLabel>
                                     </IonItem>
                                     <IonItem>
@@ -130,9 +141,14 @@ const _LenderOverview = (props) => {
                                             <h3>APR</h3>
                                         </IonLabel>
                                         <IonLabel>
-                                            <h3 className={"ion-text-right"}>
-                                                {(lender ? lender.apr : 0) * 100}%
-                                            </h3>
+                                            <div className={'flex-grid'}>
+                                                <div className={'single-card-grid'} />
+                                                <div className={'single-card-grid'}>
+                                                    <h3 className={"ion-text-right"}>
+                                                        {lender ? (lender.apr * 100) + "%" : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </h3>
+                                                </div>
+                                            </div>
                                         </IonLabel>
                                     </IonItem>
                                     <IonItem>
@@ -140,9 +156,14 @@ const _LenderOverview = (props) => {
                                             <h3>Debt Type</h3>
                                         </IonLabel>
                                         <IonLabel>
-                                            <h3 className={"ion-text-right"}>
-                                                {lender ? lender.debtType : ""}
-                                            </h3>
+                                            <div className={'flex-grid'}>
+                                                <div className={'single-card-grid'} />
+                                                <div className={'single-card-grid'}>
+                                                    <h3 className={"ion-text-right"}>
+                                                        {lender ? lender.debtType : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                    </h3>
+                                                </div>
+                                            </div>
                                         </IonLabel>
                                     </IonItem>
                                 </IonList>
