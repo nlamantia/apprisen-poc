@@ -19,7 +19,7 @@ const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
 const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
 const SEND_EMAIL_URL = BASE_URL + "/api/client/sendemail/";
 const PAYMENT_HISTORY_URL = BASE_URL + "/api/case/payment-history/";
-const LINK_ACCOUNT_URL = BASE_URL + "api/account/linkaccountwithexternalapp"
+const LINK_ACCOUNT_URL = "https://login.apprisen.com/api/account/linkaccountwithexternalapp"
 const VERIFY_CLIENT_NUMBER_URL = BASE_URL + "/api/client/verifyclientnumber"
 
 
@@ -122,9 +122,12 @@ export const callGetClientData = async () : Promise<string> => {
 };
 
 export const callLinkAccount = async(requestBody) : Promise<void> => {
+    const headers = new Headers()
+    headers.append('Content-Type', 'application/json');
     return await callApi(LINK_ACCOUNT_URL, {
         method: 'POST',
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
+        headers
     })
 }
 

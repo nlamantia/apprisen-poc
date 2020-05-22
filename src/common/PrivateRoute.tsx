@@ -1,6 +1,6 @@
 import {Redirect, Route, useLocation} from "react-router-dom";
 import {areCredentialsExpired, logout} from "../services/auth.service";
-import { useSelector } from 'react-redux'
+import {useSelector} from 'react-redux'
 import React, {useEffect, useState} from "react";
 import {Plugins} from "@capacitor/core";
 import {useAuthContext} from "./AuthProvider";
@@ -9,23 +9,31 @@ import {IonButton, IonSpinner} from "@ionic/react";
 const {Storage} = Plugins;
 
 const PrivateRoute = ({component = {}, render = {}, ...props}: {
-    component? : any,
-    render? : any,
-    path : string,
-    exact? : boolean
+    component?: any,
+    render?: any,
+    path: string,
+    exact?: boolean
 }) => {
 
-    const { pathname } = useLocation()
-    const state = useSelector((state) => state)
+    const {pathname} = useLocation()
+    // this is used to subscribe this component to auth state changes
+    const authState = useSelector((state) => state.auth)
 
-    const {isVerifiedOptional, isAuthedOptional}  = useAuthContext()
-    const { isVerifiedOptional: {value: verified}, isAuthedOptional: {value: authed} } =
-                {isVerifiedOptional, isAuthedOptional}
+    const {isVerifiedOptional, isAuthedOptional} = useAuthContext()
 
+    const {
+        isVerifiedOptional: {
+            value: verified
+        },
+        isAuthedOptional: {
+            value: authed
+        }
+    } = {isVerifiedOptional, isAuthedOptional}
 
-    const shouldRedirect =  (!authed || !verified)
+    const shouldRedirect = (!authed || !verified)
 
     const [redirectPath, setRedirectPath] = useState("")
+
 
     useEffect(() => {
         if (!authed) {
@@ -39,29 +47,31 @@ const PrivateRoute = ({component = {}, render = {}, ...props}: {
         }
     }, [isVerifiedOptional, isAuthedOptional])
 
-    if ( !authed && isAuthedOptional.isPresent) {
-        areCredentialsExpired().then( expired => {if (expired) logout()})
+    if ([isVerifiedOptional, isAuthedOptional].some(e => !e.isPresent)) return (
+        <IonSpinner class={'spinner'} name="crescent"/>
+    )
+
+
+    if (!authed && isAuthedOptional.isPresent) {
+        areCredentialsExpired().then(expired => {
+            if (expired) logout()
+        })
     }
 
-    return [isVerifiedOptional, isAuthedOptional].some(e => !e.isPresent) ?
-        <IonSpinner class={'spinner'} name="crescent" /> :
-        (
-            <Route {...props} exact
+    const componentToRenderIfAuthorized = component ? (
+        <div> {React.createElement(component, props)}</div>
+    ) : render
+
+    return (
+        <Route {...props} exact
                render={(props => (
-                   ( shouldRedirect ) ? (
-                           <Redirect
-                               to={{
-                                   pathname: redirectPath,
-                               }}
-                           />
-                       ) :
-                       (
-                           component ? (
-                               <div>
-                                   {React.createElement(component, props)}
-                               </div>
-                           ) : render
-                       )
+                   (shouldRedirect) ? (
+                       <Redirect
+                           to={{
+                               pathname: redirectPath,
+                           }}
+                       />
+                   ) : componentToRenderIfAuthorized
                ))}
         />
     )

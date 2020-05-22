@@ -29,7 +29,7 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React, {useEffect} from "react";
 import {connect, Provider} from 'react-redux'
-import {Redirect, Route, withRouter} from "react-router-dom";
+import {Redirect, Route, withRouter, Router} from "react-router-dom";
 import AccountOverview from "./pages/account-overview/account-overview";
 import LenderOverview from "./pages/lender/lender-overview";
 import Login from "./pages/login/login";
@@ -53,6 +53,8 @@ import {AuthContextProvider} from "./common/AuthProvider";
 import {NotificationProvider} from "./common/NotificationProvider";
 import {Logout} from "./pages/logout/logout";
 import Contact from "./pages/contact/contact";
+import {ConnectedRouter} from "connected-react-router";
+import { history } from './config/store'
 
 interface Page {
   title: string;
@@ -72,7 +74,8 @@ const _Main = (props: any) => {
     { title: 'Logout', route: '/login', action: (e) => logout()}
   ]
 
-  return (
+  // @ts-ignore
+    return (
     <IonApp>
         <NotificationProvider />
         <AuthContextProvider>
@@ -108,8 +111,7 @@ const _Main = (props: any) => {
               </IonList>
             </IonContent>
           </IonMenu>
-          <IonReactRouter>
-            <IonRouterOutlet id={'main-content'}>
+          <ConnectedRouter history={history as any}>
               <PrivateRoute path="/overview" component={withRouter(Overview)} exact={true} />
               <PrivateRoute path="/home" component={Home} exact={true} />
               <Route path="/login" component={Login} exact={true} />
@@ -143,8 +145,7 @@ const _Main = (props: any) => {
                   path="/payment-confirmation"
                   component={withRouter(PaymentConfirmation)}
                   />
-            </IonRouterOutlet>
-          </IonReactRouter>
+          </ConnectedRouter>
         </AuthContextProvider>
     </IonApp>
   )
