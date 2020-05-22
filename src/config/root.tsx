@@ -23,7 +23,7 @@ export const rootReducer = (history) => {
         "debt": debtReducer,
         "auth": authReducer,
         "payment": paymentReducer,
-        "common": commonReducer
+        "common": commonReducer,
         "contact": contactReducer,
         "router": connectRouter(history)
     })
