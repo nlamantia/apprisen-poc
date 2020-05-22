@@ -284,9 +284,10 @@ ion-footer {
 }
 
 .banner-text .ion-text-wrap{
-  font-size: 45px !important;
+  font-size: 35px !important;
   color: white !important;
   text-align: center;
+  font-family: 'Merriweather', serif;
 }
 
 .flex-grid {
@@ -360,14 +361,14 @@ ion-footer {
     }
 
     .banner-text .ion-text-wrap{
-      font-size: 18px !important;
+      font-size: 20px !important;
       color: white !important;
       text-align: center;
     }
 
     .welcome-image-right {
-      height: 50px !important;
-      width: 50px !important;
+      height: 75px !important;
+      width: 75px !important;
       margin-top: auto;
       margin-bottom: auto;
       vertical-align: middle;
