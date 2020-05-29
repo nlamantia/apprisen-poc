@@ -49,7 +49,7 @@ const _OverviewCard = (props) => {
 
                 if (!casePayoffDate && !fetchingCasePayoffDate) {
                     console.log('get case payoff debt!')
-                    getCasePayoffDate({caseNumber: caseId, increaseAmount: 0, isOneTimePayment: true})
+                    getCasePayoffDate({caseId, increaseAmount: 0, isOneTimePayment: true})
                 }
             }
         }, [clientAccountData]

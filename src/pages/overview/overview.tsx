@@ -73,7 +73,7 @@ const _Overview = (props) => {
                     }
 
                     if (!caseSummary && !fetchingCaseSummary) {
-                        console.log('get case summary for case ID: ' + caseId)
+                        console.log('get case summary');
                         getCaseSummary(caseId);
                     } else if (caseSummary) {
                         setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
