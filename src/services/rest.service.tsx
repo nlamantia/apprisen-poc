@@ -88,12 +88,11 @@ export const callSendEmail = async (emailRequest: EmailRequest): Promise<string>
 
 };
 
-export const callDebtDetailEndpoint = async (): Promise<DebtDetail> => {
-    const externalId = await getClientId()
+export const callDebtDetailEndpoint = (caseId: string): Promise<DebtDetail> => {
     const headers = new Headers()
     headers.set("Content-Type", "application/json")
 
-    return await callApi(DEBT_DETAIL_URL + externalId,
+    return callApi(DEBT_DETAIL_URL + caseId,
         {
             headers
         }

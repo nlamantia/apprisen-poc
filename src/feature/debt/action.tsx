@@ -1,17 +1,16 @@
 import {DebtTypes} from "./interface";
-import {LoginResponse} from "../../models/auth/login-response";
 import {CaseDebt} from "../../models/case/case-debt";
 
 
-export const GET_DEBTS = "getDebts"
-export function getDebts(credentials: LoginResponse): DebtTypes {
+export const GET_DEBTS = "getDebts";
+export function getDebts(caseId: string): DebtTypes {
     return {
         type: GET_DEBTS,
-        payload: { credentials }
+        payload: { caseId }
     }
 }
 
-export const SET_DEBTS = "setDebts"
+export const SET_DEBTS = "setDebts";
 export function setDebts(debts : CaseDebt[] ): DebtTypes {
     return {
         type: SET_DEBTS,
@@ -19,7 +18,7 @@ export function setDebts(debts : CaseDebt[] ): DebtTypes {
     }
 }
 
-export const SELECT_DEBT = "selectDebt"
+export const SELECT_DEBT = "selectDebt";
 export function selectDebt(id: string): DebtTypes {
     return {
         type: SELECT_DEBT,

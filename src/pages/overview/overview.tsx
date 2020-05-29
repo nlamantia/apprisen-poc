@@ -83,7 +83,7 @@ const _Overview = (props) => {
 
                     if (!debts && !fetchingDebtDetails) {
                         console.log('get case summary')
-                        getDebts();
+                        getDebts(caseId);
                     } else if (debts) {
                         setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));
                     }
