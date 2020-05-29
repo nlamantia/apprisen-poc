@@ -27,7 +27,7 @@ import {getCredentials, logout} from "../../feature/auth/action";
 import {Redirect} from "react-router";
 import {CaseDebt} from "../../models/case/case-debt";
 import {CaseSummary} from "../../models/case/case-summary";
-import {getPaymentHistory} from "../../feature/payment/action";
+import {getClientAccountData, getPaymentHistory} from "../../feature/payment/action";
 import {CaseDeposit} from "../../models/payment/case-deposit";
 import {printDate} from "../common/utility-functions";
 import {BRAND_COLORS} from "../../common/app-constants";
@@ -67,6 +67,7 @@ export const getLenderListForGraph = (lenders: CaseDebt[], colors: string[]): Ca
 const _AccountOverview = (props) => {
     const {caseSummary, debts} = props;
     const {credentials, getCredentials, logout} = props;
+    const {clientAccountData, getClientAccountData} = props;
     const {paymentHistory} = props;
 
     const [userDebts, setUserDebts] = useState<CaseDebt[]>([]);
@@ -84,32 +85,37 @@ const _AccountOverview = (props) => {
     useEffect(
         () => {
             if (credentials && credentials.linkedApplication) {
-                const {getCaseSummary, getDebts, getPaymentHistory} = props;
-                if (!caseSummary || caseSummary === {}) {
-                    getCaseSummary();
+                if (!clientAccountData || !clientAccountData.dmpCaseId) {
+                    getClientAccountData();
                 } else {
-                    setUserCaseSummary(caseSummary);
-                }
-
-                if (!debts || debts === {}) {
-                    getDebts();
-                } else {
-                    setUserDebts(debts);
-                    // FOR DEMO ONLY - REMOVE WHEN DONE
-                    let debtsForGraph = [];
-                    for (let i = 0; i < 6; i++) {
-                        for (let j = 0; j < debts.length; j++) {
-                            debtsForGraph.push(debts[j]);
-                        }
+                    const {getCaseSummary, getDebts, getPaymentHistory} = props;
+                    const { dmpCaseId: caseId } = clientAccountData;
+                    if (!caseSummary || caseSummary === {}) {
+                        getCaseSummary(caseId);
+                    } else {
+                        setUserCaseSummary(caseSummary);
                     }
-                    setGraphDebts(getLenderListForGraph(debtsForGraph, BRAND_COLORS));
-                    // setGraphDebts(getLenderListForGraph(debts, BRAND_COLORS));
-                }
 
-                if (!paymentHistory || !paymentHistory.length || paymentHistory.length === 0) {
-                    getPaymentHistory();
-                } else {
-                    setUserPaymentHistory(paymentHistory);
+                    if (!debts || debts === {}) {
+                        getDebts(caseId);
+                    } else {
+                        setUserDebts(debts);
+                        // FOR DEMO ONLY - REMOVE WHEN DONE
+                        let debtsForGraph = [];
+                        for (let i = 0; i < 6; i++) {
+                            for (let j = 0; j < debts.length; j++) {
+                                debtsForGraph.push(debts[j]);
+                            }
+                        }
+                        setGraphDebts(getLenderListForGraph(debtsForGraph, BRAND_COLORS));
+                        // setGraphDebts(getLenderListForGraph(debts, BRAND_COLORS));
+                    }
+
+                    if (!paymentHistory || !paymentHistory.length || paymentHistory.length === 0) {
+                        getPaymentHistory(caseId);
+                    } else {
+                        setUserPaymentHistory(paymentHistory);
+                    }
                 }
             } else {
                 try {
@@ -308,6 +314,7 @@ const AccountOverview = connect(
         getDebts,
         getCredentials,
         getPaymentHistory,
+        getClientAccountData,
         logout
     }, dispatch)
 )(

@@ -53,7 +53,7 @@ export const getCredentials = async(): Promise<LoginResponse> => {
 
 export const isVerified = async () => {
     try {
-        const caseId = await getCaseId();
+        const caseId = await getClientId();
         return !!caseId || !!(await Storage.get({key: 'verified'}))
     } catch(e) {
         return false
@@ -61,7 +61,7 @@ export const isVerified = async () => {
 }
 
 
-export const getCaseId = () => {
+export const getClientId = () => {
     return new Promise(async (resolve, reject) => {
         try {
             const credentials = await getCredentials()

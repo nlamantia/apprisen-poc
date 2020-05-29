@@ -15,7 +15,7 @@ interface SetCaseMessageAction {
 
 interface GetCasePayoffDateMessageAction {
     type: typeof GET_CASE_PAYOFF_DATE,
-    payload: { increaseAmount, isOneTimePayment }
+    payload: { increaseAmount, isOneTimePayment, caseId }
 }
 
 interface SetCasePayoffDateMessageAction {
@@ -25,8 +25,7 @@ interface SetCasePayoffDateMessageAction {
 
 interface GetCaseMessageAction {
     type: typeof GET_CASE_SUMMARY,
-    // todo don't pass in credentials
-    payload: { credentials: LoginResponse }
+    payload: { caseId: string }
 }
 
 

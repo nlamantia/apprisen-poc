@@ -35,7 +35,6 @@ const _Overview = (props) => {
     const { getClientAccountData, clientAccountData } = props;
     const { credentials, getCredentials } = props;
     const { paymentHistory, getPaymentHistory } = props;
-    let externalId = React.useRef();
 
     const location = useLocation();
     const [authorized, setAuthorized] = useState<boolean>(true);
@@ -63,33 +62,31 @@ const _Overview = (props) => {
     useEffect(
         () => {
             if (credentials && credentials.linkedApplication) {
-                const [, second] = credentials.linkedApplication;
-                externalId.current = second.externalId;
-
-                if (!paymentHistory || !paymentHistory.length) {
-                    console.log('get payment history');
-                    getPaymentHistory();
-                }
-
-                if (!caseSummary && !fetchingCaseSummary) {
-                    console.log('get case summary')
-                    getCaseSummary();
-                } else if (caseSummary) {
-                    setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
-                    setMonthlyPayment(caseSummary.currentMonthlyPayment.toFixed(2));
-                    setCaseProgress(calculateCurrentProgress());
-                }
-
-                if (!debts && !fetchingDebtDetails) {
-                    console.log('get case summary')
-                    getDebts();
-                } else if (debts) {
-                    setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));
-                }
-
-                if (!clientAccountData || !clientAccountData.bankAccountTypes) {
+                if (!clientAccountData || !clientAccountData.dmpCaseId || !clientAccountData.bankAccountTypes) {
                     console.log('get client data');
                     getClientAccountData();
+                } else {
+                    const { dmpCaseId: caseId } = clientAccountData;
+                    if (!paymentHistory || !paymentHistory.length) {
+                        console.log('get payment history');
+                        getPaymentHistory();
+                    }
+
+                    if (!caseSummary && !fetchingCaseSummary) {
+                        console.log('get case summary for case ID: ' + caseId)
+                        getCaseSummary(caseId);
+                    } else if (caseSummary) {
+                        setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
+                        setMonthlyPayment(caseSummary.currentMonthlyPayment.toFixed(2));
+                        setCaseProgress(calculateCurrentProgress());
+                    }
+
+                    if (!debts && !fetchingDebtDetails) {
+                        console.log('get case summary')
+                        getDebts();
+                    } else if (debts) {
+                        setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));
+                    }
                 }
             } else {
                 try {

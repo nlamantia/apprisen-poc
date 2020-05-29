@@ -1,12 +1,12 @@
-import {all, call, put, select, takeEvery} from 'redux-saga/effects'
+import {all, call, put, takeEvery} from 'redux-saga/effects'
 import {GET_CASE_PAYOFF_DATE, GET_CASE_SUMMARY, setCasePayoffDate, setCaseSummary} from "./action";
-import {Plugins} from "@capacitor/core";
 import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest.service";
-const { Storage } = Plugins;
 
 
-export function * getCaseWorker() {
-    const caseSummary = yield call(callCaseSummaryEndpoint)
+export function * getCaseWorker(action) {
+    console.log(JSON.stringify(action));
+    const { payload: { caseId } } = action;
+    const caseSummary = yield call(callCaseSummaryEndpoint, caseId);
     if (caseSummary && caseSummary.estimatedBalance) {
         yield put(setCaseSummary(caseSummary))
     }
@@ -20,7 +20,8 @@ export function * getCasePayoffDateForecastWorker(action) {
     const {
         payload: {
             increaseAmount: IncreaseAmount,
-            isOneTimePayment: IsOneTimePayment
+            isOneTimePayment: IsOneTimePayment,
+            caseId
         }
     } = action
 
@@ -28,7 +29,8 @@ export function * getCasePayoffDateForecastWorker(action) {
         yield call(callPayoffForecast,
             {
                 IncreaseAmount,
-                IsOneTimePayment
+                IsOneTimePayment,
+                caseId
             })
     )
 
