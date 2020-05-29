@@ -3,7 +3,7 @@ import { push } from 'react-router-redux'
 import {GET_CREDENTIALS, LOGIN, loginSuccess, LOGOUT, setCredentials, setExternalId, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
 import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest.service";
-import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth.service";
+import {assertLoggedIn, getCredentials, isVerified, login, logout} from "../../services/auth.service";
 import {LoginResponse} from "../../models/auth/login-response";
 // @ts-ignore
 import {toast} from "react-toastify";
@@ -67,8 +67,11 @@ export function * verifyWorker(action) {
                     UserName: username,
                     ExpiresOn: expiresOn
                 })
-                if (responseToLink.IsSuccess) {
-                    Storage.set({key: 'verified', value: 'verified'});
+                console.log(responseToLink)
+
+                if (responseToLink.isSuccess) {
+                    Storage.set({key: 'verified', value: 'true'})
+                    yield call(isVerified)
                     yield put(push('/'))
                     yield put(setExternalId(clientId))
                 }

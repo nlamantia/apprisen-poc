@@ -2,7 +2,7 @@ import {LOGIN, LOGIN_SUCCESS, SET_CREDENTIALS, SET_EXTERNAL_ID, VERIFY} from "..
 
 export const STATUS = 'status'
 
-export const IN_PROGRESS = 'in progress'
+export const IN_PROGRESS = 'inProgress'
 export const COMPLETED = 'done'
 export const WAITING = 'waiting'
 export const FAILED = 'failed'
@@ -69,3 +69,5 @@ export const commonReducer = (state= initialState, action) => {
     return state
 };
 
+export const apiStatusByIdSelector = (state) => !state.common.status
+export const allApiSelector = (state) => !state.common.status ? [] : Object.keys(state.common.status)

@@ -54,6 +54,7 @@ export const getCredentials = async(): Promise<LoginResponse> => {
 export const isVerified = async () => {
     try {
         const caseId = await getCaseId();
+        return !!(await Storage.get({key: 'verified'}))
         return !!caseId
     } catch(e) {
         return false

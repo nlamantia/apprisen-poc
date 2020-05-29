@@ -265,7 +265,7 @@ const _MakePayment = ( props: any ) => {
                                             <IonLabel color={!visited("bankAccountType") || validBankAccountType ? 'dark' : 'danger'} position="floating">Account Type</IonLabel>
                                             <IonSelect name="bankAccountType" placeholder="Select One" onIonChange={(e) => handleChange(e)}>
                                                 {bankAccountTypes.map((bankAccountType) => {
-                                                    return(
+                                                    return (
                                                         <IonSelectOption value={bankAccountType.id}>{bankAccountType.name}</IonSelectOption>
                                                     );
                                                 })}
