@@ -11,19 +11,16 @@ describe('Auth service tests', () => {
                lastName: "", linkedApplication: [], statusCode: 0, userId: "", username: "",
                email: 'patricia.lamkin@apprisen.com',
                errors: [],
-               expiresOn: '15791270047024538',
+               expiresOn: '15991270047024538',
                firstName: 'demo',
                isSuccess: true,
                signedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
                $id: '1'
            };
-           try {
            isAuthenticated(creds).then(res => {
                expect((res)).toBeTruthy();
                done()
-           })} catch(e) {
-                done(e)
-           }
+           }).catch(err => done(err));
        });
 
        it('not still authenticated', done => {
@@ -39,7 +36,7 @@ describe('Auth service tests', () => {
            };
            try {
            isAuthenticated(creds).then(res => {
-               expect((res)).toBeTruthy();
+               expect((res)).toBeFalsy();
                done()
            })} catch(e) {
                 done(e)
@@ -59,7 +56,7 @@ describe('Auth service tests', () => {
            };
            try {
            isAuthenticated(creds).then(res => {
-               expect((res)).toBeTruthy();
+               expect((res)).toBeFalsy();
                done()
            })} catch(e) {
                 done(e)
@@ -77,12 +74,6 @@ describe('Auth service tests', () => {
            }
        });
 
-       it('undefined creds', done => {
-           isAuthenticated(undefined).then(res => {
-               expect((res)).toBeFalsy();
-           })
-       });
-
        it('null signed token', done => {
            const creds : LoginResponse = {
                lastName: "", linkedApplication: [], statusCode: 0, userId: "", username: "",
@@ -96,7 +87,7 @@ describe('Auth service tests', () => {
            };
            try {
            isAuthenticated(creds).then(res => {
-               expect((res)).toBeTruthy();
+               expect((res)).toBeFalsy();
                done()
            })} catch(e) {
                 done(e)
@@ -116,7 +107,7 @@ describe('Auth service tests', () => {
            };
            try {
            isAuthenticated(creds).then(res => {
-               expect((res)).toBeTruthy();
+               expect((res)).toBeFalsy();
                done()
            })} catch(e) {
                 done(e)
@@ -136,7 +127,7 @@ describe('Auth service tests', () => {
            };
            try {
            isAuthenticated(creds).then(res => {
-               expect((res)).toBeTruthy();
+               expect((res)).toBeFalsy();
                done()
            })} catch(e) {
                 done(e)
@@ -176,7 +167,7 @@ describe('Auth service tests', () => {
            };
            try {
            isAuthenticated(creds).then(res => {
-               expect((res)).toBeTruthy();
+               expect((res)).toBeFalsy();
                done()
            })} catch(e) {
                 done(e)

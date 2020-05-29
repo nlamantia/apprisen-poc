@@ -1,5 +1,4 @@
 import {LoginResponse} from '../models/auth/login-response';
-import moment from 'moment'
 import {Plugins} from '@capacitor/core';
 import {LINKED_APP_NAME} from "../config/app-constants";
 
@@ -18,7 +17,7 @@ export const isAuthenticated = async (parCreds?: LoginResponse) : Promise<Boolea
 export const areCredentialsExpired = async (parCreds?: LoginResponse ) : Promise<Boolean> => {
     const creds = parCreds ? parCreds : await getCredentials()
     const { expiresOn } = creds
-    return Date.now() > new Date(Number(expiresOn) / 10000).getTime()
+    return Date.now() >= new Date(Number(expiresOn) / 10000).getTime()
 }
 
 export const login = (credentials : LoginResponse) => {
