@@ -69,7 +69,7 @@ const _Overview = (props) => {
                     const { dmpCaseId: caseId } = clientAccountData;
                     if (!paymentHistory || !paymentHistory.length) {
                         console.log('get payment history');
-                        getPaymentHistory();
+                        getPaymentHistory(caseId);
                     }
 
                     if (!caseSummary && !fetchingCaseSummary) {

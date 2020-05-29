@@ -40,13 +40,8 @@ export const callCaseSummaryEndpoint = (caseId: string): Promise<CaseSummary> =>
     return callApi(CASE_SUMMARY_URL + caseId);
 };
 
-export const callPaymentHistory = async (): Promise<PaymentHistoryResponse> => {
-    // commented out for now because no payment history for regular test user
-    // const externalId = await getCaseId();
-    const externalId = 9902398;
-
-    return callApi(PAYMENT_HISTORY_URL + externalId);
-    // return getFakePaymentHistoryResponse();
+export const callPaymentHistory = (caseId: string): Promise<PaymentHistoryResponse> => {
+    return callApi(PAYMENT_HISTORY_URL + caseId);
 };
 
 

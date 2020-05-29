@@ -30,7 +30,8 @@ export function * getClientAccountDataWatcher() {
 }
 
 export function * getPaymentHistoryWorker(action) {
-    const paymentHistoryResponse = yield call(callPaymentHistory);
+    const { payload: { caseId } } = action;
+    const paymentHistoryResponse = yield call(callPaymentHistory, caseId);
 
     const { caseDeposits, IsSuccess, errors } = paymentHistoryResponse;
 

@@ -137,7 +137,6 @@ const _Main = (props: any) => {
                                 path="/lender-overview"
                                 component={LenderOverview}
                             />
-                            <Route/>
                             <PrivateRoute
                                 path="/make-payment"
                                 component={withRouter(MakePayment)}

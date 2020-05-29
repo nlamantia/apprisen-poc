@@ -115,13 +115,9 @@ const _OverviewCard = (props) => {
                             </IonLabel>
                         </IonItem>
                         <IonItem className={'full-button'}>
-                            <Link to={{
-                                pathname: `/make-payment`
-                            }} style={{width: 100 + "%"}}>
-                            <IonButton className={'full-button'} expand="full">
+                            <IonButton href={'/make-payment'} className={'full-button'} expand="full">
                                 Make Payment
                             </IonButton>
-                            </Link>
                         </IonItem>
                     </IonList>
                 </IonCard>
