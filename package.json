@@ -30,7 +30,6 @@
     "react-router-dom": "^5.1.0",
     "react-router-redux": "^4.0.8",
     "react-scripts": "^3.4.0",
-    "react-shimmer": "^3.0.2",
     "react-spinners": "^0.8.3",
     "react-toastify": "^6.0.4",
     "redux": "^4.0.5",

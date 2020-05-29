@@ -54,8 +54,7 @@ export const getCredentials = async(): Promise<LoginResponse> => {
 export const isVerified = async () => {
     try {
         const caseId = await getCaseId();
-        return !!(await Storage.get({key: 'verified'}))
-        return !!caseId
+        return !!caseId || !!(await Storage.get({key: 'verified'}))
     } catch(e) {
         return false
     }
@@ -66,12 +65,10 @@ export const getCaseId = () => {
     return new Promise(async (resolve, reject) => {
         try {
             const credentials = await getCredentials()
-            const linkedAppName = ((await Storage.get({key: 'verified'})) as any ).value === "true" ? LINKED_APP_NAME : 'NONSENSE'
-            console.log(await Storage.get({key: 'verified'}))
-            const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === linkedAppName )[0]
+            const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === LINKED_APP_NAME )[0]
             resolve(externalId)
         } catch(e) {
-            reject("Could not get case id!")
+            reject(null)
         }
     })
 }

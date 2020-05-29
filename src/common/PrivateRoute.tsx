@@ -1,10 +1,11 @@
 import {Redirect, Route, useLocation} from "react-router-dom";
 import {areCredentialsExpired, logout} from "../services/auth.service";
 import {useSelector} from 'react-redux'
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Plugins} from "@capacitor/core";
 import {useAuthContext} from "./AuthProvider";
-import {IonButton, IonSpinner} from "@ionic/react";
+import {IonSpinner} from "@ionic/react";
+import BounceLoader from "react-spinners/BounceLoader";
 
 const {Storage} = Plugins;
 
@@ -32,25 +33,21 @@ const PrivateRoute = ({component = {}, render = {}, ...props}: {
 
     const shouldRedirect = (!authed || !verified)
 
-    const [redirectPath, setRedirectPath] = useState("")
+    let redirectPath = '/overview'
 
-
-    useEffect(() => {
-        if (!authed) {
-            setRedirectPath('/login')
-        } else {
-            if (!verified) {
-                setRedirectPath('/verify')
-            } else {
-                if (['/login', '/verify'].includes(pathname)) setRedirectPath('/')
-            }
+    if (!authed) {
+        redirectPath = '/login'
+    } else {
+        if (!verified) {
+            redirectPath = '/verify'
         }
-    }, [isVerifiedOptional, isAuthedOptional])
+    }
 
-    if ([isVerifiedOptional, isAuthedOptional].some(e => !e.isPresent)) return (
-        <IonSpinner class={'spinner'} name="crescent"/>
-    )
-
+    if ([isVerifiedOptional, isAuthedOptional].some(e => !e.isPresent)) {
+        return (
+            <IonSpinner class={'spinner'} name="crescent"/>
+        )
+    }
 
     if (!authed && isAuthedOptional.isPresent) {
         areCredentialsExpired().then(expired => {
@@ -59,18 +56,29 @@ const PrivateRoute = ({component = {}, render = {}, ...props}: {
     }
 
     const componentToRenderIfAuthorized = component ? (
-        <div> {React.createElement(component, props)}</div>
+        <>
+            <div style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                opacity: '.5',
+                margin: '0px auto',
+            }}> <BounceLoader /> </div>
+            <div> {React.createElement(component, props)}</div>
+        </>
     ) : render
 
     return (
         <Route {...props} exact
                render={(props => (
                    (shouldRedirect) ? (
-                       <Redirect
-                           to={{
-                               pathname: redirectPath,
-                           }}
-                       />
+                       <>
+                           <Redirect
+                               to={{
+                                   pathname: redirectPath,
+                               }}
+                           />
+                       </>
                    ) : componentToRenderIfAuthorized
                ))}
         />

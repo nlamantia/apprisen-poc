@@ -7,6 +7,7 @@ import {assertLoggedIn, getCredentials, isVerified, login, logout} from "../../s
 import {LoginResponse} from "../../models/auth/login-response";
 // @ts-ignore
 import {toast} from "react-toastify";
+import {LINKED_APP_NAME} from "../../config/app-constants";
 
 const { Storage } = Plugins;
 
@@ -59,9 +60,8 @@ export function * verifyWorker(action) {
         if (responseToVerify) {
             if (true) {
                 call(toast, 'Verified!')
-                yield put(push('/')) // todo remove
                 const responseToLink = yield call(callLinkAccount, {
-                    Application: "TestMyChange",
+                    Application: LINKED_APP_NAME,
                     ExternalApplicationId: clientId,
                     SignedToken: signedToken,
                     UserName: username,
@@ -70,10 +70,8 @@ export function * verifyWorker(action) {
                 console.log(responseToLink)
 
                 if (responseToLink.isSuccess) {
-                    Storage.set({key: 'verified', value: 'true'})
-                    yield call(isVerified)
-                    yield put(push('/'))
-                    yield put(setExternalId(clientId))
+                    yield Storage.set({key: 'verified', value: 'true'})
+                    yield put(push('/logout'))
                 }
             } else {
                 call(toast, 'Hmm, something\'s not right about the information you entered')

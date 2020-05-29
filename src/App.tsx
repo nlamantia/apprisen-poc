@@ -9,11 +9,10 @@ import {
     IonMenu,
     IonMenuButton,
     IonMenuToggle,
-    IonRouterOutlet, IonSpinner,
+    IonRouterOutlet,
     IonTitle,
     IonToolbar
 } from "@ionic/react";
-import {IonReactRouter} from "@ionic/react-router";
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/display.css";
@@ -27,11 +26,9 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import React, {useEffect} from "react";
-import {useSelector} from 'react-redux'
-import Image, {Shimmer} from 'react-shimmer'
+import React from "react";
 import {connect, Provider} from 'react-redux'
-import {Redirect, Route, withRouter, Router, Switch} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 import AccountOverview from "./pages/account-overview/account-overview";
 import LenderOverview from "./pages/lender/lender-overview";
 import Login from "./pages/login/login";
@@ -42,9 +39,7 @@ import UserDetails from "./pages/user/UserDetails";
 import Profile from "./pages/profile/profile";
 /* Theme variables */
 import "./theme/variables.scss";
-import {store} from "./config/store";
-import {allApiSelector, apiStatusByIdSelector} from './feature/common/reducer'
-import ClipLoader from "react-spinners/ClipLoader";
+import {history, store} from "./config/store";
 
 import AdditionalResources from "pages/additional-resources/additional-resources";
 import MakePayment from "./pages/payment/make-payment";
@@ -58,7 +53,6 @@ import {NotificationProvider} from "./common/NotificationProvider";
 import {Logout} from "./pages/logout/logout";
 import Contact from "./pages/contact/contact";
 import {ConnectedRouter} from "connected-react-router";
-import {history} from './config/store'
 
 interface Page {
     title: string;
