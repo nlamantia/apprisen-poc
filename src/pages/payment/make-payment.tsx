@@ -112,8 +112,7 @@ const _MakePayment = ( props: any ) => {
             } else {
                 const { dmpCaseId: caseId } = clientAccountData;
                 externalId.current = caseId;
-                initialPaymentRequest.clientNumber = externalId.current;
-                initialPaymentRequest.caseNumber = externalId.current;
+                setPaymentRequest({...payment, caseNumber: caseId})
                 if (paymentStatus && !active) {
                     if (status === "SUCCESS") {
                         routingNumber.current.value = '';

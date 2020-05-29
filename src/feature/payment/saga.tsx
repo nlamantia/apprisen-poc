@@ -9,6 +9,7 @@ import {
     setPaymentStatus
 } from "./action";
 import {callGetClientData, callMakePayment, callPaymentHistory} from "../../services/rest.service";
+import {getClientId} from "../../services/auth.service";
 
 export function * getClientAccountDataWorker(action) {
     const clientDataResponse = yield call(callGetClientData);
@@ -50,7 +51,7 @@ export function * getPaymentHistoryWatcher() {
 
 export function * makePaymentWorker(action) {
     const {payload: { payment: request }} = action;
-
+    request.clientNumber = yield getClientId();
     const makePaymentResponse = yield call(callMakePayment, request);
 
     const { confirmationNumber, errors } = makePaymentResponse;
