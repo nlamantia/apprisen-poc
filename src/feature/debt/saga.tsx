@@ -6,7 +6,6 @@ import {Storage} from "@capacitor/core";
 export function * getDebtDetailWorker(action) {
     const { payload: { caseId } } = action;
     const debtDetail = yield call(callDebtDetailEndpoint, caseId);
-    console.log("Debt detail worker: " + JSON.stringify(debtDetail));
 
     if (debtDetail && debtDetail.caseDebts) { // is valid
         const { caseDebts } = debtDetail

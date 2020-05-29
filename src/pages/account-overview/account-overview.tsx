@@ -100,15 +100,12 @@ const _AccountOverview = (props) => {
                         getDebts(caseId);
                     } else {
                         setUserDebts(debts);
-                        // FOR DEMO ONLY - REMOVE WHEN DONE
+
                         let debtsForGraph = [];
-                        for (let i = 0; i < 6; i++) {
-                            for (let j = 0; j < debts.length; j++) {
-                                debtsForGraph.push(debts[j]);
-                            }
+                        for (let j = 0; j < debts.length; j++) {
+                            debtsForGraph.push(debts[j]);
                         }
                         setGraphDebts(getLenderListForGraph(debtsForGraph, BRAND_COLORS));
-                        // setGraphDebts(getLenderListForGraph(debts, BRAND_COLORS));
                     }
 
                     if (!paymentHistory || !paymentHistory.length || paymentHistory.length === 0) {
@@ -124,7 +121,7 @@ const _AccountOverview = (props) => {
                     redirectLogin();
                 }
             }
-        }, [credentials, caseSummary, debts, paymentHistory]);
+        }, [credentials, caseSummary, debts, paymentHistory, clientAccountData]);
 
     return (
         <>
@@ -307,7 +304,8 @@ const AccountOverview = connect(
         caseSummary: state.case.caseSummary,
         debts: state.debt.debts,
         credentials: state.auth.credentials,
-        paymentHistory: state.payment.paymentHistory
+        paymentHistory: state.payment.paymentHistory,
+        clientAccountData: state.payment.clientAccountData
     }),
     dispatch => bindActionCreators({
         getCaseSummary,

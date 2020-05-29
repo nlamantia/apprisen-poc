@@ -4,7 +4,6 @@ import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest.s
 
 
 export function * getCaseWorker(action) {
-    console.log(JSON.stringify(action));
     const { payload: { caseId } } = action;
     const caseSummary = yield call(callCaseSummaryEndpoint, caseId);
     if (caseSummary && caseSummary.estimatedBalance) {
