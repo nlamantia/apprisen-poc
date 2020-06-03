@@ -1,14 +1,15 @@
 import {all, call, put, takeEvery} from "@redux-saga/core/effects";
 import {
     GET_CLIENT_ACCOUNT_DATA,
-    GET_PAYMENT_HISTORY, getPaymentHistory,
+    GET_PAYMENT_HISTORY,
     MAKE_PAYMENT,
     setClientAccountData,
-    setConfirmation, setPaymentHistory,
+    setConfirmation,
+    setPaymentHistory,
     setPaymentStatus
 } from "./action";
-import {PaymentResponse} from "../../models/payment/payment-response";
 import {callGetClientData, callMakePayment, callPaymentHistory} from "../../services/rest.service";
+import {getClientId} from "../../services/auth.service";
 
 export function * getClientAccountDataWorker(action) {
     const clientDataResponse = yield call(callGetClientData);
@@ -30,7 +31,8 @@ export function * getClientAccountDataWatcher() {
 }
 
 export function * getPaymentHistoryWorker(action) {
-    const paymentHistoryResponse = yield call(callPaymentHistory);
+    const { payload: { caseId } } = action;
+    const paymentHistoryResponse = yield call(callPaymentHistory, caseId);
 
     const { caseDeposits, IsSuccess, errors } = paymentHistoryResponse;
 
@@ -48,11 +50,9 @@ export function * getPaymentHistoryWatcher() {
 }
 
 export function * makePaymentWorker(action) {
-    console.log("Inside payment worker");
     const {payload: { payment: request }} = action;
-
+    request.clientNumber = yield getClientId();
     const makePaymentResponse = yield call(callMakePayment, request);
-    // const makePaymentResponse = yield getFakeResponse();
 
     const { confirmationNumber, errors } = makePaymentResponse;
 
@@ -70,14 +70,6 @@ export function * makePaymentWorker(action) {
             console.error(JSON.stringify(errors[i]));
         }
     }
-}
-
-function getFakeResponse(): PaymentResponse {
-    return {
-        confirmationNumber: "ABCDEFG12345",
-        IsSuccess: true,
-        errors: []
-    };
 }
 
 export function * makePaymentWatcher() {

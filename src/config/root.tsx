@@ -10,19 +10,25 @@ import {authReducer} from "../feature/auth/reducer";
 import {authSaga} from "../feature/auth/saga";
 import {paymentReducer} from "../feature/payment/reducer";
 import {paymentSaga} from "../feature/payment/saga";
+import {commonReducer} from "../feature/common/reducer";
 import {contactSaga} from "../feature/contact/saga";
 import {contactReducer} from "../feature/contact/reducer";
+import { connectRouter } from 'connected-react-router'
+import {store} from "./store";
 
-export const rootReducer = () => {
+export const rootReducer = (history) => {
     return combineReducers({
         "case": caseReducer,
         "client": clientReducer,
         "debt": debtReducer,
         "auth": authReducer,
         "payment": paymentReducer,
-        "contact": contactReducer
+        "common": commonReducer,
+        "contact": contactReducer,
+        "router": connectRouter(history)
     })
 }
+
 
 export function* rootSaga() {
     yield all([

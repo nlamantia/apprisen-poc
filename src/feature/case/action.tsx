@@ -1,8 +1,5 @@
-import { createAction } from 'typesafe-actions'
-import { CaseSummary } from "models/case/case-summary";
-import { CaseTypes } from "./interface";
-import {LoginRequest} from "../../models/auth/login-request";
-import {LoginResponse} from "../../models/auth/login-response";
+import {CaseSummary} from "models/case/case-summary";
+import {CaseTypes} from "./interface";
 
 // Action type
 // This is the signal that reducers and sagas use to different different types of actions
@@ -22,10 +19,10 @@ export const GET_CASE_SUMMARY = "getCaseSummary"
 //
 // Also, since we're using Saga, if there is a saga watcher for this type of action, then it is called
 // ( usually, either a saga or a reducer will handle an action, not both.)
-export function getCaseSummary(credentials: LoginResponse): CaseTypes {
+export function getCaseSummary(caseId: string): CaseTypes {
     return {
         type: GET_CASE_SUMMARY,
-        payload: { credentials }
+        payload: { caseId }
     }
 }
 
@@ -48,9 +45,9 @@ export function setCasePayoffDate({ casePayoffDate }) : CaseTypes {
 
 
 export const GET_CASE_PAYOFF_DATE = "getCasePayoffDate"
-export function getCasePayoffDate({ increaseAmount, isOneTimePayment }) : CaseTypes {
+export function getCasePayoffDate({ increaseAmount, isOneTimePayment, caseId }) : CaseTypes {
     return {
         type: GET_CASE_PAYOFF_DATE,
-        payload: { increaseAmount, isOneTimePayment }
+        payload: { increaseAmount, isOneTimePayment, caseId }
     }
 }

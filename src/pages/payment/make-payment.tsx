@@ -107,26 +107,27 @@ const _MakePayment = ( props: any ) => {
 
     useEffect(() => {
         if (credentials && credentials.linkedApplication) {
-            const [, linkedApp] = credentials.linkedApplication;
-            const { externalId: id } = linkedApp;
-            externalId.current = id;
-            initialPaymentRequest.clientNumber = externalId.current;
-            initialPaymentRequest.caseNumber = externalId.current;
-            if (paymentStatus && !active) {
-                if (status === "SUCCESS") {
-                    routingNumber.current.value = '';
-                    accountNumber.current.value = '';
-                    setPaymentStatus({paymentStatus: status, active: true})
-                    props.history.push('/payment-confirmation');
-                }
-            }
-            console.log("past payment status if statement");
-            if (!clientAccountData || !clientAccountData.bankAccountTypes) {
-                console.log("No client account data. Fetching...");
+            if (!clientAccountData || !clientAccountData.dmpCaseId) {
                 getClientAccountData();
             } else {
-                console.log("setting account types");
-                setBankAccountTypes(clientAccountData.bankAccountTypes);
+                const { dmpCaseId: caseId } = clientAccountData;
+                externalId.current = caseId;
+                setPaymentRequest({...payment, caseNumber: caseId})
+                if (paymentStatus && !active) {
+                    if (status === "SUCCESS") {
+                        routingNumber.current.value = '';
+                        accountNumber.current.value = '';
+                        setPaymentStatus({paymentStatus: status, active: true})
+                        props.history.push('/payment-confirmation');
+                    }
+                }
+                if (!clientAccountData || !clientAccountData.bankAccountTypes) {
+                    console.log("No client account data. Fetching...");
+                    getClientAccountData();
+                } else {
+                    console.log("setting account types");
+                    setBankAccountTypes(clientAccountData.bankAccountTypes);
+                }
             }
         } else {
             try {
@@ -265,7 +266,7 @@ const _MakePayment = ( props: any ) => {
                                             <IonLabel color={!visited("bankAccountType") || validBankAccountType ? 'dark' : 'danger'} position="floating">Account Type</IonLabel>
                                             <IonSelect name="bankAccountType" placeholder="Select One" onIonChange={(e) => handleChange(e)}>
                                                 {bankAccountTypes.map((bankAccountType) => {
-                                                    return(
+                                                    return (
                                                         <IonSelectOption value={bankAccountType.id}>{bankAccountType.name}</IonSelectOption>
                                                     );
                                                 })}

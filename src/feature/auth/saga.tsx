@@ -1,9 +1,13 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
-import {GET_CREDENTIALS, LOGIN, LOGOUT, setCredentials, setLoginStatus} from "./action";
+import { push } from 'react-router-redux'
+import {GET_CREDENTIALS, LOGIN, loginSuccess, LOGOUT, setCredentials, setExternalId, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
-import {callLoginEndpoint} from "../../services/rest.service";
-import {assertLoggedIn, login, logout} from "../../services/auth.service";
+import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest.service";
+import {assertLoggedIn, getCredentials, isVerified, login, logout} from "../../services/auth.service";
 import {LoginResponse} from "../../models/auth/login-response";
+// @ts-ignore
+import {toast} from "react-toastify";
+import {LINKED_APP_NAME} from "../../config/app-constants";
 
 const { Storage } = Plugins;
 
@@ -13,17 +17,15 @@ export function * loginWorker(action) {
 
     const { signedToken, username, expiresOn } = loginResponse
 
-    yield put(setLoginStatus({loginState: "ACTIVE", message: "PENDING"}))
-
     // todo validate
     if ( loginResponse && signedToken && username && expiresOn) {
-        yield call(login,loginResponse)
+        yield call(setCredentials,loginResponse)
+        yield call(login, loginResponse)
         yield assertLoggedIn(loginResponse)
+        call(toast, 'Logged In!')
 
-        yield put(setCredentials(loginResponse))
-        yield put(setLoginStatus({loginState: "INACTIVE", message: "SUCCESS"}))
+        yield put(loginSuccess(loginResponse))
     } else {
-        yield put(setLoginStatus({loginState: "INACTIVE", message: "FAILURE"}))
     }
 }
 
@@ -48,9 +50,49 @@ export function * getCredentialsWatcher() {
     yield takeEvery(GET_CREDENTIALS, getCredentialsWorker);
 }
 
+
+export function * verifyWorker(action) {
+    const { payload: {zipCode, lastFourOfSSID, clientId} } = action
+    try {
+        const {signedToken, username, expiresOn} = yield call(getCredentials)
+        const responseToVerify = yield call(callVerifyClientNumber, {ZipCode: zipCode, Last4SSN: lastFourOfSSID, ClientNumber: clientId})
+
+        if (responseToVerify) {
+            if (true) {
+                call(toast, 'Verified!')
+                const responseToLink = yield call(callLinkAccount, {
+                    Application: LINKED_APP_NAME,
+                    ExternalApplicationId: clientId,
+                    SignedToken: signedToken,
+                    UserName: username,
+                    ExpiresOn: expiresOn
+                })
+                console.log(responseToLink)
+
+                if (responseToLink.isSuccess) {
+                    yield Storage.set({key: 'verified', value: 'true'})
+                    yield put(push('/logout'))
+                }
+            } else {
+                call(toast, 'Hmm, something\'s not right about the information you entered')
+            }
+        } else {
+            call(toast, 'Hmm, something\'s not right about the information you entered')
+        }
+
+    } catch(e) {
+
+    }
+}
+
+export function * verifyWatcher() {
+    yield takeEvery(VERIFY, verifyWorker);
+}
+
 export function * logoutWorker() {
     yield call(logout)
     yield put(setCredentials(null))
+    Storage.set({key: 'verified', value: null});
 }
 
 export function * logoutWatcher() {
@@ -61,6 +103,7 @@ export function * authSaga() {
     yield all([
         loginWatcher(),
         logoutWatcher(),
-        getCredentialsWatcher()
+        getCredentialsWatcher(),
+        verifyWatcher()
     ])
 }

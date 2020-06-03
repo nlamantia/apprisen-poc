@@ -1,11 +1,23 @@
 import {LoginResponse} from '../models/auth/login-response';
 import {Plugins} from '@capacitor/core';
+import {LINKED_APP_NAME} from "../config/app-constants";
 
 const {Storage} = Plugins;
 
-export const isAuthenticated = async () => {
-    const cred = (await Storage.get({key: 'credentials'})).value
-    return cred != null;
+export const isAuthenticated = async (parCreds?: LoginResponse) : Promise<Boolean> => {
+    try {
+        const creds : LoginResponse = parCreds ? parCreds : await getCredentials()
+        if (!creds) { return false }
+        return !(await areCredentialsExpired(creds))
+    } catch(e) {
+        return false
+    }
+}
+
+export const areCredentialsExpired = async (parCreds?: LoginResponse ) : Promise<Boolean> => {
+    const creds = parCreds ? parCreds : await getCredentials()
+    const { expiresOn } = creds
+    return Date.now() >= new Date(Number(expiresOn) / 10000).getTime()
 }
 
 export const login = (credentials : LoginResponse) => {
@@ -16,6 +28,7 @@ export const login = (credentials : LoginResponse) => {
         console.log('Could not set credentials!')
     }
 }
+
 
 export const logout = () => {
     console.log('called logout')
@@ -37,15 +50,24 @@ export const getCredentials = async(): Promise<LoginResponse> => {
     })
 }
 
+export const isVerified = async () => {
+    try {
+        const caseId = await getClientId();
+        return !!caseId || !!(await Storage.get({key: 'verified'}))
+    } catch(e) {
+        return false
+    }
+}
 
-export const getCaseId = () => {
+
+export const getClientId = () => {
     return new Promise(async (resolve, reject) => {
         try {
             const credentials = await getCredentials()
-            const {linkedApplication: [{}, {externalId}]} = credentials
+            const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === LINKED_APP_NAME )[0]
             resolve(externalId)
         } catch(e) {
-            reject("Could not get case id!")
+            reject(null)
         }
     })
 }

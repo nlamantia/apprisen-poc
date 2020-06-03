@@ -11,7 +11,7 @@ import {
     IonTitle,
     IonToast,
     IonToolbar,
-    IonFooter
+    IonFooter, IonSkeletonText
 } from "@ionic/react";
 import React, {useEffect, useState} from "react";
 import {Redirect, useLocation} from "react-router-dom";
@@ -35,14 +35,13 @@ const _Overview = (props) => {
     const { getClientAccountData, clientAccountData } = props;
     const { credentials, getCredentials } = props;
     const { paymentHistory, getPaymentHistory } = props;
-    let externalId = React.useRef();
 
     const location = useLocation();
     const [authorized, setAuthorized] = useState<boolean>(true);
     const [restError, setRestError] = useState<boolean>(false);
-    const [totalOriginalBalance, setTotalOriginalBalance] = useState<number>(0.00);
-    const [currentBalance, setCurrentBalance] = useState<number>(0.00);
-    const [monthlyPayment, setMonthlyPayment] = useState<number>(0.00);
+    const [totalOriginalBalance, setTotalOriginalBalance] = useState<number>();
+    const [currentBalance, setCurrentBalance] = useState<number>();
+    const [monthlyPayment, setMonthlyPayment] = useState<number>();
     const [caseProgress, setCaseProgress] = useState<number>(0);
 
     function redirectLogin() {
@@ -63,33 +62,31 @@ const _Overview = (props) => {
     useEffect(
         () => {
             if (credentials && credentials.linkedApplication) {
-                const [, second] = credentials.linkedApplication;
-                externalId.current = second.externalId;
-
-                if (!paymentHistory || !paymentHistory.length) {
-                    console.log('get payment history');
-                    getPaymentHistory();
-                }
-
-                if (!caseSummary && !fetchingCaseSummary) {
-                    console.log('get case summary')
-                    getCaseSummary();
-                } else if (caseSummary) {
-                    setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
-                    setMonthlyPayment(caseSummary.currentMonthlyPayment.toFixed(2));
-                    setCaseProgress(calculateCurrentProgress());
-                }
-
-                if (!debts && !fetchingDebtDetails) {
-                    console.log('get case summary')
-                    getDebts();
-                } else if (debts) {
-                    setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));
-                }
-
-                if (!clientAccountData || !clientAccountData.bankAccountTypes) {
+                if (!clientAccountData || !clientAccountData.dmpCaseId || !clientAccountData.bankAccountTypes) {
                     console.log('get client data');
                     getClientAccountData();
+                } else {
+                    const { dmpCaseId: caseId } = clientAccountData;
+                    if (!paymentHistory || !paymentHistory.length) {
+                        console.log('get payment history');
+                        getPaymentHistory(caseId);
+                    }
+
+                    if (!caseSummary && !fetchingCaseSummary) {
+                        console.log('get case summary');
+                        getCaseSummary(caseId);
+                    } else if (caseSummary) {
+                        setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
+                        setMonthlyPayment(caseSummary.currentMonthlyPayment.toFixed(2));
+                        setCaseProgress(calculateCurrentProgress());
+                    }
+
+                    if (!debts && !fetchingDebtDetails) {
+                        console.log('get case summary')
+                        getDebts(caseId);
+                    } else if (debts) {
+                        setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));
+                    }
                 }
             } else {
                 try {
@@ -124,7 +121,11 @@ const _Overview = (props) => {
                             </IonRow>
                             <IonRow>
                                 <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
-                                    <ProgressTrackerCard currentLabel={"$" + monthlyPayment} startLabel={"$" + totalOriginalBalance} endLabel={"$" + currentBalance} currentProgress={caseProgress}/>
+                                    <ProgressTrackerCard
+                                        currentLabel={monthlyPayment ? "$" + monthlyPayment : undefined}
+                                        startLabel={totalOriginalBalance ? "$" + totalOriginalBalance : undefined}
+                                        endLabel={currentBalance ? "$" + currentBalance : undefined}
+                                        currentProgress={caseProgress}/>
                                 </IonCol>
                             </IonRow>
                             <IonRow>

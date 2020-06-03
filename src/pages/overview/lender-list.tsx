@@ -1,6 +1,6 @@
 import React from "react";
 // eslint-disable-next-line
-import {IonButton, IonCard, IonItem, IonLabel, IonList, IonListHeader, IonProgressBar} from "@ionic/react";
+import {IonButton, IonCard, IonItem, IonLabel, IonList, IonListHeader, IonProgressBar, IonSpinner} from "@ionic/react";
 // eslint-disable-next-line
 import {CaseDebt} from "../../models/case/case-debt";
 import {Link} from "react-router-dom";
@@ -55,7 +55,9 @@ const _LenderList = (props: any) => {
                     })
                     : <IonItem>
                         <IonLabel>
-                            <h3 className={'full-center'}>No debts found</h3>
+                            <h3 className={'full-center'}>
+                                <IonSpinner />
+                            </h3>
                         </IonLabel>
                     </IonItem>}
             </IonList>
