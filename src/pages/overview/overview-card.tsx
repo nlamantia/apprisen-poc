@@ -26,28 +26,33 @@ import {getCasePayoffDate, getCaseSummary} from "../../feature/case/action";
 
 import '@ionic/react/css/core.css';
 import {printDate} from "../common/utility-functions";
+import {getClientAccountData} from "../../feature/payment/action";
 
 const _OverviewCard = (props) => {
 
     const { getCaseSummary, fetchingCaseSummary, caseSummary } = props
     const { getCasePayoffDate, fetchingCasePayoffDate} = props
     const { casePayoffDate } = props
+    const { clientAccountData, getClientAccountData } = props;
     
 
     useEffect(
         () => {
-            if (!caseSummary && !fetchingCaseSummary) {
-                console.log('get case summary')
-                getCaseSummary();
+            if (!clientAccountData || !clientAccountData.dmpCaseId) {
+                getClientAccountData();
+            } else {
+                const { dmpCaseId: caseId } = clientAccountData;
+                if (!caseSummary && !fetchingCaseSummary) {
+                    console.log('get case summary for ' + caseId)
+                    getCaseSummary(caseId);
+                }
+
+                if (!casePayoffDate && !fetchingCasePayoffDate) {
+                    console.log('get case payoff debt!')
+                    getCasePayoffDate({caseId, increaseAmount: 0, isOneTimePayment: true})
+                }
             }
-            if (!casePayoffDate && !fetchingCasePayoffDate) {
-                console.log('get case payoff debt!')
-                // todo mock this
-                // todo decide between caseNumber and externalId
-                // todo caseNumber selector
-                getCasePayoffDate({ caseNumber: 5, increaseAmount: 0, isOneTimePayment: true })
-            }
-        }, []
+        }, [clientAccountData]
     );
 
         const {caseSummary: {estimatedBalance, nextPaymentDueOn, currentMonthlyPayment}} =
@@ -110,13 +115,9 @@ const _OverviewCard = (props) => {
                             </IonLabel>
                         </IonItem>
                         <IonItem className={'full-button'}>
-                            <Link to={{
-                                pathname: `/make-payment`
-                            }} style={{width: 100 + "%"}}>
-                            <IonButton className={'full-button'} expand="full">
+                            <IonButton href={'/make-payment'} className={'full-button'} expand="full">
                                 Make Payment
                             </IonButton>
-                            </Link>
                         </IonItem>
                     </IonList>
                 </IonCard>
@@ -132,11 +133,13 @@ const OverviewCard = connect(
         credentials: state.auth.credentials,
         casePayoffDate: state.case.casePayoffDate,
         fetchingCasePayoffDate: state.case.fetchingCasePayoffDate,
-        fetchingCaseSummary: state.case.fetchingCaseSummary
+        fetchingCaseSummary: state.case.fetchingCaseSummary,
+        clientAccountData: state.payment.clientAccountData
     }),
     dispatch => bindActionCreators({
         getCaseSummary,
-        getCasePayoffDate
+        getCasePayoffDate,
+        getClientAccountData
     }, dispatch)
 )(_OverviewCard)
 

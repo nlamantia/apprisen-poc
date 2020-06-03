@@ -1,5 +1,4 @@
 import {LoginResponse} from '../models/auth/login-response';
-import moment from 'moment'
 import {Plugins} from '@capacitor/core';
 import {LINKED_APP_NAME} from "../config/app-constants";
 
@@ -18,7 +17,7 @@ export const isAuthenticated = async (parCreds?: LoginResponse) : Promise<Boolea
 export const areCredentialsExpired = async (parCreds?: LoginResponse ) : Promise<Boolean> => {
     const creds = parCreds ? parCreds : await getCredentials()
     const { expiresOn } = creds
-    return Date.now() > new Date(Number(expiresOn) / 10000).getTime()
+    return Date.now() >= new Date(Number(expiresOn) / 10000).getTime()
 }
 
 export const login = (credentials : LoginResponse) => {
@@ -53,24 +52,22 @@ export const getCredentials = async(): Promise<LoginResponse> => {
 
 export const isVerified = async () => {
     try {
-        const caseId = await getCaseId();
-        return !!caseId
+        const caseId = await getClientId();
+        return !!caseId || !!(await Storage.get({key: 'verified'}))
     } catch(e) {
         return false
     }
 }
 
 
-export const getCaseId = () => {
+export const getClientId = () => {
     return new Promise(async (resolve, reject) => {
         try {
             const credentials = await getCredentials()
-            const linkedAppName = ((await Storage.get({key: 'verified'})) as any ).value === "true" ? LINKED_APP_NAME : 'NONSENSE'
-            console.log(await Storage.get({key: 'verified'}))
-            const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === linkedAppName )[0]
+            const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === LINKED_APP_NAME )[0]
             resolve(externalId)
         } catch(e) {
-            reject("Could not get case id!")
+            reject(null)
         }
     })
 }

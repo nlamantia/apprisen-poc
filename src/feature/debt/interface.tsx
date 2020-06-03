@@ -1,11 +1,9 @@
-import {DebtDetail} from "models/case/debt-detail";
-import {GET_DEBTS, SET_DEBTS, SELECT_DEBT, GET_SELECTED_DEBT} from "./action";
-import {LoginResponse} from "../../models/auth/login-response";
+import {GET_DEBTS, GET_SELECTED_DEBT, SELECT_DEBT, SET_DEBTS} from "./action";
 import {CaseDebt} from "../../models/case/case-debt";
 
 interface GetDebtsMessageAction {
     type: typeof GET_DEBTS,
-    payload: { credentials: LoginResponse }
+    payload: { caseId: string }
 }
 
 interface SetDebtsMessageAction {

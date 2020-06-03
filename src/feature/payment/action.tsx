@@ -37,8 +37,9 @@ export const setPaymentStatus = (status: PaymentStatus): PaymentActionTypes => (
 });
 
 export const GET_PAYMENT_HISTORY = "getPaymentHistory";
-export const getPaymentHistory = (): PaymentActionTypes => ({
-    type: GET_PAYMENT_HISTORY
+export const getPaymentHistory = (caseId: string): PaymentActionTypes => ({
+    type: GET_PAYMENT_HISTORY,
+    payload: { caseId }
 });
 
 export const SET_PAYMENT_HISTORY = "setPaymentHistory";

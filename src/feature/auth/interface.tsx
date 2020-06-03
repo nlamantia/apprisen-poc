@@ -8,7 +8,6 @@ interface SetCredentialMessageAction {
     payload: { credentials: LoginResponse }
 }
 
-// todo distinct name difference between loginResponse and loginRequest
 interface LoginMessageAction {
     type: typeof LOGIN,
     payload: { credentials: LoginRequest }

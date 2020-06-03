@@ -1,1 +1,1 @@
-export const LINKED_APP_NAME = "MyApprisen";
+export const LINKED_APP_NAME = "ChaseFFG";

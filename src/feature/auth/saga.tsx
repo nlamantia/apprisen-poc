@@ -1,11 +1,13 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
+import { push } from 'react-router-redux'
 import {GET_CREDENTIALS, LOGIN, loginSuccess, LOGOUT, setCredentials, setExternalId, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
 import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest.service";
-import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth.service";
+import {assertLoggedIn, getCredentials, isVerified, login, logout} from "../../services/auth.service";
 import {LoginResponse} from "../../models/auth/login-response";
 // @ts-ignore
 import {toast} from "react-toastify";
+import {LINKED_APP_NAME} from "../../config/app-constants";
 
 const { Storage } = Plugins;
 
@@ -55,21 +57,29 @@ export function * verifyWorker(action) {
         const {signedToken, username, expiresOn} = yield call(getCredentials)
         const responseToVerify = yield call(callVerifyClientNumber, {ZipCode: zipCode, Last4SSN: lastFourOfSSID, ClientNumber: clientId})
 
-        if (responseToVerify && responseToVerify.IsSuccess) {
-            call(toast, 'Verified!')
-            Storage.set({key: 'verified', value: 'true'});
-            const responseToLink = yield call(callLinkAccount, {
-                Application: "TestMyChange",
-                ExternalApplicationId: clientId,
-                SignedToken: signedToken,
-                UserName: username,
-                ExpiresOn: expiresOn
-            })
+        if (responseToVerify) {
+            if (true) {
+                call(toast, 'Verified!')
+                const responseToLink = yield call(callLinkAccount, {
+                    Application: LINKED_APP_NAME,
+                    ExternalApplicationId: clientId,
+                    SignedToken: signedToken,
+                    UserName: username,
+                    ExpiresOn: expiresOn
+                })
+                console.log(responseToLink)
+
+                if (responseToLink.isSuccess) {
+                    yield Storage.set({key: 'verified', value: 'true'})
+                    yield put(push('/logout'))
+                }
+            } else {
+                call(toast, 'Hmm, something\'s not right about the information you entered')
+            }
         } else {
             call(toast, 'Hmm, something\'s not right about the information you entered')
         }
 
-        yield put(setExternalId(clientId))
     } catch(e) {
 
     }

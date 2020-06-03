@@ -3,7 +3,7 @@ import {LoginRequest} from "../models/auth/login-request";
 import {ClientInformation} from "../models/case/client-information";
 import {CaseSummary} from "../models/case/case-summary";
 import {DebtDetail} from "../models/case/debt-detail";
-import {getAuthHeaders, getCaseId, getCredentials} from "./auth.service";
+import {getAuthHeaders, getClientId, getCredentials} from "./auth.service";
 import {PaymentHistoryResponse} from "../models/payment/payment-history-response";
 import {toast} from "react-toastify";
 import {EmailRequest} from "../models/contact/email-request";
@@ -19,7 +19,7 @@ const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
 const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
 const SEND_EMAIL_URL = BASE_URL + "/api/client/sendemail/";
 const PAYMENT_HISTORY_URL = BASE_URL + "/api/case/payment-history/";
-const LINK_ACCOUNT_URL = BASE_URL + "api/account/linkaccountwithexternalapp"
+const LINK_ACCOUNT_URL = BASE_URL + "/api/client/link-application"
 const VERIFY_CLIENT_NUMBER_URL = BASE_URL + "/api/client/verifyclientnumber"
 
 
@@ -36,18 +36,12 @@ export const callLoginEndpoint = async (credentials: LoginRequest): Promise<Logi
     },"Logged in!");
 };
 
-export const callCaseSummaryEndpoint = async (): Promise<CaseSummary> => {
-    const externalId = await getCaseId()
-    return callApi(CASE_SUMMARY_URL + externalId);
+export const callCaseSummaryEndpoint = (caseId: string): Promise<CaseSummary> => {
+    return callApi(CASE_SUMMARY_URL + caseId);
 };
 
-export const callPaymentHistory = async (): Promise<PaymentHistoryResponse> => {
-    // commented out for now because no payment history for regular test user
-    // const externalId = await getCaseId();
-    const externalId = 9902398;
-
-    return callApi(PAYMENT_HISTORY_URL + externalId);
-    // return getFakePaymentHistoryResponse();
+export const callPaymentHistory = (caseId: string): Promise<PaymentHistoryResponse> => {
+    return callApi(PAYMENT_HISTORY_URL + caseId);
 };
 
 
@@ -62,13 +56,12 @@ export const callVerifyClientNumber = async(requestBody) : Promise<void> => {
     }, "Verification passed, congrats!")
 }
 
-export const callPayoffForecast = async ({IncreaseAmount, IsOneTimePayment}): Promise<string> => {
+export const callPayoffForecast = ({IncreaseAmount, IsOneTimePayment, caseId}): Promise<string> => {
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    const externalId = await getCaseId()
 
-    let requestBody = JSON.stringify({caseNumber: externalId, IncreaseAmount, IsOneTimePayment});
+    let requestBody = JSON.stringify({caseNumber: caseId, IncreaseAmount, IsOneTimePayment});
     return callApi(PAY_OFF_FORECAST, {
         method: 'POST',
         body: requestBody,
@@ -90,12 +83,11 @@ export const callSendEmail = async (emailRequest: EmailRequest): Promise<string>
 
 };
 
-export const callDebtDetailEndpoint = async (): Promise<DebtDetail> => {
-    const externalId = await getCaseId()
+export const callDebtDetailEndpoint = (caseId: string): Promise<DebtDetail> => {
     const headers = new Headers()
     headers.set("Content-Type", "application/json")
 
-    return await callApi(DEBT_DETAIL_URL + externalId,
+    return callApi(DEBT_DETAIL_URL + caseId,
         {
             headers
         }
@@ -115,21 +107,24 @@ export const callMakePayment = async (paymentDetails: PaymentRequest) : Promise<
 };
 
 export const callGetClientData = async () : Promise<string> => {
-    const externalId = await getCaseId();
+    const externalId = await getClientId();
 
     return await callApi(CLIENT_DATA_URL + externalId);
 };
 
 export const callLinkAccount = async(requestBody) : Promise<void> => {
+    const headers = new Headers()
+    headers.append('Content-Type', 'application/json');
     return await callApi(LINK_ACCOUNT_URL, {
         method: 'POST',
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
+        headers
     })
 }
 
 
 export const callClientInformationEndpoint = async (): Promise<ClientInformation> => {
-    const externalId = await getCaseId();
+    const externalId = await getClientId();
 
     return await callApi(CLIENT_INFORMATION_URL + externalId);
 };

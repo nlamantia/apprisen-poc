@@ -40,7 +40,8 @@ interface SetPaymentStatusAction {
 }
 
 interface GetPaymentHistoryAction {
-    type: typeof GET_PAYMENT_HISTORY
+    type: typeof GET_PAYMENT_HISTORY,
+    payload: { caseId: string }
 }
 
 interface SetPaymentHistoryAction {
