@@ -8,7 +8,9 @@ import {PaymentHistoryResponse} from "../models/payment/payment-history-response
 import {toast} from "react-toastify";
 import {EmailRequest} from "../models/contact/email-request";
 
-export const BASE_URL = "https://apprisen-facade-test.herokuapp.com"
+export const BASE_URL = process.env.REACT_APP_FACADE_BASE_URL && process.env.REACT_APP_FACADE_BASE_URL !== ''
+    ? process.env.REACT_APP_FACADE_BASE_URL
+    : "https://apprisen-facade-test.herokuapp.com";
 
 const CLIENT_INFORMATION_URL = BASE_URL + "/api/case/client-details/";
 const PAY_OFF_FORECAST = BASE_URL + "/api/case/payoffforecast/";
@@ -26,6 +28,7 @@ const VERIFY_CLIENT_NUMBER_URL = BASE_URL + "/api/client/verifyclientnumber"
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]
 
 export const callLoginEndpoint = async (credentials: LoginRequest): Promise<LoginResponse> => {
+    console.log(BASE_URL);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
