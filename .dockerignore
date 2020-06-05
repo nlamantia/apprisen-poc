@@ -3,3 +3,5 @@ android
 build
 node_modules
 .gitignore
+.git
+.dockerignore
