@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    build: .
+    container_name: apprisen-client-portal
+    ports:
+      - "8100:8100"
+    environment:
+      - REACT_APP_FACADE_BASE_URL=http://localhost:8081
+
+  facade:
+    build: facade
+    container_name: apprisen-facade
+    ports:
+      - "8081:8080"
