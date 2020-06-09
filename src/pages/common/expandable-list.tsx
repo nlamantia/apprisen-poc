@@ -16,18 +16,16 @@ const ExpandableList = (props : ExpandableListProps) => {
 
     const handleExpandClick = () => {
         let sizeParam = defaultSize ? defaultSize : 5;
-        setData(sizeParam);
-    };
-
-    const setData = (size) => {
-        let trueDefaultSize = size <= data.length ? size : data.length;
+        let trueDefaultSize = sizeParam <= data.length ? sizeParam : data.length;
         setExpandMessage(visibleItems.length === trueDefaultSize ? "Show less" : "Show more");
         setVisibleItems(visibleItems.length === trueDefaultSize ? data : data.slice(0, trueDefaultSize));
     };
 
     useEffect(() => {
         if (data) {
-            setData(defaultSize ? defaultSize : 5)
+            let sizeParam = defaultSize ? defaultSize : 5;
+            let trueDefaultSize = sizeParam <= data.length ? sizeParam : data.length;
+            setVisibleItems(data.slice(0, trueDefaultSize));
         }
     }, [defaultSize, data]);
 
