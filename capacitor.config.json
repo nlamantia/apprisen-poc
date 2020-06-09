@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "appprisen-poc",
+  "appId": "com.apprisen.apprisen-client-portal",
+  "appName": "Apprisen Client Portal",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
