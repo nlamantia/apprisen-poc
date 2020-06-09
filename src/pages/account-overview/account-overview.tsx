@@ -4,6 +4,7 @@ import {
     IonCard,
     IonCol,
     IonContent,
+    IonFooter,
     IonGrid,
     IonHeader,
     IonItem,
@@ -12,9 +13,10 @@ import {
     IonListHeader,
     IonPage,
     IonRow,
+    IonSkeletonText,
+    IonSpinner,
     IonTitle,
-    IonToolbar,
-    IonFooter, IonSkeletonText, IonSpinner
+    IonToolbar
 } from "@ionic/react";
 import {connect} from 'react-redux'
 import React, {useEffect, useState} from "react";
@@ -256,7 +258,7 @@ const _AccountOverview = (props) => {
                                     </IonList>
                                 </IonCard>
                                 <IonCard>
-                                    <IonItem>
+                                    <IonItem className={'chart-item'}>
                                         <div className={"chart-div ion-padding-vertical"}>
                                             {graphDebts.length > 0 ? (
                                                 <Doughnut
@@ -278,8 +280,7 @@ const _AccountOverview = (props) => {
                                                         legend: {
                                                             display: true,
                                                             position: "top"
-                                                        },
-
+                                                        }
                                                     }}
                                                 />
                                             )
