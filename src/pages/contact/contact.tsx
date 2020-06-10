@@ -56,7 +56,7 @@ const _Contact = (props) => {
     }
 
     function isValidEmailData(emailData : EmailData) {
-        return validateNonEmptyString(emailData.body) && validateNonEmptyText(emailData.subject);
+        return validateNonEmptyString(emailData.body) && validateNonEmptyString(emailData.subject);
     }
 
     function getContactInfo() {
@@ -87,16 +87,16 @@ const _Contact = (props) => {
             } as EmailRequest);
         }
         else {
-            let x = document.getElementById("sharpenChat");
-            x.style.display = "none";
+            let iris = document.getElementById("sharpenChat");
+            iris.style.display = "none";
             setShouldShowToast(true);
             setMessage("Subject and Message can not be blank. Please try again.");
         }
     };
 
     const handleToastDismiss = () => {
-        let x = document.getElementById("sharpenChat");
-        x.style.display = "block";
+        let iris = document.getElementById("sharpenChat");
+        iris.style.display = "block";
         setShouldShowToast(false);
         setSentStatus(ContactStatus.IDLE);
     };
