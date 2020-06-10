@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  web:
+    build: .
+    container_name: apprisen-client-portal
+    init: true
+    command: ionic serve -l --lab-host=0.0.0.0 --lab-port=8200
+    expose:
+      - 8100
+      - 8200
+    depends_on:
+      - facade
+    ports:
+      - "8100:8100"
+      - "8200:8200"
+    environment:
+      - REACT_APP_SERVICE_BASE_URL=http://localhost:8081
+
+  facade:
+    build: facade
+    restart: always
+    container_name: apprisen-facade
+    init: true
+    ports:
+      - "8081:8080"
