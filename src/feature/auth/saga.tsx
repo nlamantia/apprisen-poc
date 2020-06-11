@@ -8,6 +8,7 @@ import {LoginResponse} from "../../models/auth/login-response";
 // @ts-ignore
 import {toast} from "react-toastify";
 import {LINKED_APP_NAME} from "../../config/app-constants";
+import {message} from "react-toastify-redux";
 
 const { Storage } = Plugins;
 
@@ -22,7 +23,7 @@ export function * loginWorker(action) {
         yield call(setCredentials,loginResponse)
         yield call(login, loginResponse)
         yield assertLoggedIn(loginResponse)
-        call(toast, 'Logged In!')
+        yield put(message('Logged In!'))
 
         yield put(loginSuccess(loginResponse))
     } else {
@@ -56,10 +57,11 @@ export function * verifyWorker(action) {
     try {
         const {signedToken, username, expiresOn} = yield call(getCredentials)
         const responseToVerify = yield call(callVerifyClientNumber, {ZipCode: zipCode, Last4SSN: lastFourOfSSID, ClientNumber: clientId})
+        const ERROR_MESSAGE = `Hmm, something's not right about the information you entered`
 
         if (responseToVerify) {
             if (true) {
-                call(toast, 'Verified!')
+                yield put(message('Verified!'))
                 const responseToLink = yield call(callLinkAccount, {
                     Application: LINKED_APP_NAME,
                     ExternalApplicationId: clientId,
@@ -74,10 +76,10 @@ export function * verifyWorker(action) {
                     yield put(push('/logout'))
                 }
             } else {
-                call(toast, 'Hmm, something\'s not right about the information you entered')
+                yield put(message(ERROR_MESSAGE))
             }
         } else {
-            call(toast, 'Hmm, something\'s not right about the information you entered')
+            yield put(message(`Hmm, something's not right about the information you entered`))
         }
 
     } catch(e) {

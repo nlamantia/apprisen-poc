@@ -15,6 +15,7 @@ import {contactSaga} from "../feature/contact/saga";
 import {contactReducer} from "../feature/contact/reducer";
 import { connectRouter } from 'connected-react-router'
 import {store} from "./store";
+import {toastsReducer} from "react-toastify-redux";
 
 export const rootReducer = (history) => {
     return combineReducers({
@@ -25,7 +26,8 @@ export const rootReducer = (history) => {
         "payment": paymentReducer,
         "common": commonReducer,
         "contact": contactReducer,
-        "router": connectRouter(history)
+        "router": connectRouter(history),
+        "toasts": toastsReducer
     })
 }
 

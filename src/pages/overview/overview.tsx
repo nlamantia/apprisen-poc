@@ -26,6 +26,7 @@ import {getCredentials, logout} from '../../feature/auth/action'
 import {getClientAccountData, getPaymentHistory} from "../../feature/payment/action";
 import ProgressTrackerCard from "../common/progress-tracker-card";
 import WelcomeBanner from "pages/common/welcome-banner";
+import { toast } from "react-toastify";
 
 const _Overview = (props) => {
 

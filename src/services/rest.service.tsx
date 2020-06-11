@@ -7,6 +7,9 @@ import {getAuthHeaders, getClientId, getCredentials} from "./auth.service";
 import {PaymentHistoryResponse} from "../models/payment/payment-history-response";
 import {toast} from "react-toastify";
 import {EmailRequest} from "../models/contact/email-request";
+import {call, put} from "redux-saga/effects";
+import {error, message} from "react-toastify-redux";
+import {store} from "../config/store";
 
 export const BASE_URL = "https://apprisen-facade-test.herokuapp.com"
 
@@ -139,13 +142,12 @@ export const callApi = async (url: string, options: RequestInit = {}, message = 
         if (response.ok) {
             return response.json();
         } else {
-            if (message) toast(message + "ERROR") // todo remove message
+            if (message) toast(`${message}`) // have to coax the message out by casting it as a string for some reason
             throw new Error(String(response.status));
         }
-    } catch (error) {
-        // todo handle errors in store
-        console.log(error)
-        return {};
+    } catch (message) {
+        if (message) toast(`${message}`)
+        throw new Error(String(message.status));
     }
 };
 

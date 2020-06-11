@@ -7,18 +7,15 @@ import {routerMiddleware} from "connected-react-router";
 
 export const history = createBrowserHistory()
 
-export const store = () => {
-    const sagaMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware();
 
-    const middleware = [sagaMiddleware, routerMiddleware(history)]
+const middleware = [sagaMiddleware, routerMiddleware(history)]
 
-    const composeEnhancers = composeWithDevTools({trace: true})
+const composeEnhancers = composeWithDevTools({trace: true})
 
-    const store = createStore(rootReducer(history), composeEnhancers(
-        applyMiddleware(...middleware),
-    ));
 
-    sagaMiddleware.run(rootSaga)
+export const store = createStore(rootReducer(history), composeEnhancers(
+    applyMiddleware(...middleware),
+));
 
-    return store
-}
+sagaMiddleware.run(rootSaga)
