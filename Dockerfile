@@ -5,11 +5,11 @@ ENV REACT_APP_SERVICE_BASE_URL "https://apprisen-facade-test.herokuapp.com"
 ENV IONIC_VERSION 5.4.16
 ENV IONIC_LAB_VERSION 2.0.18
 
-# Copy source files to the image file system
-COPY . /usr/apprisen/app
-
 # Mount a volume between local system and container for real time code updates
 VOLUME .:/usr/apprisen/app
+
+# Copy source files to the image file system
+COPY . /usr/apprisen/app
 
 # Set the working directory to where the code is located in the container
 WORKDIR /usr/apprisen/app
