@@ -3,13 +3,10 @@ import {LoginRequest} from "../models/auth/login-request";
 import {ClientInformation} from "../models/case/client-information";
 import {CaseSummary} from "../models/case/case-summary";
 import {DebtDetail} from "../models/case/debt-detail";
-import {getAuthHeaders, getClientId, getCredentials} from "./auth.service";
+import {getAuthHeaders, getClientId} from "./auth.service";
 import {PaymentHistoryResponse} from "../models/payment/payment-history-response";
 import {toast} from "react-toastify";
 import {EmailRequest} from "../models/contact/email-request";
-import {call, put} from "redux-saga/effects";
-import {error, message} from "react-toastify-redux";
-import {store} from "../config/store";
 
 export const BASE_URL = "https://apprisen-facade-test.herokuapp.com"
 

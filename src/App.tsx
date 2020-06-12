@@ -60,22 +60,20 @@ interface Page {
     action: Function;
 }
 
-
 const _Main = (props: any) => {
     const {logout} = props;
 
-  const pages: Page[] = [
-    { title: 'Overview', route: '/overview', action: (e) => null},
-    { title: 'Profile', route: '/profile', action: (e) => null},
-    { title: 'Contact Us', route: '/contact', action: (e) => null},
-    { title: 'Additional Resources', route: '/resources', action: (e) => null },
-    { title: 'Logout', route: '/login', action: (e) => logout()}
-  ]
+    const pages: Page[] = [
+        {title: 'Overview', route: '/overview', action: (e) => null},
+        {title: 'Profile', route: '/profile', action: (e) => null},
+        {title: 'Contact Us', route: '/contact', action: (e) => null},
+        {title: 'Additional Resources', route: '/resources', action: (e) => null},
+        {title: 'Logout', route: '/login', action: (e) => logout()}
+    ]
 
     // @ts-ignore
     return (
         <IonApp>
-
             <IonMenu side="end" menuId="menu" type="overlay" contentId={'main-content'}>
                 <IonHeader class="toolbar-header">
                     <IonToolbar class="toolbar-header">
@@ -146,20 +144,20 @@ const _Main = (props: any) => {
                                 component={withRouter(PaymentConfirmation)}
                             />
                         </Switch>
-                </IonRouterOutlet>
-                    </ConnectedRouter>
+                    </IonRouterOutlet>
+                </ConnectedRouter>
             </AuthContextProvider>
         </IonApp>
-)
+    )
 };
 
 const Main = connect(
-state => ({}),
-dispatch => bindActionCreators({
-    logout
-}, dispatch)
+    state => ({}),
+    dispatch => bindActionCreators({
+        logout
+    }, dispatch)
 )(
-_Main
+    _Main
 );
 
 const App = () => (

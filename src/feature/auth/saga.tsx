@@ -1,16 +1,29 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
-import { push } from 'react-router-redux'
-import {GET_CREDENTIALS, LOGIN, loginSuccess, LOGOUT, setCredentials, setExternalId, VERIFY} from "./action";
+import {push} from 'react-router-redux'
+import {GET_CREDENTIALS, LOGIN, loginSuccess, LOGOUT, setCredentials, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
 import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest.service";
-import {assertLoggedIn, getCredentials, isVerified, login, logout} from "../../services/auth.service";
+import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth.service";
 import {LoginResponse} from "../../models/auth/login-response";
-// @ts-ignore
-import {toast} from "react-toastify";
 import {LINKED_APP_NAME} from "../../config/app-constants";
 import {message} from "react-toastify-redux";
 
 const { Storage } = Plugins;
+
+export function * logoutWatcher() {
+    yield takeEvery(LOGOUT, logoutWorker)
+}
+
+export function * logoutWorker() {
+    yield call(logout)
+    yield put(setCredentials(null))
+    Storage.set({key: 'verified', value: null}).then(r => {});
+}
+
+export function * loginWatcher() {
+    yield takeEvery(LOGIN, loginWorker)
+}
+
 
 export function * loginWorker(action) {
     const { payload: { credentials } } = action
@@ -18,23 +31,28 @@ export function * loginWorker(action) {
 
     const { signedToken, username, expiresOn } = loginResponse
 
-    // todo validate
-    if ( loginResponse && signedToken && username && expiresOn) {
+    const credsAreGood = () => {
+        if (!signedToken) return false;
+        if (!username) return false;
+        if (!expiresOn) return false
+        // put more validation here if desired. This shouldn't be a concern though, even with a MITM attack
+    }
+
+    if (credsAreGood) {
         yield call(setCredentials,loginResponse)
         yield call(login, loginResponse)
         yield assertLoggedIn(loginResponse)
         yield put(message('Logged In!'))
 
         yield put(loginSuccess(loginResponse))
-    } else {
     }
 }
 
-export function * loginWatcher() {
-    yield takeEvery(LOGIN, loginWorker)
+export function * getCredentialsWatcher() {
+    yield takeEvery(GET_CREDENTIALS, getCredentialsWorker);
 }
 
-export function * getCredentialsWorker(action) {
+export function * getCredentialsWorker() {
     const credsString = (yield Storage.get({key: 'credentials'})).value;
 
     if (!credsString || credsString === "") {
@@ -47,10 +65,9 @@ export function * getCredentialsWorker(action) {
     }
 }
 
-export function * getCredentialsWatcher() {
-    yield takeEvery(GET_CREDENTIALS, getCredentialsWorker);
+export function * verifyWatcher() {
+    yield takeEvery(VERIFY, verifyWorker);
 }
-
 
 export function * verifyWorker(action) {
     const { payload: {zipCode, lastFourOfSSID, clientId} } = action
@@ -85,20 +102,6 @@ export function * verifyWorker(action) {
     } catch(e) {
 
     }
-}
-
-export function * verifyWatcher() {
-    yield takeEvery(VERIFY, verifyWorker);
-}
-
-export function * logoutWorker() {
-    yield call(logout)
-    yield put(setCredentials(null))
-    Storage.set({key: 'verified', value: null});
-}
-
-export function * logoutWatcher() {
-    yield takeEvery(LOGOUT, logoutWorker)
 }
 
 export function * authSaga() {
