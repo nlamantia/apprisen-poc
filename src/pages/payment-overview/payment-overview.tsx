@@ -22,7 +22,7 @@ import {Doughnut} from "react-chartjs-2";
 import Payment from "../../images/payment.svg";
 
 export const PaymentOverview = (props) => {
-    const { caseData: { history: { location: { state: { caseData : lenders }, caseData } } } } = (this.props as any)
+    const { caseData: { history: { location: { state: { caseData : lenders }, caseData } } } } = (this.props)
     return (
       <IonPage>
         <IonHeader>

@@ -1,30 +1,29 @@
+import { InAppBrowser } from "@ionic-native/in-app-browser";
 import {
     IonBackButton,
     IonButtons,
     IonCard,
+    IonCol, 
     IonContent,
+    IonFooter, 
+    IonGrid, 
     IonHeader,
     IonItem,
     IonLabel,
     IonList,
     IonListHeader,
     IonPage,
-    IonThumbnail,
+    IonRow, IonThumbnail,
     IonTitle,
-    IonToolbar,
-    IonCol,
-    IonRow,
-    IonGrid,
-    IonFooter
+    IonToolbar
 } from "@ionic/react";
 import React from "react";
-import facebookDMP from "../../images/facebook-apprisen.png";
-import unitedWay from "../../images/united-way.jpg";
-import cfpb from "../../images/cfpb.png";
 import logo from "../../images/apprisen-logo.png";
+import cfpb from "../../images/cfpb.png";
+import facebookDMP from "../../images/facebook-apprisen.png";
 import instagram from "../../images/instagram.png";
 import twitter from "../../images/twitter.jpg";
-import {InAppBrowser} from "@ionic-native/in-app-browser";
+import unitedWay from "../../images/united-way.jpg";
 
 
 const AdditionalResources = (props) => {

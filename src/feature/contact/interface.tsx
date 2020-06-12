@@ -5,7 +5,7 @@ export enum ContactStatus {
     IDLE = "IDLE",
     SUCCESS = "SUCCESS",
     FAILURE = "FAILURE"
-};
+}
 
 interface SendEmailAction {
     type: typeof SEND_EMAIL,

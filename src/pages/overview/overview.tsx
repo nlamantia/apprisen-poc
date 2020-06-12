@@ -2,7 +2,16 @@ import {
     IonButtons,
     IonCol,
     IonContent,
-    IonGrid,
+
+
+
+
+
+
+
+
+
+    IonFooter, IonGrid,
     IonHeader,
     IonMenuButton,
     IonPage,
@@ -10,22 +19,21 @@ import {
     IonThumbnail,
     IonTitle,
     IonToast,
-    IonToolbar,
-    IonFooter, IonSkeletonText
+    IonToolbar
 } from "@ionic/react";
-import React, {useEffect, useState} from "react";
-import {Redirect, useLocation} from "react-router-dom";
+import WelcomeBanner from "pages/common/welcome-banner";
+import React, { useEffect, useState } from "react";
+import { connect } from 'react-redux';
+import { Redirect, useLocation } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { getCredentials, logout } from '../../feature/auth/action';
+import { getCaseSummary } from "../../feature/case/action";
+import { getDebts } from "../../feature/debt/action";
+import { getClientAccountData, getPaymentHistory } from "../../feature/payment/action";
 import logo from "../../images/apprisen-logo.png";
+import ProgressTrackerCard from "../common/progress-tracker-card";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
-import {connect} from 'react-redux'
-import {getCaseSummary} from "../../feature/case/action";
-import {getDebts} from "../../feature/debt/action";
-import {bindActionCreators} from "redux";
-import {getCredentials, logout} from '../../feature/auth/action'
-import {getClientAccountData, getPaymentHistory} from "../../feature/payment/action";
-import ProgressTrackerCard from "../common/progress-tracker-card";
-import WelcomeBanner from "pages/common/welcome-banner";
 
 const _Overview = (props) => {
 
@@ -36,7 +44,6 @@ const _Overview = (props) => {
     const { credentials, getCredentials } = props;
     const { paymentHistory, getPaymentHistory } = props;
 
-    const location = useLocation();
     const [authorized, setAuthorized] = useState<boolean>(true);
     const [restError, setRestError] = useState<boolean>(false);
     const [totalOriginalBalance, setTotalOriginalBalance] = useState<number>();

@@ -1,10 +1,10 @@
 export interface PaymentRequest {
-    clientNumber: Number;
-    caseNumber: Number;
+    clientNumber: number;
+    caseNumber: number;
     effectiveDate: string;
     routingNumber: string;
     accountNumber: string;
-    amount: Number;
+    amount: number;
     bankAccountType: string;
     primaryNameOnAccount: string;
     clientComments: string;
