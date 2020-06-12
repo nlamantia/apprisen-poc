@@ -167,7 +167,7 @@ const _AccountOverview = (props) => {
                 <IonContent id="accountOverview">
                     <IonGrid>
                         <IonRow>
-                            <IonCol size={"12"} sizeMd={"6"} offsetMd={"3"}>
+                            <IonCol size={"12"} sizeLg={"6"} offsetLg={"3"}>
                                 <IonCard>
                                     <IonList class="ion-no-padding">
                                         <IonListHeader class={"white ion-text-center ion-padding-end"}>
@@ -242,7 +242,8 @@ const _AccountOverview = (props) => {
                                                         legend: {
                                                             display: true,
                                                             position: "top"
-                                                        }
+                                                        },
+                                                        maintainAspectRatio: false
                                                     }}
                                                 />
                                             )
