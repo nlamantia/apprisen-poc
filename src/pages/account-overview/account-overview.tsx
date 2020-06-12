@@ -220,7 +220,7 @@ const _AccountOverview = (props) => {
                                     <ExpandableList data={userDebts} onItemDisplay={generateLenderIonItem} title={'Balance Breakdown'} />
                                 </IonCard>
                                 <IonCard>
-                                    <IonItem className={'chart-item'}>
+                                    <IonItem>
                                         <div className={"chart-div ion-padding-vertical"}>
                                             {graphDebts.length > 0 ? (
                                                 <Doughnut
