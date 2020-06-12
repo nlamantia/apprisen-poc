@@ -1,9 +1,9 @@
-import React from "react";
-import { IonCard, IonCardHeader, IonCardTitle, IonContent, IonCardContent, IonImg, IonList, IonListHeader, IonLabel, IonFabButton, IonIcon} from "@ionic/react";
 // eslint-disable-next-line
 import { InAppBrowser } from "@ionic-native/in-app-browser";
-import { ResourceInput } from "models/resources/resource-card-input";
+import { IonCard, IonFabButton, IonIcon, IonLabel, IonList, IonListHeader } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
+import { ResourceInput } from "models/resources/resource-card-input";
+import React from "react";
 
 
 const AdditionalResourcesCard = (props : ResourceInput) => {

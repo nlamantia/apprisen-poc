@@ -68,7 +68,7 @@ const _Contact = (props) => {
     }
 
     function appendContactInfoToEmailBody(body : string) {
-        return body = body + getContactInfo();
+        return body + getContactInfo();
     }
 
     function newLinesToBrTag(str){
