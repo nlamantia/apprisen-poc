@@ -29,6 +29,11 @@ To see the web app, visit **localhost:8100** in your browser. (NOTE: Chrome and 
 
 To see how the app would look on mobile, visit Ionic Labs at **localhost:8200** in your browser.
 
+**NOTE**: As you're developing, you can make code updates on your local machine WITHOUT rebuilding the docker containers,
+ as the docker container is set up to respond to real-time code updates. 
+ Therefore, whenever you make a change to your local copy of the source code, the changes should be reflected
+ within a couple seconds. This feature is for development only.
+
 To take it down, run:
 ```$xslt
 $ docker-compose down
