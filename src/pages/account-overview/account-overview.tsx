@@ -4,6 +4,7 @@ import {
     IonCard,
     IonCol,
     IonContent,
+    IonFooter,
     IonGrid,
     IonHeader,
     IonItem,
@@ -12,9 +13,10 @@ import {
     IonListHeader,
     IonPage,
     IonRow,
+    IonSkeletonText,
+    IonSpinner,
     IonTitle,
-    IonToolbar,
-    IonFooter, IonSkeletonText, IonSpinner
+    IonToolbar
 } from "@ionic/react";
 import {connect} from 'react-redux'
 import React, {useEffect, useState} from "react";
@@ -31,6 +33,7 @@ import {getClientAccountData, getPaymentHistory} from "../../feature/payment/act
 import {CaseDeposit} from "../../models/payment/case-deposit";
 import {printDate} from "../common/utility-functions";
 import {BRAND_COLORS} from "../../common/app-constants";
+import ExpandableList from "../common/expandable-list";
 
 export const getLenderListForGraph = (lenders: CaseDebt[], colors: string[]): CaseDebt[] => {
     let sortedLenders = lenders.sort((l1, l2) => l2.currentBalance - l1.currentBalance);
@@ -70,10 +73,10 @@ const _AccountOverview = (props) => {
     const {clientAccountData, getClientAccountData} = props;
     const {paymentHistory} = props;
 
-    const [userDebts, setUserDebts] = useState<CaseDebt[]>([]);
+    const [userDebts, setUserDebts] = useState<CaseDebt[]>();
     const [graphDebts, setGraphDebts] = useState<CaseDebt[]>([]);
     const [userCaseSummary, setUserCaseSummary] = useState<CaseSummary>({} as CaseSummary);
-    const [userPaymentHistory, setUserPaymentHistory] = useState<CaseDeposit[]>([]);
+    const [userPaymentHistory, setUserPaymentHistory] = useState<CaseDeposit[]>();
 
     function redirectLogin() {
         logout();
@@ -81,6 +84,32 @@ const _AccountOverview = (props) => {
             <Redirect to="/login"/>
         );
     }
+
+    const generatePaymentHistoryIonItem = (caseDeposit) => {
+        return (
+            <IonItem>
+                <IonLabel>
+                    <h3>{printDate(new Date(caseDeposit.postedDate))}</h3>
+                </IonLabel>
+                <div className={"ion-text-right row-text"}>
+                    ${caseDeposit.amount.toFixed(2)}
+                </div>
+            </IonItem>
+        );
+    };
+
+    const generateLenderIonItem = (debt) => {
+        return (
+            <IonItem>
+                <IonLabel>
+                    <h3>{debt.creditorName}</h3>
+                </IonLabel>
+                <div className={"ion-text-right row-text"}>
+                    ${debt.currentBalance.toFixed(2)}
+                </div>
+            </IonItem>
+        );
+    };
 
     useEffect(
         () => {
@@ -138,7 +167,7 @@ const _AccountOverview = (props) => {
                 <IonContent id="accountOverview">
                     <IonGrid>
                         <IonRow>
-                            <IonCol size={"12"} sizeMd={"6"} offsetMd={"3"}>
+                            <IonCol size={"12"} sizeLg={"6"} offsetLg={"3"}>
                                 <IonCard>
                                     <IonList class="ion-no-padding">
                                         <IonListHeader class={"white ion-text-center ion-padding-end"}>
@@ -182,78 +211,13 @@ const _AccountOverview = (props) => {
                                                 </div>
                                             </IonLabel>
                                         </IonItem>
-                                        {/* <IonItem>
-                                            <IonLabel>
-                                                <h3>
-                                                    Total Monthly Deposit
-                                                </h3>
-                                            </IonLabel>
-                                            <IonLabel>
-                                                <h3 className={"ion-text-right"}>
-                                                    {userCaseSummary && userCaseSummary.totalMonthlyDeposit
-                                                        ? "$" + userCaseSummary.totalMonthlyDeposit
-                                                        : <IonSkeletonText animated style={{width: '100%'}}/> }
-                                                </h3>
-                                            </IonLabel>
-                                        </IonItem> */}
                                     </IonList>
                                 </IonCard>
                                 <IonCard>
-                                    <IonList class="ion-no-padding">
-                                        <IonListHeader class={"white ion-text-center ion-padding-end"}>
-                                            <IonLabel>
-                                                <h2>Payment History</h2>
-                                            </IonLabel>
-                                        </IonListHeader>
-                                        {userPaymentHistory && userPaymentHistory.length > 0 ?
-                                            userPaymentHistory.map(caseDeposit => {
-                                                return (
-                                                    <IonItem>
-                                                        <IonLabel>
-                                                            <h3>{printDate(new Date(caseDeposit.postedDate))}</h3>
-                                                        </IonLabel>
-                                                        <div className={"ion-text-right row-text"}>
-                                                            ${caseDeposit.amount.toFixed(2)}
-                                                        </div>
-                                                    </IonItem>
-                                                );
-                                            })
-                                            :
-                                            <IonItem>
-                                                <IonLabel>
-                                                    <h3 className={'full-center'}>
-                                                        <IonSpinner />
-                                                    </h3>
-                                                </IonLabel>
-                                            </IonItem>
-                                        }
-                                    </IonList>
+                                    <ExpandableList data={userPaymentHistory} onItemDisplay={generatePaymentHistoryIonItem} title={'Payment History'} />
                                 </IonCard>
                                 <IonCard>
-                                    <IonList class="ion-no-padding">
-                                        <IonListHeader class={"white ion-text-center ion-padding-end"}>
-                                            <IonLabel>
-                                                <h2>Balance Breakdown</h2>
-                                            </IonLabel>
-                                        </IonListHeader>
-                                        {userDebts && userDebts.length > 0 ? userDebts.map(debt => {
-                                            return (
-                                                <IonItem>
-                                                    <IonLabel>
-                                                        <h3>{debt.creditorName}</h3>
-                                                    </IonLabel>
-                                                    <div className={"ion-text-right row-text"}>
-                                                        ${debt.currentBalance.toFixed(2)}
-                                                    </div>
-                                                </IonItem>
-                                            );
-                                        })
-                                        : <IonItem>
-                                                <h3 className={'full-center'}>
-                                                    <IonSpinner />
-                                                </h3>
-                                            </IonItem>}
-                                    </IonList>
+                                    <ExpandableList data={userDebts} onItemDisplay={generateLenderIonItem} title={'Balance Breakdown'} />
                                 </IonCard>
                                 <IonCard>
                                     <IonItem>
@@ -279,7 +243,7 @@ const _AccountOverview = (props) => {
                                                             display: true,
                                                             position: "top"
                                                         },
-
+                                                        maintainAspectRatio: false
                                                     }}
                                                 />
                                             )

@@ -4,7 +4,9 @@ services:
     build: .
     container_name: apprisen-client-portal
     init: true
-    command: ionic serve -l --lab-host=0.0.0.0 --lab-port=8200
+    command: /bin/ash -c "npm rebuild node-sass && ionic serve -l --lab-host=0.0.0.0 --lab-port=8200"
+    volumes:
+      - .:/usr/apprisen/app
     expose:
       - 8100
       - 8200

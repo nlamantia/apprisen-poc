@@ -202,7 +202,15 @@ ion-col {
 }
 
 .chart-div {
-    width: 100%;
+  position: relative;
+  margin: auto;
+  height: 40vh;
+  width: 80vw;
+  min-height: 300px;
+}
+
+.chart-div canvas {
+  width: 100% !important;
 }
 
 .no-margin-top {
@@ -423,9 +431,13 @@ ion-footer {
   #chatHoverMsg {
     display: none;
   }
-} 
+}
 
-
+@media (max-width: 450px) {
+  .chart-div {
+    height: 60vh !important;
+  }
+}
 
 #openChatBtn {
     position: relative;

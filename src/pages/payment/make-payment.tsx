@@ -145,6 +145,8 @@ const _MakePayment = ( props: any ) => {
             makePayment(payment);
         } else {
             console.error("Unable to make payment - invalid input");
+            let iris = document.getElementById("sharpenChat");
+            iris.style.display = "none";
             setShouldShowToast(true);
         }
     };
@@ -213,6 +215,12 @@ const _MakePayment = ( props: any ) => {
         setPaymentRequest({ ...payment, [evt.target.name]: evt.target.value });
     }
 
+    const handleToastDismiss = () => {
+        let iris = document.getElementById("sharpenChat");
+        iris.style.display = "block";
+        setShouldShowToast(false);
+    };
+
     return (
         <>
             <IonPage>
@@ -227,7 +235,7 @@ const _MakePayment = ( props: any ) => {
                 <IonContent id="makePayment">
                     <IonToast
                         isOpen={shouldShowToast}
-                        onDidDismiss={() => setShouldShowToast(false)}
+                        onDidDismiss={handleToastDismiss}
                         message="You have errors in your information. Please try again."
                         color="danger"
                         duration={toastDuration}
