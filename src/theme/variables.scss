@@ -430,9 +430,13 @@ ion-footer {
   #chatHoverMsg {
     display: none;
   }
-} 
+}
 
-
+@media (max-width: 450px) {
+  .chart-div {
+    height: 60vh !important;
+  }
+}
 
 #openChatBtn {
     position: relative;
