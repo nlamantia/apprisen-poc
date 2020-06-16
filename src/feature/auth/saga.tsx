@@ -38,7 +38,7 @@ export function * loginWorker(action) {
         // put more validation here if desired. This shouldn't be a concern though, even with a MITM attack
     }
 
-    if (credsAreGood) {
+    if (credsAreGood()) {
         yield call(setCredentials,loginResponse)
         yield call(login, loginResponse)
         yield assertLoggedIn(loginResponse)
