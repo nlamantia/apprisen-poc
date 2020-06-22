@@ -46,7 +46,7 @@ const _LenderList = (props: any) => {
 
     return (
         <IonCard class="color">
-            <ExpandableList defaultSize={3} data={debts} title={'Lenders'} onItemDisplay={generateItemForCaseDebt} />
+            <ExpandableList data={debts} title={'Lenders'} onItemDisplay={generateItemForCaseDebt} />
             <IonItem className={'full-button'}>
                 <IonButton className={'full-button'} expand="full" onClick={handleUploadStatementClick}>Upload
                     Statement</IonButton>

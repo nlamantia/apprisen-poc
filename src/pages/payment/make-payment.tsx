@@ -180,6 +180,7 @@ const _MakePayment = ( props: any ) => {
                 break;
             default:
                 console.log('Unrecognized field for validation');
+                break;
         }
         evt.target.color = valid ? 'dark' : 'danger';
         setFieldsVisited(getUpdatedFieldsVisited(evt.target.name));

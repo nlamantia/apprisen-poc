@@ -1,3 +1,4 @@
+import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {
     IonButton,
     IonCard,
@@ -17,22 +18,15 @@ import {
     IonToast,
     IonToolbar
 } from "@ionic/react";
-import {connect, useSelector} from 'react-redux'
 import React, {useEffect, useState} from "react";
-import {bindActionCreators} from 'redux'
+import {connect, useSelector} from 'react-redux';
+import {withRouter} from "react-router";
+import {bindActionCreators} from 'redux';
+import {useAuthContext} from "../../common/AuthProvider";
+import {login, resetLoginStatus} from "../../feature/auth/action";
 import logo from "../../images/apprisen-logo.png";
 import {LoginRequest} from "../../models/auth/login-request";
-import {login, resetLoginStatus} from "../../feature/auth/action";
-import {InAppBrowser} from '@ionic-native/in-app-browser';
-import {useAuthContext} from "../../common/AuthProvider";
-import {withRouter} from "react-router";
-import {
-    validateAlphanumericOnly,
-    validateNonEmptyText, validateNumber,
-    validatePositiveDecimal,
-    validateText,
-    validateNonEmptyString
-} from "../common/validators";
+import {validateNonEmptyString} from "../common/validators";
 
 const _Login = (props: any) => {
 
@@ -63,7 +57,7 @@ const _Login = (props: any) => {
             let iris = document.getElementById("sharpenChat");
             iris.style.display = "none";
             setShouldShowLoginValidationToast(true);
-        }        
+        }
     }
 
     function validateInput(credentials : LoginRequest) {

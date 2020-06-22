@@ -1,11 +1,7 @@
-import {
-    IonCol, IonCard, IonLabel, IonFabButton, IonIcon, IonRow, IonList, IonListHeader, IonGrid, IonItem, IonImg
-} from "@ionic/react";
-import React from "react";
-import resources from "../../images/resources.png";
-import AdditionalResourcesCard from "./additional-resources-card";
-import { Link } from "react-router-dom";
+import { IonCard, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonListHeader } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
+import React from "react";
+import { Link } from "react-router-dom";
  
 
 

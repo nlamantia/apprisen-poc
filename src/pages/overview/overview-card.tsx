@@ -55,9 +55,9 @@ const _OverviewCard = (props) => {
         }, [clientAccountData]
     );
 
-        const {caseSummary: {estimatedBalance, nextPaymentDueOn, currentMonthlyPayment}} =
+        const {caseSummary: {nextPaymentDueOn, currentMonthlyPayment}} =
             (props.caseSummary && props.caseSummary != {}) ? props :
-                {caseSummary: {estimatedBalance: null, nextPaymentDueOn: null, currentMonthlyPayment: null}}
+                {caseSummary: {nextPaymentDueOn: null, currentMonthlyPayment: null}}
 
         return (
             <>
