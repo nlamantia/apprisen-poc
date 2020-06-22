@@ -36,20 +36,19 @@ import {BRAND_COLORS} from "../../common/app-constants";
 import ExpandableList from "../common/expandable-list";
 
 export const getLenderListForGraph = (lenders: CaseDebt[], colors: string[]): CaseDebt[] => {
-    let sortedLenders = lenders.sort((l1, l2) => l2.currentBalance - l1.currentBalance);
-    if (sortedLenders.length <= colors.length) {
+    if (lenders.length <= colors.length) {
         return lenders;
     }
 
     let graphLenders = [];
     for (let i = 0; i < colors.length - 1; i++) {
-        graphLenders.push(sortedLenders[i])
+        graphLenders.push(lenders[i])
     }
 
     let sumOriginalBalance = 0, sumCurrentBalance = 0;
-    for (let i = colors.length - 1; i < sortedLenders.length; i++) {
-        sumOriginalBalance += sortedLenders[i].originalBalance;
-        sumCurrentBalance += sortedLenders[i].currentBalance;
+    for (let i = colors.length - 1; i < lenders.length; i++) {
+        sumOriginalBalance += lenders[i].originalBalance;
+        sumCurrentBalance += lenders[i].currentBalance;
     }
 
     graphLenders.push({

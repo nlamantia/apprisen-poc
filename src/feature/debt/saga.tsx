@@ -2,14 +2,16 @@ import {all, call, put, takeEvery} from 'redux-saga/effects'
 import {callDebtDetailEndpoint} from "../../services/rest.service";
 import {GET_DEBTS, GET_SELECTED_DEBT, selectDebt, setDebts} from "./action";
 import {Storage} from "@capacitor/core";
+import {CaseDebt} from "../../models/case/case-debt";
 
 export function * getDebtDetailWorker(action) {
     const { payload: { caseId } } = action;
     const debtDetail = yield call(callDebtDetailEndpoint, caseId);
 
     if (debtDetail && debtDetail.caseDebts) { // is valid
-        const { caseDebts } = debtDetail
-        yield put(setDebts(caseDebts))
+        const { caseDebts } = debtDetail;
+        const byBalance = (debt1: CaseDebt, debt2: CaseDebt) => debt2.currentBalance - debt1.currentBalance;
+        yield put(setDebts(caseDebts.sort(byBalance)));
     }
 }
 

@@ -14,5 +14,6 @@ public class PaymentHistory {
     @JsonProperty("IsSuccess")
     private boolean isSuccess;
     private List<CaseDeposit> caseDeposits;
+    private double trustBalance;
 
 }
