@@ -15,7 +15,7 @@ import {
 import WelcomeBanner from "pages/common/welcome-banner";
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { getCredentials, logout } from '../../feature/auth/action';
 import { getCaseSummary } from "../../feature/case/action";
@@ -25,7 +25,6 @@ import logo from "../../images/apprisen-logo.png";
 import ProgressTrackerCard from "../common/progress-tracker-card";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
-import { toast } from "react-toastify";
 
 const _Overview = (props) => {
 

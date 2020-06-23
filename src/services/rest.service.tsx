@@ -129,7 +129,7 @@ export const callClientInformationEndpoint = async (): Promise<ClientInformation
     return await callApi(CLIENT_INFORMATION_URL + externalId);
 };
 
-export const callApi = async (url: string, options: RequestInit = {}, message = null): Promise<any> => {
+export const callApi = async (url: string, options: RequestInit = {}, message: string = null): Promise<any> => {
     try {
         const headers = await getHeaders(options.headers as Headers, url)
         const response = await fetch(url, {

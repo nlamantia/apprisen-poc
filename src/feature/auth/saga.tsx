@@ -26,23 +26,21 @@ export function * loginWatcher() {
 
 
 export function * loginWorker(action) {
-    const { payload: { credentials } } = action
+    const { payload: { credentials } } = action;
     const loginResponse = yield call(callLoginEndpoint, credentials);
 
-    const { signedToken, username, expiresOn } = loginResponse
+    const { signedToken, username, expiresOn } = loginResponse;
 
     const credsAreGood = () => {
-        if (!signedToken) return false;
-        if (!username) return false;
-        if (!expiresOn) return false
         // put more validation here if desired. This shouldn't be a concern though, even with a MITM attack
-    }
+        return signedToken && username && expiresOn;
+    };
 
     if (credsAreGood()) {
-        yield call(setCredentials,loginResponse)
-        yield call(login, loginResponse)
-        yield assertLoggedIn(loginResponse)
-        yield put(message('Logged In!'))
+        yield call(setCredentials,loginResponse);
+        yield call(login, loginResponse);
+        yield assertLoggedIn(loginResponse);
+        yield put(message('Logged In!'));
 
         yield put(loginSuccess(loginResponse))
     }
@@ -77,26 +75,22 @@ export function * verifyWorker(action) {
         const ERROR_MESSAGE = `Hmm, something's not right about the information you entered`
 
         if (responseToVerify) {
-            if (true) {
-                yield put(message('Verified!'))
-                const responseToLink = yield call(callLinkAccount, {
-                    Application: LINKED_APP_NAME,
-                    ExternalApplicationId: clientId,
-                    SignedToken: signedToken,
-                    UserName: username,
-                    ExpiresOn: expiresOn
-                })
-                console.log(responseToLink)
+            yield put(message('Verified!'))
+            const responseToLink = yield call(callLinkAccount, {
+                Application: LINKED_APP_NAME,
+                ExternalApplicationId: clientId,
+                SignedToken: signedToken,
+                UserName: username,
+                ExpiresOn: expiresOn
+            })
+            console.log(responseToLink)
 
-                if (responseToLink.isSuccess) {
-                    yield Storage.set({key: 'verified', value: 'true'})
-                    yield put(push('/logout'))
-                }
-            } else {
-                yield put(message(ERROR_MESSAGE))
+            if (responseToLink.isSuccess) {
+                yield Storage.set({key: 'verified', value: 'true'})
+                yield put(push('/logout'))
             }
         } else {
-            yield put(message(`Hmm, something's not right about the information you entered`))
+            yield put(message(ERROR_MESSAGE))
         }
 
     } catch(e) {
