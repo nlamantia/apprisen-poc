@@ -67,12 +67,12 @@ describe('auth saga', () => {
    })
 
    it('handles failed login call', () => {
-      const credential = {
+      const credentials = {
          username: "TEST",
          password: "TEST"
       }
 
-      const generator = loginWorker({payload: { credential }})
+      const generator = loginWorker({payload: { credentials }})
       const loginResponse = {
          loginResponse: false,
          signedToken: false,
@@ -81,16 +81,9 @@ describe('auth saga', () => {
       }
 
       expect(generator.next(loginResponse).value).toEqual(
-         call(callLoginEndpoint, credential)
+         call(callLoginEndpoint, credentials)
       )
 
-      expect(generator.next(loginResponse).value).toEqual(
-          put(setLoginStatus({loginState: "ACTIVE", message: "PENDING"}))
-      )
-
-      expect(generator.next().value).toEqual(
-          put(setLoginStatus({loginState: "INACTIVE", message: "FAILURE"}))
-      )
    })
 
    // todo test logout

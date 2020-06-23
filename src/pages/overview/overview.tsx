@@ -2,15 +2,6 @@ import {
     IonButtons,
     IonCol,
     IonContent,
-
-
-
-
-
-
-
-
-
     IonFooter, IonGrid,
     IonHeader,
     IonMenuButton,
@@ -24,7 +15,7 @@ import {
 import WelcomeBanner from "pages/common/welcome-banner";
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { getCredentials, logout } from '../../feature/auth/action';
 import { getCaseSummary } from "../../feature/case/action";
