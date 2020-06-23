@@ -3,7 +3,7 @@ import {LoginRequest} from "../models/auth/login-request";
 import {ClientInformation} from "../models/case/client-information";
 import {CaseSummary} from "../models/case/case-summary";
 import {DebtDetail} from "../models/case/debt-detail";
-import {getAuthHeaders, getClientId, getCredentials} from "./auth.service";
+import {getAuthHeaders, getClientId} from "./auth.service";
 import {PaymentHistoryResponse} from "../models/payment/payment-history-response";
 import {toast} from "react-toastify";
 import {EmailRequest} from "../models/contact/email-request";
@@ -129,7 +129,7 @@ export const callClientInformationEndpoint = async (): Promise<ClientInformation
     return await callApi(CLIENT_INFORMATION_URL + externalId);
 };
 
-export const callApi = async (url: string, options: RequestInit = {}, message = null): Promise<any> => {
+export const callApi = async (url: string, options: RequestInit = {}, message: string = null): Promise<any> => {
     try {
         const headers = await getHeaders(options.headers as Headers, url)
         const response = await fetch(url, {
@@ -139,13 +139,12 @@ export const callApi = async (url: string, options: RequestInit = {}, message = 
         if (response.ok) {
             return response.json();
         } else {
-            if (message) toast(message + "ERROR") // todo remove message
+            if (message) toast(`${message}`) // have to coax the message out by casting it as a string for some reason
             throw new Error(String(response.status));
         }
-    } catch (error) {
-        // todo handle errors in store
-        console.log(error)
-        return {};
+    } catch (message) {
+        if (message) toast(`${message}`)
+        throw new Error(String(message.status));
     }
 };
 

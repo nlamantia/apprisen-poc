@@ -32,6 +32,7 @@
     "react-scripts": "^3.4.0",
     "react-spinners": "^0.8.3",
     "react-toastify": "^6.0.4",
+    "react-toastify-redux": "^1.0.0-rc.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-saga": "^1.1.3",
