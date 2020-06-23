@@ -16,7 +16,7 @@ It has the following syntax:
 
 NOTE: You MUST be using the **project root** as your working directory or this script will not work.
 
-Execute the above command in powershell run with admin privileges, specifying
+Execute the above command in a powershell session with admin privileges on the desired server, specifying
 the destination that the built web files should be copied to and *optionally*
 the environment this IIS server will serve (either **test** or **prod**).
 
