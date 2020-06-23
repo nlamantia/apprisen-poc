@@ -1,8 +1,5 @@
-import { createAction } from 'typesafe-actions'
 import { CaseSummary } from "models/case/case-summary";
-import {GET_CASE_PAYOFF_DATE, GET_CASE_SUMMARY, SET_CASE_PAYOFF_DATE, SET_CASE_SUMMARY} from "./action";
-import {LoginRequest} from "../../models/auth/login-request";
-import {LoginResponse} from "../../models/auth/login-response";
+import { GET_CASE_PAYOFF_DATE, GET_CASE_SUMMARY, SET_CASE_PAYOFF_DATE, SET_CASE_SUMMARY } from "./action";
 
 // This is an interface (typescript feature)
 // This is a way of adding something like 'static typing' to javascript

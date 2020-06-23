@@ -1,5 +1,5 @@
 {
-  "name": "appprisen-poc",
+  "name": "Apprisen Client Portal",
   "integrations": {
     "capacitor": {}
   },

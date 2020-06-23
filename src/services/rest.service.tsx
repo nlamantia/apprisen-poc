@@ -8,7 +8,7 @@ import {PaymentHistoryResponse} from "../models/payment/payment-history-response
 import {toast} from "react-toastify";
 import {EmailRequest} from "../models/contact/email-request";
 
-export const BASE_URL = "https://apprisen-facade-test.herokuapp.com"
+export const BASE_URL = process.env.REACT_APP_SERVICE_BASE_URL;
 
 const CLIENT_INFORMATION_URL = BASE_URL + "/api/case/client-details/";
 const PAY_OFF_FORECAST = BASE_URL + "/api/case/payoffforecast/";
