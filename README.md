@@ -7,7 +7,7 @@ Ensure the following software is installed on your machine:
 - Git
 
 ## Deployment ##
-### Web ###
+#### Web ####
 A powershell script with the name deploy.ps1 exists in the project root.
 It has the following syntax:
 ```aidl
@@ -20,5 +20,5 @@ Execute the above command in a powershell session with admin privileges on the d
 the destination that the built web files should be copied to and *optionally*
 the environment this IIS server will serve (either **test** or **prod**).
 
-### Mobile ###
+#### Mobile ####
 Coming soon...
