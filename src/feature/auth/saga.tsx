@@ -17,7 +17,7 @@ export function * logoutWatcher() {
 export function * logoutWorker() {
     yield call(logout)
     yield put(setCredentials(null))
-    Storage.set({key: 'verified', value: null}).then(r => {});
+    yield Storage.set({key: 'verified', value: null}).then(r => {});
 }
 
 export function * loginWatcher() {

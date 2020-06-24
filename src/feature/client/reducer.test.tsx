@@ -7,19 +7,19 @@ describe('client reducer', () => {
     const state = clientReducer(null, null)
    it('set client information', () => {
        const clientInformation : ClientInformation = {
-           address1: "address1",
-           address2: "address2",
-           cellPhone: "cellPhone",
-           city: "city",
-           emailAddress: "emailAddress",
-           errors: [],
-           firstName: "firstName",
-           homePhone: "homePhone",
-           isSuccess: false,
-           lastName: "lastName",
-           state: "state",
-           workPhone: "workPhone",
-           zipCode: "zipCode",
+           Address1: "address1",
+           Address2: "address2",
+           CellPhone: "cellPhone",
+           City: "city",
+           EmailAddress: "emailAddress",
+           Errors: [],
+           FirstName: "firstName",
+           HomePhone: "homePhone",
+           IsSuccess: false,
+           LastName: "lastName",
+           State: "state",
+           WorkPhone: "workPhone",
+           ZipCode: "zipCode",
            $id: "id",
        }
        const stateWithClientInformation = clientReducer(state, setClientInformation(clientInformation))

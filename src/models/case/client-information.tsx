@@ -1,16 +1,16 @@
 export interface ClientInformation {
-    address1: string;
-    address2: string;
-    cellPhone: string;
-    city: string;
-    emailAddress: string;
-    errors: any[];
-    firstName: string;
-    homePhone: string;
-    isSuccess: boolean;
-    lastName: string;
-    state: string;
-    workPhone: string;
-    zipCode: string;
+    Address1: string;
+    Address2: string;
+    CellPhone: string;
+    City: string;
+    EmailAddress: string;
+    Errors: any[];
+    FirstName: string;
+    HomePhone: string;
+    IsSuccess: boolean;
+    LastName: string;
+    State: string;
+    WorkPhone: string;
+    ZipCode: string;
     $id: string;
 }

@@ -33,7 +33,7 @@ const _Profile = (props) => {
     useEffect(() => {
         if (credentials && credentials.linkedApplication) {
             if (!userInfo) {
-                if (!clientInformation || !clientInformation.firstName) {
+                if (!clientInformation || !clientInformation.FirstName) {
                     console.log("getting client information");
                     getClientInformation()
                 } else {
@@ -75,7 +75,7 @@ const _Profile = (props) => {
                                                 <div className={'flex-grid'}>
                                                     <div className={'single-card-grid'} />
                                                     <div className={'single-card-grid'}>
-                                                        {userInfo ? userInfo.firstName + ' ' + userInfo.lastName : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                        {userInfo ? userInfo.FirstName + ' ' + userInfo.LastName : <IonSkeletonText animated style={{width: '100%'}} />}
                                                     </div>
                                                 </div>
                                             </IonLabel>
@@ -88,7 +88,7 @@ const _Profile = (props) => {
                                                 <div className={'flex-grid'}>
                                                     <div className={'single-card-grid'} />
                                                     <div className={'single-card-grid'}>
-                                                        {userInfo ? userInfo.emailAddress : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                        {userInfo ? userInfo.EmailAddress : <IonSkeletonText animated style={{width: '100%'}} />}
                                                     </div>
                                                 </div>
                                             </IonLabel>
@@ -101,7 +101,7 @@ const _Profile = (props) => {
                                                 <div className={'flex-grid'}>
                                                     <div className={'single-card-grid'} />
                                                     <div className={'single-card-grid'}>
-                                                        {userInfo ? userInfo.cellPhone : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                        {userInfo ? userInfo.CellPhone : <IonSkeletonText animated style={{width: '100%'}} />}
                                                     </div>
                                                 </div>
                                             </IonLabel>
@@ -114,7 +114,7 @@ const _Profile = (props) => {
                                                 <div className={'flex-grid'}>
                                                     <div className={'single-card-grid'} />
                                                     <div className={'single-card-grid'}>
-                                                        {userInfo ? userInfo.address1 : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                        {userInfo ? userInfo.Address1 : <IonSkeletonText animated style={{width: '100%'}} />}
                                                     </div>
                                                 </div>
                                             </IonLabel>
@@ -127,7 +127,7 @@ const _Profile = (props) => {
                                                 <div className={'flex-grid'}>
                                                     <div className={'single-card-grid'} />
                                                     <div className={'single-card-grid'}>
-                                                        {userInfo ? userInfo.city : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                        {userInfo ? userInfo.City : <IonSkeletonText animated style={{width: '100%'}} />}
                                                     </div>
                                                 </div>
                                             </IonLabel>
@@ -140,7 +140,7 @@ const _Profile = (props) => {
                                                 <div className={'flex-grid'}>
                                                     <div className={'single-card-grid'} />
                                                     <div className={'single-card-grid'}>
-                                                        {userInfo ? userInfo.state : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                        {userInfo ? userInfo.State : <IonSkeletonText animated style={{width: '100%'}} />}
                                                     </div>
                                                 </div>
                                             </IonLabel>
