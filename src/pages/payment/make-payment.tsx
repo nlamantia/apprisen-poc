@@ -107,10 +107,10 @@ const _MakePayment = ( props: any ) => {
 
     useEffect(() => {
         if (credentials && credentials.linkedApplication) {
-            if (!clientAccountData || !clientAccountData.dmpCaseId) {
+            if (!clientAccountData || !clientAccountData.DmpCaseId) {
                 getClientAccountData();
             } else {
-                const { dmpCaseId: caseId } = clientAccountData;
+                const { DmpCaseId: caseId } = clientAccountData;
                 externalId.current = caseId;
                 setPaymentRequest({...payment, caseNumber: caseId})
                 if (paymentStatus && !active) {
@@ -121,12 +121,12 @@ const _MakePayment = ( props: any ) => {
                         props.history.push('/payment-confirmation');
                     }
                 }
-                if (!clientAccountData || !clientAccountData.bankAccountTypes) {
+                if (!clientAccountData || !clientAccountData.BankAccountTypes) {
                     console.log("No client account data. Fetching...");
                     getClientAccountData();
                 } else {
                     console.log("setting account types");
-                    setBankAccountTypes(clientAccountData.bankAccountTypes);
+                    setBankAccountTypes(clientAccountData.BankAccountTypes);
                 }
             }
         } else {
