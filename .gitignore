@@ -2,6 +2,7 @@
 
 # dependencies
 /android
+/ios
 /.idea
 /node_modules
 /.pnp
