@@ -16,14 +16,14 @@ const LOGIN_BASE_URL = ENV_LOGIN_BASE_URL ? ENV_LOGIN_BASE_URL : "";
 
 const CLIENT_INFORMATION_URL = "/api/client/getclientinformation/";
 const PAY_OFF_FORECAST = "/api/case/payoffforecast/";
-const CASE_SUMMARY_URL = "/api/case/case-summary/";
-const DEBT_DETAIL_URL = "/api/case/debt-details/";
+const CASE_SUMMARY_URL = "/api/case/getcasesummary/";
+const DEBT_DETAIL_URL = "/api/case/getcasedebtdetail/";
 // const LOGIN_URL = "/api/account/validateuser";
 const LOGIN_URL = "/api/auth/login";
 const MAKE_PAYMENT_URL = "/api/case/payment";
 const CLIENT_DATA_URL = "/api/client/getclientdata/";
 const SEND_EMAIL_URL = "/api/client/sendemail/";
-const PAYMENT_HISTORY_URL = "/api/case/payment-history/";
+const PAYMENT_HISTORY_URL = "/api/case/getcasedepositdetail/";
 const LINK_ACCOUNT_URL = "/api/client/link-application"
 const VERIFY_CLIENT_NUMBER_URL = "/api/client/verifyclientnumber"
 

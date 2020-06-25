@@ -55,9 +55,9 @@ const _OverviewCard = (props) => {
         }, [clientAccountData, caseSummary, fetchingCaseSummary]
     );
 
-        const {caseSummary: {nextPaymentDueOn, currentMonthlyPayment}} =
+        const {caseSummary: {NextPaymentDueOn, CurrentMonthlyPayment}} =
             (props.caseSummary && props.caseSummary != {}) ? props :
-                {caseSummary: {nextPaymentDueOn: null, currentMonthlyPayment: null}}
+                {caseSummary: {NextPaymentDueOn: null, CurrentMonthlyPayment: null}}
 
         return (
             <>
@@ -95,8 +95,8 @@ const _OverviewCard = (props) => {
                             <IonLabel>
                                 <h3>Upcoming Due Date</h3>
                                 <p>
-                                    {nextPaymentDueOn
-                                        ? printDate(new Date(nextPaymentDueOn))
+                                    {NextPaymentDueOn
+                                        ? printDate(new Date(NextPaymentDueOn))
                                         : <IonSkeletonText animated style={{width: '60%'}}/>}
                                 </p>
                             </IonLabel>
@@ -108,8 +108,8 @@ const _OverviewCard = (props) => {
                             <IonLabel>
                                 <h3>Amount Due</h3>
                                 <p>
-                                    {currentMonthlyPayment
-                                        ? "$" + currentMonthlyPayment
+                                    {CurrentMonthlyPayment
+                                        ? "$" + CurrentMonthlyPayment
                                         : <IonSkeletonText animated style={{width: '60%'}}/>}
                                 </p>
                             </IonLabel>

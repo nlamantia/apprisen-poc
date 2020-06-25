@@ -113,11 +113,11 @@ const _AccountOverview = (props) => {
     useEffect(
         () => {
             if (credentials && credentials.linkedApplication) {
-                if (!clientAccountData || !clientAccountData.dmpCaseId) {
+                if (!clientAccountData || !clientAccountData.DmpCaseId) {
                     getClientAccountData();
                 } else {
                     const {getCaseSummary, getDebts, getPaymentHistory} = props;
-                    const { dmpCaseId: caseId } = clientAccountData;
+                    const { DmpCaseId: caseId } = clientAccountData;
                     if (!caseSummary || caseSummary === {}) {
                         getCaseSummary(caseId);
                     } else {
@@ -183,8 +183,8 @@ const _AccountOverview = (props) => {
                                                     <div className={'single-card-grid'} />
                                                     <div className={'single-card-grid'}>
                                                         <h3 className={"ion-text-right"}>
-                                                            {userCaseSummary && userCaseSummary.estimatedBalance
-                                                                ? "$" + userCaseSummary.estimatedBalance
+                                                            {userCaseSummary && userCaseSummary.EstimatedBalance
+                                                                ? "$" + userCaseSummary.EstimatedBalance
                                                                 : <IonSkeletonText animated style={{width: '100%'}}/> }
                                                         </h3>
                                                     </div>
@@ -202,8 +202,8 @@ const _AccountOverview = (props) => {
                                                     <div className={'single-card-grid'} />
                                                     <div className={'single-card-grid'}>
                                                         <h3 className={"ion-text-right"}>
-                                                            {userCaseSummary && userCaseSummary.currentMonthlyPayment
-                                                                ? "$" + userCaseSummary.currentMonthlyPayment
+                                                            {userCaseSummary && userCaseSummary.CurrentMonthlyPayment
+                                                                ? "$" + userCaseSummary.CurrentMonthlyPayment
                                                                 : <IonSkeletonText animated style={{width: '100%'}}/> }
                                                         </h3>
                                                     </div>

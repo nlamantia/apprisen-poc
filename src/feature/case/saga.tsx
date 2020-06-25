@@ -6,7 +6,7 @@ import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest.s
 export function * getCaseWorker(action) {
     const { payload: { caseId } } = action;
     const caseSummary = yield call(callCaseSummaryEndpoint, caseId);
-    if (caseSummary && caseSummary.estimatedBalance) {
+    if (caseSummary && caseSummary.EstimatedBalance) {
         yield put(setCaseSummary(caseSummary))
     }
 }

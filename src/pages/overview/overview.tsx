@@ -74,8 +74,8 @@ const _Overview = (props) => {
                         console.log('get case summary');
                         getCaseSummary(caseId);
                     } else if (caseSummary) {
-                        setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
-                        setMonthlyPayment(caseSummary.currentMonthlyPayment.toFixed(2));
+                        setCurrentBalance(caseSummary.EstimatedBalance.toFixed(2));
+                        setMonthlyPayment(caseSummary.CurrentMonthlyPayment.toFixed(2));
                         setCaseProgress(calculateCurrentProgress());
                     }
 

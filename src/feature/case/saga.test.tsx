@@ -30,19 +30,19 @@ describe('case saga', () => {
       const generator = getCaseWorker()
 
       const caseSummary : CaseSummary = {
-         clientName: "name",
-         currentMonthlyPayment: 0,
-         errors: [],
-         estimatedBalance: 0.0,
-         firstDisbursementDate: {
+         ClientName: "name",
+         CurrentMonthlyPayment: 0,
+         Errors: [],
+         EstimatedBalance: 0.0,
+         FirstDisbursementDate: {
             calendar: "calendar",
             ticks: 532,
             $id: "id",
          },
-         isSuccess: true,
-         monthlyDueOn: 23,
-         nextPaymentDueOn: new Date(32),
-         totalMonthlyDeposit: 34,
+         IsSuccess: true,
+         MonthlyDueOn: 23,
+         NextPaymentDueOn: new Date(32),
+         TotalMonthlyDeposit: 34,
          $id: "id_two",
       }
 

@@ -10,19 +10,19 @@ import {CaseSummary} from "../../models/case/case-summary";
 
 const initialState = caseReducer(null, null)
 const caseSummary : CaseSummary = {
-   clientName: "name",
-   currentMonthlyPayment: 0,
-   errors: [],
-   estimatedBalance: 0.0,
-   firstDisbursementDate: {
+   ClientName: "name",
+   CurrentMonthlyPayment: 0,
+   Errors: [],
+   EstimatedBalance: 0.0,
+   FirstDisbursementDate: {
       calendar: "calendar",
       ticks: 532,
       $id: "id",
    },
-   isSuccess: true,
-   monthlyDueOn: 23,
-   nextPaymentDueOn: new Date(32),
-   totalMonthlyDeposit: 34,
+   IsSuccess: true,
+   MonthlyDueOn: 23,
+   NextPaymentDueOn: new Date(32),
+   TotalMonthlyDeposit: 34,
    $id: "id_two",
 }
 const stateWithCase = caseReducer(initialState, setCaseSummary(caseSummary))
@@ -61,8 +61,8 @@ describe('Case time selectors', () => {
    const stateWithBoth = caseReducer(stateWithPayoffDate, setCaseSummary(
        {
           ...caseSummary,
-          firstDisbursementDate: {
-              ...caseSummary.firstDisbursementDate,
+          FirstDisbursementDate: {
+              ...caseSummary.FirstDisbursementDate,
               ticks: firstDisbursementDateTicks
           }
        }
@@ -153,8 +153,8 @@ describe('Case time selectors', () => {
       const myState = caseReducer(stateWithPayoffDate, setCaseSummary(
           {
              ...caseSummary,
-             firstDisbursementDate: {
-                ...caseSummary.firstDisbursementDate,
+             FirstDisbursementDate: {
+                ...caseSummary.FirstDisbursementDate,
                 ticks: undefined
              }
           }
