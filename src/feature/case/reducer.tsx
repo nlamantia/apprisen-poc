@@ -17,7 +17,6 @@ const initialState : CaseState = {
     caseSummary: null as CaseSummary,
     fetchingCaseSummary: false,
     casePayoffDate: "",
-    // todo move to loading flag reducer?
     fetchingCasePayoffDate: false
 }
 
@@ -89,8 +88,6 @@ export const casePayoffDateUnixTimeSelector = (state) => {
     if (!payoffDate) return -1;
     return new Date(payoffDate).getTime()
 }
-// todo case summary selector
-// and even more selectors
 
 export const caseFirstPaymentDateSelector = (state) => {
     const { caseSummary } = state.case

@@ -18,7 +18,6 @@ import {User} from "../../models/User";
 class UserDetails extends Component {
     state = {
         userId: 0,
-        // todo indicate that this is offline version
         user: new User(),
         readOnly: true
     };
@@ -37,10 +36,7 @@ class UserDetails extends Component {
         }
     }
 
-    // todo handle with action
-    // todo handle with saga
     getUser(userId: number) {
-        // todo handle with rest service
         fetch(`https://apprisen-poc-api.herokuapp.com/api/user/${userId}`)
             .then(response => response.json())
             .then(json => {
@@ -53,14 +49,12 @@ class UserDetails extends Component {
             .catch(err => console.log("APPRISEN ERROR: " + err));
     }
 
-    // todo handle with action
     putUser() {
         const requestParams = {
             method: 'PUT',
             headers: {'content-type': 'application/json'},
             body: JSON.stringify(this.state.user)
         };
-        // todo handle with rest service
         fetch(`https://apprisen-poc-api.herokuapp.com/api/user/${this.state.user.id}`, requestParams)
             .then(res => res.text())
             .then(res => console.log(res))
@@ -87,7 +81,6 @@ class UserDetails extends Component {
     }
 
     savePage() {
-        // todo use action
         this.putUser();
         this.setState({
             ...this.state,

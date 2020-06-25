@@ -40,7 +40,4 @@ describe('debt saga', () => {
       )
    })
 
-   it('handles failed get debt', () => {
-      // todo
-   })
 })

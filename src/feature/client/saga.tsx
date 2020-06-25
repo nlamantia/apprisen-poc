@@ -6,7 +6,7 @@ import {callClientInformationEndpoint} from "../../services/rest.service";
 export function * getClientInformationWorker(action) {
     const clientInformation = yield call(callClientInformationEndpoint)
 
-    if (clientInformation && clientInformation.isSuccess) { // todo validate
+    if (clientInformation && clientInformation.isSuccess) {
         yield put(setClientInformation(clientInformation))
     } else {
         console.error("Unable to get client information");

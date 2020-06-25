@@ -54,14 +54,6 @@ describe('case saga', () => {
       )
    })
 
-   it('handles invalid credentialsls', () => {
-      // todo
-   })
-
-   it('handles failed case call', () => {
-      // todo
-   })
-
    it('Waits to get payoff date', () => {
       const generator = getCasePayoffDateForecastWatcher()
       expect(generator.next().value).toEqual(
@@ -89,7 +81,7 @@ describe('case saga', () => {
           )
       )
 
-      const payoffDate = "an arbritrary string, should be a date" // todo validate string is date
+      const payoffDate = "an arbritrary string, should be a date"
 
       expect(generator.next({ payoffDate } as any).value).toEqual(
          put(setCasePayoffDate({ casePayoffDate: payoffDate }))

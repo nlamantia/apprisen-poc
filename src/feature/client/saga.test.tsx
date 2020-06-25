@@ -58,8 +58,4 @@ describe('client saga', () => {
           put(setClientInformation(clientInformation))
       )
    })
-
-   it('handles failed client info call', () => {
-      // todo
-   })
 })

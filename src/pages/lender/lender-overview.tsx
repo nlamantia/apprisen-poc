@@ -179,8 +179,6 @@ const _LenderOverview = (props) => {
 
 const LenderOverview = connect(
     state => ({
-        // todo implement as selector?
-        // todo error checking
         debts: state.debt.debts,
         selectedDebtId: state.debt.selectedDebtId,
         credentials: state.auth.credentials
