@@ -93,7 +93,7 @@ const _Overview = (props) => {
                     redirectLogin();
                 }
             }
-        }, [credentials, debts, clientAccountData, caseSummary, totalOriginalBalance, paymentHistory]);
+        }, [credentials, debts, clientAccountData, caseSummary, fetchingCaseSummary, totalOriginalBalance, paymentHistory]);
 
     return (
         !authorized ? redirectLogin() :
