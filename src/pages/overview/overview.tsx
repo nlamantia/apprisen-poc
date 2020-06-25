@@ -80,10 +80,9 @@ const _Overview = (props) => {
                     }
 
                     if (!debts && !fetchingDebtDetails) {
-                        console.log('get case summary')
                         getDebts(caseId);
                     } else if (debts) {
-                        setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));
+                        setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.OriginalBalance), 0.00).toFixed(2));
                     }
                 }
             } else {

@@ -47,19 +47,19 @@ export const getLenderListForGraph = (lenders: CaseDebt[], colors: string[]): Ca
 
     let sumOriginalBalance = 0, sumCurrentBalance = 0;
     for (let i = colors.length - 1; i < lenders.length; i++) {
-        sumOriginalBalance += lenders[i].originalBalance;
-        sumCurrentBalance += lenders[i].currentBalance;
+        sumOriginalBalance += lenders[i].OriginalBalance;
+        sumCurrentBalance += lenders[i].CurrentBalance;
     }
 
     graphLenders.push({
-        accountNumber: "-",
-        apr: 0,
-        creditorName: "Other",
-        currentBalance: sumCurrentBalance,
-        debtId: "-111",
-        debtType: 1,
-        lastCreditorPaymentDate: new Date(),
-        originalBalance: sumOriginalBalance,
+        AccountNumber: "-",
+        Apr: 0,
+        CreditorName: "Other",
+        CurrentBalance: sumCurrentBalance,
+        DebtId: "-111",
+        DebtType: 1,
+        LastCreditorPaymentDate: new Date(),
+        OriginalBalance: sumOriginalBalance,
         $id: "-1"
     } as CaseDebt);
 
@@ -225,12 +225,12 @@ const _AccountOverview = (props) => {
                                                 <Doughnut
                                                     data={{
                                                         labels: graphDebts.map(
-                                                            lender => lender.creditorName
+                                                            lender => lender.CreditorName
                                                         ),
                                                         datasets: [
                                                             {
                                                                 data: graphDebts.map(
-                                                                    lender => lender.currentBalance
+                                                                    lender => lender.CurrentBalance
                                                                 ),
                                                                 backgroundColor: BRAND_COLORS,
                                                                 hoverBackgroundColor: BRAND_COLORS

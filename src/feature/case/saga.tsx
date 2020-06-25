@@ -24,7 +24,7 @@ export function * getCasePayoffDateForecastWorker(action) {
         }
     } = action
 
-    const { payoffDate } = (
+    const { PayoffDate } = (
         yield call(callPayoffForecast,
             {
                 IncreaseAmount,
@@ -34,7 +34,7 @@ export function * getCasePayoffDateForecastWorker(action) {
     )
 
     if (true) { // todo validation
-        yield put(setCasePayoffDate({ casePayoffDate: payoffDate }))
+        yield put(setCasePayoffDate({ casePayoffDate: PayoffDate }))
     } else {
 
     }

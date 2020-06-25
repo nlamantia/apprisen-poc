@@ -10,7 +10,7 @@ export function * getDebtDetailWorker(action) {
 
     if (debtDetail && debtDetail.caseDebts) { // is valid
         const { caseDebts } = debtDetail;
-        const byBalance = (debt1: CaseDebt, debt2: CaseDebt) => debt2.currentBalance - debt1.currentBalance;
+        const byBalance = (debt1: CaseDebt, debt2: CaseDebt) => debt2.CurrentBalance - debt1.CurrentBalance;
         yield put(setDebts(caseDebts.sort(byBalance)));
     }
 }

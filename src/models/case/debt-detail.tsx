@@ -1,8 +1,8 @@
 import { CaseDebt } from "./case-debt";
 
 export interface DebtDetail {
-    caseDebts: CaseDebt[];
-    errors: any[];
-    isSuccess: boolean;
+    CaseDebts: CaseDebt[];
+    Errors: any[];
+    IsSuccess: boolean;
     $id: string;
 }

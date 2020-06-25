@@ -8,10 +8,10 @@ describe('Account overview component tests', () => {
 
         let result = getLenderListForGraph(lenders, BRAND_COLORS);
         expect(result.length).toEqual(BRAND_COLORS.length);
-        expect(result[0].currentBalance).toEqual(900);
-        expect(result[0].originalBalance).toEqual(9000);
-        expect(result[8].currentBalance).toEqual(100);
-        expect(result[8].originalBalance).toEqual(1000);
+        expect(result[0].CurrentBalance).toEqual(900);
+        expect(result[0].OriginalBalance).toEqual(9000);
+        expect(result[8].CurrentBalance).toEqual(100);
+        expect(result[8].OriginalBalance).toEqual(1000);
     });
 
     it('Get graph lenders - less than brand colors', () => {
@@ -19,10 +19,10 @@ describe('Account overview component tests', () => {
 
         let result = getLenderListForGraph(lenders, BRAND_COLORS);
         expect(result.length).toEqual(7);
-        expect(result[0].currentBalance).toEqual(700);
-        expect(result[0].originalBalance).toEqual(7000);
-        expect(result[6].currentBalance).toEqual(100);
-        expect(result[6].originalBalance).toEqual(1000);
+        expect(result[0].CurrentBalance).toEqual(700);
+        expect(result[0].OriginalBalance).toEqual(7000);
+        expect(result[6].CurrentBalance).toEqual(100);
+        expect(result[6].OriginalBalance).toEqual(1000);
     });
 
     it('Get graph lenders - greater than brand colors', () => {
@@ -30,10 +30,10 @@ describe('Account overview component tests', () => {
 
         let result = getLenderListForGraph(lenders, BRAND_COLORS);
         expect(result.length).toEqual(BRAND_COLORS.length);
-        expect(result[0].currentBalance).toEqual(1200);
-        expect(result[0].originalBalance).toEqual(12000);
-        expect(result[result.length - 1].currentBalance).toEqual(1000);
-        expect(result[result.length - 1].originalBalance).toEqual(10000);
+        expect(result[0].CurrentBalance).toEqual(1200);
+        expect(result[0].OriginalBalance).toEqual(12000);
+        expect(result[result.length - 1].CurrentBalance).toEqual(1000);
+        expect(result[result.length - 1].OriginalBalance).toEqual(10000);
     });
 
     it('Get graph lenders - 1 brand color', () => {
@@ -41,8 +41,8 @@ describe('Account overview component tests', () => {
 
         let result = getLenderListForGraph(lenders, ["#232323"]);
         expect(result.length).toEqual(1);
-        expect(result[0].currentBalance).toEqual(1500);
-        expect(result[0].originalBalance).toEqual(15000);
+        expect(result[0].CurrentBalance).toEqual(1500);
+        expect(result[0].OriginalBalance).toEqual(15000);
     });
 
     it('Get graph lenders - 1 lender 2 colors', () => {
@@ -50,8 +50,8 @@ describe('Account overview component tests', () => {
 
         let result = getLenderListForGraph(lenders, ["#232323", "#454545"]);
         expect(result.length).toEqual(1);
-        expect(result[0].currentBalance).toEqual(100);
-        expect(result[0].originalBalance).toEqual(1000);
+        expect(result[0].CurrentBalance).toEqual(100);
+        expect(result[0].OriginalBalance).toEqual(1000);
     });
 });
 
