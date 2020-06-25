@@ -52,7 +52,7 @@ const _OverviewCard = (props) => {
                     getCasePayoffDate({caseId, increaseAmount: 0, isOneTimePayment: true})
                 }
             }
-        }, [clientAccountData]
+        }, [clientAccountData, caseSummary, fetchingCaseSummary]
     );
 
         const {caseSummary: {nextPaymentDueOn, currentMonthlyPayment}} =
