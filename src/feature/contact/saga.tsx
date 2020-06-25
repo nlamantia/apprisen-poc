@@ -1,6 +1,6 @@
 import {all, put, call, takeEvery} from "@redux-saga/core/effects";
 import {SEND_EMAIL, setMessage, setSentStatus} from "./action";
-import {callSendEmail} from "../../services/rest.service";
+import {callSendEmail} from "../../services/rest-service";
 import {ContactStatus} from "./interface";
 
 export function * sendEmailWorker(action) {

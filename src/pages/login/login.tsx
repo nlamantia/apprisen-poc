@@ -24,7 +24,7 @@ import logo from "../../images/apprisen-logo.png";
 import {LoginRequest} from "../../models/auth/login-request";
 import {login, resetLoginStatus} from "../../feature/auth/action";
 import {InAppBrowser} from '@ionic-native/in-app-browser';
-import {useAuthContext} from "../../common/AuthProvider";
+import {useAuthContext} from "../../common/auth-provider";
 import {withRouter} from "react-router";
 
 const _Login = (props: any) => {

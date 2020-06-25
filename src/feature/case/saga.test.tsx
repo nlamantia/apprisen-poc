@@ -4,7 +4,7 @@ import {CaseSummary} from "../../models/case/case-summary";
 import {call, put, select, takeEvery} from "redux-saga/effects";
 import {LoginResponse} from "../../models/auth/login-response";
 import {GET_CASE_PAYOFF_DATE, getCasePayoffDate, getCaseSummary, setCasePayoffDate, setCaseSummary} from "./action";
-import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest.service";
+import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest-service";
 
 describe('case saga', () => {
    it('handles successful case call', () => {

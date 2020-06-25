@@ -8,8 +8,8 @@ import {
     setPaymentHistory,
     setPaymentStatus
 } from "./action";
-import {callGetClientData, callMakePayment, callPaymentHistory} from "../../services/rest.service";
-import {getClientId} from "../../services/auth.service";
+import {callGetClientData, callMakePayment, callPaymentHistory} from "../../services/rest-service";
+import {getClientId} from "../../services/auth-service";
 
 export function * getClientAccountDataWorker(action) {
     const clientDataResponse = yield call(callGetClientData);

@@ -1,6 +1,6 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
 import {GET_CLIENT_INFORMATION, setClientInformation} from "./action";
-import {callClientInformationEndpoint} from "../../services/rest.service";
+import {callClientInformationEndpoint} from "../../services/rest-service";
 
 
 export function * getClientInformationWorker(action) {

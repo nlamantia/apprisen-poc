@@ -2,8 +2,8 @@ import {all, call, put, takeEvery} from 'redux-saga/effects'
 import {push} from 'react-router-redux'
 import {GET_CREDENTIALS, LOGIN, loginSuccess, LOGOUT, setCredentials, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
-import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest.service";
-import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth.service";
+import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest-service";
+import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth-service";
 import {LoginResponse} from "../../models/auth/login-response";
 import {LINKED_APP_NAME} from "../../config/app-constants";
 import {message} from "react-toastify-redux";

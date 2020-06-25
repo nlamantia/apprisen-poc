@@ -3,7 +3,7 @@ import {getDebtDetailWatcher, getDebtDetailWorker} from "./saga";
 import {call, put, takeEvery} from 'redux-saga/effects'
 import {GET_DEBTS, getDebts, setDebts} from "./action";
 import {LoginResponse} from "../../models/auth/login-response";
-import {callDebtDetailEndpoint} from "../../services/rest.service";
+import {callDebtDetailEndpoint} from "../../services/rest-service";
 
 describe('debt saga', () => {
    it('waits for  GET_DEBTS', () => {

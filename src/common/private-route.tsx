@@ -1,9 +1,9 @@
 import {Redirect, Route, useLocation} from "react-router-dom";
-import {areCredentialsExpired, logout} from "../services/auth.service";
+import {areCredentialsExpired, logout} from "../services/auth-service";
 import {useSelector} from 'react-redux'
 import React from "react";
 import {Plugins} from "@capacitor/core";
-import {useAuthContext} from "./AuthProvider";
+import {useAuthContext} from "./auth-provider";
 import {IonSpinner} from "@ionic/react";
 import BounceLoader from "react-spinners/BounceLoader";
 
