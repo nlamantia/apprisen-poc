@@ -60,11 +60,11 @@ const _Overview = (props) => {
     useEffect(
         () => {
             if (credentials && credentials.linkedApplication) {
-                if (!clientAccountData || !clientAccountData.dmpCaseId || !clientAccountData.bankAccountTypes) {
+                if (!clientAccountData || !clientAccountData.DmpCaseId || !clientAccountData.BankAccountTypes) {
                     console.log('get client data');
                     getClientAccountData();
                 } else {
-                    const { dmpCaseId: caseId } = clientAccountData;
+                    const { DmpCaseId: caseId } = clientAccountData;
                     if (!paymentHistory || !paymentHistory.length) {
                         console.log('get payment history');
                         getPaymentHistory(caseId);

@@ -1,5 +1,5 @@
 export interface BankAccountType {
     "$id": string;
-    "id": string;
-    "name": string;
+    "Id": string;
+    "Name": string;
 }

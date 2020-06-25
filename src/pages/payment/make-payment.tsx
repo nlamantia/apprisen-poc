@@ -276,7 +276,7 @@ const _MakePayment = ( props: any ) => {
                                             <IonSelect name="bankAccountType" placeholder="Select One" onIonChange={(e) => handleChange(e)}>
                                                 {bankAccountTypes.map((bankAccountType) => {
                                                     return (
-                                                        <IonSelectOption value={bankAccountType.id}>{bankAccountType.name}</IonSelectOption>
+                                                        <IonSelectOption value={bankAccountType.Id}>{bankAccountType.Name}</IonSelectOption>
                                                     );
                                                 })}
                                             </IonSelect>

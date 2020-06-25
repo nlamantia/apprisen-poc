@@ -1,6 +1,6 @@
 export interface State {
     "$id": string;
-    "id": string;
-    "name": string;
-    "abbreviation": string;
+    "Id": string;
+    "Name": string;
+    "Abbreviation": string;
 }

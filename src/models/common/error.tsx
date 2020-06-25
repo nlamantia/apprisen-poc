@@ -1,4 +1,4 @@
 export interface Error {
-    key: string;
-    value: string;
+    Key: string;
+    Value: string;
 }

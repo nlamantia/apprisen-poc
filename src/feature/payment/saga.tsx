@@ -14,13 +14,13 @@ import {getClientId} from "../../services/auth.service";
 export function * getClientAccountDataWorker(action) {
     const clientDataResponse = yield call(callGetClientData);
 
-    const { bankAccountTypes, IsSuccess, errors } = clientDataResponse;
+    const { BankAccountTypes, IsSuccess, Errors } = clientDataResponse;
 
-    if (clientDataResponse && bankAccountTypes && IsSuccess) {
+    if (clientDataResponse && BankAccountTypes && IsSuccess) {
         yield put(setClientAccountData(clientDataResponse));
-    } else if (errors && errors.length) {
+    } else if (Errors && Errors.length) {
         yield put(setPaymentStatus({active: false, paymentStatus: "FAILURE"}));
-        for (let error in errors) {
+        for (let error in Errors) {
             console.error(error);
         }
     }
