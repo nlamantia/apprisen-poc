@@ -38,10 +38,10 @@ const _OverviewCard = (props) => {
 
     useEffect(
         () => {
-            if (!clientAccountData || !clientAccountData.dmpCaseId) {
+            if (!clientAccountData || !clientAccountData.DmpCaseId) {
                 getClientAccountData();
             } else {
-                const { dmpCaseId: caseId } = clientAccountData;
+                const { DmpCaseId: caseId } = clientAccountData;
                 if (!caseSummary && !fetchingCaseSummary) {
                     console.log('get case summary for ' + caseId)
                     getCaseSummary(caseId);

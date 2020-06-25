@@ -2,7 +2,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function(app) {
     app.use(
         createProxyMiddleware('/api/case', {
-            target: 'https://icm-services-testing.apprisen.com',
+            target: 'https://apprisen-facade-test.herokuapp.com',
             changeOrigin: true
         })
     );
@@ -14,7 +14,7 @@ module.exports = function(app) {
     );
     app.use(
         createProxyMiddleware('/api/payment', {
-            target: 'https://icm-services-testing.apprisen.com',
+            target: 'https://apprisen-facade-test.herokuapp.com',
             changeOrigin: true
         })
     );
