@@ -50,23 +50,8 @@ export const commonReducer = (state= initialState, action) => {
     if(status) {
         const {start, key} = status
 
-        console.log(state)
-        console.log(action)
         const curr = state.status[key]
         const disposition = action.type === start ? IN_PROGRESS : COMPLETED;
-        console.log({
-            ...state,
-            [STATUS]: {
-                ...state[STATUS],
-                [key]: {
-                    status: disposition,
-                    countByStatus: {
-                        ...curr.countByStatus,
-                        [disposition]: curr.countByStatus[disposition] + 1
-                    }
-                }
-            }
-        })
         return {
             ...state,
            [STATUS]: {

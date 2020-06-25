@@ -59,10 +59,8 @@ export function * makePaymentWorker(action) {
     yield put(setPaymentStatus({active: true, paymentStatus: "PENDING"}));
 
     if ( makePaymentResponse && confirmationNumber) {
-        console.log("success");
         yield put(setConfirmation(makePaymentResponse));
         yield put(setPaymentStatus({active: false, paymentStatus: "SUCCESS"}));
-        console.log("should have set response to success");
 
     } else if (errors) {
         yield put(setPaymentStatus({active: false, paymentStatus: "FAILURE"}));

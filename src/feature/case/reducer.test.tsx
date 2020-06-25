@@ -76,13 +76,10 @@ describe('Case time selectors', () => {
       const overallState = {
          case: initialState
       };
-      console.log("Overall state: " + JSON.stringify(overallState));
       expect(casePayoffDateSelector(overallState)).toEqual("")
    })
 
    it('gets casePayoff date in unix time', () => {
-      console.log(JSON.stringify(stateWithBoth))
-      console.log(new Date("2024-07-24T04:00:00.000Z").getTime());
       const overallState = {
          case: stateWithBoth
       };
@@ -114,7 +111,6 @@ describe('Case time selectors', () => {
       const overallState = {
          case: stateWithBoth
       };
-      console.log(JSON.stringify(overallState))
       expect(caseFirstPaymentDateUnixTimeSelector(overallState)).toEqual(FIRST_DISBURSEMENT_DATE_UNIX)
    })
 

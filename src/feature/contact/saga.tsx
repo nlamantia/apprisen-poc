@@ -26,7 +26,6 @@ export function * sendEmailWorker(action) {
                     yield(put(setSentStatus(ContactStatus.FAILURE)));
                 } else {
                     const successMessage = "Email sent successfully";
-                    console.log(successMessage);
                     yield(put(setMessage(successMessage)));
                     yield(put(setSentStatus(ContactStatus.SUCCESS)));
                 }

@@ -58,7 +58,6 @@ export function * getCredentialsWorker() {
     if (!credsString || credsString === "") {
         throw new Error("No credentials found");
     } else {
-        console.log("credentials found!")
         let credentials = JSON.parse(credsString);
         yield assertLoggedIn(credentials);
         yield put(setCredentials(credentials as LoginResponse));

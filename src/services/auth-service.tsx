@@ -21,18 +21,13 @@ export const areCredentialsExpired = async (parCreds?: LoginResponse ) : Promise
 }
 
 export const login = (credentials : LoginResponse) => {
-    try {
-        let creds = JSON.stringify(credentials);
-        Storage.set({key: 'credentials', value: creds })
-    } catch(e) {
-        console.log('Could not set credentials!')
-    }
+    let creds = JSON.stringify(credentials);
+    Storage.set({key: 'credentials', value: creds })
 }
 
 
 export const logout = () => {
-    console.log('called logout')
-    Storage.remove({key: 'credentials'}).then(() => console.log('removed credential'));
+    Storage.remove({key: 'credentials'})
 }
 
 export const getCredentials = async(): Promise<LoginResponse> => {

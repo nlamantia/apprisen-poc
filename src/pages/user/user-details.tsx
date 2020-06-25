@@ -29,8 +29,6 @@ class UserDetails extends Component {
 
     ionViewWillEnter() {
         const {match} = this.props as any;
-        console.log("Match.params.id", match.params.id);
-        console.log("this.state.userId", this.state.userId);
         if (match.params.id !== this.state.userId) {
             this.getUser(match.params.id);
         }
@@ -40,13 +38,11 @@ class UserDetails extends Component {
         fetch(`https://apprisen-poc-api.herokuapp.com/api/user/${userId}`)
             .then(response => response.json())
             .then(json => {
-                console.log(json);
                 this.setState({
                     userId: userId,
                     user: json as User
                 });
             })
-            .catch(err => console.log("APPRISEN ERROR: " + err));
     }
 
     putUser() {
@@ -57,8 +53,6 @@ class UserDetails extends Component {
         };
         fetch(`https://apprisen-poc-api.herokuapp.com/api/user/${this.state.user.id}`, requestParams)
             .then(res => res.text())
-            .then(res => console.log(res))
-            .catch(err => console.log("APPRISEN ERROR: " + err));
     }
 
     handleChange(e: any) {

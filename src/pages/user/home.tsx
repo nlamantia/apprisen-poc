@@ -27,12 +27,10 @@ class Home extends Component {
         fetch("https://apprisen-poc-api.herokuapp.com/api/users")
             .then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson)
                 this.setState({
                     users: responseJson as User[]
                 });
             })
-            .catch(err => console.log(err));
     }
 
     doRefresh(event: CustomEvent<RefresherEventDetail>): void {

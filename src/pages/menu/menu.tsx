@@ -43,10 +43,6 @@ const _Menu = ( props : any ) => {
 
     const { pageName } = props
 
-    useEffect(() => {
-       // console.log("Menu props: " + JSON.stringify(props));
-    });
-
     return (
         <IonMenu side="end" menuId="menu" type="overlay" contentId={pageName}>
             <IonHeader class="toolbar-header">
