@@ -33,7 +33,6 @@ import AccountOverview from "./pages/account-overview/account-overview";
 import LenderOverview from "./pages/lender/lender-overview";
 import Login from "./pages/login/login";
 import Overview from "./pages/overview/overview";
-import PaymentOverview from "./pages/payment-overview/payment-overview";
 import Home from "./pages/user/home";
 import UserDetails from "./pages/user/user-details";
 import Profile from "./pages/profile/profile";
@@ -121,10 +120,6 @@ const _Main = (props: any) => {
                             <PrivateRoute path="/contact" component={Contact}/>
                             <PrivateRoute path="/profile" component={Profile}/>
                             <PrivateRoute path="/resources" component={AdditionalResources}/>
-                            <PrivateRoute
-                                path="/payment-overview"
-                                component={PaymentOverview}
-                            />
                             <PrivateRoute
                                 path="/account-overview"
                                 component={AccountOverview}
