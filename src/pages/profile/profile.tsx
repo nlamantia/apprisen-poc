@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { getCredentials } from "../../feature/auth/action";
 import { getClientInformation } from "../../feature/client/action";
-import logo from "../../images/apprisen-logo.png";
+import logo from "/apprisen-logo.png";
 import { ClientInformation } from "../../models/case/client-information";
 
 const _Profile = (props) => {
@@ -53,7 +53,7 @@ const _Profile = (props) => {
                 <IonHeader>
                     <IonToolbar>
                         <IonThumbnail class="toolbar-logo" slot={"start"}>
-                            <img alt="apprisen-logo" src={logo} />
+                            <img alt="apprisen-logo" src={"/apprisen-logo.png"} />
                         </IonThumbnail>
                         <IonTitle>Profile</IonTitle>
                         <IonButtons slot="end">

@@ -8,6 +8,7 @@ import {
     IonFooter, 
     IonGrid, 
     IonHeader,
+    IonMenuButton,
     IonItem,
     IonLabel,
     IonList,
@@ -18,12 +19,6 @@ import {
     IonToolbar
 } from "@ionic/react";
 import React from "react";
-import logo from "../../images/apprisen-logo.png";
-import cfpb from "../../images/cfpb.png";
-import facebookDMP from "../../images/facebook-apprisen.png";
-import instagram from "../../images/instagram.png";
-import twitter from "../../images/twitter.jpg";
-import unitedWay from "../../images/united-way.jpg";
 
 
 const AdditionalResources = (props) => {
@@ -38,9 +33,12 @@ const AdditionalResources = (props) => {
             <IonHeader>
             <IonToolbar>
                 <IonButtons slot="start">
-                <IonBackButton defaultHref="/overview" />
+                    <IonBackButton defaultHref="/overview" />
                 </IonButtons>
                 <IonTitle>Additional Resources</IonTitle>
+                <IonButtons slot="end">
+                        <IonMenuButton />
+                </IonButtons>
             </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -56,7 +54,7 @@ const AdditionalResources = (props) => {
                                 </IonListHeader>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Facebook DMP Community" src={facebookDMP}/>
+                                        <img alt="Facebook DMP Community" src={"/facebook-apprisen.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.facebook.com/groups/ApprisenDMPCommunity")}>Facebook DMP Community</h3>
@@ -64,7 +62,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Apprisen Money Minute Blog" src={logo}/>
+                                        <img alt="Apprisen Money Minute Blog" src={"/apprisen-logo.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.apprisen.com/blog/")}>Money Minute Blog</h3>
@@ -72,7 +70,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="United Way" src={unitedWay}/>
+                                        <img alt="United Way" src={"/united-way.jpg"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.unitedway.org/")}>United Way</h3>
@@ -80,7 +78,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Financial Education Resources" src={cfpb}/>
+                                        <img alt="Financial Education Resources" src={"/cfpb.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.consumerfinance.gov/consumer-tools/")}>Financial Education Resources</h3>
@@ -88,7 +86,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Apprisen Resources" src={logo}/>
+                                        <img alt="Apprisen Resources" src={"/apprisen-logo.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.apprisen.com/resources/")}>Apprisen Resources</h3>
@@ -105,7 +103,7 @@ const AdditionalResources = (props) => {
                                 </IonListHeader>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Apprisen Facebook Page" src={facebookDMP}/>
+                                        <img alt="Apprisen Facebook Page" src={"/facebook-apprisen.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.facebook.com/Apprisen/")}>Facebook</h3>
@@ -113,7 +111,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Apprisen Facebook Page" src={instagram}/>
+                                        <img alt="Apprisen Facebook Page" src={"/instagram.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.instagram.com/apprisenempowers/")}>Instagram</h3>
@@ -121,7 +119,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Apprisen Facebook Page" src={twitter}/>
+                                        <img alt="Apprisen Facebook Page" src={"/twitter.jpg"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://twitter.com/Apprisen")}>Twitter</h3>

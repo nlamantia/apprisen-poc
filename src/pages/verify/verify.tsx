@@ -20,7 +20,6 @@ import {
 import React, {useEffect, useState} from "react";
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import logo from "../../images/apprisen-logo.png";
 import {verify} from "../../feature/auth/action";
 import {useAuthContext} from "../../common/AuthProvider";
 import {useLocation} from "react-router";
@@ -94,7 +93,7 @@ const _Verify = (props: any) => {
             <IonHeader>
                 <IonToolbar>
                     <IonThumbnail class="toolbar-logo" slot={"start"}>
-                        <img alt="apprisen-logo" src={logo} />
+                        <img alt="apprisen-logo" src={"/apprisen-logo.png"} />
                     </IonThumbnail>
                     <IonTitle>Apprisen</IonTitle>
                 </IonToolbar>

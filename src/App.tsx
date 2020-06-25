@@ -34,8 +34,6 @@ import LenderOverview from "./pages/lender/lender-overview";
 import Login from "./pages/login/login";
 import Overview from "./pages/overview/overview";
 import PaymentOverview from "./pages/payment-overview/payment-overview";
-import Home from "./pages/user/Home";
-import UserDetails from "./pages/user/UserDetails";
 import Profile from "./pages/profile/profile";
 /* Theme variables */
 import "./theme/variables.scss";
@@ -115,12 +113,10 @@ const _Main = (props: any) => {
                         {/* todo sibling container must have ion-menu-button */}
                         <Switch>
                             <PrivateRoute path="/overview" component={withRouter(Overview)} exact={true}/>
-                            <PrivateRoute path="/home" component={Home} exact={true}/>
                             <Route path="/login" component={Login} exact={true}/>
                             <Route path="/logout" component={Logout} exact={true}/>
                             <Route path="/verify" component={withRouter(Verify)} exact={true}/>
                             <PrivateRoute exact path="/" component={withRouter(Overview)}/>
-                            <PrivateRoute path="/user/:id" component={UserDetails}/>
                             <PrivateRoute path="/contact" component={Contact}/>
                             <PrivateRoute path="/profile" component={Profile}/>
                             <PrivateRoute path="/resources" component={AdditionalResources}/>

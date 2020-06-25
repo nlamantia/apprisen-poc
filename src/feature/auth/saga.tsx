@@ -7,7 +7,7 @@ import {assertLoggedIn, getCredentials, isVerified, login, logout} from "../../s
 import {LoginResponse} from "../../models/auth/login-response";
 // @ts-ignore
 import {toast} from "react-toastify";
-import {LINKED_APP_NAME} from "../../config/app-constants";
+import {LINKED_APP_NAME} from "../../common/app-constants";
 
 const { Storage } = Plugins;
 

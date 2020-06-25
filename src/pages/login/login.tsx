@@ -24,7 +24,6 @@ import {withRouter} from "react-router";
 import {bindActionCreators} from 'redux';
 import {useAuthContext} from "../../common/AuthProvider";
 import {login, resetLoginStatus} from "../../feature/auth/action";
-import logo from "../../images/apprisen-logo.png";
 import {LoginRequest} from "../../models/auth/login-request";
 import {validateNonEmptyString} from "../common/validators";
 
@@ -79,7 +78,7 @@ const _Login = (props: any) => {
             <IonHeader>
                 <IonToolbar>
                     <IonThumbnail class="toolbar-logo" slot={"start"}>
-                        <img alt="apprisen-logo" src={logo} />
+                        <img alt="apprisen-logo" src={"/apprisen-logo.png"} />
                     </IonThumbnail>
                     <IonTitle>Apprisen</IonTitle>
                 </IonToolbar>

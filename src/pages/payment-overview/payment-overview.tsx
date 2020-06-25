@@ -19,7 +19,6 @@ import {
 } from "@ionic/react";
 import React from "react";
 import {Doughnut} from "react-chartjs-2";
-import Payment from "../../images/payment.svg";
 
 export const PaymentOverview = (props) => {
     const { caseData: { history: { location: { state: { caseData : lenders }, caseData } } } } = (this.props)
@@ -46,7 +45,7 @@ export const PaymentOverview = (props) => {
                         <h2>Payment Breakdown</h2>
                       </IonLabel>
                       <IonThumbnail class={"icon"}>
-                        <img alt="apprisen-logo" src={Payment} />
+                        <img alt="apprisen-logo" src={"/payment.svg"} />
                       </IonThumbnail>
                     </IonListHeader>
 
