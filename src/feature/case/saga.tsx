@@ -33,11 +33,7 @@ export function * getCasePayoffDateForecastWorker(action) {
             })
     )
 
-    if (true) { // todo validation
-        yield put(setCasePayoffDate({ casePayoffDate: payoffDate }))
-    } else {
-
-    }
+    yield put(setCasePayoffDate({ casePayoffDate: payoffDate }))
 }
 
 export function * getCasePayoffDateForecastWatcher() {
