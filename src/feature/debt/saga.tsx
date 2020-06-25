@@ -8,10 +8,10 @@ export function * getDebtDetailWorker(action) {
     const { payload: { caseId } } = action;
     const debtDetail = yield call(callDebtDetailEndpoint, caseId);
 
-    if (debtDetail && debtDetail.caseDebts) { // is valid
-        const { caseDebts } = debtDetail;
+    if (debtDetail && debtDetail.CaseDebts) { // is valid
+        const { CaseDebts } = debtDetail;
         const byBalance = (debt1: CaseDebt, debt2: CaseDebt) => debt2.CurrentBalance - debt1.CurrentBalance;
-        yield put(setDebts(caseDebts.sort(byBalance)));
+        yield put(setDebts(CaseDebts.sort(byBalance)));
     }
 }
 

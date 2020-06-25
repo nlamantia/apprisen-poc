@@ -24,11 +24,11 @@ const _LenderList = (props: any) => {
         return(
             <IonItem className={'lender-flex'}>
                 <IonLabel className="ion-text-wrap">
-                    <h3>{caseDebt.creditorName}</h3>
-                    <p>${caseDebt.currentBalance}</p>
+                    <h3>{caseDebt.CreditorName}</h3>
+                    <p>${caseDebt.CurrentBalance}</p>
                 </IonLabel>
                 <div className={'lender-progress-holder'}>
-                    <IonProgressBar value={calculateProgress(caseDebt.originalBalance, caseDebt.currentBalance)}/>
+                    <IonProgressBar value={calculateProgress(caseDebt.OriginalBalance, caseDebt.CurrentBalance)}/>
                 </div>
                 <Link
                     to={{

@@ -34,13 +34,13 @@ export function * getPaymentHistoryWorker(action) {
     const { payload: { caseId } } = action;
     const paymentHistoryResponse = yield call(callPaymentHistory, caseId);
 
-    const { caseDeposits, IsSuccess, errors } = paymentHistoryResponse;
+    const { CaseDeposits, IsSuccess, Errors } = paymentHistoryResponse;
 
-    if (paymentHistoryResponse && caseDeposits && IsSuccess) {
-        yield put(setPaymentHistory(caseDeposits));
-    } else if (errors && errors.length) {
-        for (let i = 0; i < errors.length; i++) {
-            console.error(JSON.stringify(errors[i]));
+    if (paymentHistoryResponse && CaseDeposits && IsSuccess) {
+        yield put(setPaymentHistory(CaseDeposits));
+    } else if (Errors && Errors.length) {
+        for (let i = 0; i < Errors.length; i++) {
+            console.error(JSON.stringify(Errors[i]));
         }
     }
 }
@@ -54,20 +54,20 @@ export function * makePaymentWorker(action) {
     request.clientNumber = yield getClientId();
     const makePaymentResponse = yield call(callMakePayment, request);
 
-    const { confirmationNumber, errors } = makePaymentResponse;
+    const { ConfirmationNumber, Errors } = makePaymentResponse;
 
     yield put(setPaymentStatus({active: true, paymentStatus: "PENDING"}));
 
-    if ( makePaymentResponse && confirmationNumber) {
+    if ( makePaymentResponse && ConfirmationNumber) {
         console.log("success");
         yield put(setConfirmation(makePaymentResponse));
         yield put(setPaymentStatus({active: false, paymentStatus: "SUCCESS"}));
         console.log("should have set response to success");
 
-    } else if (errors) {
+    } else if (Errors) {
         yield put(setPaymentStatus({active: false, paymentStatus: "FAILURE"}));
-        for (let i = 0; i < errors.length; i++) {
-            console.error(JSON.stringify(errors[i]));
+        for (let i = 0; i < Errors.length; i++) {
+            console.error(JSON.stringify(Errors[i]));
         }
     }
 }

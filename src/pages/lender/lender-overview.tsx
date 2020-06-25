@@ -22,12 +22,14 @@ import {getCredentials, logout} from "../../feature/auth/action";
 import {CaseDebt} from "../../models/case/case-debt";
 import ProgressTrackerCard from "../common/progress-tracker-card";
 import {calculateProgress} from "../common/utility-functions";
+import {getClientAccountData} from "../../feature/payment/action";
 
 const _LenderOverview = (props) => {
     const {debts, selectedDebtId} = props;
 
     const { credentials, getCredentials, logout } = props;
     const { getDebts, getSelectedDebt } = props;
+    const { clientAccountData, getClientAccountData } = props;
 
     const [lender, setLender] = useState<CaseDebt>(null);
     const [progress, setProgress] = useState<number>(0.00);
@@ -42,12 +44,17 @@ const _LenderOverview = (props) => {
                     if (filteredDebts && filteredDebts.length > 0) {
                         const lender = filteredDebts[0];
                         setLender(lender);
-                        setProgress(calculateProgress(lender.originalBalance, lender.currentBalance));
+                        setProgress(calculateProgress(lender.OriginalBalance, lender.CurrentBalance));
                     }
                 } else {
                     console.log('some information is missing');
-                    getDebts();
-                    getSelectedDebt();
+                    if (!clientAccountData || !clientAccountData.DmpCaseId) {
+                        getClientAccountData();
+                    } else {
+                        const { DmpCaseId: caseId } = clientAccountData;
+                        getDebts(caseId);
+                        getSelectedDebt();
+                    }
                 }
             }
         } else {
@@ -58,7 +65,7 @@ const _LenderOverview = (props) => {
                 logout();
             }
         }
-    }, [credentials, debts, selectedDebtId]);
+    }, [credentials, clientAccountData, lender, debts, selectedDebtId]);
 
     return (
         <IonPage>
@@ -183,12 +190,14 @@ const LenderOverview = connect(
         // todo error checking
         debts: state.debt.debts,
         selectedDebtId: state.debt.selectedDebtId,
-        credentials: state.auth.credentials
+        credentials: state.auth.credentials,
+        clientAccountData: state.payment.clientAccountData
     }),
     dispatch => bindActionCreators({
         getSelectedDebt,
         getDebts,
         getCredentials,
+        getClientAccountData,
         logout
     }, dispatch)
 )(

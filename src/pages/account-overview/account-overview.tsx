@@ -88,10 +88,10 @@ const _AccountOverview = (props) => {
         return (
             <IonItem>
                 <IonLabel>
-                    <h3>{printDate(new Date(caseDeposit.postedDate))}</h3>
+                    <h3>{printDate(new Date(caseDeposit.PostedDate))}</h3>
                 </IonLabel>
                 <div className={"ion-text-right row-text"}>
-                    ${caseDeposit.amount.toFixed(2)}
+                    ${caseDeposit.Amount.toFixed(2)}
                 </div>
             </IonItem>
         );
@@ -101,10 +101,10 @@ const _AccountOverview = (props) => {
         return (
             <IonItem>
                 <IonLabel>
-                    <h3>{debt.creditorName}</h3>
+                    <h3>{debt.CreditorName}</h3>
                 </IonLabel>
                 <div className={"ion-text-right row-text"}>
-                    ${debt.currentBalance.toFixed(2)}
+                    ${debt.CurrentBalance.toFixed(2)}
                 </div>
             </IonItem>
         );

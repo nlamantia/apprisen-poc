@@ -3,8 +3,8 @@ import {CaseDeposit} from "./case-deposit";
 
 export interface PaymentHistoryResponse {
     $id: any;
-    trustBalance: any;
-    caseDeposits: CaseDeposit[];
+    TrustBalance: any;
+    CaseDeposits: CaseDeposit[];
     IsSuccess: boolean;
-    errors: Error[];
+    Errors: Error[];
 }
