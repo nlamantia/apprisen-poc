@@ -8,20 +8,24 @@ import {PaymentHistoryResponse} from "../models/payment/payment-history-response
 import {toast} from "react-toastify";
 import {EmailRequest} from "../models/contact/email-request";
 
-export const BASE_URL = "https://apprisen-facade-test.herokuapp.com";
-// export const BASE_URL = process.env.REACT_APP_SERVICE_BASE_URL;
+const ENV_ICM_BASE_URL = process.env.REACT_APP_SERVICE_BASE_URL;
+const ENV_LOGIN_BASE_URL = process.env.REACT_APP_LOGIN_BASE_URL;
+
+const ICM_BASE_URL = ENV_ICM_BASE_URL ? ENV_ICM_BASE_URL : "";
+const LOGIN_BASE_URL = ENV_LOGIN_BASE_URL ? ENV_LOGIN_BASE_URL : "";
 
 const CLIENT_INFORMATION_URL = "/api/client/getclientinformation/";
-const PAY_OFF_FORECAST = BASE_URL + "/api/case/payoffforecast/";
-const CASE_SUMMARY_URL = BASE_URL + "/api/case/case-summary/";
-const DEBT_DETAIL_URL = BASE_URL + "/api/case/debt-details/";
-const LOGIN_URL = BASE_URL + "/api/auth/login";
-const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
-const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
-const SEND_EMAIL_URL = BASE_URL + "/api/client/sendemail/";
-const PAYMENT_HISTORY_URL = BASE_URL + "/api/case/payment-history/";
-const LINK_ACCOUNT_URL = BASE_URL + "/api/client/link-application"
-const VERIFY_CLIENT_NUMBER_URL = BASE_URL + "/api/client/verifyclientnumber"
+const PAY_OFF_FORECAST = "/api/case/payoffforecast/";
+const CASE_SUMMARY_URL = "/api/case/case-summary/";
+const DEBT_DETAIL_URL = "/api/case/debt-details/";
+// const LOGIN_URL = "/api/account/validateuser";
+const LOGIN_URL = "/api/auth/login";
+const MAKE_PAYMENT_URL = "/api/case/payment";
+const CLIENT_DATA_URL = "/api/client/getclientdata/";
+const SEND_EMAIL_URL = "/api/client/sendemail/";
+const PAYMENT_HISTORY_URL = "/api/case/payment-history/";
+const LINK_ACCOUNT_URL = "/api/client/link-application"
+const VERIFY_CLIENT_NUMBER_URL = "/api/client/verifyclientnumber"
 
 
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]
