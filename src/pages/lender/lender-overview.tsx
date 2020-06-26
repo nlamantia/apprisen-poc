@@ -21,7 +21,7 @@ import {getDebts, getSelectedDebt} from "../../feature/debt/action";
 import {getCredentials, logout} from "../../feature/auth/action";
 import {CaseDebt} from "../../models/case/case-debt";
 import ProgressTrackerCard from "../common/progress-tracker-card";
-import {calculateProgress} from "../common/utility-functions";
+import {calculateProgress} from "../../common/utility-functions";
 
 const _LenderOverview = (props) => {
     const {debts, selectedDebtId} = props;

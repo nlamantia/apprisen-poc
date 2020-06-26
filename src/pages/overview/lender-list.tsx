@@ -8,7 +8,7 @@ import {bindActionCreators} from "redux";
 import {getDebts, selectDebt} from "../../feature/debt/action";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {getClientInformation} from "feature/client/action";
-import {calculateProgress} from "../common/utility-functions";
+import {calculateProgress} from "../../common/utility-functions";
 import ExpandableList from "../common/expandable-list";
 
 const _LenderList = (props: any) => {

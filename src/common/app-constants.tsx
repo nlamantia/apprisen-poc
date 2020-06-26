@@ -14,3 +14,5 @@ export const BRAND_COLORS = [
     "#6CB33F",
     "#717073"
 ];
+
+export const LINKED_APP_NAME = "ChaseFFG";

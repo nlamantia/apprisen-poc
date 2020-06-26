@@ -5,8 +5,8 @@ import {Plugins} from "@capacitor/core";
 import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest-service";
 import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth-service";
 import {LoginResponse} from "../../models/auth/login-response";
-import {LINKED_APP_NAME} from "../../config/app-constants";
 import {message} from "react-toastify-redux";
+import {LINKED_APP_NAME} from "../../common/app-constants";
 
 const { Storage } = Plugins;
 
@@ -74,7 +74,7 @@ export function * verifyWorker(action) {
         const {signedToken, username, expiresOn} = yield call(getCredentials)
         const responseToVerify = yield call(callVerifyClientNumber, {ZipCode: zipCode, Last4SSN: lastFourOfSSID, ClientNumber: clientId})
 
-        if (responseToVerify && responseToVerify.IsSuccess) {
+        if (responseToVerify || responseToVerify.IsSuccess) {
             yield put(message('Verified!'))
             const responseToLink = yield call(callLinkAccount, {
                 Application: LINKED_APP_NAME,

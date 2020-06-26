@@ -23,10 +23,9 @@ import {connect, useSelector} from 'react-redux';
 import {withRouter} from "react-router";
 import {bindActionCreators} from 'redux';
 import {login} from "../../feature/auth/action";
-import logo from "../../images/apprisen-logo.png";
 import {LoginRequest} from "../../models/auth/login-request";
 import {useAuthContext} from "../../common/auth-provider";
-import {validateNonEmptyString} from "../common/validators";
+import {validateNonEmptyString} from "../../common/validators";
 
 const _Login = (props: any) => {
 
@@ -79,7 +78,7 @@ const _Login = (props: any) => {
             <IonHeader>
                 <IonToolbar>
                     <IonThumbnail class="toolbar-logo" slot={"start"}>
-                        <img alt="apprisen-logo" src={logo} />
+                        <img alt="apprisen-logo" src={"/images/apprisen-logo.png"} />
                     </IonThumbnail>
                     <IonTitle>Apprisen</IonTitle>
                 </IonToolbar>

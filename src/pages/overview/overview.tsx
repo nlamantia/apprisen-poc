@@ -12,7 +12,7 @@ import {
     IonToast,
     IonToolbar
 } from "@ionic/react";
-import WelcomeBanner from "pages/common/welcome-banner";
+import WelcomeBanner from "pages/overview/welcome-banner";
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { Redirect } from "react-router-dom";
@@ -21,7 +21,6 @@ import { getCredentials, logout } from '../../feature/auth/action';
 import { getCaseSummary } from "../../feature/case/action";
 import { getDebts } from "../../feature/debt/action";
 import { getClientAccountData, getPaymentHistory } from "../../feature/payment/action";
-import logo from "../../images/apprisen-logo.png";
 import ProgressTrackerCard from "../common/progress-tracker-card";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
@@ -98,7 +97,7 @@ const _Overview = (props) => {
                     <IonHeader>
                         <IonToolbar>
                             <IonThumbnail class="toolbar-logo" slot={"start"}>
-                                <img alt="apprisen-logo" src={logo}/>
+                                <img alt="apprisen-logo" src={"/images/apprisen-logo.png"}/>
                             </IonThumbnail>
                             <IonTitle>Apprisen</IonTitle>
                             <IonButtons slot="end">

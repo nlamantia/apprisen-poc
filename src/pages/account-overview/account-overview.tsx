@@ -31,10 +31,11 @@ import {CaseDebt} from "../../models/case/case-debt";
 import {CaseSummary} from "../../models/case/case-summary";
 import {getClientAccountData, getPaymentHistory} from "../../feature/payment/action";
 import {CaseDeposit} from "../../models/payment/case-deposit";
-import {printDate} from "../common/utility-functions";
+import {printDate} from "../../common/utility-functions";
 import {BRAND_COLORS} from "../../common/app-constants";
 import ExpandableList from "../common/expandable-list";
 
+// TODO: Move this function to the graph subcomponent (when created)
 export const getLenderListForGraph = (lenders: CaseDebt[], colors: string[]): CaseDebt[] => {
     if (lenders.length <= colors.length) {
         return lenders;
@@ -167,6 +168,7 @@ const _AccountOverview = (props) => {
                     <IonGrid>
                         <IonRow>
                             <IonCol size={"12"} sizeLg={"6"} offsetLg={"3"}>
+                                {/* TODO: Extract this card into its own component */}
                                 <IonCard>
                                     <IonList class="ion-no-padding">
                                         <IonListHeader class={"white ion-text-center ion-padding-end"}>
@@ -218,6 +220,7 @@ const _AccountOverview = (props) => {
                                 <IonCard>
                                     <ExpandableList data={userDebts} onItemDisplay={generateLenderIonItem} title={'Balance Breakdown'} />
                                 </IonCard>
+                                {/* TODO: Extract this card into its own component */}
                                 <IonCard>
                                     <IonItem>
                                         <div className={"chart-div ion-padding-vertical"}>
