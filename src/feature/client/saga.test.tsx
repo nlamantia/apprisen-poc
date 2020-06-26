@@ -16,21 +16,21 @@ describe('client saga', () => {
 
    it('handles successful client info call', () => {
       const credentials : LoginResponse = {
-         email: "email",
-         errors: [],
-         expiresOn: "expiresOn",
-         firstName: "firstName",
-         isSuccess: true,
-         lastName: "lastName",
-         linkedApplication: [{
-            application: "application",
-            externalId: "externalId",
+         Email: "email",
+         Errors: [],
+         ExpiresOn: "expiresOn",
+         FirstName: "firstName",
+         IsSuccess: true,
+         LastName: "lastName",
+         LinkedApplication: [{
+            Application: "application",
+            ExternalId: "externalId",
             $id: "$id"
          }],
-         signedToken: "signedToken",
-         statusCode: 5,
-         userId: "userId",
-         username: "username",
+         SignedToken: "signedToken",
+         StatusCode: 5,
+         UserId: "userId",
+         Username: "username",
          $id: "$id",
       }
       const generator = getClientInformationWorker(getClientInformation(credentials))
@@ -38,19 +38,19 @@ describe('client saga', () => {
           call(callClientInformationEndpoint)
       )
       const clientInformation : ClientInformation = {
-         address1: "address1",
-         address2: "address2",
-         cellPhone: "cellPhone",
-         city: "city",
-         emailAddress: "emailAddress",
-         errors: [],
-         firstName: "firstName",
-         homePhone: "homePhone",
-         isSuccess: true,
-         lastName: "lastName",
-         state: "state",
-         workPhone: "workPhone",
-         zipCode: "zipCode",
+         Address1: "address1",
+         Address2: "address2",
+         CellPhone: "cellPhone",
+         City: "city",
+         EmailAddress: "emailAddress",
+         Errors: [],
+         FirstName: "firstName",
+         HomePhone: "homePhone",
+         IsSuccess: true,
+         LastName: "lastName",
+         State: "state",
+         WorkPhone: "workPhone",
+         ZipCode: "zipCode",
          $id: "id",
       }
 

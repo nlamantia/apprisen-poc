@@ -42,14 +42,13 @@ const _LenderOverview = (props) => {
                     if (filteredDebts && filteredDebts.length > 0) {
                         const lender = filteredDebts[0];
                         setLender(lender);
-                        setProgress(calculateProgress(lender.originalBalance, lender.currentBalance));
+                        setProgress(calculateProgress(lender.OriginalBalance, lender.CurrentBalance));
                     }
                 } else {
-                    // property case will be changed with facade decommissioning branch
-                    if (!clientAccountData || !clientAccountData.dmpCaseId) {
+                    if (!clientAccountData || !clientAccountData.DmpCaseId) {
                         getClientAccountData();
                     } else {
-                        const { dmpCaseId: caseId } = clientAccountData;
+                        const { DmpCaseId: caseId } = clientAccountData;
                         getDebts(caseId);
                         getSelectedDebt();
                     }
@@ -62,7 +61,7 @@ const _LenderOverview = (props) => {
                 logout();
             }
         }
-    }, [clientAccountData, credentials, debts, selectedDebtId]);
+    }, [clientAccountData, credentials, clientAccountData, lender, debts, selectedDebtId]);
 
     return (
         <IonPage>
@@ -71,7 +70,7 @@ const _LenderOverview = (props) => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/overview"/>
                     </IonButtons>
-                    <IonTitle>{lender ? lender.creditorName : ""}</IonTitle>
+                    <IonTitle>{lender ? lender.CreditorName : ""}</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -80,8 +79,8 @@ const _LenderOverview = (props) => {
                         <IonCol size={"12"} sizeMd={"8"} sizeLg={"8"} offsetLg={"2"}>
                             <ProgressTrackerCard 
                                 currentLabel={"N/A"}
-                                startLabel={((lender && lender.originalBalance) ? "$" + lender.originalBalance.toFixed(2) : undefined)}
-                                endLabel={((lender && lender.currentBalance) ? "$" + lender.currentBalance.toFixed(2) : undefined)}
+                                startLabel={((lender && lender.OriginalBalance) ? "$" + lender.OriginalBalance.toFixed(2) : undefined)}
+                                endLabel={((lender && lender.CurrentBalance) ? "$" + lender.CurrentBalance.toFixed(2) : undefined)}
                                 currentProgress={progress}/>
                         </IonCol>
                     </IonRow>
@@ -103,7 +102,7 @@ const _LenderOverview = (props) => {
                                                 <div className={'single-card-grid'} />
                                                 <div className={'single-card-grid'}>
                                                     <h3 className={"ion-text-right"}>
-                                                        {lender ? lender.accountNumber : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                        {lender ? lender.AccountNumber : <IonSkeletonText animated style={{width: '100%'}} />}
                                                     </h3>
                                                 </div>
                                             </div>
@@ -118,7 +117,7 @@ const _LenderOverview = (props) => {
                                                 <div className={'single-card-grid'} />
                                                 <div className={'single-card-grid'}>
                                                     <h3 className={"ion-text-right"}>
-                                                        {lender ? "$" + lender.currentBalance : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                        {lender ? "$" + lender.CurrentBalance : <IonSkeletonText animated style={{width: '100%'}} />}
                                                     </h3>
                                                 </div>
                                             </div>
@@ -133,7 +132,7 @@ const _LenderOverview = (props) => {
                                                 <div className={'single-card-grid'} />
                                                 <div className={'single-card-grid'}>
                                                     <h3 className={"ion-text-right"}>
-                                                        {lender && lender.originalBalance ? "$" + lender.originalBalance.toFixed(2) :
+                                                        {lender && lender.OriginalBalance ? "$" + lender.OriginalBalance.toFixed(2) :
                                                             <IonSkeletonText animated style={{width: '100%'}}/>}
                                                     </h3>
                                                 </div>
@@ -149,7 +148,7 @@ const _LenderOverview = (props) => {
                                                 <div className={'single-card-grid'} />
                                                 <div className={'single-card-grid'}>
                                                     <h3 className={"ion-text-right"}>
-                                                        {lender ? (lender.apr * 100) + "%" : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                        {lender ? (lender.Apr * 100) + "%" : <IonSkeletonText animated style={{width: '100%'}} />}
                                                     </h3>
                                                 </div>
                                             </div>
@@ -164,7 +163,7 @@ const _LenderOverview = (props) => {
                                                 <div className={'single-card-grid'} />
                                                 <div className={'single-card-grid'}>
                                                     <h3 className={"ion-text-right"}>
-                                                        {lender ? lender.debtType : <IonSkeletonText animated style={{width: '100%'}} />}
+                                                        {lender ? lender.DebtType : <IonSkeletonText animated style={{width: '100%'}} />}
                                                     </h3>
                                                 </div>
                                             </div>

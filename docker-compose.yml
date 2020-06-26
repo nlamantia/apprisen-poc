@@ -10,18 +10,6 @@ services:
     expose:
       - 8100
       - 8200
-    depends_on:
-      - facade
     ports:
       - "8100:8100"
       - "8200:8200"
-    environment:
-      - REACT_APP_SERVICE_BASE_URL=http://localhost:8081
-
-  facade:
-    build: facade
-    restart: always
-    container_name: apprisen-facade
-    init: true
-    ports:
-      - "8081:8080"

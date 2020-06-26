@@ -28,21 +28,21 @@ describe('auth saga', () => {
 
         const generator = loginWorker({payload: {credentials}})
         const loginResponse: LoginResponse = {
-            email: "email",
-            errors: [],
-            expiresOn: "expiresOn",
-            firstName: "firstName",
-            isSuccess: true,
-            lastName: "lastName",
-            linkedApplication: [{
-                application: "application",
-                externalId: "externalId",
+            Email: "email",
+            Errors: [],
+            ExpiresOn: BigInt(15991270047024538),
+            FirstName: "firstName",
+            IsSuccess: true,
+            LastName: "lastName",
+            LinkedApplication: [{
+                Application: "application",
+                ExternalId: "externalId",
                 $id: "$id"
             }],
-            signedToken: "signedToken",
-            statusCode: 5,
-            userId: "userId",
-            username: "username",
+            SignedToken: "signedToken",
+            StatusCode: 5,
+            UserId: "userId",
+            Username: "username",
             $id: "$id",
         }
 
@@ -93,7 +93,7 @@ describe('auth saga', () => {
 
         const [signedToken, username, expiresOn] = ['signedToken', 'username', 'expiresOn']
 
-        const credentials = {signedToken, username, expiresOn}
+        const credentials = {SignedToken: signedToken, Username: username, ExpiresOn: expiresOn}
 
         expect(generator.next().value).toEqual(
             call(getCredentials)
@@ -129,7 +129,7 @@ describe('auth saga', () => {
 
         const [signedToken, username, expiresOn] = ['signedToken', 'username', 'expiresOn']
 
-        const credentials = {signedToken, username, expiresOn}
+        const credentials = {SignedToken: signedToken, Username: username, ExpiresOn: expiresOn}
 
         expect(generator.next().value).toEqual(
             call(getCredentials)
@@ -159,7 +159,7 @@ describe('auth saga', () => {
                 ExpiresOn: expiresOn
             })
         )
-        expect(generator.next({isSuccess: 'true'} as any).value).toEqual(
+        expect(generator.next({IsSuccess: 'true'} as any).value).toEqual(
             Storage.set({key: 'verified', value: 'true'})
         )
         expect(generator.next().value).toEqual(

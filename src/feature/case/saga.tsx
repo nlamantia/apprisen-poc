@@ -5,7 +5,7 @@ import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest-s
 export function * getCaseWorker(action) {
     const { payload: { caseId } } = action;
     const caseSummary = yield call(callCaseSummaryEndpoint, caseId);
-    if (caseSummary && caseSummary.estimatedBalance != null) {
+    if (caseSummary && caseSummary.EstimatedBalance != null) {
         yield put(setCaseSummary(caseSummary))
     }
 }
@@ -23,7 +23,7 @@ export function * getCasePayoffDateForecastWorker(action) {
         }
     } = action
 
-    const { payoffDate } = (
+    const { PayoffDate } = (
         yield call(callPayoffForecast,
             {
                 IncreaseAmount,
@@ -32,7 +32,7 @@ export function * getCasePayoffDateForecastWorker(action) {
             })
     )
 
-    yield put(setCasePayoffDate({ casePayoffDate: payoffDate }))
+    yield put(setCasePayoffDate({ casePayoffDate: PayoffDate }))
 }
 
 export function * getCasePayoffDateForecastWatcher() {

@@ -8,41 +8,24 @@ import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest-s
 
 describe('case saga', () => {
    it('handles successful case call', () => {
-      const credentials : LoginResponse = {
-         email: "email",
-         errors: [],
-         expiresOn: "expiresOn",
-         firstName: "firstName",
-         isSuccess: true,
-         lastName: "lastName",
-         linkedApplication: [{
-            application: "application",
-            externalId: "externalId",
-            $id: "$id"
-         }],
-         signedToken: "signedToken",
-         statusCode: 5,
-         userId: "userId",
-         username: "username",
-         $id: "$id",
-      }
 
       const generator = getCaseWorker({payload: { caseId: 1 }})
 
       const caseSummary : CaseSummary = {
-         clientName: "name",
-         currentMonthlyPayment: 0,
-         errors: [],
-         estimatedBalance: 0.0,
-         firstDisbursementDate: {
+         ClientName: "name",
+         CurrentMonthlyPayment: 0,
+         CurrentTrustBalance: 0,
+         Errors: [],
+         EstimatedBalance: 0.0,
+         FirstDisbursementDate: {
             calendar: "calendar",
             ticks: 532,
             $id: "id",
          },
-         isSuccess: true,
-         monthlyDueOn: 23,
-         nextPaymentDueOn: new Date(32),
-         totalMonthlyDeposit: 34,
+         IsSuccess: true,
+         MonthlyDueOn: 23,
+         NextPaymentDueOn: new Date(32),
+         TotalMonthlyDeposit: 34,
          $id: "id_two",
       }
 
@@ -67,7 +50,7 @@ describe('case saga', () => {
       const increaseAmount = 6
       const isOneTimePayment = true
       const generator = getCasePayoffDateForecastWorker(getCasePayoffDate({
-         caseNumber,
+         caseId: caseNumber,
          increaseAmount,
          isOneTimePayment
       }))
@@ -75,16 +58,17 @@ describe('case saga', () => {
       expect(generator.next().value).toEqual(
           call(callPayoffForecast,
               {
+                 caseId: caseNumber,
                  IncreaseAmount: increaseAmount,
                  IsOneTimePayment: isOneTimePayment
               }
           )
       )
 
-      const payoffDate = "an arbritrary string, should be a date"
+      const PayoffDate = "an arbritrary string, should be a date"
 
-      expect(generator.next({ payoffDate } as any).value).toEqual(
-         put(setCasePayoffDate({ casePayoffDate: payoffDate }))
+      expect(generator.next({ PayoffDate } as any).value).toEqual(
+         put(setCasePayoffDate({ casePayoffDate: PayoffDate }))
       )
 
    })

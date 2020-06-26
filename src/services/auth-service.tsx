@@ -16,19 +16,32 @@ export const isAuthenticated = async (parCreds?: LoginResponse) : Promise<Boolea
 
 export const areCredentialsExpired = async (parCreds?: LoginResponse ) : Promise<Boolean> => {
     const creds = parCreds ? parCreds : await getCredentials()
-    const { expiresOn } = creds
-    return Date.now() >= new Date(Number(expiresOn) / 10000).getTime()
+    if (!creds) return true;
+    const { ExpiresOn } = creds;
+    if (!ExpiresOn) return true;
+    return Date.now() >= new Date(Number(ExpiresOn / BigInt(10000))).getTime()
 }
 
 export const login = (credentials : LoginResponse) => {
     try {
-        let creds = JSON.stringify(credentials);
+        let creds = JSON.stringify(credentials, credsStringifier);
         Storage.set({key: 'credentials', value: creds})
     } catch(e) {
         console.error('Could not set credentials!', e)
     }
 }
 
+const credsStringifier = (key, value) =>
+    typeof value === 'bigint'
+        ? value.toString()
+        : value // return everything else unchanged
+
+export const JSON_OBJECT_PARSER = (key, value) => {
+    if (key === 'ExpiresOn') {
+        return BigInt(value);
+    }
+    return value;
+};
 
 export const logout = () => {
     Storage.remove({key: 'credentials'})
@@ -39,7 +52,7 @@ export const getCredentials = async(): Promise<LoginResponse> => {
         try {
             const credString = (await Storage.get({key: 'credentials'})).value;
             if (credString) {
-                resolve(credString ? JSON.parse(credString) : null);
+                resolve(credString ? JSON.parse(credString, JSON_OBJECT_PARSER) : null);
             } else {
                 reject("Can't get credentials!")
             }
@@ -51,8 +64,8 @@ export const getCredentials = async(): Promise<LoginResponse> => {
 
 export const isVerified = async () => {
     try {
-        const caseId = await getClientId();
-        return !!caseId || !!(await Storage.get({key: 'verified'}))
+        const clientId = await getClientId();
+        return !!clientId || !!(await Storage.get({key: 'verified'}))
     } catch(e) {
         return false
     }
@@ -63,8 +76,8 @@ export const getClientId = () => {
     return new Promise(async (resolve, reject) => {
         try {
             const credentials = await getCredentials()
-            const { externalId } =  credentials.linkedApplication.filter( e =>  e.application === LINKED_APP_NAME )[0]
-            resolve(externalId)
+            const { ExternalId } =  credentials.LinkedApplication.filter(e =>  e.Application === LINKED_APP_NAME )[0]
+            resolve(ExternalId)
         } catch(e) {
             reject(null)
         }
@@ -75,12 +88,12 @@ export const getAuthHeaders = (): Promise<Headers> => {
     return new Promise(async (resolve, reject) => {
         const headers = new Headers();
         try {
-            const {signedToken, username, expiresOn} = await getCredentials()
-            await assertLoggedIn({signedToken, username, expiresOn})
+            const {SignedToken, Username, ExpiresOn} = await getCredentials()
+            await assertLoggedIn({SignedToken: SignedToken, Username: Username, ExpiresOn: ExpiresOn})
 
-            headers.append("Authorization-Token", signedToken)
-            headers.append('Username', username)
-            headers.append('ExpiresOn', expiresOn)
+            headers.append("Authorization-Token", SignedToken)
+            headers.append('Username', Username)
+            headers.append('ExpiresOn', "" + ExpiresOn)
         } catch(e) {
             reject(e)
         }
@@ -89,11 +102,12 @@ export const getAuthHeaders = (): Promise<Headers> => {
 }
 
 export const assertLoggedIn = async credentials => {
-    const {signedToken, username, expiresOn} = await credentials ? credentials : getCredentials()
-    if (new Date().getMilliseconds() >= new Date(expiresOn).getMilliseconds()) {
+    const {SignedToken} = await credentials ? credentials : await getCredentials();
+    const expired = await areCredentialsExpired(credentials);
+    if (expired) {
         throw new Error("Credentials are expired;")
     }
-    if (signedToken === '' || !signedToken ) {
+    if (!SignedToken || SignedToken === '') {
         throw new Error("Invalid token! User must not be logged in!");
     }
 }

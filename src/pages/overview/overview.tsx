@@ -58,11 +58,11 @@ const _Overview = (props) => {
 
     useEffect(
         () => {
-            if (credentials && credentials.linkedApplication) {
-                if (!clientAccountData || !clientAccountData.dmpCaseId || !clientAccountData.bankAccountTypes) {
+            if (credentials && credentials.LinkedApplication) {
+                if (!clientAccountData || !clientAccountData.DmpCaseId || !clientAccountData.BankAccountTypes) {
                     getClientAccountData();
                 } else {
-                    const { dmpCaseId: caseId } = clientAccountData;
+                    const { DmpCaseId: caseId } = clientAccountData;
                     if (!paymentHistory || !paymentHistory.length) {
                         getPaymentHistory(caseId);
                     }
@@ -70,15 +70,15 @@ const _Overview = (props) => {
                     if (!caseSummary && !fetchingCaseSummary) {
                         getCaseSummary(caseId);
                     } else if (caseSummary) {
-                        setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
-                        setMonthlyPayment(caseSummary.currentMonthlyPayment.toFixed(2));
+                        setCurrentBalance(caseSummary.EstimatedBalance.toFixed(2));
+                        setMonthlyPayment(caseSummary.CurrentMonthlyPayment.toFixed(2));
                         setCaseProgress(calculateCurrentProgress());
                     }
 
                     if (!debts && !fetchingDebtDetails) {
                         getDebts(caseId);
                     } else if (debts) {
-                        setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));
+                        setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.OriginalBalance), 0.00).toFixed(2));
                     }
                 }
             } else {
@@ -88,7 +88,7 @@ const _Overview = (props) => {
                     redirectLogin();
                 }
             }
-        }, [credentials, debts, clientAccountData, caseSummary, totalOriginalBalance, paymentHistory]);
+        }, [credentials, debts, clientAccountData, caseSummary, fetchingCaseSummary, totalOriginalBalance, paymentHistory]);
 
     return (
         !authorized ? redirectLogin() :

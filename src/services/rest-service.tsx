@@ -3,24 +3,28 @@ import {LoginRequest} from "../models/auth/login-request";
 import {ClientInformation} from "../models/case/client-information";
 import {CaseSummary} from "../models/case/case-summary";
 import {DebtDetail} from "../models/case/debt-detail";
-import {getAuthHeaders, getClientId} from "./auth-service";
+import {getAuthHeaders, getClientId, JSON_OBJECT_PARSER} from "./auth-service";
 import {PaymentHistoryResponse} from "../models/payment/payment-history-response";
 import {toast} from "react-toastify";
 import {EmailRequest} from "../models/contact/email-request";
 
-export const BASE_URL = process.env.REACT_APP_SERVICE_BASE_URL;
+const ENV_ICM_BASE_URL = process.env.REACT_APP_SERVICE_BASE_URL;
+const ENV_LOGIN_BASE_URL = process.env.REACT_APP_LOGIN_BASE_URL;
 
-const CLIENT_INFORMATION_URL = BASE_URL + "/api/case/client-details/";
-const PAY_OFF_FORECAST = BASE_URL + "/api/case/payoffforecast/";
-const CASE_SUMMARY_URL = BASE_URL + "/api/case/case-summary/";
-const DEBT_DETAIL_URL = BASE_URL + "/api/case/debt-details/";
-const LOGIN_URL = BASE_URL + "/api/auth/login";
-const MAKE_PAYMENT_URL = BASE_URL + "/api/case/payment";
-const CLIENT_DATA_URL = BASE_URL + "/api/client/getclientdata/";
-const SEND_EMAIL_URL = BASE_URL + "/api/client/sendemail/";
-const PAYMENT_HISTORY_URL = BASE_URL + "/api/case/payment-history/";
-const LINK_ACCOUNT_URL = BASE_URL + "/api/client/link-application"
-const VERIFY_CLIENT_NUMBER_URL = BASE_URL + "/api/client/verifyclientnumber"
+const ICM_BASE_URL = ENV_ICM_BASE_URL ? ENV_ICM_BASE_URL : "";
+const LOGIN_BASE_URL = ENV_LOGIN_BASE_URL ? ENV_LOGIN_BASE_URL : "";
+
+const CLIENT_INFORMATION_URL = ICM_BASE_URL + "/api/client/getclientinformation/";
+const PAY_OFF_FORECAST = ICM_BASE_URL + "/api/case/payoffforecast/";
+const CASE_SUMMARY_URL = ICM_BASE_URL + "/api/case/getcasesummary/";
+const DEBT_DETAIL_URL = ICM_BASE_URL + "/api/case/getcasedebtdetail/";
+const LOGIN_URL = LOGIN_BASE_URL + "/api/account/validateuser";
+const MAKE_PAYMENT_URL = ICM_BASE_URL + "/api/payment/createwebpayment";
+const CLIENT_DATA_URL = ICM_BASE_URL + "/api/client/getclientdata/";
+const SEND_EMAIL_URL = ICM_BASE_URL + "/api/client/sendemail/";
+const PAYMENT_HISTORY_URL = ICM_BASE_URL + "/api/case/getcasedepositdetail/";
+const LINK_ACCOUNT_URL = LOGIN_BASE_URL + "/api/account/LinkAccountWithExternalApp";
+const VERIFY_CLIENT_NUMBER_URL = ICM_BASE_URL + "/api/client/verifyclientnumber";
 
 
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]
@@ -137,7 +141,10 @@ export const callApi = async (url: string, options: RequestInit = {}, message: s
             headers
         });
         if (response.ok) {
-            return response.json();
+            return response.text().then(json => {
+                let quoteParsedJson = addQuotesToExpiresOn(json);
+                return JSON.parse(quoteParsedJson, JSON_OBJECT_PARSER);
+            });
         } else {
             if (message) toast(`${message}`) // have to coax the message out by casting it as a string for some reason
             throw new Error(String(response.status));
@@ -146,6 +153,21 @@ export const callApi = async (url: string, options: RequestInit = {}, message: s
         if (message) toast(`${message}`)
         throw new Error(String(message.status));
     }
+};
+
+const addQuotesToExpiresOn = (json: string): string => {
+    const expiresOn = 'ExpiresOn';
+    const expiresOnIndex = json.lastIndexOf(expiresOn);
+    if (expiresOnIndex !== -1) {
+        let str = json.substring(expiresOnIndex + expiresOn.length + 2);
+        const terminatingCharacterIndex = str.indexOf(",") !== -1 ? str.indexOf(",") : str.indexOf("}");
+        if (terminatingCharacterIndex !== -1) {
+            const expiresOnNumber = str.substring(0, terminatingCharacterIndex);
+            const expiresOnString = '"' + expiresOnNumber + '"';
+            return json.replace(expiresOnNumber, expiresOnString);
+        }
+    }
+    return json;
 };
 
 const getHeaders = async (parameterHeaders: Headers, url: string) : Promise<Headers> => {

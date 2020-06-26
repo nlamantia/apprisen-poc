@@ -8,16 +8,22 @@ param([String]$dest, [String]$e="prod")
 
 # set deploy-to environment
 $branch = "master"
+$loginUrl = "https://login.apprisen.com"
+$icmUrl = "https://icm-services.apprisen.com"
 If ($e -eq "test") {
 	$branch = "develop"
+	$icmUrl = "https://icm-services-testing.apprisen.com"
 }
 
 # pull down the latest source code
 git checkout $branch
 git pull
 
+# set environment variables for base URLs
+$Env:REACT_APP_SERVICE_BASE_URL = $icmUrl
+$Env:REACT_APP_LOGIN_BASE_URL = $loginUrl
+
 # build the ionic project to create the build folder
-$Env:REACT_APP_SERVICE_BASE_URL = "https://apprisen-facade-test.herokuapp.com"
 npm install
 npm run build
 

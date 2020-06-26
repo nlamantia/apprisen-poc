@@ -8,13 +8,13 @@ describe('Auth service tests', () => {
    describe('isAuthenticated tests', () => {
        it('still authenticated', done => {
            const creds : LoginResponse = {
-               lastName: "", linkedApplication: [], statusCode: 0, userId: "", username: "",
-               email: 'patricia.lamkin@apprisen.com',
-               errors: [],
-               expiresOn: '15991270047024538',
-               firstName: 'demo',
-               isSuccess: true,
-               signedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
+               LastName: "", LinkedApplication: [], StatusCode: 0, UserId: "", Username: "",
+               Email: 'patricia.lamkin@apprisen.com',
+               Errors: [],
+               ExpiresOn: BigInt(15991270047024538),
+               FirstName: 'demo',
+               IsSuccess: true,
+               SignedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
                $id: '1'
            };
            isAuthenticated(creds).then(res => {
@@ -25,13 +25,13 @@ describe('Auth service tests', () => {
 
        it('not still authenticated', done => {
            const creds : LoginResponse = {
-               lastName: "", linkedApplication: [], statusCode: 0, userId: "", username: "",
-               email: 'patricia.lamkin@apprisen.com',
-               errors: [],
-               expiresOn: '15791270047024538',
-               firstName: 'demo',
-               isSuccess: true,
-               signedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
+               LastName: "", LinkedApplication: [], StatusCode: 0, UserId: "", Username: "",
+               Email: 'patricia.lamkin@apprisen.com',
+               Errors: [],
+               ExpiresOn: BigInt(15791270047024538),
+               FirstName: 'demo',
+               IsSuccess: true,
+               SignedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
                $id: '1'
            };
            try {
@@ -45,13 +45,13 @@ describe('Auth service tests', () => {
 
        it('just expired', done => {
            const creds : LoginResponse = {
-               lastName: "", linkedApplication: [], statusCode: 0, userId: "", username: "",
-               email: 'patricia.lamkin@apprisen.com',
-               errors: [],
-               expiresOn: '15891270047024538',
-               firstName: 'demo',
-               isSuccess: true,
-               signedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
+               LastName: "", LinkedApplication: [], StatusCode: 0, UserId: "", Username: "",
+               Email: 'patricia.lamkin@apprisen.com',
+               Errors: [],
+               ExpiresOn: BigInt(15891270047024538),
+               FirstName: 'demo',
+               IsSuccess: true,
+               SignedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
                $id: '1'
            };
            try {
@@ -76,13 +76,13 @@ describe('Auth service tests', () => {
 
        it('null signed token', done => {
            const creds : LoginResponse = {
-               lastName: "", linkedApplication: [], statusCode: 0, userId: "", username: "",
-               email: 'patricia.lamkin@apprisen.com',
-               errors: [],
-               expiresOn: '15891270047024538',
-               firstName: 'demo',
-               isSuccess: true,
-               signedToken: null,
+               LastName: "", LinkedApplication: [], StatusCode: 0, UserId: "", Username: "",
+               Email: 'patricia.lamkin@apprisen.com',
+               Errors: [],
+               ExpiresOn: BigInt(15891270047024538),
+               FirstName: 'demo',
+               IsSuccess: true,
+               SignedToken: null,
                $id: '1'
            };
            try {
@@ -96,13 +96,13 @@ describe('Auth service tests', () => {
 
        it('undefined signed token', done => {
            const creds : LoginResponse = {
-               lastName: "", linkedApplication: [], statusCode: 0, userId: "", username: "",
-               email: 'patricia.lamkin@apprisen.com',
-               errors: [],
-               expiresOn: '15891270047024538',
-               firstName: 'demo',
-               isSuccess: true,
-               signedToken: undefined,
+               LastName: "", LinkedApplication: [], StatusCode: 0, UserId: "", Username: "",
+               Email: 'patricia.lamkin@apprisen.com',
+               Errors: [],
+               ExpiresOn: BigInt(15891270047024538),
+               FirstName: 'demo',
+               IsSuccess: true,
+               SignedToken: undefined,
                $id: '1'
            };
            try {
@@ -116,13 +116,13 @@ describe('Auth service tests', () => {
 
        it('null expires on', done => {
            const creds : LoginResponse = {
-               lastName: "", linkedApplication: [], statusCode: 0, userId: "", username: "",
-               email: 'patricia.lamkin@apprisen.com',
-               errors: [],
-               expiresOn: null,
-               firstName: 'demo',
-               isSuccess: true,
-               signedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
+               LastName: "", LinkedApplication: [], StatusCode: 0, UserId: "", Username: "",
+               Email: 'patricia.lamkin@apprisen.com',
+               Errors: [],
+               ExpiresOn: null,
+               FirstName: 'demo',
+               IsSuccess: true,
+               SignedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
                $id: '1'
            };
            try {
@@ -136,18 +136,18 @@ describe('Auth service tests', () => {
 
        it('undefined expires on', done => {
            const creds : LoginResponse = {
-               lastName: "", linkedApplication: [], statusCode: 0, userId: "", username: "",
-               email: 'patricia.lamkin@apprisen.com',
-               errors: [],
-               expiresOn: undefined,
-               firstName: 'demo',
-               isSuccess: true,
-               signedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
+               LastName: "", LinkedApplication: [], StatusCode: 0, UserId: "", Username: "",
+               Email: 'patricia.lamkin@apprisen.com',
+               Errors: [],
+               ExpiresOn: undefined,
+               FirstName: 'demo',
+               IsSuccess: true,
+               SignedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
                $id: '1'
            };
            try {
            isAuthenticated(creds).then(res => {
-               expect((res)).toBeTruthy();
+               expect((res)).toBeFalsy();
                done()
            })} catch(e) {
                 done(e)
@@ -156,13 +156,13 @@ describe('Auth service tests', () => {
 
        it('expires on epoch', done => {
            const creds : LoginResponse = {
-               lastName: "", linkedApplication: [], statusCode: 0, userId: "", username: "",
-               email: 'patricia.lamkin@apprisen.com',
-               errors: [],
-               expiresOn: "0",
-               firstName: 'demo',
-               isSuccess: true,
-               signedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
+               LastName: "", LinkedApplication: [], StatusCode: 0, UserId: "", Username: "",
+               Email: 'patricia.lamkin@apprisen.com',
+               Errors: [],
+               ExpiresOn: BigInt(0),
+               FirstName: 'demo',
+               IsSuccess: true,
+               SignedToken: 'ynvjmC+M302bfvWSx2qztgM6lEoOWUcmMi1XmiX5sh8HvJ2AsE0d8J7v6UwpXcbvcobNOxzLF/dlmIL2q+F0KSYKEEUCP+8txdhdhqRBufUnO28kiadsLIV6+MD77hVdiefRRmUThd9K2sTzefnGaD1L+BaERHrQHuU5w6AQyf0=',
                $id: '1'
            };
            try {

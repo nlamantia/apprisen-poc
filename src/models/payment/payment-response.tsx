@@ -1,7 +1,7 @@
 import {Error} from '../common/error'
 
 export interface PaymentResponse {
-    confirmationNumber: string;
+    ConfirmationNumber: string;
     IsSuccess: boolean;
-    errors: Error[];
+    Errors: Error[];
 }

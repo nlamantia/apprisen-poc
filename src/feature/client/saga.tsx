@@ -6,7 +6,7 @@ import {callClientInformationEndpoint} from "../../services/rest-service";
 export function * getClientInformationWorker(action) {
     const clientInformation = yield call(callClientInformationEndpoint)
 
-    if (clientInformation && clientInformation.isSuccess) {
+    if (clientInformation && clientInformation.IsSuccess) {
         yield put(setClientInformation(clientInformation))
     } else {
         console.error("Unable to get client information");

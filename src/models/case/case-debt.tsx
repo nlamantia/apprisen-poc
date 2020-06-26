@@ -1,11 +1,11 @@
 export interface CaseDebt {
-    accountNumber: string;
-    apr: number;
-    creditorName: string;
-    currentBalance: number;
-    debtId: string;
-    debtType: number;
-    lastCreditorPaymentDate: Date;
-    originalBalance: number;
+    AccountNumber: string;
+    Apr: number;
+    CreditorName: string;
+    CurrentBalance: number;
+    DebtId: string;
+    DebtType: number;
+    LastCreditorPaymentDate: Date;
+    OriginalBalance: number;
     $id: string;
 }

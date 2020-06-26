@@ -3,7 +3,7 @@ import {push} from 'react-router-redux'
 import {GET_CREDENTIALS, LOGIN, loginSuccess, LOGOUT, setCredentials, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
 import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest-service";
-import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth-service";
+import {assertLoggedIn, getCredentials, JSON_OBJECT_PARSER, login, logout} from "../../services/auth-service";
 import {LoginResponse} from "../../models/auth/login-response";
 import {message} from "react-toastify-redux";
 import {LINKED_APP_NAME} from "../../common/app-constants";
@@ -17,7 +17,7 @@ export function * logoutWatcher() {
 export function * logoutWorker() {
     yield call(logout)
     yield put(setCredentials(null))
-    Storage.set({key: 'verified', value: null}).then(r => {});
+    yield Storage.set({key: 'verified', value: null}).then(r => {});
 }
 
 export function * loginWatcher() {
@@ -29,11 +29,11 @@ export function * loginWorker(action) {
     const { payload: { credentials } } = action;
     const loginResponse = yield call(callLoginEndpoint, credentials);
 
-    const { signedToken, username, expiresOn } = loginResponse;
+    const { SignedToken, Username, ExpiresOn } = loginResponse;
 
     const credsAreGood = () => {
         // put more validation here if desired. This shouldn't be a concern though, even with a MITM attack
-        return signedToken && username && expiresOn;
+        return SignedToken && Username && ExpiresOn;
     };
 
     if (credsAreGood()) {
@@ -56,7 +56,7 @@ export function * getCredentialsWorker() {
     if (!credsString || credsString === "") {
         throw new Error("No credentials found");
     } else {
-        let credentials = JSON.parse(credsString);
+        let credentials = JSON.parse(credsString, JSON_OBJECT_PARSER);
         yield assertLoggedIn(credentials);
         yield put(setCredentials(credentials as LoginResponse));
     }
@@ -71,7 +71,7 @@ export function * verifyWorker(action) {
     const ERROR_MESSAGE = `Hmm, something's not right about the information you entered`
 
     try {
-        const {signedToken, username, expiresOn} = yield call(getCredentials)
+        const {SignedToken, Username, ExpiresOn} = yield call(getCredentials)
         const responseToVerify = yield call(callVerifyClientNumber, {ZipCode: zipCode, Last4SSN: lastFourOfSSID, ClientNumber: clientId})
 
         if (responseToVerify || responseToVerify.IsSuccess) {
@@ -79,12 +79,12 @@ export function * verifyWorker(action) {
             const responseToLink = yield call(callLinkAccount, {
                 Application: LINKED_APP_NAME,
                 ExternalApplicationId: clientId,
-                SignedToken: signedToken,
-                UserName: username,
-                ExpiresOn: expiresOn
+                SignedToken: SignedToken,
+                UserName: Username,
+                ExpiresOn: ExpiresOn
             })
 
-            if (responseToLink.isSuccess) {
+            if (responseToLink.IsSuccess) {
                 yield Storage.set({key: 'verified', value: 'true'})
                 yield put(push('/logout'))
             }

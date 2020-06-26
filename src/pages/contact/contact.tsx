@@ -60,9 +60,9 @@ const _Contact = (props) => {
     }
 
     function getContactInfo() {
-        let email = userInfo ? userInfo.emailAddress : "";
-        let firstName = userInfo ? userInfo.firstName : "";
-        let lastName = userInfo ? userInfo.lastName : "";
+        let email = userInfo ? userInfo.EmailAddress : "";
+        let firstName = userInfo ? userInfo.FirstName : "";
+        let lastName = userInfo ? userInfo.LastName : "";
 
         return "</br></br>Email : " + email + "</br>First Name : " + firstName + "</br>Last Name : " + lastName;
     }
@@ -106,9 +106,9 @@ const _Contact = (props) => {
             setMessage(toastMessage);
         }
 
-        if (credentials && credentials.linkedApplication) {
+        if (credentials && credentials.LinkedApplication) {
             if (!userInfo) {
-                if (!clientInformation || !clientInformation.firstName) {
+                if (!clientInformation || !clientInformation.FirstName) {
                     getClientInformation()
                 } else {
                     setUserInfo(clientInformation);

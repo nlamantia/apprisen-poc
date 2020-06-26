@@ -1,27 +1,27 @@
 import {Lender} from "../lender";
 
 export interface CaseData {
-    caseNumber: string,
-    caseInceptionDate: string,
-    nextPaymentDate: string,
-    nextPaymentAmount: number,
-    previousPaymentDate: string,
-    previousPaymentAmount: number,
-    startingDebtAmount: number,
-    currentDebtAmount: number,
-    lenders: Lender[]
+    CaseNumber: string,
+    CaseInceptionDate: string,
+    NextPaymentDate: string,
+    NextPaymentAmount: number,
+    PreviousPaymentDate: string,
+    PreviousPaymentAmount: number,
+    StartingDebtAmount: number,
+    CurrentDebtAmount: number,
+    Lenders: Lender[]
 }
 
 export const data: CaseData = {
-    caseNumber: '14532190',
-    nextPaymentDate: '12/22/2019',
-    nextPaymentAmount: 540.36,
-    previousPaymentDate: '11/22/2019',
-    previousPaymentAmount: 540.36,
-    startingDebtAmount: 17356.21,
-    currentDebtAmount: 8420.75,
-    caseInceptionDate: '3/22/2016',
-    lenders: []
+    CaseNumber: '14532190',
+    NextPaymentDate: '12/22/2019',
+    NextPaymentAmount: 540.36,
+    PreviousPaymentDate: '11/22/2019',
+    PreviousPaymentAmount: 540.36,
+    StartingDebtAmount: 17356.21,
+    CurrentDebtAmount: 8420.75,
+    CaseInceptionDate: '3/22/2016',
+    Lenders: []
 };
 
 export const Data = {};

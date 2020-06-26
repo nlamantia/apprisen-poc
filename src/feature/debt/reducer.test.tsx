@@ -5,14 +5,14 @@ import {CaseDebt} from "../../models/case/case-debt";
 
 describe('debt reducer', () => {
    const CASE_DEBT : CaseDebt =  {
-       accountNumber: "TEST",
-       apr: .01,
-       creditorName:"TEST",
-       currentBalance: 0.00,
-       debtId:"TEST",
-       debtType: 5,
-       lastCreditorPaymentDate: new Date(9999),
-        originalBalance: 0.1,
+       AccountNumber: "TEST",
+       Apr: .01,
+       CreditorName:"TEST",
+       CurrentBalance: 0.00,
+       DebtId:"TEST",
+       DebtType: 5,
+       LastCreditorPaymentDate: new Date(9999),
+        OriginalBalance: 0.1,
         $id:"TEST",
    }
 

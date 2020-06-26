@@ -48,19 +48,19 @@ export const getLenderListForGraph = (lenders: CaseDebt[], colors: string[]): Ca
 
     let sumOriginalBalance = 0, sumCurrentBalance = 0;
     for (let i = colors.length - 1; i < lenders.length; i++) {
-        sumOriginalBalance += lenders[i].originalBalance;
-        sumCurrentBalance += lenders[i].currentBalance;
+        sumOriginalBalance += lenders[i].OriginalBalance;
+        sumCurrentBalance += lenders[i].CurrentBalance;
     }
 
     graphLenders.push({
-        accountNumber: "-",
-        apr: 0,
-        creditorName: "Other",
-        currentBalance: sumCurrentBalance,
-        debtId: "-111",
-        debtType: 1,
-        lastCreditorPaymentDate: new Date(),
-        originalBalance: sumOriginalBalance,
+        AccountNumber: "-",
+        Apr: 0,
+        CreditorName: "Other",
+        CurrentBalance: sumCurrentBalance,
+        DebtId: "-111",
+        DebtType: 1,
+        LastCreditorPaymentDate: new Date(),
+        OriginalBalance: sumOriginalBalance,
         $id: "-1"
     } as CaseDebt);
 
@@ -89,10 +89,10 @@ const _AccountOverview = (props) => {
         return (
             <IonItem>
                 <IonLabel>
-                    <h3>{printDate(new Date(caseDeposit.postedDate))}</h3>
+                    <h3>{printDate(new Date(caseDeposit.PostedDate))}</h3>
                 </IonLabel>
                 <div className={"ion-text-right row-text"}>
-                    ${caseDeposit.amount.toFixed(2)}
+                    ${caseDeposit.Amount.toFixed(2)}
                 </div>
             </IonItem>
         );
@@ -102,10 +102,10 @@ const _AccountOverview = (props) => {
         return (
             <IonItem>
                 <IonLabel>
-                    <h3>{debt.creditorName}</h3>
+                    <h3>{debt.CreditorName}</h3>
                 </IonLabel>
                 <div className={"ion-text-right row-text"}>
-                    ${debt.currentBalance.toFixed(2)}
+                    ${debt.CurrentBalance.toFixed(2)}
                 </div>
             </IonItem>
         );
@@ -113,12 +113,12 @@ const _AccountOverview = (props) => {
 
     useEffect(
         () => {
-            if (credentials && credentials.linkedApplication) {
-                if (!clientAccountData || !clientAccountData.dmpCaseId) {
+            if (credentials && credentials.LinkedApplication) {
+                if (!clientAccountData || !clientAccountData.DmpCaseId) {
                     getClientAccountData();
                 } else {
                     const {getCaseSummary, getDebts, getPaymentHistory} = props;
-                    const { dmpCaseId: caseId } = clientAccountData;
+                    const { DmpCaseId: caseId } = clientAccountData;
                     if (!caseSummary || caseSummary === {}) {
                         getCaseSummary(caseId);
                     } else {
@@ -185,8 +185,8 @@ const _AccountOverview = (props) => {
                                                     <div className={'single-card-grid'} />
                                                     <div className={'single-card-grid'}>
                                                         <h3 className={"ion-text-right"}>
-                                                            {userCaseSummary && userCaseSummary.estimatedBalance
-                                                                ? "$" + userCaseSummary.estimatedBalance
+                                                            {userCaseSummary && userCaseSummary.EstimatedBalance
+                                                                ? "$" + userCaseSummary.EstimatedBalance
                                                                 : <IonSkeletonText animated style={{width: '100%'}}/> }
                                                         </h3>
                                                     </div>
@@ -204,8 +204,8 @@ const _AccountOverview = (props) => {
                                                     <div className={'single-card-grid'} />
                                                     <div className={'single-card-grid'}>
                                                         <h3 className={"ion-text-right"}>
-                                                            {userCaseSummary && userCaseSummary.currentMonthlyPayment
-                                                                ? "$" + userCaseSummary.currentMonthlyPayment
+                                                            {userCaseSummary && userCaseSummary.CurrentMonthlyPayment
+                                                                ? "$" + userCaseSummary.CurrentMonthlyPayment
                                                                 : <IonSkeletonText animated style={{width: '100%'}}/> }
                                                         </h3>
                                                     </div>
@@ -228,12 +228,12 @@ const _AccountOverview = (props) => {
                                                 <Doughnut
                                                     data={{
                                                         labels: graphDebts.map(
-                                                            lender => lender.creditorName
+                                                            lender => lender.CreditorName
                                                         ),
                                                         datasets: [
                                                             {
                                                                 data: graphDebts.map(
-                                                                    lender => lender.currentBalance
+                                                                    lender => lender.CurrentBalance
                                                                 ),
                                                                 backgroundColor: BRAND_COLORS,
                                                                 hoverBackgroundColor: BRAND_COLORS

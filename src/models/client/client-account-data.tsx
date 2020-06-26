@@ -1,11 +1,12 @@
 import {BankAccountType} from "../banking/bank-account-type";
 import {State} from "../common/state";
+import {Error} from "../common/error";
 
 export interface ClientAccountData {
     "$id": string;
-    "dmpCaseId": number;
-    "errors": Error[];
+    "DmpCaseId": number;
+    "Errors": Error[];
     "IsSuccess": boolean;
-    "bankAccountTypes": BankAccountType[];
-    "states": State[];
+    "BankAccountTypes": BankAccountType[];
+    "States": State[];
 }
