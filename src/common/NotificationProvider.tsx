@@ -1,11 +1,8 @@
 // @ts-ignore
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { useSelector } from 'react-redux'
-import React, {useEffect, useState} from "react";
-import {Simulate} from "react-dom/test-utils";
-import {LOGIN, VERIFY} from "../feature/auth/action";
-import {COMPLETED, IN_PROGRESS} from "../feature/common/reducer";
+import React, { useState } from "react";
+import { useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const NotificationProvider = () => {
     const [lastState, setLastState] = useState(null)

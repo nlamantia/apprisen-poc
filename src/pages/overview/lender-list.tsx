@@ -1,8 +1,7 @@
 import React from "react";
 // eslint-disable-next-line
-import {IonButton, IonCard, IonItem, IonLabel, IonList, IonListHeader, IonProgressBar, IonSpinner} from "@ionic/react";
+import {IonButton, IonCard, IonItem, IonLabel, IonProgressBar} from "@ionic/react";
 // eslint-disable-next-line
-import {CaseDebt} from "../../models/case/case-debt";
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux'
 import {bindActionCreators} from "redux";
@@ -10,6 +9,7 @@ import {getDebts, selectDebt} from "../../feature/debt/action";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {getClientInformation} from "feature/client/action";
 import {calculateProgress} from "../common/utility-functions";
+import ExpandableList from "../common/expandable-list";
 
 const _LenderList = (props: any) => {
 
@@ -20,47 +20,33 @@ const _LenderList = (props: any) => {
         InAppBrowser.create("https://clientportal.apprisen.com", '_system', 'location=yes');
     };
 
+    const generateItemForCaseDebt = (caseDebt) => {
+        return(
+            <IonItem className={'lender-flex'}>
+                <IonLabel className="ion-text-wrap">
+                    <h3>{caseDebt.creditorName}</h3>
+                    <p>${caseDebt.currentBalance}</p>
+                </IonLabel>
+                <div className={'lender-progress-holder'}>
+                    <IonProgressBar value={calculateProgress(caseDebt.originalBalance, caseDebt.currentBalance)}/>
+                </div>
+                <Link
+                    to={{
+                        pathname: `/lender-overview`,
+                        state: {lender: caseDebt}
+                    }}
+                    onClick={() => selectDebt(caseDebt.$id)}
+                >
+                    <IonButton onClick={() => selectDebt(caseDebt.$id)} fill={'clear'}
+                               className={'lender-button'}>Info</IonButton>
+                </Link>
+            </IonItem>
+        );
+    };
+
     return (
         <IonCard class="color">
-            <IonList class="ion-no-padding">
-                <IonListHeader class={"white"}>
-                    <IonLabel>
-                        <h2>Lenders</h2>
-                    </IonLabel>
-                </IonListHeader>
-
-                {debts && debts.length > 0
-                    ? debts.map((caseDebt: CaseDebt, i: any) => {
-                        return (
-                            <IonItem className={'lender-flex'} key={i}>
-                                <IonLabel className="ion-text-wrap">
-                                    <h3>{caseDebt.creditorName}</h3>
-                                    <p>${caseDebt.currentBalance}</p>
-                                </IonLabel>
-                                <div className={'lender-progress-holder'}>
-                                    <IonProgressBar value={calculateProgress(caseDebt.originalBalance, caseDebt.currentBalance)}/>
-                                </div>
-                                <Link
-                                    to={{
-                                        pathname: `/lender-overview`,
-                                        state: {lender: caseDebt}
-                                    }}
-                                    onClick={() => selectDebt(caseDebt.$id)}
-                                >
-                                    <IonButton onClick={() => selectDebt(caseDebt.$id)} fill={'clear'}
-                                               className={'lender-button'}>Info</IonButton>
-                                </Link>
-                            </IonItem>
-                        )
-                    })
-                    : <IonItem>
-                        <IonLabel>
-                            <h3 className={'full-center'}>
-                                <IonSpinner />
-                            </h3>
-                        </IonLabel>
-                    </IonItem>}
-            </IonList>
+            <ExpandableList data={debts} title={'Lenders'} onItemDisplay={generateItemForCaseDebt} />
             <IonItem className={'full-button'}>
                 <IonButton className={'full-button'} expand="full" onClick={handleUploadStatementClick}>Upload
                     Statement</IonButton>

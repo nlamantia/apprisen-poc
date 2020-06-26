@@ -26,19 +26,17 @@ export function * loginWatcher() {
 
 
 export function * loginWorker(action) {
-    const { payload: { credentials } } = action
+    const { payload: { credentials } } = action;
     const loginResponse = yield call(callLoginEndpoint, credentials);
 
-    const { signedToken, username, expiresOn } = loginResponse
+    const { signedToken, username, expiresOn } = loginResponse;
 
     const credsAreGood = () => {
-        if (!signedToken) return false;
-        if (!username) return false;
-        if (!expiresOn) return false
         // put more validation here if desired. This shouldn't be a concern though, even with a MITM attack
-    }
+        return signedToken && username && expiresOn;
+    };
 
-    if (credsAreGood) {
+    if (credsAreGood()) {
         yield call(setCredentials,loginResponse) // put credentials in store
         yield call(login, loginResponse) // puts credentials in LocalStorage
         yield call(assertLoggedIn, loginResponse) // if there's an issue, throw exceptions
