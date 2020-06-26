@@ -1,17 +1,16 @@
 import { LinkedApplication } from "./linked-application";
 
-// todo ensure this is being everywhere it should be
 export interface LoginResponse {
-    email: string;
-    errors: any[];
-    expiresOn: string;
-    firstName: string;
-    isSuccess: boolean;
-    lastName: string;
-    linkedApplication: LinkedApplication[];
-    signedToken: string;
-    statusCode: number;
-    userId: string;
-    username: string;
+    Email: string;
+    Errors: any[];
+    ExpiresOn: number;
+    FirstName: string;
+    IsSuccess: boolean;
+    LastName: string;
+    LinkedApplication: LinkedApplication[];
+    SignedToken: string;
+    StatusCode: number;
+    UserId: string;
+    Username: string;
     $id: string;
 }

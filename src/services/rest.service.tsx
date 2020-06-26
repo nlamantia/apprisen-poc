@@ -18,14 +18,14 @@ const CLIENT_INFORMATION_URL = "/api/client/getclientinformation/";
 const PAY_OFF_FORECAST = "/api/case/payoffforecast/";
 const CASE_SUMMARY_URL = "/api/case/getcasesummary/";
 const DEBT_DETAIL_URL = "/api/case/getcasedebtdetail/";
-// const LOGIN_URL = "/api/account/validateuser";
-const LOGIN_URL = "/api/auth/login";
+const LOGIN_URL = "/api/account/validateuser";
+// const LOGIN_URL = "/api/auth/login";
 const MAKE_PAYMENT_URL = "/api/payment/createwebpayment";
 const CLIENT_DATA_URL = "/api/client/getclientdata/";
 const SEND_EMAIL_URL = "/api/client/sendemail/";
 const PAYMENT_HISTORY_URL = "/api/case/getcasedepositdetail/";
-const LINK_ACCOUNT_URL = "/api/client/link-application"
-const VERIFY_CLIENT_NUMBER_URL = "/api/client/verifyclientnumber"
+const LINK_ACCOUNT_URL = "/api/account/LinkAccountWithExternalApp";
+const VERIFY_CLIENT_NUMBER_URL = "/api/client/verifyclientnumber";
 
 
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]

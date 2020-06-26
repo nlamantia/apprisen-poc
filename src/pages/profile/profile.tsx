@@ -31,7 +31,7 @@ const _Profile = (props) => {
     const [userInfo, setUserInfo] = useState<ClientInformation>(null);
 
     useEffect(() => {
-        if (credentials && credentials.linkedApplication) {
+        if (credentials && credentials.LinkedApplication) {
             if (!userInfo) {
                 if (!clientInformation || !clientInformation.FirstName) {
                     console.log("getting client information");

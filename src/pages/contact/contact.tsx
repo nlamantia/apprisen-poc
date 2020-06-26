@@ -106,9 +106,9 @@ const _Contact = (props) => {
             setMessage(toastMessage);
         }
 
-        if (credentials && credentials.linkedApplication) {
+        if (credentials && credentials.LinkedApplication) {
             if (!userInfo) {
-                if (!clientInformation || !clientInformation.firstName) {
+                if (!clientInformation || !clientInformation.FirstName) {
                     getClientInformation()
                 } else {
                     setUserInfo(clientInformation);

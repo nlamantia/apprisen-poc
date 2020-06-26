@@ -59,7 +59,7 @@ const _Overview = (props) => {
 
     useEffect(
         () => {
-            if (credentials && credentials.linkedApplication) {
+            if (credentials && credentials.LinkedApplication) {
                 if (!clientAccountData || !clientAccountData.DmpCaseId || !clientAccountData.BankAccountTypes) {
                     console.log('get client data');
                     getClientAccountData();

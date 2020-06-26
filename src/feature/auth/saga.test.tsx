@@ -23,21 +23,21 @@ describe('auth saga', () => {
 
       const generator = loginWorker({payload: { credential }})
       const loginResponse : LoginResponse = {
-         email: "email",
-         errors: [],
-         expiresOn: "expiresOn",
-         firstName: "firstName",
-         isSuccess: true,
-         lastName: "lastName",
-         linkedApplication: [{
-            application: "application",
-            externalId: "externalId",
+         Email: "email",
+         Errors: [],
+         ExpiresOn: "expiresOn",
+         FirstName: "firstName",
+         IsSuccess: true,
+         LastName: "lastName",
+         LinkedApplication: [{
+            Application: "application",
+            ExternalId: "externalId",
             $id: "$id"
          }],
-         signedToken: "signedToken",
-         statusCode: 5,
-         userId: "userId",
-         username: "username",
+         SignedToken: "signedToken",
+         StatusCode: 5,
+         UserId: "userId",
+         Username: "username",
          $id: "$id",
       }
 

@@ -112,7 +112,7 @@ const _AccountOverview = (props) => {
 
     useEffect(
         () => {
-            if (credentials && credentials.linkedApplication) {
+            if (credentials && credentials.LinkedApplication) {
                 if (!clientAccountData || !clientAccountData.DmpCaseId) {
                     getClientAccountData();
                 } else {

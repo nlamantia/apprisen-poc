@@ -1,5 +1,5 @@
 export interface LinkedApplication {
-    application: string;
-    externalId: string;
+    Application: string;
+    ExternalId: string;
     $id: string;
 }

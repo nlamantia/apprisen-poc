@@ -29,11 +29,11 @@ export function * loginWorker(action) {
     const { payload: { credentials } } = action;
     const loginResponse = yield call(callLoginEndpoint, credentials);
 
-    const { signedToken, username, expiresOn } = loginResponse;
+    const { SignedToken, Username, ExpiresOn } = loginResponse;
 
     const credsAreGood = () => {
         // put more validation here if desired. This shouldn't be a concern though, even with a MITM attack
-        return signedToken && username && expiresOn;
+        return SignedToken && Username && ExpiresOn;
     };
 
     if (credsAreGood()) {
@@ -70,7 +70,7 @@ export function * verifyWatcher() {
 export function * verifyWorker(action) {
     const { payload: {zipCode, lastFourOfSSID, clientId} } = action
     try {
-        const {signedToken, username, expiresOn} = yield call(getCredentials)
+        const {SignedToken, Username, ExpiresOn} = yield call(getCredentials)
         const responseToVerify = yield call(callVerifyClientNumber, {ZipCode: zipCode, Last4SSN: lastFourOfSSID, ClientNumber: clientId})
         const ERROR_MESSAGE = `Hmm, something's not right about the information you entered`
 
@@ -79,13 +79,13 @@ export function * verifyWorker(action) {
             const responseToLink = yield call(callLinkAccount, {
                 Application: LINKED_APP_NAME,
                 ExternalApplicationId: clientId,
-                SignedToken: signedToken,
-                UserName: username,
-                ExpiresOn: expiresOn
+                SignedToken: SignedToken,
+                UserName: Username,
+                ExpiresOn: ExpiresOn
             })
             console.log(responseToLink)
 
-            if (responseToLink.isSuccess) {
+            if (responseToLink.IsSuccess) {
                 yield Storage.set({key: 'verified', value: 'true'})
                 yield put(push('/logout'))
             }

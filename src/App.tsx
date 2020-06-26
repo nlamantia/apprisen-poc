@@ -68,7 +68,7 @@ const _Main = (props: any) => {
         {title: 'Profile', route: '/profile', action: (e) => null},
         {title: 'Contact Us', route: '/contact', action: (e) => null},
         {title: 'Additional Resources', route: '/resources', action: (e) => null},
-        {title: 'Logout', route: '/login', action: (e) => logout()}
+        {title: 'Logout', route: '/logout', action: (e) => null}
     ]
 
     // @ts-ignore
