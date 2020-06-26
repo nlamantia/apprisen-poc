@@ -61,17 +61,14 @@ const _Overview = (props) => {
         () => {
             if (credentials && credentials.linkedApplication) {
                 if (!clientAccountData || !clientAccountData.dmpCaseId || !clientAccountData.bankAccountTypes) {
-                    console.log('get client data');
                     getClientAccountData();
                 } else {
                     const { dmpCaseId: caseId } = clientAccountData;
                     if (!paymentHistory || !paymentHistory.length) {
-                        console.log('get payment history');
                         getPaymentHistory(caseId);
                     }
 
                     if (!caseSummary && !fetchingCaseSummary) {
-                        console.log('get case summary');
                         getCaseSummary(caseId);
                     } else if (caseSummary) {
                         setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
@@ -80,7 +77,6 @@ const _Overview = (props) => {
                     }
 
                     if (!debts && !fetchingDebtDetails) {
-                        console.log('get case summary')
                         getDebts(caseId);
                     } else if (debts) {
                         setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));

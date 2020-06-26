@@ -1,20 +1,5 @@
-import {AuthTypes} from "./interface";
-import {LoginStatus} from "../../models/auth/loginStatus";
 import {LoginRequest} from "../../models/auth/login-request";
 import {LoginResponse} from "../../models/auth/login-response";
-
-export const SET_LOGIN_STATUS = "setLoginStatus"
-export function setLoginStatus(loginStatus : LoginStatus): AuthTypes {
-    return {
-        type: SET_LOGIN_STATUS,
-        payload: { loginStatus }
-    }
-}
-
-export const RESET_LOGIN_STATUS = "resetLogInStatus"
-export const resetLoginStatus = () => ({
-    type: RESET_LOGIN_STATUS,
-})
 
 export const GET_CREDENTIALS = "getCredentials"
 export const getCredentials = () => ({

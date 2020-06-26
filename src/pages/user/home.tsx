@@ -15,28 +15,22 @@ import React, {Component} from 'react';
 import {User} from '../../models/User';
 
 class Home extends Component {
-    // todo don't store props in state
     state = {
         users: [] as User[]
     };
 
-    // todo handlle with effect, use saga
     ionViewWillEnter() {
         this.getUsers();
     }
 
-    // todo handle with saga
     getUsers(): void {
-        // todo move to rest service
         fetch("https://apprisen-poc-api.herokuapp.com/api/users")
             .then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson)
                 this.setState({
                     users: responseJson as User[]
                 });
             })
-            .catch(err => console.log(err));
     }
 
     doRefresh(event: CustomEvent<RefresherEventDetail>): void {
@@ -47,7 +41,6 @@ class Home extends Component {
     }
 
     render() {
-        // todo destructure state
         return (
             <IonPage>
                 <IonHeader>

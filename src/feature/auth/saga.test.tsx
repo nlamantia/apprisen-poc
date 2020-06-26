@@ -2,10 +2,10 @@ import React from 'react'
 import {loginWatcher, loginWorker, verifyWorker} from "./saga";
 import {call, put, takeEvery} from "redux-saga/effects";
 import {LOGIN, setCredentials} from "./action";
-import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest.service";
+import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest-service";
 import {Plugins} from "@capacitor/core";
 import {LoginResponse} from "../../models/auth/login-response";
-import {assertLoggedIn, getCredentials, login} from "../../services/auth.service";
+import {assertLoggedIn, getCredentials, login} from "../../services/auth-service";
 import {push} from "connected-react-router";
 import {LINKED_APP_NAME} from "../../config/app-constants";
 

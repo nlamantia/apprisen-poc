@@ -33,9 +33,8 @@ import AccountOverview from "./pages/account-overview/account-overview";
 import LenderOverview from "./pages/lender/lender-overview";
 import Login from "./pages/login/login";
 import Overview from "./pages/overview/overview";
-import PaymentOverview from "./pages/payment-overview/payment-overview";
-import Home from "./pages/user/Home";
-import UserDetails from "./pages/user/UserDetails";
+import Home from "./pages/user/home";
+import UserDetails from "./pages/user/user-details";
 import Profile from "./pages/profile/profile";
 /* Theme variables */
 import "./theme/variables.scss";
@@ -46,10 +45,10 @@ import MakePayment from "./pages/payment/make-payment";
 import PaymentConfirmation from "./pages/payment/payment-confirmation";
 import {bindActionCreators} from "redux";
 import {logout} from "./feature/auth/action";
-import PrivateRoute from "./common/PrivateRoute";
+import PrivateRoute from "./common/private-route";
 import Verify from "./pages/verify/verify";
-import {AuthContextProvider} from "./common/AuthProvider";
-import {NotificationProvider} from "./common/NotificationProvider";
+import {AuthContextProvider} from "./common/auth-provider";
+import {NotificationProvider} from "./common/notification-provider";
 import {Logout} from "./pages/logout/logout";
 import Contact from "./pages/contact/contact";
 import {ConnectedRouter} from "connected-react-router";
@@ -121,10 +120,6 @@ const _Main = (props: any) => {
                             <PrivateRoute path="/contact" component={Contact}/>
                             <PrivateRoute path="/profile" component={Profile}/>
                             <PrivateRoute path="/resources" component={AdditionalResources}/>
-                            <PrivateRoute
-                                path="/payment-overview"
-                                component={PaymentOverview}
-                            />
                             <PrivateRoute
                                 path="/account-overview"
                                 component={AccountOverview}

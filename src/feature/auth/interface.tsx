@@ -1,5 +1,4 @@
-import {LOGIN, SET_CREDENTIALS, SET_LOGIN_STATUS, VERIFY} from "./action";
-import {LoginStatus} from "../../models/auth/loginStatus";
+import {LOGIN, SET_CREDENTIALS, VERIFY} from "./action";
 import {LoginRequest} from "../../models/auth/login-request";
 import {LoginResponse} from "../../models/auth/login-response";
 
@@ -13,11 +12,6 @@ interface LoginMessageAction {
     payload: { credentials: LoginRequest }
 }
 
-interface SetLoginStatusMessageAction {
-    type: typeof SET_LOGIN_STATUS,
-    payload: { loginStatus: LoginStatus }
-}
-
 interface VerifyUserMessageAction {
     type: typeof VERIFY,
     payload: { lastFourOfSSID: number, zipCode: number, clientId: string }
@@ -27,5 +21,4 @@ interface VerifyUserMessageAction {
 export type AuthTypes =
     LoginMessageAction |
     SetCredentialMessageAction |
-    SetLoginStatusMessageAction |
     VerifyUserMessageAction

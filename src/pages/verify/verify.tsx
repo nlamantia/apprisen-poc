@@ -22,7 +22,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import logo from "../../images/apprisen-logo.png";
 import {verify} from "../../feature/auth/action";
-import {useAuthContext} from "../../common/AuthProvider";
+import {useAuthContext} from "../../common/auth-provider";
 import {useLocation} from "react-router";
 import {
     validateAlphanumericOnly,

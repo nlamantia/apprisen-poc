@@ -3,7 +3,7 @@ import {CaseDebt} from "../../models/case/case-debt";
 import {Storage} from "@capacitor/core";
 
 export interface DebtState {
-    debts: CaseDebt[] // todo
+    debts: CaseDebt[]
     selectedDebtId: number
     fetchingDebtDetail: boolean
 }
@@ -14,7 +14,6 @@ const initialState : DebtState = {
     fetchingDebtDetail: false
 }
 
-// todo handle cases
 export const debtReducer = (state = initialState, action) => {
     if (!action) return state
     switch(action.type) {

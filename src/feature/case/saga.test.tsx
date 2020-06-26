@@ -4,7 +4,7 @@ import {CaseSummary} from "../../models/case/case-summary";
 import {call, put, select, takeEvery} from "redux-saga/effects";
 import {LoginResponse} from "../../models/auth/login-response";
 import {GET_CASE_PAYOFF_DATE, getCasePayoffDate, getCaseSummary, setCasePayoffDate, setCaseSummary} from "./action";
-import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest.service";
+import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest-service";
 
 describe('case saga', () => {
    it('handles successful case call', () => {
@@ -54,14 +54,6 @@ describe('case saga', () => {
       )
    })
 
-   it('handles invalid credentialsls', () => {
-      // todo
-   })
-
-   it('handles failed case call', () => {
-      // todo
-   })
-
    it('Waits to get payoff date', () => {
       const generator = getCasePayoffDateForecastWatcher()
       expect(generator.next().value).toEqual(
@@ -89,7 +81,7 @@ describe('case saga', () => {
           )
       )
 
-      const payoffDate = "an arbritrary string, should be a date" // todo validate string is date
+      const payoffDate = "an arbritrary string, should be a date"
 
       expect(generator.next({ payoffDate } as any).value).toEqual(
          put(setCasePayoffDate({ casePayoffDate: payoffDate }))

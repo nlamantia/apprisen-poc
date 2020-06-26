@@ -1,5 +1,5 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
-import {callDebtDetailEndpoint} from "../../services/rest.service";
+import {callDebtDetailEndpoint} from "../../services/rest-service";
 import {GET_DEBTS, GET_SELECTED_DEBT, selectDebt, setDebts} from "./action";
 import {Storage} from "@capacitor/core";
 import {CaseDebt} from "../../models/case/case-debt";

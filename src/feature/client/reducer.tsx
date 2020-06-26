@@ -14,15 +14,9 @@ export const clientReducer = (state = initialState, action) => {
     switch(action.type) {
         case SET_CLIENT_INFORMATION:
             const { payload: { clientInformation } } = action
-
-            // todo validate
-            if (true) {
-                return {
-                    ...state,
-                    clientInformation
-                }
-            } else {
-                // todo
+            return {
+                ...state,
+                clientInformation
             }
             break;
         default:

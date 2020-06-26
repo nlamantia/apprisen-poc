@@ -2,8 +2,8 @@ import {all, call, put, takeEvery} from 'redux-saga/effects'
 import {push} from 'react-router-redux'
 import {GET_CREDENTIALS, LOGIN, loginSuccess, LOGOUT, setCredentials, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
-import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest.service";
-import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth.service";
+import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest-service";
+import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth-service";
 import {LoginResponse} from "../../models/auth/login-response";
 import {LINKED_APP_NAME} from "../../config/app-constants";
 import {message} from "react-toastify-redux";
@@ -56,7 +56,6 @@ export function * getCredentialsWorker() {
     if (!credsString || credsString === "") {
         throw new Error("No credentials found");
     } else {
-        console.log("credentials found!")
         let credentials = JSON.parse(credsString);
         yield assertLoggedIn(credentials);
         yield put(setCredentials(credentials as LoginResponse));
@@ -75,7 +74,7 @@ export function * verifyWorker(action) {
         const {signedToken, username, expiresOn} = yield call(getCredentials)
         const responseToVerify = yield call(callVerifyClientNumber, {ZipCode: zipCode, Last4SSN: lastFourOfSSID, ClientNumber: clientId})
 
-        if (responseToVerify) {
+        if (responseToVerify && responseToVerify.IsSuccess) {
             yield put(message('Verified!'))
             const responseToLink = yield call(callLinkAccount, {
                 Application: LINKED_APP_NAME,
