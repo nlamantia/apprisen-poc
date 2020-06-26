@@ -75,7 +75,7 @@ export function * verifyWorker(action) {
         const {signedToken, username, expiresOn} = yield call(getCredentials)
         const responseToVerify = yield call(callVerifyClientNumber, {ZipCode: zipCode, Last4SSN: lastFourOfSSID, ClientNumber: clientId})
 
-        if (responseToVerify) { // TODO DO WE NEED ANY EXTRA VALIDATION??
+        if (responseToVerify) {
             yield put(message('Verified!'))
             const responseToLink = yield call(callLinkAccount, {
                 Application: LINKED_APP_NAME,
