@@ -22,14 +22,10 @@ import React, {useEffect, useState} from "react";
 import {connect, useSelector} from 'react-redux';
 import {withRouter} from "react-router";
 import {bindActionCreators} from 'redux';
-import {useAuthContext} from "../../common/AuthProvider";
-import {login, resetLoginStatus} from "../../feature/auth/action";
+import {login} from "../../feature/auth/action";
 import logo from "../../images/apprisen-logo.png";
 import {LoginRequest} from "../../models/auth/login-request";
-import {login} from "../../feature/auth/action";
-import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {useAuthContext} from "../../common/auth-provider";
-import {withRouter} from "react-router";
 import {validateNonEmptyString} from "../common/validators";
 
 const _Login = (props: any) => {
