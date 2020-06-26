@@ -1,5 +1,5 @@
 import React from "react";
-import {isAuthenticated} from "./auth.service";
+import {isAuthenticated} from "./auth-service";
 import {LoginResponse} from "../models/auth/login-response";
 
 global.Date.now = () => 1589127004702

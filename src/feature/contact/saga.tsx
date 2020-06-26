@@ -1,6 +1,6 @@
 import {all, put, call, takeEvery} from "@redux-saga/core/effects";
 import {SEND_EMAIL, setMessage, setSentStatus} from "./action";
-import {callSendEmail} from "../../services/rest.service";
+import {callSendEmail} from "../../services/rest-service";
 import {ContactStatus} from "./interface";
 
 export function * sendEmailWorker(action) {
@@ -26,7 +26,6 @@ export function * sendEmailWorker(action) {
                     yield(put(setSentStatus(ContactStatus.FAILURE)));
                 } else {
                     const successMessage = "Email sent successfully";
-                    console.log(successMessage);
                     yield(put(setMessage(successMessage)));
                     yield(put(setSentStatus(ContactStatus.SUCCESS)));
                 }

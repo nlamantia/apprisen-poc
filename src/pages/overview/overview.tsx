@@ -12,7 +12,7 @@ import {
     IonToast,
     IonToolbar
 } from "@ionic/react";
-import WelcomeBanner from "pages/common/welcome-banner";
+import WelcomeBanner from "pages/overview/welcome-banner";
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { Redirect } from "react-router-dom";
@@ -21,7 +21,6 @@ import { getCredentials, logout } from '../../feature/auth/action';
 import { getCaseSummary } from "../../feature/case/action";
 import { getDebts } from "../../feature/debt/action";
 import { getClientAccountData, getPaymentHistory } from "../../feature/payment/action";
-import logo from "../../images/apprisen-logo.png";
 import ProgressTrackerCard from "../common/progress-tracker-card";
 import LenderList from "./lender-list";
 import OverviewCard from "./overview-card";
@@ -61,17 +60,14 @@ const _Overview = (props) => {
         () => {
             if (credentials && credentials.linkedApplication) {
                 if (!clientAccountData || !clientAccountData.dmpCaseId || !clientAccountData.bankAccountTypes) {
-                    console.log('get client data');
                     getClientAccountData();
                 } else {
                     const { dmpCaseId: caseId } = clientAccountData;
                     if (!paymentHistory || !paymentHistory.length) {
-                        console.log('get payment history');
                         getPaymentHistory(caseId);
                     }
 
                     if (!caseSummary && !fetchingCaseSummary) {
-                        console.log('get case summary');
                         getCaseSummary(caseId);
                     } else if (caseSummary) {
                         setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
@@ -80,7 +76,6 @@ const _Overview = (props) => {
                     }
 
                     if (!debts && !fetchingDebtDetails) {
-                        console.log('get case summary')
                         getDebts(caseId);
                     } else if (debts) {
                         setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));
@@ -102,7 +97,7 @@ const _Overview = (props) => {
                     <IonHeader>
                         <IonToolbar>
                             <IonThumbnail class="toolbar-logo" slot={"start"}>
-                                <img alt="apprisen-logo" src={logo}/>
+                                <img alt="apprisen-logo" src={"/images/apprisen-logo.png"}/>
                             </IonThumbnail>
                             <IonTitle>Apprisen</IonTitle>
                             <IonButtons slot="end">

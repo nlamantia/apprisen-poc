@@ -20,9 +20,4 @@ describe('debt reducer', () => {
    it('handles set debts', () => {
        const stateAfterSetSuccess = debtReducer(state, setDebts([CASE_DEBT]))
    })
-
-   it('handles select debt', () => {
-      // todo
-   })
-
 })

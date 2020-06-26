@@ -20,9 +20,8 @@ import {
 import React, {useEffect, useState} from "react";
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import logo from "../../images/apprisen-logo.png";
 import {verify} from "../../feature/auth/action";
-import {useAuthContext} from "../../common/AuthProvider";
+import {useAuthContext} from "../../common/auth-provider";
 import {useLocation} from "react-router";
 import {
     validateAlphanumericOnly,
@@ -30,7 +29,7 @@ import {
     validatePositiveDecimal,
     validateText,
     validateNonEmptyString
-} from "../common/validators";
+} from "../../common/validators";
 
 const _Verify = (props: any) => {
     const [lastFourOfSSID, setLastFourOfSSID] = useState(null)
@@ -94,7 +93,7 @@ const _Verify = (props: any) => {
             <IonHeader>
                 <IonToolbar>
                     <IonThumbnail class="toolbar-logo" slot={"start"}>
-                        <img alt="apprisen-logo" src={logo} />
+                        <img alt="apprisen-logo" src={"/images/apprisen-logo.png"} />
                     </IonThumbnail>
                     <IonTitle>Apprisen</IonTitle>
                 </IonToolbar>

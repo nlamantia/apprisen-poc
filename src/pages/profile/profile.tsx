@@ -21,7 +21,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { getCredentials } from "../../feature/auth/action";
 import { getClientInformation } from "../../feature/client/action";
-import logo from "../../images/apprisen-logo.png";
 import { ClientInformation } from "../../models/case/client-information";
 
 const _Profile = (props) => {
@@ -34,14 +33,12 @@ const _Profile = (props) => {
         if (credentials && credentials.linkedApplication) {
             if (!userInfo) {
                 if (!clientInformation || !clientInformation.firstName) {
-                    console.log("getting client information");
                     getClientInformation()
                 } else {
                     setUserInfo(clientInformation);
                 }
             }
         } else {
-            console.log("getting credentials");
             getCredentials();
         }
     }, [userInfo, clientInformation, credentials]);
@@ -53,7 +50,7 @@ const _Profile = (props) => {
                 <IonHeader>
                     <IonToolbar>
                         <IonThumbnail class="toolbar-logo" slot={"start"}>
-                            <img alt="apprisen-logo" src={logo} />
+                            <img alt="apprisen-logo" src={"/images/apprisen-logo.png"} />
                         </IonThumbnail>
                         <IonTitle>Profile</IonTitle>
                         <IonButtons slot="end">

@@ -33,9 +33,6 @@ import AccountOverview from "./pages/account-overview/account-overview";
 import LenderOverview from "./pages/lender/lender-overview";
 import Login from "./pages/login/login";
 import Overview from "./pages/overview/overview";
-import PaymentOverview from "./pages/payment-overview/payment-overview";
-import Home from "./pages/user/Home";
-import UserDetails from "./pages/user/UserDetails";
 import Profile from "./pages/profile/profile";
 /* Theme variables */
 import "./theme/variables.scss";
@@ -46,10 +43,10 @@ import MakePayment from "./pages/payment/make-payment";
 import PaymentConfirmation from "./pages/payment/payment-confirmation";
 import {bindActionCreators} from "redux";
 import {logout} from "./feature/auth/action";
-import PrivateRoute from "./common/PrivateRoute";
+import PrivateRoute from "./common/private-route";
 import Verify from "./pages/verify/verify";
-import {AuthContextProvider} from "./common/AuthProvider";
-import {NotificationProvider} from "./common/NotificationProvider";
+import {AuthContextProvider} from "./common/auth-provider";
+import {NotificationProvider} from "./common/notification-provider";
 import {Logout} from "./pages/logout/logout";
 import Contact from "./pages/contact/contact";
 import {ConnectedRouter} from "connected-react-router";
@@ -110,22 +107,15 @@ const _Main = (props: any) => {
             <AuthContextProvider>
                 <ConnectedRouter history={history as any}>
                     <IonRouterOutlet id={'main-content'}>
-                        {/* todo sibling container must have ion-menu-button */}
                         <Switch>
                             <PrivateRoute path="/overview" component={withRouter(Overview)} exact={true}/>
-                            <PrivateRoute path="/home" component={Home} exact={true}/>
                             <Route path="/login" component={Login} exact={true}/>
                             <Route path="/logout" component={Logout} exact={true}/>
                             <Route path="/verify" component={withRouter(Verify)} exact={true}/>
                             <PrivateRoute exact path="/" component={withRouter(Overview)}/>
-                            <PrivateRoute path="/user/:id" component={UserDetails}/>
                             <PrivateRoute path="/contact" component={Contact}/>
                             <PrivateRoute path="/profile" component={Profile}/>
                             <PrivateRoute path="/resources" component={AdditionalResources}/>
-                            <PrivateRoute
-                                path="/payment-overview"
-                                component={PaymentOverview}
-                            />
                             <PrivateRoute
                                 path="/account-overview"
                                 component={AccountOverview}

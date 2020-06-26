@@ -17,15 +17,12 @@ import React, {useEffect} from "react";
 // eslint-disable-next-line
 import {Link} from "react-router-dom";
 // eslint-disable-next-line
-import calendar from "../../images/calendar.svg";
-import goal from "../../images/goal.svg";
-import money from "../../images/notes.svg";
 import {connect} from 'react-redux'
 import {bindActionCreators} from "redux";
 import {getCasePayoffDate, getCaseSummary} from "../../feature/case/action";
 
 import '@ionic/react/css/core.css';
-import {printDate} from "../common/utility-functions";
+import {printDate} from "../../common/utility-functions";
 import {getClientAccountData} from "../../feature/payment/action";
 
 const _OverviewCard = (props) => {
@@ -79,7 +76,7 @@ const _OverviewCard = (props) => {
                         </IonListHeader>
                         <IonItem>
                             <IonThumbnail class={"icon"} slot={"end"}>
-                                <img alt="apprisen-logo" src={goal}/>
+                                <img alt="apprisen-logo" src={"/images/goal.svg"}/>
                             </IonThumbnail>
                             <IonLabel>
                                 <h3>Estimated Payoff Date</h3>
@@ -90,7 +87,7 @@ const _OverviewCard = (props) => {
                         </IonItem>
                         <IonItem lines={"inset"}>
                             <IonThumbnail class={"icon"} slot={"end"}>
-                                <img alt="apprisen-logo" src={calendar}/>
+                                <img alt="apprisen-logo" src={"/images/calendar.svg"}/>
                             </IonThumbnail>
                             <IonLabel>
                                 <h3>Upcoming Due Date</h3>
@@ -103,7 +100,7 @@ const _OverviewCard = (props) => {
                         </IonItem>
                         <IonItem>
                             <IonThumbnail class={"icon"} slot={"end"}>
-                                <img alt="apprisen-logo" src={money}/>
+                                <img alt="apprisen-logo" src={"/images/notes.svg"}/>
                             </IonThumbnail>
                             <IonLabel>
                                 <h3>Amount Due</h3>
