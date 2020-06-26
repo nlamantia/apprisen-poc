@@ -19,18 +19,32 @@ export const areCredentialsExpired = async (parCreds?: LoginResponse ) : Promise
     if (!creds) return true;
     const { ExpiresOn } = creds;
     if (!ExpiresOn) return true;
-    return Date.now() >= new Date(Number(ExpiresOn) / 10000).getTime()
+    return Date.now() >= new Date(Number(ExpiresOn / BigInt(10000))).getTime()
 }
 
 export const login = (credentials : LoginResponse) => {
     try {
-        let creds = JSON.stringify(credentials);
+        let creds = JSON.stringify(credentials, credsStringifier);
         Storage.set({key: 'credentials', value: creds })
     } catch(e) {
-        console.log('Could not set credentials!')
+        console.error('Could not set credentials!', e)
     }
 }
 
+const credsStringifier = (key, value) =>
+    typeof value === 'bigint'
+        ? value.toString()
+        : value // return everything else unchanged
+
+export const JSON_OBJECT_PARSER = (key, value) => {
+    if (key === 'ExpiresOn') {
+        console.log("From text response: " + value);
+        const val = BigInt(value);
+        console.log("After converting to BigInt: " + val);
+        return val;
+    }
+    return value;
+};
 
 export const logout = () => {
     console.log('called logout')
@@ -41,8 +55,9 @@ export const getCredentials = async(): Promise<LoginResponse> => {
     return new Promise( async (resolve, reject) => {
         try {
             const credString = (await Storage.get({key: 'credentials'})).value;
+            console.log(credString);
             if (credString) {
-                resolve(credString ? JSON.parse(credString) : null);
+                resolve(credString ? JSON.parse(credString, JSON_OBJECT_PARSER) : null);
             } else {
                 reject("Can't get credentials!")
             }
@@ -92,8 +107,9 @@ export const getAuthHeaders = (): Promise<Headers> => {
 }
 
 export const assertLoggedIn = async credentials => {
-    const {SignedToken, ExpiresOn} = await credentials ? credentials : await getCredentials();
-    if (new Date().getMilliseconds() >= new Date(ExpiresOn).getMilliseconds()) {
+    const {SignedToken} = await credentials ? credentials : await getCredentials();
+    const expired = await areCredentialsExpired(credentials);
+    if (expired) {
         throw new Error("Credentials are expired;")
     }
     if (!SignedToken || SignedToken === '') {

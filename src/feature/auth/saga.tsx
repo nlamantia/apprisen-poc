@@ -3,7 +3,7 @@ import {push} from 'react-router-redux'
 import {GET_CREDENTIALS, LOGIN, loginSuccess, LOGOUT, setCredentials, VERIFY} from "./action";
 import {Plugins} from "@capacitor/core";
 import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../services/rest.service";
-import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth.service";
+import {assertLoggedIn, getCredentials, JSON_OBJECT_PARSER, login, logout} from "../../services/auth.service";
 import {LoginResponse} from "../../models/auth/login-response";
 import {LINKED_APP_NAME} from "../../config/app-constants";
 import {message} from "react-toastify-redux";
@@ -28,6 +28,7 @@ export function * loginWatcher() {
 export function * loginWorker(action) {
     const { payload: { credentials } } = action;
     const loginResponse = yield call(callLoginEndpoint, credentials);
+    console.log(loginResponse)
 
     const { SignedToken, Username, ExpiresOn } = loginResponse;
 
@@ -36,6 +37,7 @@ export function * loginWorker(action) {
         return SignedToken && Username && ExpiresOn;
     };
 
+    console.log("ExpiresOn: " + ExpiresOn);
     if (credsAreGood()) {
         yield call(setCredentials,loginResponse);
         yield call(login, loginResponse);
@@ -57,7 +59,7 @@ export function * getCredentialsWorker() {
         throw new Error("No credentials found");
     } else {
         console.log("credentials found!")
-        let credentials = JSON.parse(credsString);
+        let credentials = JSON.parse(credsString, JSON_OBJECT_PARSER);
         yield assertLoggedIn(credentials);
         yield put(setCredentials(credentials as LoginResponse));
     }

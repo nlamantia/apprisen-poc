@@ -3,7 +3,7 @@ import {LoginRequest} from "../models/auth/login-request";
 import {ClientInformation} from "../models/case/client-information";
 import {CaseSummary} from "../models/case/case-summary";
 import {DebtDetail} from "../models/case/debt-detail";
-import {getAuthHeaders, getClientId} from "./auth.service";
+import {getAuthHeaders, getClientId, JSON_OBJECT_PARSER} from "./auth.service";
 import {PaymentHistoryResponse} from "../models/payment/payment-history-response";
 import {toast} from "react-toastify";
 import {EmailRequest} from "../models/contact/email-request";
@@ -142,7 +142,10 @@ export const callApi = async (url: string, options: RequestInit = {}, message: s
             headers
         });
         if (response.ok) {
-            return response.json();
+            return response.text().then(json => {
+                let quoteParsedJson = addQuotesToExpiresOn(json);
+                return JSON.parse(quoteParsedJson, JSON_OBJECT_PARSER);
+            });
         } else {
             if (message) toast(`${message}`) // have to coax the message out by casting it as a string for some reason
             throw new Error(String(response.status));
@@ -151,6 +154,21 @@ export const callApi = async (url: string, options: RequestInit = {}, message: s
         if (message) toast(`${message}`)
         throw new Error(String(message.status));
     }
+};
+
+const addQuotesToExpiresOn = (json: string): string => {
+    const expiresOn = 'ExpiresOn';
+    const expiresOnIndex = json.lastIndexOf(expiresOn);
+    if (expiresOnIndex !== -1) {
+        let str = json.substring(expiresOnIndex + expiresOn.length + 2);
+        const terminatingCharacterIndex = str.indexOf(",") !== -1 ? str.indexOf(",") : str.indexOf("}");
+        if (terminatingCharacterIndex !== -1) {
+            const expiresOnNumber = str.substring(0, terminatingCharacterIndex);
+            const expiresOnString = '"' + expiresOnNumber + '"';
+            return json.replace(expiresOnNumber, expiresOnString);
+        }
+    }
+    return json;
 };
 
 const getHeaders = async (parameterHeaders: Headers, url: string) : Promise<Headers> => {

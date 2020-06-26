@@ -3,7 +3,7 @@ import { LinkedApplication } from "./linked-application";
 export interface LoginResponse {
     Email: string;
     Errors: any[];
-    ExpiresOn: number;
+    ExpiresOn: bigint;
     FirstName: string;
     IsSuccess: boolean;
     LastName: string;

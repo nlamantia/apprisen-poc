@@ -25,7 +25,7 @@ describe('auth saga', () => {
       const loginResponse : LoginResponse = {
          Email: "email",
          Errors: [],
-         ExpiresOn: "expiresOn",
+         ExpiresOn: BigInt(15991270047024538),
          FirstName: "firstName",
          IsSuccess: true,
          LastName: "lastName",
