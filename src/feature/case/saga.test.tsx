@@ -27,7 +27,7 @@ describe('case saga', () => {
          $id: "$id",
       }
 
-      const generator = getCaseWorker()
+      const generator = getCaseWorker({payload: { caseId: 1 }})
 
       const caseSummary : CaseSummary = {
          clientName: "name",
@@ -47,7 +47,7 @@ describe('case saga', () => {
       }
 
       expect(generator.next().value).toEqual(
-          call(callCaseSummaryEndpoint as any)
+          call(callCaseSummaryEndpoint as any, 1)
       )
       expect(generator.next(caseSummary).value).toEqual(
           put(setCaseSummary(caseSummary))
@@ -80,15 +80,7 @@ describe('case saga', () => {
          isOneTimePayment
       }))
 
-      const state = { auth: { credentials }}
-      expect(generator.next(state as any).value).toEqual(
-          select()
-      );
-      expect(generator.next(
-          {
-             auth: { credentials }
-          } as any
-      ).value).toEqual(
+      expect(generator.next().value).toEqual(
           call(callPayoffForecast,
               {
                  IncreaseAmount: increaseAmount,
@@ -97,10 +89,11 @@ describe('case saga', () => {
           )
       )
 
-      const casePayoffDate = "an arbritrary string, should be a date" // todo validate string is date
+      const payoffDate = "an arbritrary string, should be a date" // todo validate string is date
 
-      expect(generator.next({ casePayoffDate } as any).value).toEqual(
-         put(setCasePayoffDate({ casePayoffDate }))
+      expect(generator.next({ payoffDate } as any).value).toEqual(
+         put(setCasePayoffDate({ casePayoffDate: payoffDate }))
       )
+
    })
 })

@@ -46,7 +46,7 @@ describe('client saga', () => {
          errors: [],
          firstName: "firstName",
          homePhone: "homePhone",
-         isSuccess: false,
+         isSuccess: true,
          lastName: "lastName",
          state: "state",
          workPhone: "workPhone",

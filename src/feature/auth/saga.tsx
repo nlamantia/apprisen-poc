@@ -37,10 +37,10 @@ export function * loginWorker(action) {
     };
 
     if (credsAreGood()) {
-        yield call(setCredentials,loginResponse);
-        yield call(login, loginResponse);
-        yield assertLoggedIn(loginResponse);
-        yield put(message('Logged In!'));
+        yield call(setCredentials,loginResponse) // put credentials in store
+        yield call(login, loginResponse) // puts credentials in LocalStorage
+        yield call(assertLoggedIn, loginResponse) // if there's an issue, throw exceptions
+        yield put(message('Logged In!'))
 
         yield put(loginSuccess(loginResponse))
     }
@@ -69,10 +69,11 @@ export function * verifyWatcher() {
 
 export function * verifyWorker(action) {
     const { payload: {zipCode, lastFourOfSSID, clientId} } = action
+    const ERROR_MESSAGE = `Hmm, something's not right about the information you entered`
+
     try {
         const {signedToken, username, expiresOn} = yield call(getCredentials)
         const responseToVerify = yield call(callVerifyClientNumber, {ZipCode: zipCode, Last4SSN: lastFourOfSSID, ClientNumber: clientId})
-        const ERROR_MESSAGE = `Hmm, something's not right about the information you entered`
 
         if (responseToVerify) {
             yield put(message('Verified!'))
@@ -83,18 +84,17 @@ export function * verifyWorker(action) {
                 UserName: username,
                 ExpiresOn: expiresOn
             })
-            console.log(responseToLink)
 
             if (responseToLink.isSuccess) {
                 yield Storage.set({key: 'verified', value: 'true'})
                 yield put(push('/logout'))
             }
         } else {
-            yield put(message(ERROR_MESSAGE))
+            throw new Error()
         }
 
     } catch(e) {
-
+        yield put(message(ERROR_MESSAGE))
     }
 }
 

@@ -110,7 +110,6 @@ const _Main = (props: any) => {
             <AuthContextProvider>
                 <ConnectedRouter history={history as any}>
                     <IonRouterOutlet id={'main-content'}>
-                        {/* todo sibling container must have ion-menu-button */}
                         <Switch>
                             <PrivateRoute path="/overview" component={withRouter(Overview)} exact={true}/>
                             <PrivateRoute path="/home" component={Home} exact={true}/>
