@@ -14,7 +14,7 @@ const _Logout = (props: any) => {
             logout();
         }
         setUserCredentials(!!credentials);
-    }, [credentials]);
+    }, [credentials, logout]);
     return userCredentials ? <BounceLoader /> :<Redirect to="/login"/>
 };
 
@@ -23,4 +23,4 @@ export const Logout = connect(
         credentials: state.auth.credentials
     }),
     dispatch => bindActionCreators({logout}, dispatch))
-(_Logout)
+(_Logout);
