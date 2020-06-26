@@ -22,9 +22,11 @@ import {getCredentials, logout} from "../../feature/auth/action";
 import {CaseDebt} from "../../models/case/case-debt";
 import ProgressTrackerCard from "../common/progress-tracker-card";
 import {calculateProgress} from "../../common/utility-functions";
+import {getClientAccountData} from "../../feature/payment/action";
 
 const _LenderOverview = (props) => {
     const {debts, selectedDebtId} = props;
+    const { getClientAccountData, clientAccountData } = props;
 
     const { credentials, getCredentials, logout } = props;
     const { getDebts, getSelectedDebt } = props;
@@ -43,8 +45,14 @@ const _LenderOverview = (props) => {
                         setProgress(calculateProgress(lender.originalBalance, lender.currentBalance));
                     }
                 } else {
-                    getDebts();
-                    getSelectedDebt();
+                    // property case will be changed with facade decommissioning branch
+                    if (!clientAccountData || !clientAccountData.dmpCaseId) {
+                        getClientAccountData();
+                    } else {
+                        const { dmpCaseId: caseId } = clientAccountData;
+                        getDebts(caseId);
+                        getSelectedDebt();
+                    }
                 }
             }
         } else {
@@ -54,7 +62,7 @@ const _LenderOverview = (props) => {
                 logout();
             }
         }
-    }, [credentials, debts, selectedDebtId]);
+    }, [clientAccountData, credentials, debts, selectedDebtId]);
 
     return (
         <IonPage>
@@ -177,12 +185,14 @@ const LenderOverview = connect(
     state => ({
         debts: state.debt.debts,
         selectedDebtId: state.debt.selectedDebtId,
-        credentials: state.auth.credentials
+        credentials: state.auth.credentials,
+        clientAccountData: state.payment.clientAccountData
     }),
     dispatch => bindActionCreators({
         getSelectedDebt,
         getDebts,
         getCredentials,
+        getClientAccountData,
         logout
     }, dispatch)
 )(
