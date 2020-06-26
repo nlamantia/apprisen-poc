@@ -19,12 +19,6 @@ module.exports = function(app) {
         })
     );
     app.use(
-        createProxyMiddleware('/api/auth', {
-            target: 'https://apprisen-facade-test.herokuapp.com',
-            changeOrigin: true
-        })
-    );
-    app.use(
         createProxyMiddleware('/api/account', {
             target: 'https://login.apprisen.com',
             changeOrigin: true

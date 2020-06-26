@@ -11,21 +11,22 @@ import {EmailRequest} from "../models/contact/email-request";
 const ENV_ICM_BASE_URL = process.env.REACT_APP_SERVICE_BASE_URL;
 const ENV_LOGIN_BASE_URL = process.env.REACT_APP_LOGIN_BASE_URL;
 
+console.log(ENV_ICM_BASE_URL);
+
 const ICM_BASE_URL = ENV_ICM_BASE_URL ? ENV_ICM_BASE_URL : "";
 const LOGIN_BASE_URL = ENV_LOGIN_BASE_URL ? ENV_LOGIN_BASE_URL : "";
 
-const CLIENT_INFORMATION_URL = "/api/client/getclientinformation/";
-const PAY_OFF_FORECAST = "/api/case/payoffforecast/";
-const CASE_SUMMARY_URL = "/api/case/getcasesummary/";
-const DEBT_DETAIL_URL = "/api/case/getcasedebtdetail/";
-const LOGIN_URL = "/api/account/validateuser";
-// const LOGIN_URL = "/api/auth/login";
-const MAKE_PAYMENT_URL = "/api/payment/createwebpayment";
-const CLIENT_DATA_URL = "/api/client/getclientdata/";
-const SEND_EMAIL_URL = "/api/client/sendemail/";
-const PAYMENT_HISTORY_URL = "/api/case/getcasedepositdetail/";
-const LINK_ACCOUNT_URL = "/api/account/LinkAccountWithExternalApp";
-const VERIFY_CLIENT_NUMBER_URL = "/api/client/verifyclientnumber";
+const CLIENT_INFORMATION_URL = ICM_BASE_URL + "/api/client/getclientinformation/";
+const PAY_OFF_FORECAST = ICM_BASE_URL + "/api/case/payoffforecast/";
+const CASE_SUMMARY_URL = ICM_BASE_URL + "/api/case/getcasesummary/";
+const DEBT_DETAIL_URL = ICM_BASE_URL + "/api/case/getcasedebtdetail/";
+const LOGIN_URL = LOGIN_BASE_URL + "/api/account/validateuser";
+const MAKE_PAYMENT_URL = ICM_BASE_URL + "/api/payment/createwebpayment";
+const CLIENT_DATA_URL = ICM_BASE_URL + "/api/client/getclientdata/";
+const SEND_EMAIL_URL = ICM_BASE_URL + "/api/client/sendemail/";
+const PAYMENT_HISTORY_URL = ICM_BASE_URL + "/api/case/getcasedepositdetail/";
+const LINK_ACCOUNT_URL = LOGIN_BASE_URL + "/api/account/LinkAccountWithExternalApp";
+const VERIFY_CLIENT_NUMBER_URL = ICM_BASE_URL + "/api/client/verifyclientnumber";
 
 
 const BYPASS_NULL_HEADERS_FILTER_URL_LIST = [LOGIN_URL]
