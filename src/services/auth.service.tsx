@@ -38,10 +38,7 @@ const credsStringifier = (key, value) =>
 
 export const JSON_OBJECT_PARSER = (key, value) => {
     if (key === 'ExpiresOn') {
-        console.log("From text response: " + value);
-        const val = BigInt(value);
-        console.log("After converting to BigInt: " + val);
-        return val;
+        return BigInt(value);
     }
     return value;
 };
@@ -55,7 +52,6 @@ export const getCredentials = async(): Promise<LoginResponse> => {
     return new Promise( async (resolve, reject) => {
         try {
             const credString = (await Storage.get({key: 'credentials'})).value;
-            console.log(credString);
             if (credString) {
                 resolve(credString ? JSON.parse(credString, JSON_OBJECT_PARSER) : null);
             } else {

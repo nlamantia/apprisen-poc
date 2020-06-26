@@ -28,7 +28,6 @@ export function * loginWatcher() {
 export function * loginWorker(action) {
     const { payload: { credentials } } = action;
     const loginResponse = yield call(callLoginEndpoint, credentials);
-    console.log(loginResponse)
 
     const { SignedToken, Username, ExpiresOn } = loginResponse;
 
@@ -37,7 +36,6 @@ export function * loginWorker(action) {
         return SignedToken && Username && ExpiresOn;
     };
 
-    console.log("ExpiresOn: " + ExpiresOn);
     if (credsAreGood()) {
         yield call(setCredentials,loginResponse);
         yield call(login, loginResponse);
