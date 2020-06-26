@@ -3,15 +3,13 @@ import {LoginRequest} from "../models/auth/login-request";
 import {ClientInformation} from "../models/case/client-information";
 import {CaseSummary} from "../models/case/case-summary";
 import {DebtDetail} from "../models/case/debt-detail";
-import {getAuthHeaders, getClientId, JSON_OBJECT_PARSER} from "./auth.service";
+import {getAuthHeaders, getClientId, JSON_OBJECT_PARSER} from "./auth-service";
 import {PaymentHistoryResponse} from "../models/payment/payment-history-response";
 import {toast} from "react-toastify";
 import {EmailRequest} from "../models/contact/email-request";
 
 const ENV_ICM_BASE_URL = process.env.REACT_APP_SERVICE_BASE_URL;
 const ENV_LOGIN_BASE_URL = process.env.REACT_APP_LOGIN_BASE_URL;
-
-console.log(ENV_ICM_BASE_URL);
 
 const ICM_BASE_URL = ENV_ICM_BASE_URL ? ENV_ICM_BASE_URL : "";
 const LOGIN_BASE_URL = ENV_LOGIN_BASE_URL ? ENV_LOGIN_BASE_URL : "";

@@ -1,1 +1,0 @@
-export const LINKED_APP_NAME = "ChaseFFG";

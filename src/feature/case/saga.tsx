@@ -1,12 +1,11 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects'
 import {GET_CASE_PAYOFF_DATE, GET_CASE_SUMMARY, setCasePayoffDate, setCaseSummary} from "./action";
-import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest.service";
-
+import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest-service";
 
 export function * getCaseWorker(action) {
     const { payload: { caseId } } = action;
     const caseSummary = yield call(callCaseSummaryEndpoint, caseId);
-    if (caseSummary && caseSummary.EstimatedBalance) {
+    if (caseSummary && caseSummary.EstimatedBalance != null) {
         yield put(setCaseSummary(caseSummary))
     }
 }
@@ -33,11 +32,7 @@ export function * getCasePayoffDateForecastWorker(action) {
             })
     )
 
-    if (true) { // todo validation
-        yield put(setCasePayoffDate({ casePayoffDate: PayoffDate }))
-    } else {
-
-    }
+    yield put(setCasePayoffDate({ casePayoffDate: PayoffDate }))
 }
 
 export function * getCasePayoffDateForecastWatcher() {
@@ -50,6 +45,3 @@ export function * caseSaga() {
         getCasePayoffDateForecastWatcher()
     ])
 }
-
-
-

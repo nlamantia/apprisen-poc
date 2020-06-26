@@ -1,9 +1,9 @@
 import React from 'react'
 import {getDebtDetailWatcher, getDebtDetailWorker} from "./saga";
-import {call, takeEvery} from 'redux-saga/effects'
-import {GET_DEBTS, getDebts} from "./action";
+import {call, put, takeEvery} from 'redux-saga/effects'
+import {GET_DEBTS, getDebts, setDebts} from "./action";
 import {LoginResponse} from "../../models/auth/login-response";
-import {callDebtDetailEndpoint} from "../../services/rest.service";
+import {callDebtDetailEndpoint} from "../../services/rest-service";
 
 describe('debt saga', () => {
    it('waits for  GET_DEBTS', () => {
@@ -22,7 +22,7 @@ describe('debt saga', () => {
          IsSuccess: true,
          LastName: "lastName",
          LinkedApplication: [{
-            Application: "application",
+            Application: "ChaseFFG",
             ExternalId: "externalId",
             $id: "$id"
          }],
@@ -32,12 +32,12 @@ describe('debt saga', () => {
          Username: "username",
          $id: "$id",
       }
-      const generator = getDebtDetailWorker(getDebts(credentials))
-      const caseId = credentials ? credentials.LinkedApplication[1].ExternalId : "";
-      expect(generator.next().value).toEqual(call(callDebtDetailEndpoint))
+      const generator = getDebtDetailWorker(getDebts('externalId'))
+      const caseId = 'externalId'
+      expect(generator.next().value).toEqual(call(callDebtDetailEndpoint, caseId))
+      expect(generator.next({caseDebts: []}).value).toEqual(
+          put(setDebts([]))
+      )
    })
 
-   it('handles failed get debt', () => {
-      // todo
-   })
 })

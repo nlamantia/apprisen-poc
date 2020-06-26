@@ -42,28 +42,25 @@ describe('case reducer', () => {
    })
 })
 
-// todo test loading flags?
-
 describe('Case time selectors', () => {
-   // todo convert to const case
-   const casePayoffDateString = "2024-07-24T04:00:00.000Z"
-   const casePayoffDateUnix = 1721793600000
-   const firstDisbursementDateTicks = 13209012000000000;
-   const firstDisbursementDateUnix = 1320901200000;
+   const CASE_PAYOFF_DATE_STRING = "2024-07-24T04:00:00.000Z"
+   const CASE_PAYOFF_DATE_UNIX = 1721793600000
+   const FIRST_DISBURSEMENT_DATE_TICKS = 13209012000000000;
+   const FIRST_DISBURSEMENT_DATE_UNIX = 1320901200000;
 
    const initialState = caseReducer(undefined, null);
 
    global.Date.now = () => 1588107303088
 
    const stateWithPayoffDate = caseReducer(initialState, setCasePayoffDate(
-             {casePayoffDate: casePayoffDateString}
+             {casePayoffDate: CASE_PAYOFF_DATE_STRING}
    ))
    const stateWithBoth = caseReducer(stateWithPayoffDate, setCaseSummary(
        {
           ...caseSummary,
           FirstDisbursementDate: {
               ...caseSummary.FirstDisbursementDate,
-              ticks: firstDisbursementDateTicks
+              ticks: FIRST_DISBURSEMENT_DATE_TICKS
           }
        }
    ))
@@ -72,24 +69,21 @@ describe('Case time selectors', () => {
       const overallState = {
          case: stateWithBoth
       };
-       expect(casePayoffDateSelector(overallState)).toEqual(casePayoffDateString)
+       expect(casePayoffDateSelector(overallState)).toEqual(CASE_PAYOFF_DATE_STRING)
    })
 
    it('handles null casePayoff', () => {
       const overallState = {
          case: initialState
       };
-      console.log("Overall state: " + JSON.stringify(overallState));
       expect(casePayoffDateSelector(overallState)).toEqual("")
    })
 
    it('gets casePayoff date in unix time', () => {
-      console.log(JSON.stringify(stateWithBoth))
-      console.log(new Date("2024-07-24T04:00:00.000Z").getTime());
       const overallState = {
          case: stateWithBoth
       };
-      expect(casePayoffDateUnixTimeSelector(overallState)).toEqual(casePayoffDateUnix)
+      expect(casePayoffDateUnixTimeSelector(overallState)).toEqual(CASE_PAYOFF_DATE_UNIX)
    })
 
    it('gets casePayoff date in unix time, handles null', () => {
@@ -103,7 +97,7 @@ describe('Case time selectors', () => {
       const overallState = {
          case: stateWithBoth
       };
-      expect(caseFirstPaymentDateSelector(overallState)).toEqual(firstDisbursementDateTicks)
+      expect(caseFirstPaymentDateSelector(overallState)).toEqual(FIRST_DISBURSEMENT_DATE_TICKS)
    })
 
     it('gets first payment date, handles null', () => {
@@ -117,8 +111,7 @@ describe('Case time selectors', () => {
       const overallState = {
          case: stateWithBoth
       };
-      console.log(JSON.stringify(overallState))
-      expect(caseFirstPaymentDateUnixTimeSelector(overallState)).toEqual(firstDisbursementDateUnix)
+      expect(caseFirstPaymentDateUnixTimeSelector(overallState)).toEqual(FIRST_DISBURSEMENT_DATE_UNIX)
    })
 
    it('gets firstPayment date in unix time, handles null', () => {

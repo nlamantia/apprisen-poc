@@ -22,11 +22,10 @@ import React, {useEffect, useState} from "react";
 import {connect, useSelector} from 'react-redux';
 import {withRouter} from "react-router";
 import {bindActionCreators} from 'redux';
-import {useAuthContext} from "../../common/AuthProvider";
-import {login, resetLoginStatus} from "../../feature/auth/action";
-import logo from "../../images/apprisen-logo.png";
+import {login} from "../../feature/auth/action";
 import {LoginRequest} from "../../models/auth/login-request";
-import {validateNonEmptyString} from "../common/validators";
+import {useAuthContext} from "../../common/auth-provider";
+import {validateNonEmptyString} from "../../common/validators";
 
 const _Login = (props: any) => {
 
@@ -79,7 +78,7 @@ const _Login = (props: any) => {
             <IonHeader>
                 <IonToolbar>
                     <IonThumbnail class="toolbar-logo" slot={"start"}>
-                        <img alt="apprisen-logo" src={logo} />
+                        <img alt="apprisen-logo" src={"/images/apprisen-logo.png"} />
                     </IonThumbnail>
                     <IonTitle>Apprisen</IonTitle>
                 </IonToolbar>
@@ -143,7 +142,6 @@ const Login = withRouter(connect(
         loginStatus: state.auth.loginStatus,
     }),
     dispatch => bindActionCreators({
-        resetLoginStatus,
         login
     }, dispatch)
 )(

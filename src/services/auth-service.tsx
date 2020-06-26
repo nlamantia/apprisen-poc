@@ -1,6 +1,6 @@
 import {LoginResponse} from '../models/auth/login-response';
 import {Plugins} from '@capacitor/core';
-import {LINKED_APP_NAME} from "../config/app-constants";
+import {LINKED_APP_NAME} from "../common/app-constants";
 
 const {Storage} = Plugins;
 
@@ -25,7 +25,7 @@ export const areCredentialsExpired = async (parCreds?: LoginResponse ) : Promise
 export const login = (credentials : LoginResponse) => {
     try {
         let creds = JSON.stringify(credentials, credsStringifier);
-        Storage.set({key: 'credentials', value: creds })
+        Storage.set({key: 'credentials', value: creds})
     } catch(e) {
         console.error('Could not set credentials!', e)
     }
@@ -44,8 +44,7 @@ export const JSON_OBJECT_PARSER = (key, value) => {
 };
 
 export const logout = () => {
-    console.log('called logout')
-    Storage.remove({key: 'credentials'}).then(() => console.log('removed credential'));
+    Storage.remove({key: 'credentials'})
 }
 
 export const getCredentials = async(): Promise<LoginResponse> => {

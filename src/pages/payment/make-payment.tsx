@@ -34,7 +34,7 @@ import {
     validateNonEmptyText, validateNumber,
     validatePositiveDecimal,
     validateText
-} from "../common/validators";
+} from "../../common/validators";
 // eslint-disable-next-line
 
 

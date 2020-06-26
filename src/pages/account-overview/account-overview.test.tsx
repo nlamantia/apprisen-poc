@@ -4,7 +4,9 @@ import {BRAND_COLORS} from "../../common/app-constants";
 
 describe('Account overview component tests', () => {
     it('Get graph lenders - equal to brand colors', () => {
-        let lenders = generateLenderList(BRAND_COLORS.length)
+        let lenders = generateLenderList(BRAND_COLORS.length).sort((l1, l2) => {
+            return l2.originalBalance - l1.originalBalance;
+        });
 
         let result = getLenderListForGraph(lenders, BRAND_COLORS);
         expect(result.length).toEqual(BRAND_COLORS.length);
@@ -15,7 +17,9 @@ describe('Account overview component tests', () => {
     });
 
     it('Get graph lenders - less than brand colors', () => {
-        let lenders = generateLenderList(7);
+        let lenders = generateLenderList(7).sort((l1, l2) => {
+            return l2.originalBalance - l1.originalBalance;
+        });
 
         let result = getLenderListForGraph(lenders, BRAND_COLORS);
         expect(result.length).toEqual(7);
@@ -26,7 +30,9 @@ describe('Account overview component tests', () => {
     });
 
     it('Get graph lenders - greater than brand colors', () => {
-        let lenders = generateLenderList(12);
+        let lenders = generateLenderList(12).sort((l1, l2) => {
+            return l2.originalBalance - l1.originalBalance;
+        });
 
         let result = getLenderListForGraph(lenders, BRAND_COLORS);
         expect(result.length).toEqual(BRAND_COLORS.length);
@@ -37,7 +43,9 @@ describe('Account overview component tests', () => {
     });
 
     it('Get graph lenders - 1 brand color', () => {
-        let lenders = generateLenderList(5);
+        let lenders = generateLenderList(5).sort((l1, l2) => {
+            return l2.originalBalance - l1.originalBalance;
+        });
 
         let result = getLenderListForGraph(lenders, ["#232323"]);
         expect(result.length).toEqual(1);
