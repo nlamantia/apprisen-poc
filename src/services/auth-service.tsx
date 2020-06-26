@@ -1,6 +1,6 @@
 import {LoginResponse} from '../models/auth/login-response';
 import {Plugins} from '@capacitor/core';
-import {LINKED_APP_NAME} from "../config/app-constants";
+import {LINKED_APP_NAME} from "../common/app-constants";
 
 const {Storage} = Plugins;
 
