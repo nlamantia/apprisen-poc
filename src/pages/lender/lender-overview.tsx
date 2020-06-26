@@ -30,7 +30,6 @@ const _LenderOverview = (props) => {
 
     const { credentials, getCredentials, logout } = props;
     const { getDebts, getSelectedDebt } = props;
-    const { clientAccountData, getClientAccountData } = props;
 
     const [lender, setLender] = useState<CaseDebt>(null);
     const [progress, setProgress] = useState<number>(0.00);
