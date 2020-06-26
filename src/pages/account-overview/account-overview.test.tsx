@@ -5,7 +5,7 @@ import {BRAND_COLORS} from "../../common/app-constants";
 describe('Account overview component tests', () => {
     it('Get graph lenders - equal to brand colors', () => {
         let lenders = generateLenderList(BRAND_COLORS.length).sort((l1, l2) => {
-            return l2.originalBalance - l1.originalBalance;
+            return l2.OriginalBalance - l1.OriginalBalance;
         });
 
         let result = getLenderListForGraph(lenders, BRAND_COLORS);
@@ -18,7 +18,7 @@ describe('Account overview component tests', () => {
 
     it('Get graph lenders - less than brand colors', () => {
         let lenders = generateLenderList(7).sort((l1, l2) => {
-            return l2.originalBalance - l1.originalBalance;
+            return l2.OriginalBalance - l1.OriginalBalance;
         });
 
         let result = getLenderListForGraph(lenders, BRAND_COLORS);
@@ -31,7 +31,7 @@ describe('Account overview component tests', () => {
 
     it('Get graph lenders - greater than brand colors', () => {
         let lenders = generateLenderList(12).sort((l1, l2) => {
-            return l2.originalBalance - l1.originalBalance;
+            return l2.OriginalBalance - l1.OriginalBalance;
         });
 
         let result = getLenderListForGraph(lenders, BRAND_COLORS);
@@ -44,7 +44,7 @@ describe('Account overview component tests', () => {
 
     it('Get graph lenders - 1 brand color', () => {
         let lenders = generateLenderList(5).sort((l1, l2) => {
-            return l2.originalBalance - l1.originalBalance;
+            return l2.OriginalBalance - l1.OriginalBalance;
         });
 
         let result = getLenderListForGraph(lenders, ["#232323"]);
@@ -67,14 +67,14 @@ function generateLenderList(num: number) {
     let lenders = [];
     for (let i = 0; i < num; i++) {
         lenders.push({
-            accountNumber: "-",
-            apr: 0,
-            creditorName: "Other",
-            currentBalance: (i + 1) * 100,
-            debtId: "-111",
-            debtType: 1,
-            lastCreditorPaymentDate: new Date(),
-            originalBalance: (i + 1) * 1000,
+            AccountNumber: "-",
+            Apr: 0,
+            CreditorName: "Other",
+            CurrentBalance: (i + 1) * 100,
+            DebtId: "-111",
+            DebtType: 1,
+            LastCreditorPaymentDate: new Date(),
+            OriginalBalance: (i + 1) * 1000,
             $id: "-1"
         })
     }

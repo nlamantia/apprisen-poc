@@ -8,30 +8,13 @@ import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest-s
 
 describe('case saga', () => {
    it('handles successful case call', () => {
-      const credentials : LoginResponse = {
-         Email: "email",
-         Errors: [],
-         ExpiresOn: "expiresOn",
-         FirstName: "firstName",
-         IsSuccess: true,
-         LastName: "lastName",
-         LinkedApplication: [{
-            Application: "application",
-            ExternalId: "externalId",
-            $id: "$id"
-         }],
-         SignedToken: "signedToken",
-         StatusCode: 5,
-         UserId: "userId",
-         Username: "username",
-         $id: "$id",
-      }
 
       const generator = getCaseWorker({payload: { caseId: 1 }})
 
       const caseSummary : CaseSummary = {
          ClientName: "name",
          CurrentMonthlyPayment: 0,
+         CurrentTrustBalance: 0,
          Errors: [],
          EstimatedBalance: 0.0,
          FirstDisbursementDate: {
@@ -67,7 +50,7 @@ describe('case saga', () => {
       const increaseAmount = 6
       const isOneTimePayment = true
       const generator = getCasePayoffDateForecastWorker(getCasePayoffDate({
-         caseNumber,
+         caseId: caseNumber,
          increaseAmount,
          isOneTimePayment
       }))
@@ -75,16 +58,17 @@ describe('case saga', () => {
       expect(generator.next().value).toEqual(
           call(callPayoffForecast,
               {
+                 caseId: caseNumber,
                  IncreaseAmount: increaseAmount,
                  IsOneTimePayment: isOneTimePayment
               }
           )
       )
 
-      const payoffDate = "an arbritrary string, should be a date"
+      const PayoffDate = "an arbritrary string, should be a date"
 
-      expect(generator.next({ payoffDate } as any).value).toEqual(
-         put(setCasePayoffDate({ casePayoffDate: payoffDate }))
+      expect(generator.next({ PayoffDate } as any).value).toEqual(
+         put(setCasePayoffDate({ casePayoffDate: PayoffDate }))
       )
 
    })

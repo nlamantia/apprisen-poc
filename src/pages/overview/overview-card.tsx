@@ -40,12 +40,10 @@ const _OverviewCard = (props) => {
             } else {
                 const { DmpCaseId: caseId } = clientAccountData;
                 if (!caseSummary && !fetchingCaseSummary) {
-                    console.log('get case summary for ' + caseId)
                     getCaseSummary(caseId);
                 }
 
                 if (!casePayoffDate && !fetchingCasePayoffDate) {
-                    console.log('get case payoff debt!')
                     getCasePayoffDate({caseId, increaseAmount: 0, isOneTimePayment: true})
                 }
             }

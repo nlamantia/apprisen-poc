@@ -91,8 +91,8 @@ export const casePayoffDateUnixTimeSelector = (state) => {
 
 export const caseFirstPaymentDateSelector = (state) => {
     const { caseSummary } = state.case
-    if (!caseSummary || !caseSummary.firstDisbursementDate) return -1;
-    return caseSummary.firstDisbursementDate.ticks
+    if (!caseSummary || !caseSummary.FirstDisbursementDate) return -1;
+    return caseSummary.FirstDisbursementDate.ticks
 }
 
 export const caseFirstPaymentDateUnixTimeSelector = (state) => {

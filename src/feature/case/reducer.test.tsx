@@ -12,6 +12,7 @@ const initialState = caseReducer(null, null)
 const caseSummary : CaseSummary = {
    ClientName: "name",
    CurrentMonthlyPayment: 0,
+   CurrentTrustBalance: 0,
    Errors: [],
    EstimatedBalance: 0.0,
    FirstDisbursementDate: {
