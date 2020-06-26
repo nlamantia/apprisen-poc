@@ -34,7 +34,7 @@ const _PaymentConfirmation = ( props ) => {
                 <IonHeader>
                     <IonToolbar>
                         <IonThumbnail class="toolbar-logo" slot={"start"}>
-                            <img alt="apprisen-logo" src={"/apprisen-logo.png"}/>
+                            <img alt="apprisen-logo" src={"/images/apprisen-logo.png"}/>
                         </IonThumbnail>
                         <IonTitle>Make a Payment</IonTitle>
                     </IonToolbar>

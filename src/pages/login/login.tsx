@@ -25,7 +25,7 @@ import {bindActionCreators} from 'redux';
 import {useAuthContext} from "../../common/AuthProvider";
 import {login, resetLoginStatus} from "../../feature/auth/action";
 import {LoginRequest} from "../../models/auth/login-request";
-import {validateNonEmptyString} from "../common/validators";
+import {validateNonEmptyString} from "../../common/validators";
 
 const _Login = (props: any) => {
 
@@ -78,7 +78,7 @@ const _Login = (props: any) => {
             <IonHeader>
                 <IonToolbar>
                     <IonThumbnail class="toolbar-logo" slot={"start"}>
-                        <img alt="apprisen-logo" src={"/apprisen-logo.png"} />
+                        <img alt="apprisen-logo" src={"/images/apprisen-logo.png"} />
                     </IonThumbnail>
                     <IonTitle>Apprisen</IonTitle>
                 </IonToolbar>

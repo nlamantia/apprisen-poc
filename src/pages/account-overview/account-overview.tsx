@@ -31,7 +31,7 @@ import {CaseDebt} from "../../models/case/case-debt";
 import {CaseSummary} from "../../models/case/case-summary";
 import {getClientAccountData, getPaymentHistory} from "../../feature/payment/action";
 import {CaseDeposit} from "../../models/payment/case-deposit";
-import {printDate} from "../common/utility-functions";
+import {printDate} from "../../common/utility-functions";
 import {BRAND_COLORS} from "../../common/app-constants";
 import ExpandableList from "../common/expandable-list";
 

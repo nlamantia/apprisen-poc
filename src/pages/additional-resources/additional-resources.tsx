@@ -54,7 +54,7 @@ const AdditionalResources = (props) => {
                                 </IonListHeader>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Facebook DMP Community" src={"/facebook-apprisen.png"}/>
+                                        <img alt="Facebook DMP Community" src={"/images/facebook-apprisen.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.facebook.com/groups/ApprisenDMPCommunity")}>Facebook DMP Community</h3>
@@ -62,7 +62,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Apprisen Money Minute Blog" src={"/apprisen-logo.png"}/>
+                                        <img alt="Apprisen Money Minute Blog" src={"/images/apprisen-logo.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.apprisen.com/blog/")}>Money Minute Blog</h3>
@@ -70,7 +70,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="United Way" src={"/united-way.jpg"}/>
+                                        <img alt="United Way" src={"/images/united-way.jpg"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.unitedway.org/")}>United Way</h3>
@@ -78,7 +78,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Financial Education Resources" src={"/cfpb.png"}/>
+                                        <img alt="Financial Education Resources" src={"/images/cfpb.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.consumerfinance.gov/consumer-tools/")}>Financial Education Resources</h3>
@@ -86,7 +86,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Apprisen Resources" src={"/apprisen-logo.png"}/>
+                                        <img alt="Apprisen Resources" src={"/images/apprisen-logo.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.apprisen.com/resources/")}>Apprisen Resources</h3>
@@ -103,7 +103,7 @@ const AdditionalResources = (props) => {
                                 </IonListHeader>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Apprisen Facebook Page" src={"/facebook-apprisen.png"}/>
+                                        <img alt="Apprisen Facebook Page" src={"/images/facebook-apprisen.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.facebook.com/Apprisen/")}>Facebook</h3>
@@ -111,7 +111,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Apprisen Facebook Page" src={"/instagram.png"}/>
+                                        <img alt="Apprisen Facebook Page" src={"/images/instagram.png"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://www.instagram.com/apprisenempowers/")}>Instagram</h3>
@@ -119,7 +119,7 @@ const AdditionalResources = (props) => {
                                 </IonItem>
                                 <IonItem>
                                     <IonThumbnail class={"icon"} slot={"start"}>
-                                        <img alt="Apprisen Facebook Page" src={"/twitter.jpg"}/>
+                                        <img alt="Apprisen Facebook Page" src={"/images/twitter.jpg"}/>
                                     </IonThumbnail>
                                     <IonLabel>
                                         <h3 onClick={(e) => handleClick("https://twitter.com/Apprisen")}>Twitter</h3>

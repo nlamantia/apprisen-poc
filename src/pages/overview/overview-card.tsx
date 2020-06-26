@@ -22,7 +22,7 @@ import {bindActionCreators} from "redux";
 import {getCasePayoffDate, getCaseSummary} from "../../feature/case/action";
 
 import '@ionic/react/css/core.css';
-import {printDate} from "../common/utility-functions";
+import {printDate} from "../../common/utility-functions";
 import {getClientAccountData} from "../../feature/payment/action";
 
 const _OverviewCard = (props) => {
@@ -76,7 +76,7 @@ const _OverviewCard = (props) => {
                         </IonListHeader>
                         <IonItem>
                             <IonThumbnail class={"icon"} slot={"end"}>
-                                <img alt="apprisen-logo" src={"/goal.svg"}/>
+                                <img alt="apprisen-logo" src={"/images/goal.svg"}/>
                             </IonThumbnail>
                             <IonLabel>
                                 <h3>Estimated Payoff Date</h3>
@@ -87,7 +87,7 @@ const _OverviewCard = (props) => {
                         </IonItem>
                         <IonItem lines={"inset"}>
                             <IonThumbnail class={"icon"} slot={"end"}>
-                                <img alt="apprisen-logo" src={"/calendar.svg"}/>
+                                <img alt="apprisen-logo" src={"/images/calendar.svg"}/>
                             </IonThumbnail>
                             <IonLabel>
                                 <h3>Upcoming Due Date</h3>
@@ -100,7 +100,7 @@ const _OverviewCard = (props) => {
                         </IonItem>
                         <IonItem>
                             <IonThumbnail class={"icon"} slot={"end"}>
-                                <img alt="apprisen-logo" src={"/notes.svg"}/>
+                                <img alt="apprisen-logo" src={"/images/notes.svg"}/>
                             </IonThumbnail>
                             <IonLabel>
                                 <h3>Amount Due</h3>

@@ -23,7 +23,7 @@ import {connect} from 'react-redux'
 import React, {useEffect, useState} from "react";
 import {bindActionCreators} from "redux";
 import {EmailData} from "models/client/email-data";
-import {validateNonEmptyString, validateNonEmptyText} from "../common/validators";
+import {validateNonEmptyString, validateNonEmptyText} from "../../common/validators";
 import {sendEmail, setSentStatus} from "../../feature/contact/action";
 import {EmailRequest} from "../../models/contact/email-request";
 import {CONTACT_US_EMAILS} from "../../common/app-constants";

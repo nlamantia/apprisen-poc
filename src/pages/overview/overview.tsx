@@ -2,15 +2,6 @@ import {
     IonButtons,
     IonCol,
     IonContent,
-
-
-
-
-
-
-
-
-
     IonFooter, IonGrid,
     IonHeader,
     IonMenuButton,
@@ -21,7 +12,7 @@ import {
     IonToast,
     IonToolbar
 } from "@ionic/react";
-import WelcomeBanner from "pages/common/welcome-banner";
+import WelcomeBanner from "pages/overview/welcome-banner";
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { Redirect, useLocation } from "react-router-dom";
@@ -110,7 +101,7 @@ const _Overview = (props) => {
                     <IonHeader>
                         <IonToolbar>
                             <IonThumbnail class="toolbar-logo" slot={"start"}>
-                                <img alt="apprisen-logo" src={"/apprisen-logo.png"}/>
+                                <img alt="apprisen-logo" src={"/images/apprisen-logo.png"}/>
                             </IonThumbnail>
                             <IonTitle>Apprisen</IonTitle>
                             <IonButtons slot="end">

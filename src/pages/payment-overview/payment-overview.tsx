@@ -45,7 +45,7 @@ export const PaymentOverview = (props) => {
                         <h2>Payment Breakdown</h2>
                       </IonLabel>
                       <IonThumbnail class={"icon"}>
-                        <img alt="apprisen-logo" src={"/payment.svg"} />
+                        <img alt="apprisen-logo" src={"/images/payment.svg"} />
                       </IonThumbnail>
                     </IonListHeader>
 

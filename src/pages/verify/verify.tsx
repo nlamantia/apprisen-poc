@@ -29,7 +29,7 @@ import {
     validatePositiveDecimal,
     validateText,
     validateNonEmptyString
-} from "../common/validators";
+} from "../../common/validators";
 
 const _Verify = (props: any) => {
     const [lastFourOfSSID, setLastFourOfSSID] = useState(null)
@@ -93,7 +93,7 @@ const _Verify = (props: any) => {
             <IonHeader>
                 <IonToolbar>
                     <IonThumbnail class="toolbar-logo" slot={"start"}>
-                        <img alt="apprisen-logo" src={"/apprisen-logo.png"} />
+                        <img alt="apprisen-logo" src={"/images/apprisen-logo.png"} />
                     </IonThumbnail>
                     <IonTitle>Apprisen</IonTitle>
                 </IonToolbar>
