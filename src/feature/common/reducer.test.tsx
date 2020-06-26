@@ -18,7 +18,7 @@ describe('common reducer', () => {
         }
     }
 
-    describe('it responds to actions', () => {
+    it('it responds to actions', () => {
         const first = commonReducer(initialState, {type: LOGIN})
         expect(first.status.login).toEqual( {"status": "IN_PROGRESS", "countByStatus": {"COMPLETED": 0, "FAILED": 0, "IN_PROGRESS": 1}});
         const second = commonReducer(first, {type: LOGIN_SUCCESS})
