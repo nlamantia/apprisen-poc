@@ -6,7 +6,7 @@ import {callLinkAccount, callLoginEndpoint, callVerifyClientNumber} from "../../
 import {assertLoggedIn, getCredentials, login, logout} from "../../services/auth-service";
 import {LoginResponse} from "../../models/auth/login-response";
 import {message} from "react-toastify-redux";
-import {LINKED_APP_NAME} from "../../config/app-constants";
+import {LINKED_APP_NAME} from "../../common/app-constants";
 
 const { Storage } = Plugins;
 
