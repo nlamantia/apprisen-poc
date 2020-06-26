@@ -26,6 +26,7 @@ import {getClientAccountData} from "../../feature/payment/action";
 
 const _LenderOverview = (props) => {
     const {debts, selectedDebtId} = props;
+    const { getClientAccountData, clientAccountData } = props;
 
     const { credentials, getCredentials, logout } = props;
     const { getDebts, getSelectedDebt } = props;
@@ -61,7 +62,7 @@ const _LenderOverview = (props) => {
                 logout();
             }
         }
-    }, [credentials, clientAccountData, lender, debts, selectedDebtId]);
+    }, [clientAccountData, credentials, clientAccountData, lender, debts, selectedDebtId]);
 
     return (
         <IonPage>
