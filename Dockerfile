@@ -1,7 +1,6 @@
 FROM node:10.21.0-alpine3.11
 
 # Set environment variables
-ENV REACT_APP_SERVICE_BASE_URL "https://apprisen-facade-test.herokuapp.com"
 ENV IONIC_VERSION 5.4.16
 ENV IONIC_LAB_VERSION 2.0.18
 
