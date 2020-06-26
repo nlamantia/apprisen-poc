@@ -14,7 +14,7 @@ module.exports = function(app) {
     );
     app.use(
         createProxyMiddleware('/api/payment', {
-            target: 'https://apprisen-facade-test.herokuapp.com',
+            target: 'https://icm-services-testing.apprisen.com',
             changeOrigin: true
         })
     );
