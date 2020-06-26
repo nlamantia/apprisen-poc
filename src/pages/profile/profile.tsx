@@ -1,27 +1,28 @@
-import React, {useEffect, useState} from 'react';
 import {
     IonButtons,
     IonCard,
+    IonCol,
     IonContent,
+    IonGrid, 
     IonHeader,
     IonItem,
     IonLabel,
     IonList,
     IonMenuButton,
     IonPage,
+    IonRow,
+    IonSkeletonText, 
     IonThumbnail,
     IonTitle,
-    IonToolbar,
-    IonCol,
-    IonRow,
-    IonGrid, IonSpinner, IonSkeletonText
+    IonToolbar
 } from '@ionic/react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { getCredentials } from "../../feature/auth/action";
+import { getClientInformation } from "../../feature/client/action";
 import logo from "../../images/apprisen-logo.png";
-import {connect} from 'react-redux'
-import {getClientInformation} from "../../feature/client/action";
-import {bindActionCreators} from "redux";
-import {getCredentials} from "../../feature/auth/action";
-import {ClientInformation} from "../../models/case/client-information";
+import { ClientInformation } from "../../models/case/client-information";
 
 const _Profile = (props) => {
     const { clientInformation, getClientInformation } = props;

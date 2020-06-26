@@ -14,7 +14,8 @@ import {
     IonRow,
     IonThumbnail,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonToast
 } from "@ionic/react";
 import React, {useEffect, useState} from "react";
 import {connect} from 'react-redux'
@@ -23,11 +24,21 @@ import logo from "../../images/apprisen-logo.png";
 import {verify} from "../../feature/auth/action";
 import {useAuthContext} from "../../common/auth-provider";
 import {useLocation} from "react-router";
+import {
+    validateAlphanumericOnly,
+    validateNonEmptyText, validateNumber,
+    validatePositiveDecimal,
+    validateText,
+    validateNonEmptyString
+} from "../common/validators";
 
-const _Login = (props: any) => {
+const _Verify = (props: any) => {
     const [lastFourOfSSID, setLastFourOfSSID] = useState(null)
     const [zipCode, setZipCode] = useState(null)
     const [clientId, setClientId] = useState(null)
+
+    const SSNLength = 4;
+    const zipCodeLength = 5;
 
     const { verify } = props
 
@@ -42,9 +53,41 @@ const _Login = (props: any) => {
         setter((e.target as HTMLInputElement).value)
     }
 
+    const [shouldShowErrorToast, setShouldShowErrorToast] = useState<boolean>(false);
+    const toastDuration = 3000;
+
     const handleVerifyClick = () => {
-        verify({lastFourOfSSID, zipCode, clientId})
+        if(validateVerifyClick(lastFourOfSSID, zipCode, clientId)) {
+            verify({lastFourOfSSID, zipCode, clientId})
+        }
+        else {
+            let iris = document.getElementById("sharpenChat");
+            iris.style.display = "none";
+            setShouldShowErrorToast(true);
+        }
     }
+
+    function validateVerifyClick(SSN : number, zipCode : number, clientId : number) {
+        return validateSSN(SSN) && validateZipCode(zipCode) && validateClientId(clientId);
+    }
+
+    function validateSSN(SSN : number) {
+        return validateNumber(SSN) && SSN.toString.length == SSNLength;
+    }
+
+    function validateZipCode(zipCode : number) {
+        return validateNumber(zipCode) && zipCode.toString.length == zipCodeLength;
+    }
+
+    function validateClientId(clientId : number) {
+        return validateNumber(clientId);
+    }
+
+    const handleToastDismiss = () => {
+        let iris = document.getElementById("sharpenChat");
+        iris.style.display = "block";
+        setShouldShowErrorToast(false);
+    };
 
     return (
         <IonPage>
@@ -57,6 +100,13 @@ const _Login = (props: any) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
+                <IonToast
+                                isOpen={shouldShowErrorToast}
+                                onDidDismiss={handleToastDismiss}
+                                message="Error in information. Please try again."
+                                color="danger"
+                                duration={toastDuration}
+                            />
                 <IonGrid>
                     <IonRow>
                         <IonCol size={"12"} sizeMd={"6"} sizeLg={"4"} offsetLg={"4"}>
@@ -101,7 +151,7 @@ const Verify = connect(
         verify
     }, dispatch)
 )(
-    _Login
+    _Verify
 );
 
 export default Verify

@@ -1,4 +1,4 @@
-import {LOGIN, LOGIN_SUCCESS, SET_CREDENTIALS, SET_EXTERNAL_ID, VERIFY} from "../auth/action";
+import { LOGIN, LOGIN_SUCCESS, SET_EXTERNAL_ID, VERIFY } from "../auth/action";
 
 export const STATUS = 'status'
 

@@ -1,3 +1,4 @@
+import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {
     IonButton,
     IonCard,
@@ -17,21 +18,28 @@ import {
     IonToast,
     IonToolbar
 } from "@ionic/react";
-import {connect, useSelector} from 'react-redux'
 import React, {useEffect, useState} from "react";
-import {bindActionCreators} from 'redux'
+import {connect, useSelector} from 'react-redux';
+import {withRouter} from "react-router";
+import {bindActionCreators} from 'redux';
+import {useAuthContext} from "../../common/AuthProvider";
+import {login, resetLoginStatus} from "../../feature/auth/action";
 import logo from "../../images/apprisen-logo.png";
 import {LoginRequest} from "../../models/auth/login-request";
 import {login} from "../../feature/auth/action";
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {useAuthContext} from "../../common/auth-provider";
 import {withRouter} from "react-router";
+import {validateNonEmptyString} from "../common/validators";
 
 const _Login = (props: any) => {
 
     const passwordInput: any = React.useRef();
     const [credentials, setCredentials] = useState<LoginRequest>({ username: '', password: '' });
     const [failedLoginAlert, setFailedLoginAlert] = useState<boolean>(false);
+
+    const [shouldShowLoginValidationToast, setShouldShowLoginValidationToast] = useState<boolean>(false);
+    const toastDuration = 3000;
 
 
     const loginState = useSelector(state => state.common.status.login)
@@ -46,8 +54,25 @@ const _Login = (props: any) => {
     }
     const handleLoginClick = () => {
         const { login } = props
-        login(credentials)
+        if(validateInput(credentials)) {
+            login(credentials)
+        }
+        else {
+            let iris = document.getElementById("sharpenChat");
+            iris.style.display = "none";
+            setShouldShowLoginValidationToast(true);
+        }
     }
+
+    function validateInput(credentials : LoginRequest) {
+        return validateNonEmptyString(credentials.username) && validateNonEmptyString(credentials.password);
+    }
+
+    const handleToastDismiss = () => {
+        let iris = document.getElementById("sharpenChat");
+        iris.style.display = "block";
+        setShouldShowLoginValidationToast(false);
+    };
 
     const handleAccountCreationClick = () => {
         InAppBrowser.create("https://my.apprisen.com/myapprisen/NewAccount.aspx",'_system', 'location=yes');
@@ -64,6 +89,13 @@ const _Login = (props: any) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
+                <IonToast
+                            isOpen={shouldShowLoginValidationToast}
+                            onDidDismiss={handleToastDismiss}
+                            message="Username/password cannot be empty. Please try again."
+                            color="danger"
+                            duration={toastDuration}
+                        />
                 <IonGrid>
                     <IonRow>
                         <IonCol size={"12"} sizeMd={"6"} sizeLg={"4"} offsetLg={"4"}>
