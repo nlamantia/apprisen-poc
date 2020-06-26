@@ -1,7 +1,6 @@
 import React from 'react'
 import {authReducer} from "./reducer";
-import {setCredentials, setLoginStatus} from "./action";
-import {LoginStatus} from "../../models/auth/loginStatus";
+import {setCredentials } from "./action";
 import {LoginResponse} from "../../models/auth/login-response";
 
 describe('auth reducer', () => {
@@ -27,11 +26,5 @@ describe('auth reducer', () => {
        }
        const stateWithCredentials = authReducer(state, setCredentials(credentials))
        expect(stateWithCredentials.credentials).toEqual(credentials)
-   })
-
-   it('handles set login status', () => {
-       const loginStatus : LoginStatus  = { loginState: "ACTIVE", message: "SUCCESS"}
-       const stateWithCredentials = authReducer(state, setLoginStatus(loginStatus))
-       expect(stateWithCredentials.loginStatus).toEqual(loginStatus)
    })
 })

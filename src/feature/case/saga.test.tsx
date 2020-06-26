@@ -4,7 +4,7 @@ import {CaseSummary} from "../../models/case/case-summary";
 import {call, put, select, takeEvery} from "redux-saga/effects";
 import {LoginResponse} from "../../models/auth/login-response";
 import {GET_CASE_PAYOFF_DATE, getCasePayoffDate, getCaseSummary, setCasePayoffDate, setCaseSummary} from "./action";
-import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest.service";
+import {callCaseSummaryEndpoint, callPayoffForecast} from "../../services/rest-service";
 
 describe('case saga', () => {
    it('handles successful case call', () => {
@@ -27,7 +27,7 @@ describe('case saga', () => {
          $id: "$id",
       }
 
-      const generator = getCaseWorker()
+      const generator = getCaseWorker({payload: { caseId: 1 }})
 
       const caseSummary : CaseSummary = {
          clientName: "name",
@@ -47,19 +47,11 @@ describe('case saga', () => {
       }
 
       expect(generator.next().value).toEqual(
-          call(callCaseSummaryEndpoint as any)
+          call(callCaseSummaryEndpoint as any, 1)
       )
       expect(generator.next(caseSummary).value).toEqual(
           put(setCaseSummary(caseSummary))
       )
-   })
-
-   it('handles invalid credentialsls', () => {
-      // todo
-   })
-
-   it('handles failed case call', () => {
-      // todo
    })
 
    it('Waits to get payoff date', () => {
@@ -80,15 +72,7 @@ describe('case saga', () => {
          isOneTimePayment
       }))
 
-      const state = { auth: { credentials }}
-      expect(generator.next(state as any).value).toEqual(
-          select()
-      );
-      expect(generator.next(
-          {
-             auth: { credentials }
-          } as any
-      ).value).toEqual(
+      expect(generator.next().value).toEqual(
           call(callPayoffForecast,
               {
                  IncreaseAmount: increaseAmount,
@@ -97,10 +81,11 @@ describe('case saga', () => {
           )
       )
 
-      const casePayoffDate = "an arbritrary string, should be a date" // todo validate string is date
+      const payoffDate = "an arbritrary string, should be a date"
 
-      expect(generator.next({ casePayoffDate } as any).value).toEqual(
-         put(setCasePayoffDate({ casePayoffDate }))
+      expect(generator.next({ payoffDate } as any).value).toEqual(
+         put(setCasePayoffDate({ casePayoffDate: payoffDate }))
       )
+
    })
 })

@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useEffect, useMemo, useState} from "react";
 import {useSelector} from 'react-redux'
-import {isAuthenticated, isVerified} from "../services/auth.service";
+import {isAuthenticated, isVerified} from "../services/auth-service";
 
 export const AuthContext = createContext(null)
 export const AuthContextProvider = props => {

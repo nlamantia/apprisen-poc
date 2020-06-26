@@ -34,10 +34,8 @@ const _LenderOverview = (props) => {
 
     useEffect(() => {
         if (credentials) {
-            console.log("found credentials");
             if (!lender) {
                 if (debts && selectedDebtId) {
-                    console.log('found selected debt ID');
                     let filteredDebts = debts.filter(debt => debt.$id === selectedDebtId);
                     if (filteredDebts && filteredDebts.length > 0) {
                         const lender = filteredDebts[0];
@@ -45,13 +43,11 @@ const _LenderOverview = (props) => {
                         setProgress(calculateProgress(lender.originalBalance, lender.currentBalance));
                     }
                 } else {
-                    console.log('some information is missing');
                     getDebts();
                     getSelectedDebt();
                 }
             }
         } else {
-            console.log("no credentials found")
             try {
                 getCredentials();
             } catch (e) {
@@ -179,8 +175,6 @@ const _LenderOverview = (props) => {
 
 const LenderOverview = connect(
     state => ({
-        // todo implement as selector?
-        // todo error checking
         debts: state.debt.debts,
         selectedDebtId: state.debt.selectedDebtId,
         credentials: state.auth.credentials

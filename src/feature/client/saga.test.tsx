@@ -4,7 +4,7 @@ import {getClientInformationWatcher, getClientInformationWorker} from "./saga";
 import {call, put, takeEvery} from "redux-saga/effects";
 import {LoginResponse} from "../../models/auth/login-response";
 import {ClientInformation} from "../../models/case/client-information";
-import {callClientInformationEndpoint} from "../../services/rest.service";
+import {callClientInformationEndpoint} from "../../services/rest-service";
 
 describe('client saga', () => {
    it('waits for action', () => {
@@ -46,7 +46,7 @@ describe('client saga', () => {
          errors: [],
          firstName: "firstName",
          homePhone: "homePhone",
-         isSuccess: false,
+         isSuccess: true,
          lastName: "lastName",
          state: "state",
          workPhone: "workPhone",
@@ -57,9 +57,5 @@ describe('client saga', () => {
       expect(generator.next(clientInformation).value).toEqual(
           put(setClientInformation(clientInformation))
       )
-   })
-
-   it('handles failed client info call', () => {
-      // todo
    })
 })

@@ -2,21 +2,20 @@ import { LOGIN, LOGIN_SUCCESS, SET_EXTERNAL_ID, VERIFY } from "../auth/action";
 
 export const STATUS = 'status'
 
-export const IN_PROGRESS = 'inProgress'
-export const COMPLETED = 'done'
-export const WAITING = 'waiting'
-export const FAILED = 'failed'
-
-export const TIMEOUT = 3000
+export const IN_PROGRESS = 'IN_PROGRESS'
+export const COMPLETED = 'COMPLETED'
+export const WAITING = 'WAITING'
+export const FAILED = 'FAILED'
 
 interface statusShape { key: string, start: string; stop: string}
 interface allStatusShapes { [LOGIN]: statusShape, [VERIFY]: statusShape }
 
+// to add actions to watch,
 export const LOGIN_STATUS_RELATED_ACTIONS : statusShape  = { key: LOGIN, start: LOGIN, stop: LOGIN_SUCCESS}
 export const VERIFY_STATUS_RELATED_ACTIONS : statusShape  = { key: VERIFY, start: VERIFY, stop: SET_EXTERNAL_ID }
 
 const INITIAL_STATUS : statusShape = {key: 'undefined', start: 'undefined', stop: 'undefined'}
-const INITIAL_STATUSES : allStatusShapes = { [LOGIN] : INITIAL_STATUS, [VERIFY]: INITIAL_STATUS}
+const INITIAL_STATUSES : allStatusShapes = { [LOGIN] : INITIAL_STATUS, [VERIFY]: INITIAL_STATUS }
 
 export const STATUS_RELATED_ACTIONS_TO_WATCH : allStatusShapes = [
     LOGIN_STATUS_RELATED_ACTIONS,
@@ -55,7 +54,9 @@ export const commonReducer = (state= initialState, action) => {
         const disposition = action.type === start ? IN_PROGRESS : COMPLETED;
         return {
             ...state,
-           [STATUS]: {...state[STATUS], [key]: {
+           [STATUS]: {
+                ...state[STATUS],
+               [key]: {
                status: disposition,
                countByStatus: {
                    ...curr.countByStatus,

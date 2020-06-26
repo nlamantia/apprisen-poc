@@ -15,7 +15,7 @@ import {
 import WelcomeBanner from "pages/overview/welcome-banner";
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { getCredentials, logout } from '../../feature/auth/action';
 import { getCaseSummary } from "../../feature/case/action";
@@ -60,17 +60,14 @@ const _Overview = (props) => {
         () => {
             if (credentials && credentials.linkedApplication) {
                 if (!clientAccountData || !clientAccountData.dmpCaseId || !clientAccountData.bankAccountTypes) {
-                    console.log('get client data');
                     getClientAccountData();
                 } else {
                     const { dmpCaseId: caseId } = clientAccountData;
                     if (!paymentHistory || !paymentHistory.length) {
-                        console.log('get payment history');
                         getPaymentHistory(caseId);
                     }
 
                     if (!caseSummary && !fetchingCaseSummary) {
-                        console.log('get case summary');
                         getCaseSummary(caseId);
                     } else if (caseSummary) {
                         setCurrentBalance(caseSummary.estimatedBalance.toFixed(2));
@@ -79,7 +76,6 @@ const _Overview = (props) => {
                     }
 
                     if (!debts && !fetchingDebtDetails) {
-                        console.log('get case summary')
                         getDebts(caseId);
                     } else if (debts) {
                         setTotalOriginalBalance(debts.reduce((current, nextDebt) => (current + nextDebt.originalBalance), 0.00).toFixed(2));

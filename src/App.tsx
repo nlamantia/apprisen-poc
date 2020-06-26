@@ -33,7 +33,6 @@ import AccountOverview from "./pages/account-overview/account-overview";
 import LenderOverview from "./pages/lender/lender-overview";
 import Login from "./pages/login/login";
 import Overview from "./pages/overview/overview";
-import PaymentOverview from "./pages/payment-overview/payment-overview";
 import Profile from "./pages/profile/profile";
 /* Theme variables */
 import "./theme/variables.scss";
@@ -44,10 +43,10 @@ import MakePayment from "./pages/payment/make-payment";
 import PaymentConfirmation from "./pages/payment/payment-confirmation";
 import {bindActionCreators} from "redux";
 import {logout} from "./feature/auth/action";
-import PrivateRoute from "./common/PrivateRoute";
+import PrivateRoute from "./common/private-route";
 import Verify from "./pages/verify/verify";
-import {AuthContextProvider} from "./common/AuthProvider";
-import {NotificationProvider} from "./common/NotificationProvider";
+import {AuthContextProvider} from "./common/auth-provider";
+import {NotificationProvider} from "./common/notification-provider";
 import {Logout} from "./pages/logout/logout";
 import Contact from "./pages/contact/contact";
 import {ConnectedRouter} from "connected-react-router";
@@ -58,22 +57,20 @@ interface Page {
     action: Function;
 }
 
-
 const _Main = (props: any) => {
     const {logout} = props;
 
-  const pages: Page[] = [
-    { title: 'Overview', route: '/overview', action: (e) => null},
-    { title: 'Profile', route: '/profile', action: (e) => null},
-    { title: 'Contact Us', route: '/contact', action: (e) => null},
-    { title: 'Additional Resources', route: '/resources', action: (e) => null },
-    { title: 'Logout', route: '/login', action: (e) => logout()}
-  ]
+    const pages: Page[] = [
+        {title: 'Overview', route: '/overview', action: (e) => null},
+        {title: 'Profile', route: '/profile', action: (e) => null},
+        {title: 'Contact Us', route: '/contact', action: (e) => null},
+        {title: 'Additional Resources', route: '/resources', action: (e) => null},
+        {title: 'Logout', route: '/login', action: (e) => logout()}
+    ]
 
     // @ts-ignore
     return (
         <IonApp>
-
             <IonMenu side="end" menuId="menu" type="overlay" contentId={'main-content'}>
                 <IonHeader class="toolbar-header">
                     <IonToolbar class="toolbar-header">
@@ -110,7 +107,6 @@ const _Main = (props: any) => {
             <AuthContextProvider>
                 <ConnectedRouter history={history as any}>
                     <IonRouterOutlet id={'main-content'}>
-                        {/* todo sibling container must have ion-menu-button */}
                         <Switch>
                             <PrivateRoute path="/overview" component={withRouter(Overview)} exact={true}/>
                             <Route path="/login" component={Login} exact={true}/>
@@ -120,10 +116,6 @@ const _Main = (props: any) => {
                             <PrivateRoute path="/contact" component={Contact}/>
                             <PrivateRoute path="/profile" component={Profile}/>
                             <PrivateRoute path="/resources" component={AdditionalResources}/>
-                            <PrivateRoute
-                                path="/payment-overview"
-                                component={PaymentOverview}
-                            />
                             <PrivateRoute
                                 path="/account-overview"
                                 component={AccountOverview}
@@ -142,24 +134,24 @@ const _Main = (props: any) => {
                                 component={withRouter(PaymentConfirmation)}
                             />
                         </Switch>
-                </IonRouterOutlet>
-                    </ConnectedRouter>
+                    </IonRouterOutlet>
+                </ConnectedRouter>
             </AuthContextProvider>
         </IonApp>
-)
+    )
 };
 
 const Main = connect(
-state => ({}),
-dispatch => bindActionCreators({
-    logout
-}, dispatch)
+    state => ({}),
+    dispatch => bindActionCreators({
+        logout
+    }, dispatch)
 )(
-_Main
+    _Main
 );
 
 const App = () => (
-    <Provider store={store()}>
+    <Provider store={store}>
         <Main/>
     </Provider>
 )

@@ -33,14 +33,12 @@ const _Profile = (props) => {
         if (credentials && credentials.linkedApplication) {
             if (!userInfo) {
                 if (!clientInformation || !clientInformation.firstName) {
-                    console.log("getting client information");
                     getClientInformation()
                 } else {
                     setUserInfo(clientInformation);
                 }
             }
         } else {
-            console.log("getting credentials");
             getCredentials();
         }
     }, [userInfo, clientInformation, credentials]);
