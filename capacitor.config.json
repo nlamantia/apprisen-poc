@@ -1,5 +1,5 @@
 {
-  "appId": "com.apprisen.apprisen-client-portal",
+  "appId": "com.apprisen.apprisenclientportal",
   "appName": "Apprisen Client Portal",
   "bundledWebRuntime": false,
   "npmClient": "npm",
